@@ -1,0 +1,17 @@
+@font-face
+{
+	font-family:'Montserrat-Regular';
+	src:url('../fonts/Montserrat-Regular.woff');
+}
+
+@font-face
+{
+	font-family:'Montserrat-Bold';
+	src:url('../fonts/Montserrat-Bold.woff');
+}
+
+@font-face
+{
+	font-family:'PlayfairDisplay-BoldItalic';
+	src:url('../fonts/PlayfairDisplay-BoldItalic.woff');
+}

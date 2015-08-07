@@ -1,0 +1,8 @@
+{
+    "name": "wapmorgan/controller-events",
+    "description": "[yii] Behavior/Event for CController to raise&handle 4 events: beforeAction(), afterAction(), beforeRender(), afterRender().",
+    "keywords": ["yii", "yii-extension", "yii-behavior"],
+    "autoload": {
+        "classmap": ["EController.php", "EControllerBehavior.php", "EControllerEvent.php"]
+    }
+}
