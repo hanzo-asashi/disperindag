@@ -3,7 +3,7 @@
 return CMap::mergeArray(
     require(dirname(__FILE__).'/main.php'),
     array(
-        'theme' => 'bootstrap',
+        'theme' => '',
         'components'=>array(
             'urlManager' => array(
                 'urlFormat' => 'path',
