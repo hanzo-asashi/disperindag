@@ -10,7 +10,7 @@ $keyword = "";
 <meta name="keyword" content="<?= $keyword ?>">
 <meta name="description" content="<?= $description ?>">
 <meta name="author" content="<?= $author ?>">
-<meta property="og:image" content="img/logo.png" />
+<meta property="og:image" content="<?php echo yii::app()->request->baseUrl ?>/static/img/logo.png" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
