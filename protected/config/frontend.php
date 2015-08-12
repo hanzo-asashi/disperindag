@@ -4,7 +4,7 @@ return CMap::mergeArray(
     require(dirname(__FILE__).'/main.php'),
     array(
         'theme' => '',
-        'components'=>array(
+        'components' => array(
             'urlManager' => array(
                 'urlFormat' => 'path',
                 'showScriptName' => false,
@@ -14,7 +14,7 @@ return CMap::mergeArray(
                     '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 ),
             ),
-        )
+        ),
         // Put front-end settings there
     )
 );

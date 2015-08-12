@@ -1,84 +1,96 @@
 <?php
+
 /**
  * NestedSetBehavior class file.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Alexander Kochetov <creocoder@gmail.com>
  * @license    http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link       https://github.com/yiiext/nested-set-behavior
  */
 /**
  * Provides nested set functionality for a model.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Alexander Kochetov <creocoder@gmail.com>
  * @license    http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @version    1.06
+ *
  * @link       https://github.com/yiiext/nested-set-behavior
  */
 class NestedSetBehavior extends CActiveRecordBehavior
 {
     /**
-     * Whether tree has many roots
-     * @var boolean
+     * Whether tree has many roots.
+     *
+     * @var bool
      */
     public $hasManyRoots = false;
-    
+
     /**
-     * Root attribute name
+     * Root attribute name.
+     *
      * @var string
      */
     public $rootAttribute = 'root';
-    
+
     /**
-     * Left attribute name
+     * Left attribute name.
+     *
      * @var string
      */
     public $leftAttribute = 'lft';
-    
+
     /**
-     * Right attribute name
+     * Right attribute name.
+     *
      * @var string
      */
     public $rightAttribute = 'rgt';
-    
+
     /**
-     * Level attribute name
+     * Level attribute name.
+     *
      * @var string
      */
     public $levelAttribute = 'level';
-    
+
     /**
-     * Whether required to ignore activerecord events
-     * @var boolean
+     * Whether required to ignore activerecord events.
+     *
+     * @var bool
      */
     private $_ignoreEvent = false;
-    
+
     /**
-     * Whether item has been deleted
-     * @var boolean
+     * Whether item has been deleted.
+     *
+     * @var bool
      */
     private $_deleted = false;
-    
+
     /**
-     * Record identifier
-     * @var integer
+     * Record identifier.
+     *
+     * @var int
      */
     private $_id;
-    
+
     /**
-     * Cached data
+     * Cached data.
+     *
      * @var mixed
      */
     private static $_cached;
-    
+
     /**
-     * Counter
-     * @var integer
+     * Counter.
+     *
+     * @var int
      */
     private static $_c = 0;
 
@@ -117,18 +129,18 @@ class NestedSetBehavior extends CActiveRecordBehavior
         $alias = $db->quoteColumnName($owner->getTableAlias());
 
         $with = array(
-            'condition' => $alias . '.' . $db->quoteColumnName($this->leftAttribute) . '>' . $owner->{$this->leftAttribute} .
-                ' AND ' . $alias . '.' . $db->quoteColumnName($this->rightAttribute) . '<' . $owner->{$this->rightAttribute},
-            'order' => $alias . '.' . $db->quoteColumnName($this->leftAttribute),
+            'condition' => $alias.'.'.$db->quoteColumnName($this->leftAttribute).'>'.$owner->{$this->leftAttribute}.
+                ' AND '.$alias.'.'.$db->quoteColumnName($this->rightAttribute).'<'.$owner->{$this->rightAttribute},
+            'order' => $alias.'.'.$db->quoteColumnName($this->leftAttribute),
         );
         $criteria->mergeWith($with);
 
         if ($depth !== null) {
-            $criteria->addCondition($alias . '.' . $db->quoteColumnName($this->levelAttribute) . '<=' . ($owner->{$this->levelAttribute} + $depth));
+            $criteria->addCondition($alias.'.'.$db->quoteColumnName($this->levelAttribute).'<='.($owner->{$this->levelAttribute} + $depth));
         }
 
         if ($this->hasManyRoots) {
-            $criteria->addCondition($alias . '.' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount);
+            $criteria->addCondition($alias.'.'.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount);
             $criteria->params[CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
         }
 
@@ -136,7 +148,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Gets descendants
+     * Gets descendants.
      *
      * @return array descendants
      */
@@ -170,18 +182,18 @@ class NestedSetBehavior extends CActiveRecordBehavior
         $alias = $db->quoteColumnName($owner->getTableAlias());
 
         $with = array(
-            'condition' => $alias . '.' . $db->quoteColumnName($this->leftAttribute) . '<' . $owner->{$this->leftAttribute} .
-                ' AND ' . $alias . '.' . $db->quoteColumnName($this->rightAttribute) . '>' . $owner->{$this->rightAttribute},
-            'order' => $alias . '.' . $db->quoteColumnName($this->leftAttribute),
+            'condition' => $alias.'.'.$db->quoteColumnName($this->leftAttribute).'<'.$owner->{$this->leftAttribute}.
+                ' AND '.$alias.'.'.$db->quoteColumnName($this->rightAttribute).'>'.$owner->{$this->rightAttribute},
+            'order' => $alias.'.'.$db->quoteColumnName($this->leftAttribute),
         );
         $criteria->mergeWith($with);
 
         if ($depth !== null) {
-            $criteria->addCondition($alias . '.' . $db->quoteColumnName($this->levelAttribute) . '>=' . ($owner->{$this->levelAttribute} - $depth));
+            $criteria->addCondition($alias.'.'.$db->quoteColumnName($this->levelAttribute).'>='.($owner->{$this->levelAttribute} - $depth));
         }
 
         if ($this->hasManyRoots) {
-            $criteria->addCondition($alias . '.' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount);
+            $criteria->addCondition($alias.'.'.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount);
             $criteria->params[CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
         }
 
@@ -197,13 +209,13 @@ class NestedSetBehavior extends CActiveRecordBehavior
     {
         $owner = $this->getOwner();
         $db = $owner->getDbConnection();
-        $owner->getDbCriteria()->addCondition($db->quoteColumnName($owner->getTableAlias()) . '.' . $db->quoteColumnName($this->leftAttribute) . '=1');
+        $owner->getDbCriteria()->addCondition($db->quoteColumnName($owner->getTableAlias()).'.'.$db->quoteColumnName($this->leftAttribute).'=1');
 
         return $owner;
     }
 
     /**
-     * Gets root node(s) active record
+     * Gets root node(s) active record.
      *
      * @return array root node active record
      */
@@ -212,6 +224,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
         if (!$this->_root) {
             $this->_root = $this->roots()->find();
         }
+
         return $this->_root;
     }
 
@@ -228,22 +241,22 @@ class NestedSetBehavior extends CActiveRecordBehavior
         $alias = $db->quoteColumnName($owner->getTableAlias());
 
         $with = array(
-            'condition' => $alias . '.' . $db->quoteColumnName($this->leftAttribute) . '<' . $owner->{$this->leftAttribute} .
-                ' AND ' . $alias . '.' . $db->quoteColumnName($this->rightAttribute) . '>' . $owner->{$this->rightAttribute},
-            'order' => $alias . '.' . $db->quoteColumnName($this->rightAttribute),
+            'condition' => $alias.'.'.$db->quoteColumnName($this->leftAttribute).'<'.$owner->{$this->leftAttribute}.
+                ' AND '.$alias.'.'.$db->quoteColumnName($this->rightAttribute).'>'.$owner->{$this->rightAttribute},
+            'order' => $alias.'.'.$db->quoteColumnName($this->rightAttribute),
         );
         $criteria->mergeWith($with);
 
         if ($this->hasManyRoots) {
-            $criteria->addCondition($alias . '.' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount);
-            $criteria->params[CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
+            $criteria->addCondition($alias.'.'.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount);
+            $criteria->params[CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
         }
 
         return $owner;
     }
 
     /**
-     * Gets root node(s) active record
+     * Gets root node(s) active record.
      *
      * @return array root node active record
      */
@@ -252,6 +265,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
         if (!$this->_parent) {
             $this->_parent = $this->parent()->find();
         }
+
         return $this->_parent;
     }
 
@@ -266,18 +280,18 @@ class NestedSetBehavior extends CActiveRecordBehavior
         $db = $owner->getDbConnection();
         $criteria = $owner->getDbCriteria();
         $alias = $db->quoteColumnName($owner->getTableAlias());
-        $criteria->addCondition($alias . '.' . $db->quoteColumnName($this->rightAttribute) . '=' . ($owner->{$this->leftAttribute} - 1));
+        $criteria->addCondition($alias.'.'.$db->quoteColumnName($this->rightAttribute).'='.($owner->{$this->leftAttribute} - 1));
 
         if ($this->hasManyRoots) {
-            $criteria->addCondition($alias . '.' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount);
-            $criteria->params[CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
+            $criteria->addCondition($alias.'.'.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount);
+            $criteria->params[CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
         }
 
         return $owner;
     }
 
     /**
-     * Gets prev node(s) active record
+     * Gets prev node(s) active record.
      *
      * @return array root node active record
      */
@@ -286,6 +300,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
         if (!$this->_prev) {
             $this->_prev = $this->prev()->find();
         }
+
         return $this->_prev;
     }
 
@@ -300,18 +315,18 @@ class NestedSetBehavior extends CActiveRecordBehavior
         $db = $owner->getDbConnection();
         $criteria = $owner->getDbCriteria();
         $alias = $db->quoteColumnName($owner->getTableAlias());
-        $criteria->addCondition($alias . '.' . $db->quoteColumnName($this->leftAttribute) . '=' . ($owner->{$this->rightAttribute} + 1));
+        $criteria->addCondition($alias.'.'.$db->quoteColumnName($this->leftAttribute).'='.($owner->{$this->rightAttribute} + 1));
 
         if ($this->hasManyRoots) {
-            $criteria->addCondition($alias . '.' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount);
-            $criteria->params[CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
+            $criteria->addCondition($alias.'.'.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount);
+            $criteria->params[CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
         }
 
         return $owner;
     }
 
     /**
-     * Gets prev node(s) active record
+     * Gets prev node(s) active record.
      *
      * @return array root node active record
      */
@@ -320,16 +335,17 @@ class NestedSetBehavior extends CActiveRecordBehavior
         if (!$this->_next) {
             $this->_next = $this->next()->find();
         }
+
         return $this->_next;
     }
 
     /**
      * Create root node if multiple-root tree mode. Update node if it's not new.
      *
-     * @param boolean $runValidation whether to perform validation.
-     * @param boolean $attributes    list of attributes.
+     * @param bool $runValidation whether to perform validation.
+     * @param bool $attributes    list of attributes.
      *
-     * @return boolean whether the saving succeeds.
+     * @return bool whether the saving succeeds.
      */
     public function save($runValidation = true, $attributes = null)
     {
@@ -353,10 +369,10 @@ class NestedSetBehavior extends CActiveRecordBehavior
     /**
      * Create root node if multiple-root tree mode. Update node if it's not new.
      *
-     * @param boolean $runValidation whether to perform validation.
-     * @param boolean $attributes    list of attributes.
+     * @param bool $runValidation whether to perform validation.
+     * @param bool $attributes    list of attributes.
      *
-     * @return boolean whether the saving succeeds.
+     * @return bool whether the saving succeeds.
      */
     public function saveNode($runValidation = true, $attributes = null)
     {
@@ -366,7 +382,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
     /**
      * Deletes node and it's descendants.
      *
-     * @return boolean whether the deletion is successful.
+     * @return bool whether the deletion is successful.
      */
     public function delete()
     {
@@ -388,12 +404,12 @@ class NestedSetBehavior extends CActiveRecordBehavior
                 $result = $owner->delete();
                 $this->_ignoreEvent = false;
             } else {
-                $condition = $db->quoteColumnName($this->leftAttribute) . '>=' . $owner->{$this->leftAttribute} . ' AND ' .
-                $db->quoteColumnName($this->rightAttribute) . '<=' . $owner->{$this->rightAttribute};
+                $condition = $db->quoteColumnName($this->leftAttribute).'>='.$owner->{$this->leftAttribute}.' AND '.
+                $db->quoteColumnName($this->rightAttribute).'<='.$owner->{$this->rightAttribute};
                 $params = array();
                 if ($this->hasManyRoots) {
-                    $condition .= ' AND ' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount;
-                    $params[CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
+                    $condition .= ' AND '.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount;
+                    $params[CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
                 }
                 $result = $owner->deleteAll($condition, $params) > 0;
             }
@@ -402,16 +418,16 @@ class NestedSetBehavior extends CActiveRecordBehavior
                 if (isset($transaction)) {
                     $transaction->rollBack();
                 }
+
                 return false;
             }
 
-            $this->_shiftLeftRight($owner->{$this->rightAttribute} + 1, $owner->{$this->leftAttribute}-$owner->{$this->rightAttribute} - 1);
+            $this->_shiftLeftRight($owner->{$this->rightAttribute} + 1, $owner->{$this->leftAttribute} - $owner->{$this->rightAttribute} - 1);
             if (isset($transaction)) {
                 $transaction->commit();
             }
             $this->_correctCachedOnDelete();
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             if (isset($transaction)) {
                 $transaction->rollBack();
             }
@@ -424,7 +440,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
     /**
      * Deletes node and it's descendants.
      *
-     * @return boolean whether the deletion is successful.
+     * @return bool whether the deletion is successful.
      */
     public function deleteNode()
     {
@@ -435,10 +451,10 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * Prepends node to target as first child.
      *
      * @param CActiveRecord $target        the target.
-     * @param boolean       $runValidation whether to perform validation.
+     * @param bool          $runValidation whether to perform validation.
      * @param array         $attributes    list of attributes.
      *
-     * @return boolean whether the prepending succeeds.
+     * @return bool whether the prepending succeeds.
      */
     public function prependTo($target, $runValidation = true, $attributes = null)
     {
@@ -449,10 +465,10 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * Prepends target to node as first child.
      *
      * @param CActiveRecord $target        the target.
-     * @param boolean       $runValidation whether to perform validation.
+     * @param bool          $runValidation whether to perform validation.
      * @param array         $attributes    list of attributes.
      *
-     * @return boolean whether the prepending succeeds.
+     * @return bool whether the prepending succeeds.
      */
     public function prepend($target, $runValidation = true, $attributes = null)
     {
@@ -463,10 +479,10 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * Appends node to target as last child.
      *
      * @param CActiveRecord $target        the target.
-     * @param boolean       $runValidation whether to perform validation.
+     * @param bool          $runValidation whether to perform validation.
      * @param array         $attributes    list of attributes.
      *
-     * @return boolean whether the appending succeeds.
+     * @return bool whether the appending succeeds.
      */
     public function appendTo($target, $runValidation = true, $attributes = null)
     {
@@ -477,10 +493,10 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * Appends target to node as last child.
      *
      * @param CActiveRecord $target        the target.
-     * @param boolean       $runValidation whether to perform validation.
+     * @param bool          $runValidation whether to perform validation.
      * @param array         $attributes    list of attributes.
      *
-     * @return boolean whether the appending succeeds.
+     * @return bool whether the appending succeeds.
      */
     public function append($target, $runValidation = true, $attributes = null)
     {
@@ -491,10 +507,10 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * Inserts node as previous sibling of target.
      *
      * @param CActiveRecord $target        the target.
-     * @param boolean       $runValidation whether to perform validation.
+     * @param bool          $runValidation whether to perform validation.
      * @param array         $attributes    list of attributes.
      *
-     * @return boolean whether the inserting succeeds.
+     * @return bool whether the inserting succeeds.
      */
     public function insertBefore($target, $runValidation = true, $attributes = null)
     {
@@ -505,10 +521,10 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * Inserts node as next sibling of target.
      *
      * @param CActiveRecord $target        the target.
-     * @param boolean       $runValidation whether to perform validation.
+     * @param bool          $runValidation whether to perform validation.
      * @param array         $attributes    list of attributes.
      *
-     * @return boolean whether the inserting succeeds.
+     * @return bool whether the inserting succeeds.
      */
     public function insertAfter($target, $runValidation = true, $attributes = null)
     {
@@ -520,7 +536,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
      *
      * @param CActiveRecord $target the target.
      *
-     * @return boolean whether the moving succeeds.
+     * @return bool whether the moving succeeds.
      */
     public function moveBefore($target)
     {
@@ -532,7 +548,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
      *
      * @param CActiveRecord $target the target.
      *
-     * @return boolean whether the moving succeeds.
+     * @return bool whether the moving succeeds.
      */
     public function moveAfter($target)
     {
@@ -544,7 +560,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
      *
      * @param CActiveRecord $target the target.
      *
-     * @return boolean whether the moving succeeds.
+     * @return bool whether the moving succeeds.
      */
     public function moveAsFirst($target)
     {
@@ -556,7 +572,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
      *
      * @param CActiveRecord $target the target.
      *
-     * @return boolean whether the moving succeeds.
+     * @return bool whether the moving succeeds.
      */
     public function moveAsLast($target)
     {
@@ -566,7 +582,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
     /**
      * Move node as new root.
      *
-     * @return boolean whether the moving succeeds.
+     * @return bool whether the moving succeeds.
      */
     public function moveAsRoot()
     {
@@ -589,25 +605,24 @@ class NestedSetBehavior extends CActiveRecordBehavior
             $transaction = $db->beginTransaction();
         }
 
-        try
-        {
+        try {
             $left = $owner->{$this->leftAttribute};
             $right = $owner->{$this->rightAttribute};
             $levelDelta = 1 - $owner->{$this->levelAttribute};
             $delta = 1 - $left;
 
             $data = array(
-                $this->leftAttribute => new CDbExpression($db->quoteColumnName($this->leftAttribute) . sprintf('%+d', $delta)),
-                $this->rightAttribute => new CDbExpression($db->quoteColumnName($this->rightAttribute) . sprintf('%+d', $delta)),
-                $this->levelAttribute => new CDbExpression($db->quoteColumnName($this->levelAttribute) . sprintf('%+d', $levelDelta)),
+                $this->leftAttribute => new CDbExpression($db->quoteColumnName($this->leftAttribute).sprintf('%+d', $delta)),
+                $this->rightAttribute => new CDbExpression($db->quoteColumnName($this->rightAttribute).sprintf('%+d', $delta)),
+                $this->levelAttribute => new CDbExpression($db->quoteColumnName($this->levelAttribute).sprintf('%+d', $levelDelta)),
                 $this->rootAttribute => $owner->getPrimaryKey(),
             );
             $owner->updateAll(
                 $data,
-                $db->quoteColumnName($this->leftAttribute) . '>=' . $left . ' AND ' .
-                $db->quoteColumnName($this->rightAttribute) . '<=' . $right . ' AND ' .
-                $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount,
-                array(CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++ => $owner->{$this->rootAttribute})
+                $db->quoteColumnName($this->leftAttribute).'>='.$left.' AND '.
+                $db->quoteColumnName($this->rightAttribute).'<='.$right.' AND '.
+                $db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount,
+                array(CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++ => $owner->{$this->rootAttribute})
             );
 
             $this->_shiftLeftRight($right + 1, $left - $right - 1);
@@ -615,8 +630,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
                 $transaction->commit();
             }
             $this->_correctCachedOnMoveBetweenTrees(1, $levelDelta, $owner->getPrimaryKey());
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             if (isset($transaction)) {
                 $transaction->rollBack();
             }
@@ -631,7 +645,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
      *
      * @param CActiveRecord $subj the subject node.
      *
-     * @return boolean whether the node is descendant of subject node.
+     * @return bool whether the node is descendant of subject node.
      */
     public function isDescendantOf($subj)
     {
@@ -649,18 +663,19 @@ class NestedSetBehavior extends CActiveRecordBehavior
     /**
      * Determines if node is leaf.
      *
-     * @return boolean whether the node is leaf.
+     * @return bool whether the node is leaf.
      */
     public function isLeaf()
     {
         $owner = $this->getOwner();
+
         return $owner->{$this->rightAttribute} - $owner->{$this->leftAttribute} === 1;
     }
 
     /**
      * Determines if node is root.
      *
-     * @return boolean whether the node is root.
+     * @return bool whether the node is root.
      */
     public function isRoot()
     {
@@ -670,7 +685,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
     /**
      * Returns if the current node is deleted.
      *
-     * @return boolean whether the node is deleted.
+     * @return bool whether the node is deleted.
      */
     public function getIsDeletedRecord()
     {
@@ -680,9 +695,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
     /**
      * Sets if the current node is deleted.
      *
-     * @param boolean $value whether the node is deleted.
-     *
-     * @return void
+     * @param bool $value whether the node is deleted.
      */
     public function setIsDeletedRecord($value)
     {
@@ -693,8 +706,6 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * Handle 'afterConstruct' event of the owner.
      *
      * @param CEvent $event event parameter.
-     *
-     * @return void
      */
     public function afterConstruct($event)
     {
@@ -706,8 +717,6 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * Handle 'afterFind' event of the owner.
      *
      * @param CEvent $event event parameter.
-     *
-     * @return void
      */
     public function afterFind($event)
     {
@@ -748,38 +757,36 @@ class NestedSetBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Shifts left right keys
+     * Shifts left right keys.
      *
      * @param int $key   node key
      * @param int $delta shift delta
-     *
-     * @return void
      */
     private function _shiftLeftRight($key, $delta)
     {
         $owner = $this->getOwner();
         $db = $owner->getDbConnection();
         foreach (array($this->leftAttribute, $this->rightAttribute) as $attribute) {
-            $condition = $db->quoteColumnName($attribute) . '>=' . $key;
+            $condition = $db->quoteColumnName($attribute).'>='.$key;
             $params = array();
             if ($this->hasManyRoots) {
-                $condition .= ' AND ' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount;
-                $params[CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
+                $condition .= ' AND '.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount;
+                $params[CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
             }
-            $owner->updateAll(array($attribute => new CDbExpression($db->quoteColumnName($attribute) . sprintf('%+d', $delta))), $condition, $params);
+            $owner->updateAll(array($attribute => new CDbExpression($db->quoteColumnName($attribute).sprintf('%+d', $delta))), $condition, $params);
         }
     }
 
     /**
-     * Adds new node into tree
+     * Adds new node into tree.
      *
      * @param CActiveRecord $target        node to insert in
      * @param int           $key           node key
      * @param int           $levelUp       up level
-     * @param boolean       $runValidation whether required to run validation before insert
+     * @param bool          $runValidation whether required to run validation before insert
      * @param array         $attributes    node attributes
      *
-     * @return boolean whether operation completed successfully
+     * @return bool whether operation completed successfully
      */
     private function _addNode($target, $key, $levelUp, $runValidation, $attributes)
     {
@@ -823,14 +830,14 @@ class NestedSetBehavior extends CActiveRecordBehavior
                 if (isset($transaction)) {
                     $transaction->rollBack();
                 }
+
                 return false;
             }
             if (isset($transaction)) {
                 $transaction->commit();
             }
             $this->_correctCachedOnAddNode($key);
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             if (isset($transaction)) {
                 $transaction->rollBack();
             }
@@ -841,11 +848,11 @@ class NestedSetBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Makes root node
+     * Makes root node.
      *
      * @param array $attributes node attributes
      *
-     * @return boolean whether operation completed successfully
+     * @return bool whether operation completed successfully
      */
     private function _makeRoot($attributes)
     {
@@ -857,7 +864,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
         if ($this->hasManyRoots) {
             $db = $owner->getDbConnection();
             if ($db->getCurrentTransaction() === null) {
-                $transaction=$db->beginTransaction();
+                $transaction = $db->beginTransaction();
             }
             try {
                 $this->_ignoreEvent = true;
@@ -867,6 +874,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
                     if (isset($transaction)) {
                         $transaction->rollBack();
                     }
+
                     return false;
                 }
                 $pk = $owner->{$this->rootAttribute} = $owner->getPrimaryKey();
@@ -874,7 +882,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
                 if (isset($transaction)) {
                     $transaction->commit();
                 }
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 if (isset($transaction)) {
                     $transaction->rollBack();
                 }
@@ -896,13 +904,13 @@ class NestedSetBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Moves node
+     * Moves node.
      *
      * @param CActiveRecord $target  node to move to
      * @param int           $key     node key
      * @param int           $levelUp node level
      *
-     * @return boolean whether operation completed successfullt
+     * @return bool whether operation completed successfullt
      */
     private function _moveNode($target, $key, $levelUp)
     {
@@ -927,7 +935,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
         }
 
         $db = $owner->getDbConnection();
-        if ($db->getCurrentTransaction()===null) {
+        if ($db->getCurrentTransaction() === null) {
             $transaction = $db->beginTransaction();
         }
 
@@ -937,27 +945,27 @@ class NestedSetBehavior extends CActiveRecordBehavior
             $levelDelta = $target->{$this->levelAttribute} - $owner->{$this->levelAttribute} + $levelUp;
             if ($this->hasManyRoots && $owner->{$this->rootAttribute} !== $target->{$this->rootAttribute}) {
                 foreach (array($this->leftAttribute, $this->rightAttribute) as $attribute) {
-                    $data = array($attribute => new CDbExpression($db->quoteColumnName($attribute) . sprintf('%+d', $right - $left + 1)));
+                    $data = array($attribute => new CDbExpression($db->quoteColumnName($attribute).sprintf('%+d', $right - $left + 1)));
                     $owner->updateAll(
                         $data,
-                        $db->quoteColumnName($attribute) . '>=' . $key . ' AND ' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount,
-                        array(CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++ => $target->{$this->rootAttribute})
+                        $db->quoteColumnName($attribute).'>='.$key.' AND '.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount,
+                        array(CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++ => $target->{$this->rootAttribute})
                     );
                 }
                 $delta = $key - $left;
 
                 $data = array(
-                    $this->leftAttribute => new CDbExpression($db->quoteColumnName($this->leftAttribute) . sprintf('%+d', $delta)),
-                    $this->rightAttribute => new CDbExpression($db->quoteColumnName($this->rightAttribute) . sprintf('%+d', $delta)),
-                    $this->levelAttribute => new CDbExpression($db->quoteColumnName($this->levelAttribute) . sprintf('%+d', $levelDelta)),
+                    $this->leftAttribute => new CDbExpression($db->quoteColumnName($this->leftAttribute).sprintf('%+d', $delta)),
+                    $this->rightAttribute => new CDbExpression($db->quoteColumnName($this->rightAttribute).sprintf('%+d', $delta)),
+                    $this->levelAttribute => new CDbExpression($db->quoteColumnName($this->levelAttribute).sprintf('%+d', $levelDelta)),
                     $this->rootAttribute => $target->{$this->rootAttribute},
                 );
                 $owner->updateAll(
                     $data,
-                    $db->quoteColumnName($this->leftAttribute) . '>=' . $left . ' AND ' .
-                    $db->quoteColumnName($this->rightAttribute) . '<=' . $right . ' AND ' .
-                    $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount,
-                    array(CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++ => $owner->{$this->rootAttribute})
+                    $db->quoteColumnName($this->leftAttribute).'>='.$left.' AND '.
+                    $db->quoteColumnName($this->rightAttribute).'<='.$right.' AND '.
+                    $db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount,
+                    array(CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++ => $owner->{$this->rootAttribute})
                 );
 
                 $this->_shiftLeftRight($right + 1, $left - $right - 1);
@@ -974,24 +982,24 @@ class NestedSetBehavior extends CActiveRecordBehavior
                     $left += $delta;
                     $right += $delta;
                 }
-                $condition = $db->quoteColumnName($this->leftAttribute) . '>=' . $left . ' AND ' . $db->quoteColumnName($this->rightAttribute) . '<=' . $right;
+                $condition = $db->quoteColumnName($this->leftAttribute).'>='.$left.' AND '.$db->quoteColumnName($this->rightAttribute).'<='.$right;
                 $params = array();
 
                 if ($this->hasManyRoots) {
-                    $condition .= ' AND ' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount;
-                    $params[CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
+                    $condition .= ' AND '.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount;
+                    $params[CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
                 }
 
-                $owner->updateAll(array($this->levelAttribute => new CDbExpression($db->quoteColumnName($this->levelAttribute) . sprintf('%+d', $levelDelta))), $condition, $params);
+                $owner->updateAll(array($this->levelAttribute => new CDbExpression($db->quoteColumnName($this->levelAttribute).sprintf('%+d', $levelDelta))), $condition, $params);
 
                 foreach (array($this->leftAttribute, $this->rightAttribute) as $attribute) {
-                    $condition = $db->quoteColumnName($attribute) . '>=' . $left . ' AND ' . $db->quoteColumnName($attribute) . '<=' . $right;
+                    $condition = $db->quoteColumnName($attribute).'>='.$left.' AND '.$db->quoteColumnName($attribute).'<='.$right;
                     $params = array();
                     if ($this->hasManyRoots) {
-                        $condition .= ' AND ' . $db->quoteColumnName($this->rootAttribute) . '=' . CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount;
-                        $params[CDbCriteria::PARAM_PREFIX . CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
+                        $condition .= ' AND '.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount;
+                        $params[CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++] = $owner->{$this->rootAttribute};
                     }
-                    $owner->updateAll(array($attribute => new CDbExpression($db->quoteColumnName($attribute) . sprintf('%+d', $key - $left))), $condition, $params);
+                    $owner->updateAll(array($attribute => new CDbExpression($db->quoteColumnName($attribute).sprintf('%+d', $key - $left))), $condition, $params);
                 }
 
                 $this->_shiftLeftRight($right + 1, -$delta);
@@ -1002,7 +1010,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
 
                 $this->_correctCachedOnMoveNode($key, $levelDelta);
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             if (isset($transaction)) {
                 $transaction->rollBack();
             }
@@ -1014,8 +1022,6 @@ class NestedSetBehavior extends CActiveRecordBehavior
 
     /**
      * Correct cache for {@link NestedSetBehavior::delete()} and {@link NestedSetBehavior::deleteNode()}.
-     *
-     * @return void
      */
     private function _correctCachedOnDelete()
     {
@@ -1049,8 +1055,6 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * Correct cache for {@link NestedSetBehavior::_addNode()}.
      *
      * @param int $key node key
-     *
-     * @return void
      */
     private function _correctCachedOnAddNode($key)
     {
@@ -1079,8 +1083,6 @@ class NestedSetBehavior extends CActiveRecordBehavior
      *
      * @param int $key        node key
      * @param int $levelDelta node level
-     *
-     * @return void
      */
     private function _correctCachedOnMoveNode($key, $levelDelta)
     {
@@ -1094,7 +1096,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
             $right += $delta;
         }
         $delta2 = $key - $left;
-        
+
         foreach (self::$_cached[get_class($owner)] as $node) {
             if ($node->getIsNewRecord() || $node->getIsDeletedRecord()) {
                 continue;
@@ -1132,8 +1134,6 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * @param int $key        node key
      * @param int $levelDelta node level
      * @param int $root       root node
-     * 
-     * @return void
      */
     private function _correctCachedOnMoveBetweenTrees($key, $levelDelta, $root)
     {
@@ -1154,7 +1154,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
                 if ($node->{$this->rightAttribute} >= $key) {
                     $node->{$this->rightAttribute} += $delta;
                 }
-            } else if ($node->{$this->rootAttribute} === $owner->{$this->rootAttribute}) {
+            } elseif ($node->{$this->rootAttribute} === $owner->{$this->rootAttribute}) {
                 if ($node->{$this->leftAttribute} >= $left && $node->{$this->rightAttribute} <= $right) {
                     $node->{$this->leftAttribute} += $delta2;
                     $node->{$this->rightAttribute} += $delta2;
@@ -1174,8 +1174,6 @@ class NestedSetBehavior extends CActiveRecordBehavior
 
     /**
      * Destructor.
-     * 
-     * @return void
      */
     public function __destruct()
     {

@@ -1,51 +1,54 @@
 <?php
+
 /**
- * File for AdjacencyTreeBehavior
+ * File for AdjacencyTreeBehavior.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  * @license    http://jviba.com/packages/php/license GNU Public License
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 /**
  * AdjacencyTreeBehavior is the AR behavior class which
- * allows to organize adjacency tree int database table
+ * allows to organize adjacency tree int database table.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  * @license    http://jviba.com/packages/php/license GNU Public License
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 class AdjacencyTreeBehavior extends CActiveRecordBehavior
 {
     /**
-     * Column name for parent/child relationships
+     * Column name for parent/child relationships.
+     *
      * @var string
      */
     public $parentIdColumn = 'parent_id';
-    
+
     /**
-     * Column name for tree nested level
+     * Column name for tree nested level.
+     *
      * @var string
      */
     public $levelColumn = 'level';
-    
+
     /**
-     * Column name for tree item is leaf flag
+     * Column name for tree item is leaf flag.
+     *
      * @var string
      */
     public $isLeafColumn = 'is_leaf';
-    
+
     /**
-     * Attaches dynamic relations
+     * Attaches dynamic relations.
      * 
      * @param CActiveRecord $owner owner
      * 
-     * @return void
      * @see CBehavior::attach()
      */
     public function attach($owner)
@@ -54,16 +57,15 @@ class AdjacencyTreeBehavior extends CActiveRecordBehavior
         $ownerClassName = get_class($owner);
         $metaData = $owner->getMetaData();
         $metaData->addRelation('parent', array(
-            CActiveRecord::BELONGS_TO, $ownerClassName, $this->parentIdColumn
+            CActiveRecord::BELONGS_TO, $ownerClassName, $this->parentIdColumn,
         ));
     }
-    
+
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      * 
      * @param CEvent $event handled event
      * 
-     * @return void
      * @see CActiveRecordBehavior::beforeSave()
      */
     public function beforeSave($event)
@@ -85,13 +87,12 @@ class AdjacencyTreeBehavior extends CActiveRecordBehavior
             $owner->{$this->isLeafColumn} = $owner->exists($criteria) ? 0 : 1;
         }
     }
-    
+
     /**
-     * Change is_leaf column value if child nodes assigned
+     * Change is_leaf column value if child nodes assigned.
      * 
      * @param CEvent $event handled event
      * 
-     * @return void
      * @see CActiveRecordBehavior::afterSave()
      */
     public function afterSave($event)
@@ -103,13 +104,12 @@ class AdjacencyTreeBehavior extends CActiveRecordBehavior
             $parent->save(false, array($this->isLeafColumn));
         }
     }
-    
+
     /**
-     * Change is_leaf column value if parent node hasn't any child
+     * Change is_leaf column value if parent node hasn't any child.
      * 
      * @param CEvent $event handled event
      * 
-     * @return void
      * @see CActiveRecordBehavior::afterDelete()
      */
     public function afterDelete($event)
@@ -127,13 +127,12 @@ class AdjacencyTreeBehavior extends CActiveRecordBehavior
             }
         }
     }
-    
+
     /**
-     * Removes all children recursively before deleting record
+     * Removes all children recursively before deleting record.
      *
      * @param CEvent $event handled event
      *
-     * @return void
      * @see CActiveRecordBehavior::beforeDelete()
      */
     public function beforeDelete($event)

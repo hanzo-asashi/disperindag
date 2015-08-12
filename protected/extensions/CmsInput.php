@@ -1,309 +1,319 @@
-<?php if ( ! defined('YII_PATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('YII_PATH')) {
+    exit('No direct script access allowed');
+}
 
 /**
- * CmsInput
+ * CmsInput.
  * 
- * @package OneTwist CMS  
  * @author twisted1919 (cristian.serban@onetwist.com)
  * @copyright OneTwist CMS (www.onetwist.com)
+ *
  * @version 1.2
+ *
  * @since 1.0
- * @access public
- * 
- * 1.1 
- * - Added public $cleanMethod, which allows to specify which filter should be used to clean globals.
- * - Added stripEncode method, which will strip tags and encode.
- * - Added cleanEncode method that will xssClean and encode
- * - Added decode method to decode a string/array
- * - post/get methods can now retrieve the entire array at once
- * - getOriginalPost()/getOriginalGet() can retrieve a single key or the entire array
- * - Fixed a bug in the encode method
- * - Added logging for global filtering
- * - The cleaning of the globals is now set to true by default, it is safer this way
- * - Other various changes.
- * 
- * 1.2
- * - added getQuery(), a wrapper for get() to be more yii like.
- * - getPost will now retrieve a value from $_POST, being a post() wrapper to be more yii like.
- * - fixed a bug in get/post where if the $defaultValue was set and the variable didn't existed 
- *   it would return an empty string(thanks to Wiseon3 [http://www.yiiframework.com/user/13664/] who pointed it out)
- * - logging will occur just in debug mode from now on.
- * - changed the default cleaning method to from stripCleanEncode to stripClean
- * 
- * 1.3
- * - Updated CodeIgniter Security class
- * - Improved the stripTags method so that encoded chars won't go through anymore (thanks Jos Wetzels (a.l.g.m.wetzels@gmail.com))
  */
 class CmsInput extends CApplicationComponent
 {
     // flag marked true when the $_POST has been globally cleaned.
-    protected $cleanPostCompleted   = false;
-    
+    protected $cleanPostCompleted = false;
+
     // flag marked true when $_GET has been globally cleaned.
-    protected $cleanGetCompleted    = false;
-    
+    protected $cleanGetCompleted = false;
+
     // holds the default cleaning method for global filtering.
-    protected $defaultCleanMethod   = 'stripClean';
-    
+    protected $defaultCleanMethod = 'stripClean';
+
     // the Codeigniter Xss Filter object.
     protected $CI_Security;
-    
+
     // array() holding the original $_POST.
     protected $originalPost = array();
-    
+
     // array() holding the original $_GET
-    protected $originalGet  = array();
-    
+    protected $originalGet = array();
+
     // HtmlPurifier object.
     protected $purifier;
 
     // determines if $_POST should be cleaned globally.
-    public $_cleanPost   = true;
-    
+    public $_cleanPost = true;
+
     // determines if $_GET should be cleaned globally
-    public $_cleanGet    = true;
-    
+    public $_cleanGet = true;
+
     // which methods will be used when doing the cleaning.
     public $_cleanMethod = 'stripClean';
-    
-    
+
     /**
-     * CmsInput::init()
+     * CmsInput::init().
      * 
      * @return
      */
     public function init()
     {
-        $this->originalPost=$_POST;
-        $this->originalGet=$_GET;
+        $this->originalPost = $_POST;
+        $this->originalGet = $_GET;
 
         parent::init();
         Yii::app()->attachEventHandler('onBeginRequest', array($this, 'cleanGlobals'));
     }
-    
+
     /**
-     * CmsInput::purify()
+     * CmsInput::purify().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function purify($str)
     {
-        if(is_array($str))
-        {
-            foreach($str AS $k=>$v)
-                $str[$k]=$this->purify($v);
+        if (is_array($str)) {
+            foreach ($str as $k => $v) {
+                $str[$k] = $this->purify($v);
+            }
+
             return $str;
         }
+
         return $this->getHtmlPurifier()->purify($str);
     }
 
     /**
-     * CmsInput::xssClean()
+     * CmsInput::xssClean().
      * 
      * @param mixed $str
-     * @param bool $isImage
+     * @param bool  $isImage
+     *
      * @return
      */
-    public function xssClean($str, $isImage=false)
+    public function xssClean($str, $isImage = false)
     {
         return $this->getCISecurity()->xss_clean($str, $isImage);
     }
 
     /**
-     * CmsInput::stripTags()
+     * CmsInput::stripTags().
      * 
      * @param mixed $str
-     * @param bool $encode
+     * @param bool  $encode
+     *
      * @return
      */
-    public function stripTags($str, $encode=false)
-	{
-        if(is_array($str))
-        {
-            foreach($str AS $k=>$v) 
-                $str[$k]=$this->stripTags($v, $encode);
+    public function stripTags($str, $encode = false)
+    {
+        if (is_array($str)) {
+            foreach ($str as $k => $v) {
+                $str[$k] = $this->stripTags($v, $encode);
+            }
+
             return $str;
-        }  
-           
-        $str=rawurldecode($str);
-        $str=CHtml::decode($str);
-        $str=trim(strip_tags($str));
-        
-        if($encode) 
-            $str=$this->encode($str);
-        return $str;              
-	}
-    
+        }
+
+        $str = rawurldecode($str);
+        $str = CHtml::decode($str);
+        $str = trim(strip_tags($str));
+
+        if ($encode) {
+            $str = $this->encode($str);
+        }
+
+        return $str;
+    }
+
     /**
-     * CmsInput::stripCleanEncode()
+     * CmsInput::stripCleanEncode().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function stripCleanEncode($str)
     {
-        if(is_array($str))
-        {
-            foreach($str AS $k=>$v)
-                $str[$k]=$this->stripCleanEncode($v);
+        if (is_array($str)) {
+            foreach ($str as $k => $v) {
+                $str[$k] = $this->stripCleanEncode($v);
+            }
+
             return $str;
         }
-        return $this->encode($this->stripClean($str)); 
+
+        return $this->encode($this->stripClean($str));
     }
-    
+
     /**
-     * CmsInput::cleanEncode()
+     * CmsInput::cleanEncode().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function cleanEncode($str)
     {
         return $this->encode($this->xssClean($str));
     }
-    
+
     /**
-     * CmsInput::stripClean()
+     * CmsInput::stripClean().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function stripClean($str)
     {
         return $this->stripTags($this->xssClean($str));
     }
-    
+
     /**
-     * CmsInput::encode()
+     * CmsInput::encode().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function encode($str)
     {
-        if(is_array($str))
-        {
-            foreach($str AS $k=>$v)
-                $str[$k]=$this->encode($v);
+        if (is_array($str)) {
+            foreach ($str as $k => $v) {
+                $str[$k] = $this->encode($v);
+            }
+
             return $str;
         }
+
         return CHtml::encode($str);
     }
-    
+
     /**
-     * CmsInput::decode()
+     * CmsInput::decode().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function decode($str)
     {
-        if(is_array($str))
-        {
-            foreach($str AS $k=>$v)
-                $str[$k]=$this->decode($v);
+        if (is_array($str)) {
+            foreach ($str as $k => $v) {
+                $str[$k] = $this->decode($v);
+            }
+
             return $str;
         }
+
         return CHtml::decode($str);
     }
-    
+
     /**
-     * CmsInput::stripEncode()
+     * CmsInput::stripEncode().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function stripEncode($str)
     {
         return $this->stripTags($str, true);
     }
-    
+
     /**
-     * CmsInput::get()
+     * CmsInput::get().
      * 
-     * @param mixed $key
+     * @param mixed  $key
      * @param string $defaultValue
-     * @param bool $clean
+     * @param bool   $clean
+     *
      * @return
      */
-    public function get($key=null, $defaultValue=null, $clean=true)
+    public function get($key = null, $defaultValue = null, $clean = true)
     {
         $cleanMethod = $this->getCleanMethod();
-        if(empty($key) && empty($defaultValue))
-        {
-            if($clean===true && $this->cleanGetCompleted===false)
+        if (empty($key) && empty($defaultValue)) {
+            if ($clean === true && $this->cleanGetCompleted === false) {
                 return $this->$cleanMethod($_GET);
+            }
+
             return $_GET;
         }
-        $value=Yii::app()->request->getQuery($key, $defaultValue);
-        if($clean===true && $this->cleanGetCompleted===false && !empty($value))
+        $value = Yii::app()->request->getQuery($key, $defaultValue);
+        if ($clean === true && $this->cleanGetCompleted === false && !empty($value)) {
             return $this->$cleanMethod($value);
+        }
+
         return $value;
     }
- 
-    /**
-     * CmsInput::getQuery()
-     * 
-     * @param mixed $key
-     * @param string $defaultValue
-     * @param bool $clean
-     * @return
-     */
-     public function getQuery($key=null, $defaultValue=null, $clean=true)
+
+     /**
+      * CmsInput::getQuery().
+      * 
+      * @param mixed $key
+      * @param string $defaultValue
+      * @param bool $clean
+      *
+      * @return
+      */
+     public function getQuery($key = null, $defaultValue = null, $clean = true)
      {
-        return $this->get($key, $defaultValue, $clean);
+         return $this->get($key, $defaultValue, $clean);
      }
-    
+
     /**
-     * CmsInput::post()
+     * CmsInput::post().
      * 
-     * @param mixed $key
+     * @param mixed  $key
      * @param string $defaultValue
-     * @param bool $clean
+     * @param bool   $clean
+     *
      * @return
      */
-    public function post($key=null, $defaultValue=null, $clean=true)
+    public function post($key = null, $defaultValue = null, $clean = true)
     {
         $cleanMethod = $this->getCleanMethod();
-        if(empty($key) && empty($defaultValue))
-        {
-            if($clean===true && $this->cleanPostCompleted===false)
+        if (empty($key) && empty($defaultValue)) {
+            if ($clean === true && $this->cleanPostCompleted === false) {
                 return $this->$cleanMethod($_POST);
+            }
+
             return $_POST;
         }
-        $value=Yii::app()->request->getPost($key, $defaultValue);
-        if($clean===true && $this->cleanPostCompleted===false && !empty($value))
+        $value = Yii::app()->request->getPost($key, $defaultValue);
+        if ($clean === true && $this->cleanPostCompleted === false && !empty($value)) {
             return $this->$cleanMethod($value);
+        }
+
         return $value;
     }
-    
+
     /**
-     * CmsInput::getPost()
+     * CmsInput::getPost().
      * 
-     * @param mixed $key
+     * @param mixed  $key
      * @param string $defaultValue
-     * @param bool $clean
+     * @param bool   $clean
+     *
      * @return
      */
-    public function getPost($key, $defaultValue=null, $clean=true)
+    public function getPost($key, $defaultValue = null, $clean = true)
     {
         return $this->post($key, $defaultValue, $clean);
     }
 
     /**
-     * CmsInput::sanitizeFilename()
+     * CmsInput::sanitizeFilename().
      * 
      * @param mixed $file
+     *
      * @return
      */
     public function sanitizeFilename($file)
     {
         return $this->getCISecurity()->sanitize_filename($file);
-    } 
+    }
 
     /**
-     * CmsInput::cleanGlobals()
+     * CmsInput::cleanGlobals().
      * 
      * @return
      */
@@ -311,35 +321,36 @@ class CmsInput extends CApplicationComponent
     {
         $cleanMethod = $this->getCleanMethod();
 
-        if($this->getCleanPost()===true && $this->cleanPostCompleted===false && !empty($_POST))
-        {
-            $_POST=$this->post();
-            $this->cleanPostCompleted=true;
-            if(defined('YII_DEBUG')&&YII_DEBUG)
-                Yii::log(Yii::t('security', 'Global {global} array cleaned using {method} method.',array('{global}'=>'$_POST', '{method}'=>__CLASS__.'::'.$cleanMethod)));
+        if ($this->getCleanPost() === true && $this->cleanPostCompleted === false && !empty($_POST)) {
+            $_POST = $this->post();
+            $this->cleanPostCompleted = true;
+            if (defined('YII_DEBUG') && YII_DEBUG) {
+                Yii::log(Yii::t('security', 'Global {global} array cleaned using {method} method.', array('{global}' => '$_POST', '{method}' => __CLASS__.'::'.$cleanMethod)));
+            }
         }
-        if($this->getCleanGet()===true && $this->cleanGetCompleted===false && !empty($_GET))
-        {
-            $_GET=$this->get();
-            $this->cleanGetCompleted=true;
-            if(defined('YII_DEBUG')&&YII_DEBUG)
-                Yii::log(Yii::t('security', 'Global {global} array cleaned using {method} method.',array('{global}'=>'$_GET', '{method}'=>__CLASS__.'::'.$cleanMethod)));
+        if ($this->getCleanGet() === true && $this->cleanGetCompleted === false && !empty($_GET)) {
+            $_GET = $this->get();
+            $this->cleanGetCompleted = true;
+            if (defined('YII_DEBUG') && YII_DEBUG) {
+                Yii::log(Yii::t('security', 'Global {global} array cleaned using {method} method.', array('{global}' => '$_GET', '{method}' => __CLASS__.'::'.$cleanMethod)));
+            }
         }
     }
-    
+
     /**
-     * CmsInput::setCleanPost()
+     * CmsInput::setCleanPost().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function setCleanPost($str)
     {
-        $this->_cleanPost=(bool)$str;
+        $this->_cleanPost = (bool) $str;
     }
-    
+
     /**
-     * CmsInput::getCleanPost()
+     * CmsInput::getCleanPost().
      * 
      * @return
      */
@@ -347,20 +358,21 @@ class CmsInput extends CApplicationComponent
     {
         return $this->_cleanPost;
     }
-    
+
     /**
-     * CmsInput::setCleanGet()
+     * CmsInput::setCleanGet().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function setCleanGet($str)
     {
-        $this->_cleanGet=(bool)$str;
+        $this->_cleanGet = (bool) $str;
     }
-    
+
     /**
-     * CmsInput::getCleanGet()
+     * CmsInput::getCleanGet().
      * 
      * @return
      */
@@ -368,22 +380,24 @@ class CmsInput extends CApplicationComponent
     {
         return $this->_cleanGet;
     }
-    
+
     /**
-     * CmsInput::setCleanMethod()
+     * CmsInput::setCleanMethod().
      * 
      * @param mixed $str
+     *
      * @return
      */
     public function setCleanMethod($str)
     {
-        if(!method_exists($this, $str))
-            $str=$this->defaultCleanMethod;
-        $this->_cleanMethod=$str;
+        if (!method_exists($this, $str)) {
+            $str = $this->defaultCleanMethod;
+        }
+        $this->_cleanMethod = $str;
     }
-    
+
     /**
-     * CmsInput::getCleanMethod()
+     * CmsInput::getCleanMethod().
      * 
      * @return
      */
@@ -391,63 +405,72 @@ class CmsInput extends CApplicationComponent
     {
         return $this->_cleanMethod;
     }
-    
+
     /**
-     * CmsInput::getOriginalPost()
+     * CmsInput::getOriginalPost().
      * 
-     * @param mixed $key
+     * @param mixed  $key
      * @param string $defaultValue
-     * @return
-     */
-    public function getOriginalPost($key=null, $defaultValue=null)
-    {
-        if(empty($key))
-            return $this->originalPost;
-        return isset($this->originalPost[$key])?$this->originalPost[$key]:$defaultValue;
-    }
-    
-    /**
-     * CmsInput::getOriginalGet()
      *
-     * @param mixed $key
-     * @param string $defaultValue
      * @return
      */
-    public function getOriginalGet($key=null, $defaultValue=null)
+    public function getOriginalPost($key = null, $defaultValue = null)
     {
-        if(empty($key))
-            return $this->originalGet;
-        return isset($this->originalGet[$key])?$this->originalGet[$key]:$defaultValue;
+        if (empty($key)) {
+            return $this->originalPost;
+        }
+
+        return isset($this->originalPost[$key]) ? $this->originalPost[$key] : $defaultValue;
     }
-    
+
     /**
-     * CmsInput::getCISecurity()
+     * CmsInput::getOriginalGet().
+     *
+     * @param mixed  $key
+     * @param string $defaultValue
+     *
+     * @return
+     */
+    public function getOriginalGet($key = null, $defaultValue = null)
+    {
+        if (empty($key)) {
+            return $this->originalGet;
+        }
+
+        return isset($this->originalGet[$key]) ? $this->originalGet[$key] : $defaultValue;
+    }
+
+    /**
+     * CmsInput::getCISecurity().
      * 
      * @return
      */
     private function getCISecurity()
     {
-        if($this->CI_Security!==null)
+        if ($this->CI_Security !== null) {
             return $this->CI_Security;
+        }
         Yii::import('application.vendors.Codeigniter.CI_Security');
-        $this->CI_Security=new CI_Security;
+        $this->CI_Security = new CI_Security();
+
         return $this->CI_Security;
     }
-    
+
     /**
-     * CmsInput::getHtmlPurifier()
+     * CmsInput::getHtmlPurifier().
      * 
      * @return
      */
     private function getHtmlPurifier()
     {
-        if($this->purifier!==null)
+        if ($this->purifier !== null) {
             return $this->purifier;
-        $this->purifier=new CHtmlPurifier;
-        if(file_exists($file=Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'htmlpurifier.php'))
-            $this->purifier->options=include($file);
+        }
+        $this->purifier = new CHtmlPurifier();
+        if (file_exists($file = Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'htmlpurifier.php')) {
+            $this->purifier->options = include $file;
+        }
+
         return $this->purifier;
     }
-
-
 }

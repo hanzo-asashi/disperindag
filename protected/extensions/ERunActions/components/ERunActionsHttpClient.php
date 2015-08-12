@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ERunActionsHttpClient.php
+ * ERunActionsHttpClient.php.
  *
  * A simple Http request client based on
  * http://www.php.net/manual/de/function.fsockopen.php#101872
@@ -14,161 +14,157 @@
  * @author Joe Blocher <yii@myticket.at>
  * @copyright 2011 myticket it-solutions gmbh
  * @license New BSD License
- * @package runactions
+ *
  * @version 1.1
  */
 class ERunActionsHttpClient
 {
+    public $userAgent = 'Mozilla/5.0 Firefox/3.6.12';
 
-	public $userAgent = 'Mozilla/5.0 Firefox/3.6.12';
+    private $_touchOnly;
 
-	private $_touchOnly;
+    public function __construct($touchOnly = false)
+    {
+        $this->_touchOnly = $touchOnly;
+    }
 
-	public function __construct($touchOnly=false)
-	{
-	   $this->_touchOnly = $touchOnly;
-	}
+    /**
+     * Socked based http request
+     * Based on code from: http://www.php.net/manual/de/function.fsockopen.php#101872
+     * Added touchOnly feature, changed headers.
+     *
+     * @param mixed  $ip
+     * @param int    $port
+     * @param string $uri
+     * @param string $verb
+     * @param array  $getdata
+     * @param array  $postData
+     * @param array  $cookie
+     * @param array  $custom_headers
+     * @param int    $timeout
+     * @param mixed  $req_hdr
+     * @param mixed  $res_hdr
+     *
+     * @return
+     */
+    public function request(
+        $ip,                       /* Target IP/Hostname */
+        $port = 80,                /* Target TCP port */
+        $uri = '/',                /* Target URI */
+        $verb = 'GET',             /* HTTP Request Method (GET and POST supported) */
+        $getdata = array(),        /* HTTP GET Data ie. array('var1' => 'val1', 'var2' => 'val2') */
+        $postData = null,          /* HTTP POST Data ie. array('var1' => 'val1', 'var2' => 'val2') */
+        $contentType = null,
+        $cookie = array(),         /* HTTP Cookie Data ie. array('var1' => 'val1', 'var2' => 'val2') */
+        $custom_headers = array(), /* Custom HTTP headers ie. array('Referer: http://localhost/ */
+        $timeout = 2000,           /* Socket timeout in milliseconds */
+        $req_hdr = false,          /* Include HTTP request headers */
+        $res_hdr = false           /* Include HTTP response headers */
+    ) {
+        $isSSL = $port == 443;
 
-	/**
-	 * Socked based http request
-	 * Based on code from: http://www.php.net/manual/de/function.fsockopen.php#101872
-	 * Added touchOnly feature, changed headers
-	 *
-	 * @param mixed $ip
-	 * @param integer $port
-	 * @param string $uri
-	 * @param string $verb
-	 * @param array $getdata
-	 * @param array $postData
-	 * @param array $cookie
-	 * @param array $custom_headers
-	 * @param integer $timeout
-	 * @param mixed $req_hdr
-	 * @param mixed $res_hdr
-	 * @return
-	 */
-	public function request
-	(
-		$ip,                       /* Target IP/Hostname */
-		$port = 80,                /* Target TCP port */
-		$uri = '/',                /* Target URI */
-		$verb = 'GET',             /* HTTP Request Method (GET and POST supported) */
-		$getdata = array(),        /* HTTP GET Data ie. array('var1' => 'val1', 'var2' => 'val2') */
-		$postData = null,          /* HTTP POST Data ie. array('var1' => 'val1', 'var2' => 'val2') */
-		$contentType = null,
-		$cookie = array(),         /* HTTP Cookie Data ie. array('var1' => 'val1', 'var2' => 'val2') */
-		$custom_headers = array(), /* Custom HTTP headers ie. array('Referer: http://localhost/ */
-		$timeout = 2000,           /* Socket timeout in milliseconds */
-		$req_hdr = false,          /* Include HTTP request headers */
-		$res_hdr = false           /* Include HTTP response headers */
-	)
-	{
+        $ret = '';
+        $verb = strtoupper($verb);
+        $cookie_str = '';
+        $getdata_str = count($getdata) ? '?' : '';
+        $postdata_str = '';
 
-		$isSSL = $port == 443;
+        if (!empty($getdata)) {
+            foreach ($getdata as $k => $v) {
+                $getdata_str .= urlencode($k).'='.urlencode($v).'&';
+            }
+            $getdata_str = substr($getdata_str, 0, -1);
+        }
 
-		$ret = '';
-		$verb = strtoupper($verb);
-		$cookie_str = '';
-		$getdata_str = count($getdata) ? '?' : '';
-		$postdata_str = '';
+        if (isset($postData)) {
+            if (is_array($postData)) {
+                foreach ($postData as $k => $v) {
+                    $postdata_str .= urlencode($k).'='.urlencode($v).'&';
+                }
 
-		if (!empty($getdata))
-		{
-			foreach ($getdata as $k => $v)
-				$getdata_str .= urlencode($k) .'='. urlencode($v) .'&';
-			$getdata_str = substr($getdata_str, 0, -1);
-		}
+                $postdata_str = substr($postdata_str, 0, -1);
+            } else {
+                $postdata_str = is_string($postData) ? $postData : serialize($postData);
+            }
+        }
 
-		if (isset($postData))
-		{
-			if (is_array($postData))
-			{
-				foreach ($postData as $k => $v)
-					$postdata_str .= urlencode($k) .'='. urlencode($v) .'&';
+        foreach ($cookie as $k => $v) {
+            $cookie_str .= urlencode($k).'='.urlencode($v).'; ';
+        }
 
-				$postdata_str = substr($postdata_str, 0, -1);
-			}
-			else
-				$postdata_str = is_string($postData) ? $postData : serialize($postData);
-		}
+        $crlf = "\r\n";
+        $req = $verb.' '.$uri.$getdata_str.' HTTP/1.1'.$crlf;
+        $req .= 'Host: '.$ip.$crlf;
+        $req .= 'User-Agent: '.$this->userAgent.$crlf;
+        $req .= 'Cache-Control: no-store, no-cache, must-revalidate'.$crlf;
+        $req .= 'Cache-Control: post-check=0, pre-check=0'.$crlf;
+        $req .= 'Pragma: no-cache'.$crlf;
 
-		foreach ($cookie as $k => $v)
-			$cookie_str .= urlencode($k) .'='. urlencode($v) .'; ';
+        foreach ($custom_headers as $k => $v) {
+            $req .= $k.': '.$v.$crlf;
+        }
 
-		$crlf = "\r\n";
-		$req = $verb .' '. $uri . $getdata_str .' HTTP/1.1' . $crlf;
-		$req .= 'Host: '. $ip . $crlf;
-		$req .= 'User-Agent: ' . $this->userAgent . $crlf;
-		$req .= "Cache-Control: no-store, no-cache, must-revalidate" . $crlf;
-		$req .= "Cache-Control: post-check=0, pre-check=0" . $crlf;
-		$req .= "Pragma: no-cache" . $crlf;
+        if (!empty($cookie_str)) {
+            $req .= 'Cookie: '.substr($cookie_str, 0, -2).$crlf;
+        }
 
-		foreach ($custom_headers as $k => $v)
-			$req .= $k .': '. $v . $crlf;
+        if ($verb == 'POST' && !empty($postdata_str)) {
+            if (is_array($postData)) {
+                $req .= 'Content-Type: application/x-www-form-urlencoded'.$crlf;
+            } else {
+                if (empty($contentType)) {
+                    $contentType = 'text/plain';
+                }
 
-		if (!empty($cookie_str))
-			$req .= 'Cookie: '. substr($cookie_str, 0, -2) . $crlf;
+                $req .= 'Content-Type: '.$contentType.$crlf;
+            }
 
-		if ($verb == 'POST' && !empty($postdata_str))
-		{
-			if (is_array($postData))
-			   $req .= 'Content-Type: application/x-www-form-urlencoded' . $crlf;
-			else
-			{
-				if (empty($contentType))
-				  $contentType = 'text/plain';
+            $req .= 'Content-Length: '.strlen($postdata_str).$crlf;
+            $req .= 'Connection: close'.$crlf.$crlf;
+            $req .= $postdata_str;
+        } else {
+            $req .= 'Connection: close'.$crlf.$crlf;
+        }
 
-				$req .= 'Content-Type: '.$contentType . $crlf;
-			}
+        if ($req_hdr) {
+            $ret .= $req;
+        }
 
-			$req .= 'Content-Length: '. strlen($postdata_str) . $crlf;
-			$req .= 'Connection: close' . $crlf . $crlf;
-			$req .= $postdata_str;
-		}
-		else
-		   $req .= 'Connection: close' . $crlf . $crlf;
+        $ip = $isSSL ? 'ssl://'.$ip : $ip;
 
-		if ($req_hdr)
-			$ret .= $req;
+        if (($fp = @fsockopen($ip, $port, $errno, $errstr)) == false) {
+            $message = "Error $errno: $errstr";
 
+            if ($this->_touchOnly) {
+                //log if touchOnly
 
-		$ip = $isSSL ? 'ssl://' . $ip : $ip;
+                ERunActions::logError($message);
 
-		if (($fp = @fsockopen($ip, $port, $errno, $errstr)) == false)
-		{
-			$message = "Error $errno: $errstr";
+                return;
+            } else {
+                return $message;
+            }
+        }
 
-			if ($this->_touchOnly) //log if touchOnly
-			{
-				ERunActions::logError($message);
-				return null;
-			}
-			else
-			    return $message;
-		}
+        stream_set_timeout($fp, 0, $timeout * 1000);
 
-		stream_set_timeout($fp, 0, $timeout * 1000);
+        fputs($fp, $req);
 
-		fputs($fp, $req);
+        if (!$this->_touchOnly) {
+            while ($line = fgets($fp)) {
+                $ret .= $line;
+            }
+            fclose($fp);
 
-		if (!$this->_touchOnly)
-		{
+            if (!$res_hdr) {
+                $ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
+            }
 
-			while ($line = fgets($fp)) $ret .= $line;
-			fclose($fp);
+            return $ret;
+        } else {
+            fclose($fp);
 
-			if (!$res_hdr)
-				$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
-
-			return $ret;
-		}
-		else
-		{
-		  fclose($fp);
-		  return null;
-		}
-	}
-
-
+            return;
+        }
+    }
 }
-?>

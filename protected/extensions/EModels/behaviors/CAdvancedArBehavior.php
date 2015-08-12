@@ -1,10 +1,12 @@
 <?php
+
 /**
  * CAdvancedArBehavior class file.
-
- * @package app.helpers
+ 
  * @author Herbert Maschke <thyseus@gmail.com>
+ *
  * @link http://www.yiiframework.com/
+ *
  * @version 0.3
  */
 
@@ -77,7 +79,6 @@
  * @package app.helpers
  */
 
-
 class CAdvancedArBehavior extends CActiveRecordBehavior
 {
     // if $syncdb is set, this behavior will automatically insert new added
@@ -89,20 +90,21 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
     public $trace = true;
 
     /**
-     *
      * Array of relation names for which related tables should be cleaned up after
      * new relations are saved. Should be used for relations when related data should not exist
      * without any relations.
+     *
      * @var array relation names for which related tables should be cleaned up
      */
     public $cleanRelatedData = array();
 
     /**
-     * Array of relation names to skip during rewrite related data
+     * Array of relation names to skip during rewrite related data.
+     *
      * @var array relation names to skip
      */
     public $skipRelations = array();
-    
+
     public $refreshRelated = true;
 
     // After the save process of the model this behavior is attached to
@@ -111,17 +113,18 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
     {
         parent::afterSave($event);
         $this->writeManyManyTables();
+
         return true;
     }
 
     protected function writeManyManyTables()
     {
-        if($this->trace)
+        if ($this->trace) {
             Yii::trace('writing MANY_MANY data for '.get_class($this->owner),
                     'system.db.ar.CActiveRecord');
+        }
 
-        foreach($this->getRelations() as $relation)
-        {
+        foreach ($this->getRelations() as $relation) {
             if (!in_array($relation['key'], $this->skipRelations)) {
                 $this->cleanRelation($relation);
                 $this->writeRelation($relation);
@@ -137,12 +140,10 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
     {
         $relations = array();
 
-        foreach ($this->owner->relations() as $key => $relation)
-        {
+        foreach ($this->owner->relations() as $key => $relation) {
             if ($relation[0] == CActiveRecord::MANY_MANY &&
                     $this->owner->hasRelated($key) &&
-                    $this->owner->$key != -1)
-            {
+                    $this->owner->$key != -1) {
                 $info = array();
                 $info['key'] = $key;
                 $info['foreignModel'] = $relation[1];
@@ -152,14 +153,11 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
                     $info['condition'] = $relation['condition'];
                 }
 
-                if (preg_match('/^(.+)\((.+)\s*,\s*(.+)\)$/s', $relation[2], $pocks))
-                {
+                if (preg_match('/^(.+)\((.+)\s*,\s*(.+)\)$/s', $relation[2], $pocks)) {
                     $info['m2mTable'] = $pocks[1];
                     $info['m2mThisField'] = $pocks[2];
                     $info['m2mForeignField'] = $pocks[3];
-                }
-                else
-                {
+                } else {
                     $info['m2mTable'] = $relation[2];
                     $info['m2mThisField'] = $this->owner->tableSchema->primaryKey;
                     $info['m2mForeignField'] = CActiveRecord::model($relation[1])->tableSchema->primaryKey;
@@ -167,6 +165,7 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
                 $relations[$key] = $info;
             }
         }
+
         return $relations;
     }
 
@@ -177,16 +176,13 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
         $key = $relation['key'];
 
         // Only an object or primary key id is given
-        if(is_object($this->owner->$key))
-        {
+        if (is_object($this->owner->$key)) {
             $this->owner->$key = array($this->owner->$key);
         }
 
         // An array of objects is given
-        foreach($this->owner->$key as $foreignobject)
-        {
-            if(!is_numeric($foreignobject) && !is_string($foreignobject))
-            {
+        foreach ($this->owner->$key as $foreignobject) {
+            if (!is_numeric($foreignobject) && !is_string($foreignobject)) {
                 //$foreignobject = $foreignobject->{$foreignobject->$relation['m2mForeignField']};
                 if ($foreignobject) {
                     $foreignobject = $foreignobject->{$foreignobject->tableSchema->primaryKey};
@@ -207,10 +203,10 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
     protected function cleanRelated($relation)
     {
         if (in_array($relation['key'], $this->cleanRelatedData)) {
-            $model =  call_user_func(array($relation['foreignModel'], 'model'));
-            $condition = $relation['foreignTableKey'] .
-                ' not in ( select ' . $relation['m2mForeignField'] .
-                ' from ' . $relation['m2mTable'] . ') ';
+            $model = call_user_func(array($relation['foreignModel'], 'model'));
+            $condition = $relation['foreignTableKey'].
+                ' not in ( select '.$relation['m2mForeignField'].
+                ' from '.$relation['m2mTable'].') ';
             //deleteAll does not invokes afterDelete for records
             //$data = $model->deleteAll($condition);
 
@@ -219,15 +215,16 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
             foreach ($data as $record) {
                 $record->delete();
             }
-
         }
     }
 
-    public function execute($query) {
+    public function execute($query)
+    {
         Yii::app()->db->createCommand($query)->execute();
     }
 
-    public function makeManyManyInsertCommand($relation, $value) {
+    public function makeManyManyInsertCommand($relation, $value)
+    {
         return sprintf("insert into %s (%s, %s) values ('%s', '%s')",
                 $relation['m2mTable'],
                 $relation['m2mThisField'],
@@ -236,7 +233,8 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
                 $value);
     }
 
-    public function makeManyManyDeleteCommand($relation) {
+    public function makeManyManyDeleteCommand($relation)
+    {
         if (!isset($relation['condition'])) {
             return sprintf("delete from %s where %s = '%s'",
                 $relation['m2mTable'],
@@ -263,43 +261,34 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
                   $this->owner->{$this->owner->tableSchema->primaryKey},
                 $relation['condition']
                 );
-
         }
-
     }
 
-    public function __set($name,$value)
+    public function __set($name, $value)
     {
-        if($this->syncdb === true) {
-            if($this->setAttribute($name,$value)===false)
-            {
-                if(isset($this->getMetaData()->relations[$name]))
-                    $this->_related[$name]=$value;
-                else
-                {
-                    if ($this->freeze===false)
-                    {
-                        $command=$this->getDbConnection()->createCommand('ALTER TABLE `'.$this->tableName().'` ADD `'.$name.'` '.self::getDbType($value).' NOT NULL');
+        if ($this->syncdb === true) {
+            if ($this->setAttribute($name, $value) === false) {
+                if (isset($this->getMetaData()->relations[$name])) {
+                    $this->_related[$name] = $value;
+                } else {
+                    if ($this->freeze === false) {
+                        $command = $this->getDbConnection()->createCommand('ALTER TABLE `'.$this->tableName().'` ADD `'.$name.'` '.self::getDbType($value).' NOT NULL');
                         $command->execute();
                         $this->getDbConnection()->getSchema()->refresh();
                         $this->refreshMetaData();
                     }
                     $this->__set($name, $value);
                 }
-            }
-            elseif ($this->freeze === false)
-            {
+            } elseif ($this->freeze === false) {
                 $cols = $this->getDbConnection()->getSchema()->getTable($this->tableName())->columns;
-                if ($name != 'id' && strcasecmp($cols[$name]->dbType, self::getDbType($value)) != 0)
-                {
+                if ($name != 'id' && strcasecmp($cols[$name]->dbType, self::getDbType($value)) != 0) {
                     //prevent TEXT from being downgraded to VARCHAR
-                    if (!(strcasecmp($cols[$name]->dbType,'TEXT')==0 && strcasecmp(self::getDbType($value),'VARCHAR(255)')==0))
-                    {
-                        $command=$this->getDbConnection()->createCommand('ALTER TABLE  `'.$this->tableName().'` CHANGE  `'.$name.'`  `'.$name.'` '.self::getDbType($value));
+                    if (!(strcasecmp($cols[$name]->dbType, 'TEXT') == 0 && strcasecmp(self::getDbType($value), 'VARCHAR(255)') == 0)) {
+                        $command = $this->getDbConnection()->createCommand('ALTER TABLE  `'.$this->tableName().'` CHANGE  `'.$name.'`  `'.$name.'` '.self::getDbType($value));
                         $command->execute();
                         $this->getDbConnection()->getSchema()->refresh();
                         $this->refreshMetaData();
-                        $this->setAttribute($name,$value);
+                        $this->setAttribute($name, $value);
                     }
                 }
             }
@@ -308,48 +297,53 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
 
     /**
      * Returns a columns datatype based on the value passed.
+     *
      * @param mixed property value
      */
     public static function getDbType($value)
     {
-        if (is_numeric($value) && floor($value)==$value)
+        if (is_numeric($value) && floor($value) == $value) {
             return 'INT(11)';
+        }
 
-            if (is_numeric($value))
-                return 'DOUBLE';
+        if (is_numeric($value)) {
+            return 'DOUBLE';
+        }
 
-            if (strlen($value) <= 255)
-                return 'VARCHAR(255)';
+        if (strlen($value) <= 255) {
+            return 'VARCHAR(255)';
+        }
 
-            return 'TEXT';
+        return 'TEXT';
     }
 
-        /**
-         * Returns the static model of the specified AR class.
-         * The model returned is a static instance of the AR class.
-         * It is provided for invoking class-level methods (something similar to
-     * static class methods.)
-         *
-         * EVERY derived AR class must override this method as follows,
-         * <pre>
-         * public static function model($className=__CLASS__)
-         * {
-         *     return parent::model($className);
-         * }
-         * </pre>
-         *
-         * @param string active record class name.
-         * @return CActiveRecord active record model instance.
-         */
-    public static function model($className=__CLASS__)
+    /**
+     * Returns the static model of the specified AR class.
+     * The model returned is a static instance of the AR class.
+     * It is provided for invoking class-level methods (something similar to
+     * static class methods.).
+     *
+     * EVERY derived AR class must override this method as follows,
+     * <pre>
+     * public static function model($className=__CLASS__)
+     * {
+     *     return parent::model($className);
+     * }
+     * </pre>
+     *
+     * @param string active record class name.
+     *
+     * @return CActiveRecord active record model instance.
+     */
+    public static function model($className = __CLASS__)
     {
-        if(isset(self::$_models[$className]))
+        if (isset(self::$_models[$className])) {
             return self::$_models[$className];
-        else
-        {
-            $model=self::$_models[$className]=new $className(null);
+        } else {
+            $model = self::$_models[$className] = new $className(null);
             $model->attachbehaviors($model->behaviors());
-            $model->_md=new ExtendedActiveRecordMetaData($model);
+            $model->_md = new ExtendedActiveRecordMetaData($model);
+
             return $model;
         }
     }
@@ -359,41 +353,41 @@ class CAdvancedArBehavior extends CActiveRecordBehavior
      */
     public function getMetaData()
     {
-        if($this->_md!==null)
+        if ($this->_md !== null) {
             return $this->_md;
-        else
-            return $this->_md=self::model(get_class($this))->_md;
+        } else {
+            return $this->_md = self::model(get_class($this))->_md;
+        }
     }
 }
 
 /**
-* ExtendedActiveRecordMetaData is extended from CActiveRecordMetaData.  
-* It's modified to create tables that don't exist.
-* @package app.helpers
-*/
-class ExtendedActiveRecordMetaData Extends CActiveRecordMetaData {
+ * ExtendedActiveRecordMetaData is extended from CActiveRecordMetaData.  
+ * It's modified to create tables that don't exist.
+ */
+class ExtendedActiveRecordMetaData extends CActiveRecordMetaData
+{
     /**
      * Constructor.
+     *
      * @param CActiveRecord the model instance
      */
     public function __construct($model)
     {
-        $tableName=$model->tableName();
-        if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null) {
-            if ($model->freeze===false)
-            {
-                $command=$model->getDbConnection()->createCommand('CREATE TABLE  `'.$tableName.'` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY) ENGINE = MYISAM ;');
+        $tableName = $model->tableName();
+        if (($table = $model->getDbConnection()->getSchema()->getTable($tableName)) === null) {
+            if ($model->freeze === false) {
+                $command = $model->getDbConnection()->createCommand('CREATE TABLE  `'.$tableName.'` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY) ENGINE = MYISAM ;');
                 $command->execute();
 
                 $model->getDbConnection()->getSchema()->refresh();
-                $table=$model->getDbConnection()->getSchema()->getTable($tableName);
-            }
-            else
-            {
-                throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
-                            array('{class}'=>get_class($model),'{table}'=>$tableName)));
+                $table = $model->getDbConnection()->getSchema()->getTable($tableName);
+            } else {
+                throw new CDbException(Yii::t('yii', 'The table "{table}" for active record class "{class}" cannot be found in the database.',
+                            array('{class}' => get_class($model), '{table}' => $tableName)));
             }
         }
+
         return parent::__construct($model);
     }
 }

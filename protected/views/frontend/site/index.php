@@ -51,13 +51,13 @@
         </div>
 
         <div class="galeri-items">
-<?php for ($i = 1; $i <= 8; $i++) { ?>
+            <?php for ($i = 1; $i <= 8; $i++) { ?>
                 <div class="col-sm-6 col-md-3 no-padding col">
                     <a href="gallery-item.php">
-                        <img src="img/gallery/post-<?php echo $i ?>.jpg" alt="">
+                        <img src="<?php echo yii::app()->request->baseUrl ?>/static/img/gallery/post-<?php echo $i ?>.jpg" alt="">
                     </a>
                 </div>
-<?php } ?>
+            <?php } ?>
         </div>
 
         <div class="clearfix"></div>
@@ -78,10 +78,10 @@
 
         <div class="container">
             <div class="news-items">
-<?php for ($i = 1; $i <= 4; $i++) { ?>
+                    <?php for ($i = 1; $i <= 4; $i++) { ?>
                     <div class="col-md-6 col item">
                         <div class="col-md-5">
-                            <div class="img" style="background: url(img/gallery/post-<?php echo $i ?>.jpg)"></div>
+                            <div class="img" style="background: url(<?php echo yii::app()->request->baseUrl ?>/static/img/gallery/post-<?php echo $i ?>.jpg)"></div>
                         </div>
                         <div class="col-md-7">
                             <a href="single-news.php">
@@ -91,7 +91,7 @@
                             <a href="single-news.php">Selengkapnya&nbsp;&nbsp;<i class="fa fa-long-arrow-right"></i></a>
                         </div>
                     </div>
-<?php } ?>
+                    <?php } ?>
             </div>
         </div>
 

@@ -1,21 +1,20 @@
 <?php
+
 /**
- * CActiveTreeDataProvider class
+ * CActiveTreeDataProvider class.
  *
  * PHP version 5
  * 
  * @category   Widgets
- * @package    Ext.widget
- * @subpackage Ext.widget.treeview
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  */
 /**
  * CActiveTreeDataProvider is the dataprovider class
- * for fetching tree-structure based data (adjacency model)
+ * for fetching tree-structure based data (adjacency model).
  * 
  * @category   Widgets
- * @package    Ext.widget
- * @subpackage Ext.widget.treeview
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  */
 class CActiveTreeDataProvider extends CActiveDataProvider
@@ -24,42 +23,44 @@ class CActiveTreeDataProvider extends CActiveDataProvider
     const KEY_TEXT = 'text';
     const KEY_HAS_CHILDREN = 'hasChildren';
     const KEY_CHILDREN = 'children';
-    
+
     /**
-     * Root node id
-     * @var integer
+     * Root node id.
+     *
+     * @var int
      */
     public $rootNodeId;
-    
+
     /**
-     * Tree data cache
+     * Tree data cache.
+     *
      * @var array
      */
     protected $_treeData;
-    
+
     /**
-     * Additional fields in callback
+     * Additional fields in callback.
+     *
      * @var array (
-     *     'index' => 'fieldName',
-     * )
-    */
+     *            'index' => 'fieldName',
+     *            )
+     */
     public $additional;
-    
+
     /**
-     * Tree data making options
+     * Tree data making options.
+     *
      * @var array
      */
     public $treeDataOptions;
-    
+
     /**
-     * Constructs class based object
+     * Constructs class based object.
      * 
      * @param string $modelClass model's class name
      * @param array  $config     provider's config
-     * 
-     * @return void
      */
-    public function __construct($modelClass, $config=array())
+    public function __construct($modelClass, $config = array())
     {
         parent::__construct($modelClass, $config);
         $this->treeDataOptions = isset($this->treeDataOptions) ? $this->treeDataOptions : array();
@@ -76,11 +77,12 @@ class CActiveTreeDataProvider extends CActiveDataProvider
             ),
         ), $this->treeDataOptions);
     }
-    
+
     /**
-     * Fetchs raw data
+     * Fetchs raw data.
      * 
      * @return array fetched data
+     *
      * @see CActiveDataProvider::fetchData()
      */
     protected function fetchData()
@@ -103,11 +105,12 @@ class CActiveTreeDataProvider extends CActiveDataProvider
         $tableName = $this->model->tableName();
         $data = Yii::app()->db->getCommandBuilder()->createFindCommand($tableName, $criteria)->queryAll();
         $this->model->setDbCriteria($baseCriteria);
+
         return $data;
     }
-    
+
     /**
-     * Returns parent tree item
+     * Returns parent tree item.
      * 
      * @param array tree item
      * 
@@ -118,16 +121,18 @@ class CActiveTreeDataProvider extends CActiveDataProvider
         $parentIdColumn = $this->resolveColumnName('parent_id');
         $idColumn = $this->resolveColumnName('id');
         if (isset($treeItem[$parentIdColumn])) {
-            $criteria = new CDbCriteria;
-            $criteria->compare('t.' . $idColumn, $treeItem[$parentIdColumn]);
+            $criteria = new CDbCriteria();
+            $criteria->compare('t.'.$idColumn, $treeItem[$parentIdColumn]);
             $tableName = $this->model->tableName();
+
             return Yii::app()->db->getCommandBuilder()->createFindCommand($tableName, $criteria)->queryRow();
         }
-        return null;
+
+        return;
     }
-    
+
     /**
-     * Returns data in treeview control's format
+     * Returns data in treeview control's format.
      * 
      * @return array tree data
      */
@@ -138,7 +143,7 @@ class CActiveTreeDataProvider extends CActiveDataProvider
             $items = $this->getData();
             $parentIdColumn = $this->resolveColumnName('parent_id');
             $levelColumn = $this->resolveColumnName('level');
-            
+
             $minLevel = null;
             $minLevelParent = null;
             foreach ($items as $item) {
@@ -156,7 +161,7 @@ class CActiveTreeDataProvider extends CActiveDataProvider
                     $minLevelParent = $item[$parentIdColumn];
                 }
             }
-            
+
             $levelKeys = array_keys($levels);
             if (empty($levelKeys)) {
                 $this->_treeData = array();
@@ -164,17 +169,15 @@ class CActiveTreeDataProvider extends CActiveDataProvider
                 $parent = isset($minLevelParent) ? $minLevelParent : 'null';
                 $this->_treeData = $this->getTreeDataRec($levels, $parent, $minLevel);
             }
-            
+
             $this->postFilterTreeData();
         }
-        
+
         return $this->_treeData;
     }
-    
+
     /**
-     * Postfilters tree data
-     * 
-     * @return void
+     * Postfilters tree data.
      */
     protected function postFilterTreeData()
     {
@@ -182,7 +185,7 @@ class CActiveTreeDataProvider extends CActiveDataProvider
         $path = array();
         $current = $this->rootNodeId
                  ? $this->getParentNodeItem(array(
-                      $this->resolveColumnName('parent_id') => $this->rootNodeId
+                      $this->resolveColumnName('parent_id') => $this->rootNodeId,
                    ))
                  : null;
         $idColumn = $this->resolveColumnName('id');
@@ -191,7 +194,7 @@ class CActiveTreeDataProvider extends CActiveDataProvider
             $current = $this->getParentNodeItem($current);
         }
         $path = array_reverse($path);
-        
+
         $count = count($path);
         $childrenKey = $this->resolveKeyName(self::KEY_CHILDREN);
         for ($i = 0; $i < $count; ++$i) {
@@ -206,12 +209,12 @@ class CActiveTreeDataProvider extends CActiveDataProvider
                 }
             }
         }
-        
+
         $this->_treeData = $curItem;
     }
-    
+
     /**
-     * Returns tree item data by record
+     * Returns tree item data by record.
      * 
      * @param array $item tree item
      * 
@@ -219,27 +222,27 @@ class CActiveTreeDataProvider extends CActiveDataProvider
      */
     public function getTreeItemData($item)
     {
-    	$treeItemData = array(
-    	    $this->resolveKeyName(self::KEY_ID) => $item[$this->resolveColumnName('id')],
+        $treeItemData = array(
+            $this->resolveKeyName(self::KEY_ID) => $item[$this->resolveColumnName('id')],
             $this->resolveKeyName(self::KEY_TEXT) => $item[$this->resolveColumnName('name')],
-            $this->resolveKeyName(self::KEY_HAS_CHILDREN) => $item[$this->resolveColumnName('is_leaf')] == 0
+            $this->resolveKeyName(self::KEY_HAS_CHILDREN) => $item[$this->resolveColumnName('is_leaf')] == 0,
         );
-        if(!empty($this->additional)) {
-        	foreach ($this->additional as $index=>$fieldName) {
-        		$treeItemData[$index] =  $item[$fieldName];
-        	}
+        if (!empty($this->additional)) {
+            foreach ($this->additional as $index => $fieldName) {
+                $treeItemData[$index] = $item[$fieldName];
+            }
         }
+
         return $treeItemData;
     }
-    
+
     /**
-     * Returns data in tree's data recursively
+     * Returns data in tree's data recursively.
      * 
-     * @param array   $data   data array
-     * @param string  $parent parent element id
-     * @param integer $level  item level
-     * 
-     * @param array $data
+     * @param array  $data   data array
+     * @param string $parent parent element id
+     * @param int    $level  item level
+     * @param array  $data
      */
     protected function getTreeDataRec(&$data, $parent, $level)
     {
@@ -257,11 +260,12 @@ class CActiveTreeDataProvider extends CActiveDataProvider
                 $ret[$i][$keyChildren] = $this->getTreeDataRec($data, $item[$idColumn], $level + 1);
             }
         }
+
         return $ret;
     }
-    
+
     /**
-     * Resolves real model column name by given abstract model column name
+     * Resolves real model column name by given abstract model column name.
      * 
      * @param string $columnName abstract column name
      * 
@@ -273,9 +277,9 @@ class CActiveTreeDataProvider extends CActiveDataProvider
              ? $this->treeDataOptions['columns'][$columnName]
              : $columnName;
     }
-    
+
     /**
-     * Resolves output tree data key name by given abstract tree data key name
+     * Resolves output tree data key name by given abstract tree data key name.
      * 
      * @param string $keyName abstract tree item key name
      * 

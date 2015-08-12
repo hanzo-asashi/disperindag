@@ -65,5 +65,5 @@
             </form>
         </center>
     </div>
-    <div class="close"><a href="#" class="search-close"><img src="img/close.png" width="30px"></a></div>
+    <div class="close"><a href="#" class="search-close"><img src="<?php echo yii::app()->request->baseUrl ?>/static/img/close.png" width="30px"></a></div>
 </div>

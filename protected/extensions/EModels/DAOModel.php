@@ -1,25 +1,28 @@
 <?php
+
 /**
- * DAOModel class
+ * DAOModel class.
  *
  * PHP version 5
  *
  * @category Packages
- * @package  Ext.model
+ *
  * @author   Pohil Alexandr <pohil@5-soft.com>
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/packages/php/docs
  */
 /**
  * DAOModel is the base model class used for processing form submit
- * with autostarting, submitting and rollbacking transaction
+ * with autostarting, submitting and rollbacking transaction.
  * 
  * @category Packages
- * @package  Ext.model
+ *
  * @author   Pohil Alexandr <pohil@5-soft.com>
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/packages/php/docs
  */
 class DAOModel extends TransactionalFormModel
@@ -28,20 +31,19 @@ class DAOModel extends TransactionalFormModel
     const SCENARIO_UPDATE = 'update';
     const SCENARIO_DELETE = 'delete';
     const SCENARIO_LOAD = 'load';
-    
+
     /**
-     * Access object
+     * Access object.
+     *
      * @var mixed
      */
     private $_object;
-    
+
     /**
-     * Contruct of this class
+     * Contruct of this class.
      * 
      * @param string $scenario object access scenario
      * @param mixed  $object   modifying object instance or id
-     * 
-     * @return void
      */
     public function __construct($scenario = self::SCENARIO_CREATE, $object = null)
     {
@@ -50,21 +52,19 @@ class DAOModel extends TransactionalFormModel
         }
         parent::__construct($scenario);
     }
-    
+
     /**
-     * Sets access object's
+     * Sets access object's.
      * 
      * @param mixed $value access object
-     * 
-     * @return void
      */
     public function setObject($value)
     {
         $this->_object = $value;
     }
-    
+
     /**
-     * Return object instance or id
+     * Return object instance or id.
      * 
      * @return mixed object instance or id
      */
@@ -72,16 +72,18 @@ class DAOModel extends TransactionalFormModel
     {
         return $this->_object;
     }
-    
+
     /**
-     * Submits changes into database
+     * Submits changes into database.
      *  
      * @return bool whether changes applied successfully
+     *
      * @see FormSubmitModel::onSubmit()
      */
     protected function onSubmit()
     {
-        $method = 'on' . $this->getScenario();
+        $method = 'on'.$this->getScenario();
+
         return $this->$method();
     }
 }

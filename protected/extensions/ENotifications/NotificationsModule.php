@@ -1,37 +1,40 @@
 <?php
+
 /**
- * NotificationsModule class
+ * NotificationsModule class.
  *
  * PHP version 5
  *
  * @category Packages
- * @package  Module.notifications
+ *
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/display/PhpDoc
  */
 /**
  * NotificationsModule is the module class for
- * handling system notifications
+ * handling system notifications.
  * 
  * @category Packages
- * @package  Module.notifications
+ *
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/display/PhpDoc
  */
 class NotificationsModule extends CWebModule
 {
     /**
-     * Relative path to database migrations
+     * Relative path to database migrations.
+     *
      * @var string
      */
     public $migrationsPath = '/data';
-    
+
     /**
-     * Module initialization
+     * Module initialization.
      * 
-     * @return void
      * @see CModule::init()
      */
     public function init()

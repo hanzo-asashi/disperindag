@@ -1,57 +1,58 @@
 <?php
+
 /**
- * SlugBehavior
+ * SlugBehavior.
  *
  * Saves pretty url's from titles to be used as unique identifier's
  *
  * @author Chris de Kok <chris.de.kok@gmail.com>
  * @copyright Copyright (c) 2009 Chris de Kok. (http://mech7.net)
- *
  */
-class SlugBehavior extends CActiveRecordBehavior {
-
+class SlugBehavior extends CActiveRecordBehavior
+{
     /**
-    * The column name for the unqiue url
-    */
+     * The column name for the unqiue url.
+     */
     public $slug_col = 'slug';
 
     /**
-    * The column name for the unqiue url
-    */
+     * The column name for the unqiue url.
+     */
     public $title_col = 'title';
 
-	/**
-	 * Primary key column name needs to be an id
-	 * @var string
-	 */
-	protected $pk_col;
-
     /**
-     * Overwrite slug when updating
+     * Primary key column name needs to be an id.
+     *
+     * @var string
      */
+    protected $pk_col;
+
+     /**
+      * Overwrite slug when updating.
+      */
      public $overwrite = true;
 
      /**
-      * Decode url only usefull if you want to support high unicode characters in url
+      * Decode url only usefull if you want to support high unicode characters in url.
       */
      public $url_decode = true;
 
     /**
-     * Before saving to database
+     * Before saving to database.
      */
-    public function beforeSave($event) {
-
-        
-        if($this->Owner->isNewRecord || $this->overwrite === true){
+    public function beforeSave($event)
+    {
+        if ($this->Owner->isNewRecord || $this->overwrite === true) {
             $slug = $this->getUniqueSlug();
             $this->Owner->{$this->slug_col} = $slug;
         }
-        
-		return true;
+
+        return true;
     }
 
     /**
-     * Checks the database to return the unique slug from the database
+     * Checks the database to return the unique slug from the database.
+     *
      * @param string $slug
      */
     public function getUniqueSlug()
@@ -62,43 +63,45 @@ class SlugBehavior extends CActiveRecordBehavior {
 
         $matches = $this->getMatches($this->Owner->slug);
 
-        if($matches){
-			$ar_matches = array();
-			foreach ($matches as $match){
-				if($match->{$this->pk_col} == $this->Owner->{$this->pk_col} && $match->{$this->slug_col} == $this->Owner->{$this->slug_col}){
-				} else {
-					$ar_matches[] = $match->slug;
-				}
-			}
+        if ($matches) {
+            $ar_matches = array();
+            foreach ($matches as $match) {
+                if ($match->{$this->pk_col} == $this->Owner->{$this->pk_col} && $match->{$this->slug_col} == $this->Owner->{$this->slug_col}) {
+                } else {
+                    $ar_matches[] = $match->slug;
+                }
+            }
 
-			$new_slug = $slug;
-			$index = 1;
-			while ($index > 0) {
-				if (in_array($new_slug, $ar_matches)){
-					$new_slug = $slug.'-'.$index;
-					$index++;
-				} else {
-					$slug = $new_slug;
-					$index = -1;
-				}
-			}
-		}
+            $new_slug = $slug;
+            $index = 1;
+            while ($index > 0) {
+                if (in_array($new_slug, $ar_matches)) {
+                    $new_slug = $slug.'-'.$index;
+                    ++$index;
+                } else {
+                    $slug = $new_slug;
+                    $index = -1;
+                }
+            }
+        }
+
         return $slug;
     }
 
     /**
-     * Lookup if string already exists in database
+     * Lookup if string already exists in database.
+     *
      * @param string $title
      */
     public function getMatches($slug)
     {
         $slugs = $this->Owner->findAll(array(
-            'select'=> $this->slug_col.' , '.$this->title_col.' , '.$this->pk_col,
-            'condition'=> $this->slug_col." LIKE '%".$slug."%'"
+            'select' => $this->slug_col.' , '.$this->title_col.' , '.$this->pk_col,
+            'condition' => $this->slug_col." LIKE '%".$slug."%'",
         ));
+
         return $slugs;
     }
-
 
     /**
      * Sanitizes title, replacing whitespace with dashes.
@@ -107,6 +110,7 @@ class SlugBehavior extends CActiveRecordBehavior {
      * Whitespace becomes a dash.
      *
      * @param string $title The title to be sanitized.
+     *
      * @return string The sanitized title.
      */
     public function getSlug($title)
@@ -135,7 +139,7 @@ class SlugBehavior extends CActiveRecordBehavior {
         $title = preg_replace('|-+|', '-', $title);
         $title = trim($title, '-');
 
-        if($this->url_decode){
+        if ($this->url_decode) {
             $title = urldecode($title);
         }
 
@@ -151,25 +155,42 @@ class SlugBehavior extends CActiveRecordBehavior {
      * @author bmorel at ssi dot fr (modified)
      *
      * @param string $str The string to be checked
+     *
      * @return bool True if $str fits a UTF-8 model, false otherwise.
      */
     private function seems_utf8($str)
     {
         $length = strlen($str);
-        for ($i=0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; ++$i) {
             $c = ord($str[$i]);
-            if ($c < 0x80) $n = 0; # 0bbbbbbb
-            elseif (($c & 0xE0) == 0xC0) $n=1; # 110bbbbb
-            elseif (($c & 0xF0) == 0xE0) $n=2; # 1110bbbb
-            elseif (($c & 0xF8) == 0xF0) $n=3; # 11110bbb
-            elseif (($c & 0xFC) == 0xF8) $n=4; # 111110bb
-            elseif (($c & 0xFE) == 0xFC) $n=5; # 1111110b
-            else return false; # Does not match any model
-            for ($j=0; $j<$n; $j++) { # n bytes matching 10bbbbbb follow ?
-                if ((++$i == $length) || ((ord($str[$i]) & 0xC0) != 0x80))
+            if ($c < 0x80) {
+                $n = 0;
+            } # 0bbbbbbb
+            elseif (($c & 0xE0) == 0xC0) {
+                $n = 1;
+            } # 110bbbbb
+            elseif (($c & 0xF0) == 0xE0) {
+                $n = 2;
+            } # 1110bbbb
+            elseif (($c & 0xF8) == 0xF0) {
+                $n = 3;
+            } # 11110bbb
+            elseif (($c & 0xFC) == 0xF8) {
+                $n = 4;
+            } # 111110bb
+            elseif (($c & 0xFE) == 0xFC) {
+                $n = 5;
+            } # 1111110b
+            else {
+                return false;
+            } # Does not match any model
+            for ($j = 0; $j < $n; ++$j) { # n bytes matching 10bbbbbb follow ?
+                if ((++$i == $length) || ((ord($str[$i]) & 0xC0) != 0x80)) {
                     return false;
+                }
             }
         }
+
         return true;
     }
 
@@ -177,39 +198,43 @@ class SlugBehavior extends CActiveRecordBehavior {
      * Encode the Unicode values to be used in the URI.
      *
      * @param string $utf8_string
-     * @param int $length Max length of the string
+     * @param int    $length      Max length of the string
+     *
      * @return string String with Unicode encoded for URI.
      */
-    private function utf8_uri_encode( $utf8_string, $length = 0 )
-    {        
+    private function utf8_uri_encode($utf8_string, $length = 0)
+    {
         $unicode = '';
         $values = array();
         $num_octets = 1;
         $unicode_length = 0;
 
-        $string_length = strlen( $utf8_string );
-        for ($i = 0; $i < $string_length; $i++ ) {
+        $string_length = strlen($utf8_string);
+        for ($i = 0; $i < $string_length; ++$i) {
+            $value = ord($utf8_string[ $i ]);
 
-            $value = ord( $utf8_string[ $i ] );
-
-            if ( $value < 128 ) {
-                if ( $length && ( $unicode_length >= $length ) )
+            if ($value < 128) {
+                if ($length && ($unicode_length >= $length)) {
                     break;
+                }
                 $unicode .= chr($value);
-                $unicode_length++;
+                ++$unicode_length;
             } else {
-                if ( count( $values ) == 0 ) $num_octets = ( $value < 224 ) ? 2 : 3;
+                if (count($values) == 0) {
+                    $num_octets = ($value < 224) ? 2 : 3;
+                }
 
                 $values[] = $value;
 
-                if ( $length && ( $unicode_length + ($num_octets * 3) ) > $length )
+                if ($length && ($unicode_length + ($num_octets * 3)) > $length) {
                     break;
-                if ( count( $values ) == $num_octets ) {
+                }
+                if (count($values) == $num_octets) {
                     if ($num_octets == 3) {
-                        $unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]) . '%' . dechex($values[2]);
+                        $unicode .= '%'.dechex($values[0]).'%'.dechex($values[1]).'%'.dechex($values[2]);
                         $unicode_length += 9;
                     } else {
-                        $unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]);
+                        $unicode .= '%'.dechex($values[0]).'%'.dechex($values[1]);
                         $unicode_length += 6;
                     }
 
@@ -228,12 +253,14 @@ class SlugBehavior extends CActiveRecordBehavior {
      * If there are no accent characters, then the string given is just returned.
      *
      * @param string $string Text that might have accent characters
+     *
      * @return string Filtered string with replaced "nice" characters.
      */
     private function remove_accents($string)
     {
-        if ( !preg_match('/[\x80-\xff]/', $string) )
+        if (!preg_match('/[\x80-\xff]/', $string)) {
             return $string;
+        }
 
         if ($this->seems_utf8($string)) {
             $chars = array(
@@ -334,7 +361,7 @@ class SlugBehavior extends CActiveRecordBehavior {
             // Euro Sign
             chr(226).chr(130).chr(172) => 'E',
             // GBP (Pound) Sign
-            chr(194).chr(163) => '');
+            chr(194).chr(163) => '', );
 
             $string = strtr($string, $chars);
         } else {
@@ -350,7 +377,7 @@ class SlugBehavior extends CActiveRecordBehavior {
                 .chr(244).chr(245).chr(246).chr(248).chr(249).chr(250).chr(251)
                 .chr(252).chr(253).chr(255);
 
-            $chars['out'] = "EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy";
+            $chars['out'] = 'EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy';
 
             $string = strtr($string, $chars['in'], $chars['out']);
             $double_chars['in'] = array(chr(140), chr(156), chr(198), chr(208), chr(222), chr(223), chr(230), chr(240), chr(254));
@@ -360,5 +387,4 @@ class SlugBehavior extends CActiveRecordBehavior {
 
         return $string;
     }
-
 }

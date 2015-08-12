@@ -1,46 +1,49 @@
 <?php
+
 /**
  * CCachedFormDataBehavior class file.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  * @license    http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link       https://jviba.com/packages/php/docs
  */
 /**
  * CCachedFormDataBehavior is the behavior class which
- * handles loading and caching form's internal data
+ * handles loading and caching form's internal data.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  * @license    http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link       https://jviba.com/packages/php/docs
  */
 class CCachedFormDataBehavior extends FormSubmitBehavior
 {
     /**
-     * Whether required to clear cache after success submitting
-     * @var boolean
+     * Whether required to clear cache after success submitting.
+     *
+     * @var bool
      */
     public $clearCachedAfterSubmit = true;
-    
+
     /**
-     * Data loaded via owner
+     * Data loaded via owner.
+     *
      * @var mixed
      */
     private $_data;
-    
+
     /**
-     * Checks owner is cacheable entity
+     * Checks owner is cacheable entity.
      * 
      * @param CModel $owner bahavior's owner
      * 
-     * @return void
      * @see CBehavior::attach()
+     *
      * @throws Exception
      */
     public function attach($owner)
@@ -48,11 +51,11 @@ class CCachedFormDataBehavior extends FormSubmitBehavior
         parent::attach($owner);
         $this->_checkOwnerIsCachedEnity();
     }
-    
+
     /**
-     * Returns cached internal data loaded by form model
+     * Returns cached internal data loaded by form model.
      * 
-     * @param boolean $refresh whether required to reload data
+     * @param bool $refresh whether required to reload data
      * 
      * @return mixed model's internal data
      */
@@ -74,17 +77,16 @@ class CCachedFormDataBehavior extends FormSubmitBehavior
                 $cache->set($cacheId, $this->_data, $duration, $dependency);
             }
         }
+
         return $this->_data;
     }
-    
+
     /**
      * Responds to {@link FormSubmitModel::onBeforeSubmit} event.
      * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
      * You may set {@link CModelEvent::isValid} to be false to quit the submitting process.
      * 
      * @param CModelEvent $event event parameter
-     * 
-     * @return void
      */
     public function beforeSubmit($event)
     {
@@ -99,8 +101,6 @@ class CCachedFormDataBehavior extends FormSubmitBehavior
      * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
      * 
      * @param CModelEvent $event event parameter
-     * 
-     * @return void
      */
     public function afterSubmit($event)
     {
@@ -108,11 +108,9 @@ class CCachedFormDataBehavior extends FormSubmitBehavior
             $this->clearCachedData();
         }
     }
-    
+
     /**
-     * Clears cached data
-     * 
-     * @return void
+     * Clears cached data.
      */
     public function clearCachedData()
     {
@@ -120,11 +118,10 @@ class CCachedFormDataBehavior extends FormSubmitBehavior
         Yii::app()->cache->delete($cacheId);
         $this->_data = null;
     }
-    
+
     /**
-     * Checks whether owner is cached entity. If isn't true - throws exception
+     * Checks whether owner is cached entity. If isn't true - throws exception.
      * 
-     * @return void
      * @throws Exception
      */
     private function _checkOwnerIsCachedEnity()

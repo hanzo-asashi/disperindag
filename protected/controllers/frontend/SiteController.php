@@ -1,11 +1,12 @@
 <?php
 
-class SiteController extends Controller {
-
+class SiteController extends Controller
+{
     /**
      * Declares class-based actions.
      */
-    public function actions() {
+    public function actions()
+    {
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
@@ -24,7 +25,8 @@ class SiteController extends Controller {
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         // renders the view file 'protected/views/frontend/site/index.php'
         // using the default layout 'protected/views/frontend/layouts/main.php'
         $this->render('index');
@@ -33,29 +35,32 @@ class SiteController extends Controller {
     /**
      * This is the action to handle external exceptions.
      */
-    public function actionError() {
+    public function actionError()
+    {
         if ($error = Yii::app()->errorHandler->error) {
-            if (Yii::app()->request->isAjaxRequest)
+            if (Yii::app()->request->isAjaxRequest) {
                 echo $error['message'];
-            else
+            } else {
                 $this->render('error', $error);
+            }
         }
     }
 
     /**
-     * Displays the contact page
+     * Displays the contact page.
      */
-    public function actionContact() {
-        $model = new ContactForm;
+    public function actionContact()
+    {
+        $model = new ContactForm();
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
             if ($model->validate()) {
-                $name = '=?UTF-8?B?' . base64_encode($model->name) . '?=';
-                $subject = '=?UTF-8?B?' . base64_encode($model->subject) . '?=';
-                $headers = "From: $name <{$model->email}>\r\n" .
-                        "Reply-To: {$model->email}\r\n" .
-                        "MIME-Version: 1.0\r\n" .
-                        "Content-Type: text/plain; charset=UTF-8";
+                $name = '=?UTF-8?B?'.base64_encode($model->name).'?=';
+                $subject = '=?UTF-8?B?'.base64_encode($model->subject).'?=';
+                $headers = "From: $name <{$model->email}>\r\n".
+                        "Reply-To: {$model->email}\r\n".
+                        "MIME-Version: 1.0\r\n".
+                        'Content-Type: text/plain; charset=UTF-8';
 
                 mail(Yii::app()->params['adminEmail'], $subject, $model->body, $headers);
                 Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
@@ -66,10 +71,11 @@ class SiteController extends Controller {
     }
 
     /**
-     * Displays the login page
+     * Displays the login page.
      */
-    public function actionLogin() {
-        $model = new LoginForm;
+    public function actionLogin()
+    {
+        $model = new LoginForm();
 
         // if it is ajax validation request
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
@@ -81,8 +87,9 @@ class SiteController extends Controller {
         if (isset($_POST['LoginForm'])) {
             $model->attributes = $_POST['LoginForm'];
             // validate user input and redirect to the previous page if valid
-            if ($model->validate() && $model->login())
+            if ($model->validate() && $model->login()) {
                 $this->redirect(Yii::app()->user->returnUrl);
+            }
         }
         // display the login form
         $this->render('login', array('model' => $model));
@@ -91,9 +98,9 @@ class SiteController extends Controller {
     /**
      * Logs out the current user and redirect to homepage.
      */
-    public function actionLogout() {
+    public function actionLogout()
+    {
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
     }
-
 }

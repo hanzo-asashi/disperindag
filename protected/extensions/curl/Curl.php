@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Curl wrapper PHP v2
+ * Curl wrapper PHP v2.
+ *
  * @author hackerone
  */
 class Curl
@@ -15,20 +16,19 @@ class Curl
     // request specific options - valid only for single request
     public $request_options = array();
 
-
     private $_header, $_headerMap, $_error, $_status, $_info;
 
     // default config
     private $_config = array(
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HEADER         => false,
-        CURLOPT_VERBOSE        => true,
-        CURLOPT_AUTOREFERER    => true,         
+        CURLOPT_HEADER => false,
+        CURLOPT_VERBOSE => true,
+        CURLOPT_AUTOREFERER => true,
         CURLOPT_CONNECTTIMEOUT => 30,
-        CURLOPT_TIMEOUT        => 30,
+        CURLOPT_TIMEOUT => 30,
         CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
     );
 
     public function getOptions()
@@ -38,10 +38,11 @@ class Curl
 
     public function setOption($key, $value, $default = false)
     {
-        if($default)
+        if ($default) {
             $this->options[$key] = $value;
-        else
+        } else {
             $this->request_options[$key] = $value;
+        }
 
         return $this;
     }
@@ -50,29 +51,32 @@ class Curl
      * Clears Options
      * This will clear only the request specific options. Default options cannot be cleared.
      */
-
     public function resetOptions()
     {
         $this->request_options = array();
+
         return $this;
     }
 
     /**
-     * Resets the Option to Default option
+     * Resets the Option to Default option.
      */
     public function resetOption($key)
     {
-        if(isset($this->request_options[$key]))
+        if (isset($this->request_options[$key])) {
             unset($this->request_options[$key]);
+        }
+
         return $this;
     }
 
     public function setOptions($options, $default = false)
     {
-        if($default)
+        if ($default) {
             $this->options = $options + $this->request_options;
-        else
+        } else {
             $this->request_options = $options + $this->request_options;
+        }
 
         return $this;
     }
@@ -80,16 +84,16 @@ class Curl
     public function buildUrl($url, $data = array())
     {
         $parsed = parse_url($url);
-        
+
         isset($parsed['query']) ? parse_str($parsed['query'], $parsed['query']) : $parsed['query'] = array();
 
         $params = isset($parsed['query']) ? $data + $parsed['query'] : $data;
-        $parsed['query'] = ($params) ? '?' . http_build_query($params) : '';
+        $parsed['query'] = ($params) ? '?'.http_build_query($params) : '';
         if (!isset($parsed['path'])) {
-            $parsed['path']='/';
+            $parsed['path'] = '/';
         }
 
-        $parsed['port'] = isset($parsed['port'])?':'.$parsed['port']:'';
+        $parsed['port'] = isset($parsed['port']) ? ':'.$parsed['port'] : '';
 
         return $parsed['scheme'].'://'.$parsed['host'].$parsed['port'].$parsed['path'].$parsed['query'];
     }
@@ -108,14 +112,14 @@ class Curl
 
         $this->_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if(!$output){
+        if (!$output) {
             $this->_error = curl_error($ch);
             $this->_info = curl_getinfo($ch);
-        }
-        else if($debug)
+        } elseif ($debug) {
             $this->_info = curl_getinfo($ch);
+        }
 
-        if(@$options[CURLOPT_HEADER] == true){
+        if (@$options[CURLOPT_HEADER] == true) {
             list($header, $output) = $this->_processHeader($output, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
             $this->_header = $header;
         }
@@ -133,6 +137,7 @@ class Curl
     {
         $exec_url = $this->buildUrl($url, $params);
         $options = $this->getOptions();
+
         return $this->exec($exec_url,  $options, $debug = false);
     }
 
@@ -140,10 +145,9 @@ class Curl
     {
         $url = $this->buildUrl($url, $params);
 
-        $options =  $this->getOptions();
+        $options = $this->getOptions();
         $options[CURLOPT_POST] = true;
         $options[CURLOPT_POSTFIELDS] = $data;
-
 
         return $this->exec($url, $options, $debug);
     }
@@ -151,12 +155,12 @@ class Curl
     public function put($url, $data = null, $params = array(), $debug = false)
     {
         $url = $this->buildUrl($url, $params);
-        
+
         $f = fopen('php://temp', 'rw+');
         fwrite($f, $data);
         rewind($f);
 
-        $options =  $this->getOptions();
+        $options = $this->getOptions();
         $options[CURLOPT_PUT] = true;
         $options[CURLOPT_INFILE] = $f;
         $options[CURLOPT_INFILESIZE] = strlen($data);
@@ -167,7 +171,7 @@ class Curl
     public function delete($url, $params = array(), $debug = false)
     {
         $url = $this->buildUrl($url, $params);
-        
+
         $options = $this->getOptions();
         $options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
 
@@ -175,41 +179,44 @@ class Curl
     }
 
     /**
-     * Gets header of the last curl call if header was enabled
+     * Gets header of the last curl call if header was enabled.
      */
     public function getHeaders()
     {
-        if(!$this->_header)
+        if (!$this->_header) {
             return array();
+        }
 
-        if(!$this->_headerMap){
-
+        if (!$this->_headerMap) {
             $headers = explode("\r\n", trim($this->_header));
             $output = array();
             $output['http_status'] = array_shift($headers);
 
-            foreach($headers as $line){
+            foreach ($headers as $line) {
                 $params = explode(':', $line, 2);
 
-                if(!isset($params[1]))
+                if (!isset($params[1])) {
                     $output['http_status'] = $params[0];
-                else
+                } else {
                     $output[trim($params[0])] = trim($params[1]);
+                }
             }
 
             $this->_headerMap = $output;
         }
+
         return $this->_headerMap;
     }
 
     public function addHeader($header = array())
     {
         $h = isset($this->request_options[CURLOPT_HTTPHEADER]) ? $this->request_options[CURLOPT_HTTPHEADER] : [];
-        foreach($header as $k => $v){
+        foreach ($header as $k => $v) {
             $h[] = $k.': '.$v;
         }
 
         $this->request_options[CURLOPT_HTTPHEADER] = $h;
+
         return $this;
     }
 
@@ -226,12 +233,13 @@ class Curl
         if ($this->_isAssoc($header)) {
             $out = array();
             foreach ($header as $k => $v) {
-                $out[] = $k .': '.$v;
+                $out[] = $k.': '.$v;
             }
             $header = $out;
         }
 
         $this->setOption(CURLOPT_HTTPHEADER, $header, $default);
+
         return $this;
     }
 
@@ -259,5 +267,4 @@ class Curl
     {
         return;
     }
-
 }
