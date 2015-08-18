@@ -6,9 +6,7 @@
   # RewriteBase /
 
   # Make the backend accessible via url: http://localhost/eproc/backend.
-  RewriteRule ^backend backend.php
-
-  #RewRiteRule ^procadmin procadmin.php
+  #RewriteRule ^backend backend.php
 
   # if a directory or a file exists, use it directly
   RewriteCond %{REQUEST_FILENAME} !-f

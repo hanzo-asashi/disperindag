@@ -7,8 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
     'basePath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-    'name' => 'Disperindag',
-    
+    'name' => 'Disperindag',   
 
     // preloading 'log' component
     'preload' => array('log'),
@@ -24,19 +23,14 @@ return array(
 
         'gii' => array(
             'class' => 'system.gii.GiiModule',
-            'password' => 'BlackID85',
+            'password' => 'disperindag',
             // If removed, Gii defaults to localhost only. Edit carefully to taste.
             'ipFilters' => array('127.0.0.1','::1'),
         ),
 
-        //'corporate'=>array(
+        'admin'=>array(
 
-        //), //Daftar module admin dalam config
-
-        //'admin'=>array(
-
-        //), //Admin Module
-
+        ), //Daftar module admin dalam config
 
     ),
 
@@ -55,21 +49,15 @@ return array(
             'showScriptName' => false,
             'rules' => array(
                 '' => 'site/index',
-                //''=>'corporate/default/index',
-                //'contact'=>'corporate/default/contact',
-
                 'login' => 'site/login',
-
                 'admin' => 'backend/index',
-                //'admin'=>'admin/default/index',
-                //'user'=>'admin/default/user',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
-    // 			'gii'=>'gii',
- // *             	'gii/<controller:\w+>'=>'gii/<controller>',
- // *             	'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
+    		'gii'=>'gii',
+               	'gii/<controller:\w+>'=>'gii/<controller>',
+              	'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
             ),
         ),
 
@@ -104,11 +92,5 @@ return array(
     'params' => array(
         // this is used in contact page
         'adminEmail' => 'webmaster@example.com',
-    ),
-
-    'behaviors' => array(
-    'runEnd' => array(
-        'class' => 'application.components.WebApplicationEndBehavior',
-        ),
     ),
 );
