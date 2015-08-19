@@ -50,7 +50,7 @@ return array(
             'rules' => array(
                 '' => 'site/index',
                 'login' => 'site/login',
-                'admin' => 'backend/index',
+                                
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -92,5 +92,6 @@ return array(
     'params' => array(
         // this is used in contact page
         'adminEmail' => 'webmaster@example.com',
+        'themeBasePath' => 'themes'
     ),
 );
