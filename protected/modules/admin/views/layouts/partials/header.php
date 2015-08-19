@@ -2,7 +2,7 @@
 <div class="sidebar-menu">
     <header class="logo-env">  
         <div class="logo">
-            <a href="index.php">
+            <a href="/admin">
                 <img src="<?php echo yii::app()->request->baseUrl ?>/static/assets/images/logo@2x.png" width="120" alt="" />
             </a>
         </div>
@@ -44,7 +44,7 @@
             </form>
         </li>
         <li>
-            <a href="/disperindag" target="_blank">
+            <a href="/" target="_blank">
                 <i class="entypo-monitor"></i>
                 <span>Halaman Depan</span>
             </a>
@@ -187,7 +187,7 @@
                 <li class="profile-info dropdown"><!-- add class "pull-right" if you want to place this from right -->
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="assets/images/thumb-1@2x.png" alt="" class="img-circle" width="44" />
+                        <img src="<?php echo yii::app()->request->baseUrl ?>/static/assets/images/thumb-1@2x.png" alt="" class="img-circle" width="44" />
                         Gifa Eriyanto
                     </a>
 
