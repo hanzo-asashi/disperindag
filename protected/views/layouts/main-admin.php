@@ -4,8 +4,7 @@
      <?php echo $this->renderPartial('/layouts/partials/meta') ;?>
 </head>
 <body class="page-body page-fade-only">
-    <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->	
-        
+    <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->	        
         <!-- Header -->      
         <?php echo $this->renderPartial('/layouts/partials/header') ;?>    
         <!-- End Header -->        

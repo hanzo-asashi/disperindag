@@ -6,7 +6,7 @@
             <div class="num" data-start="0" data-end="22" data-postfix="" data-duration="1500" data-delay="0">0</div>
 
             <h3>Berita</h3>
-            <p>Klik <a href="blog.php">disini</a> untuk melihat semua berita.</p>
+            <p>Klik <a href="/blog">disini</a> untuk melihat semua berita.</p>
         </div>
 
     </div>

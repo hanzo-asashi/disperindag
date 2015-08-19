@@ -50,7 +50,7 @@
             </a>
         </li>
         <li class="active opened active">
-            <a href="index.php">
+            <a href="/admin">
                 <i class="entypo-gauge"></i>
                 <span>Beranda</span>
             </a>
@@ -62,23 +62,23 @@
             </a>
             <ul>
                 <li>
-                    <a href="blog.php">
+                    <a href="/admin/berita">
                         <i class="entypo-list"></i>
                         <span>Semua Berita</span>
                     </a>
                 </li>
                 <li>
-                    <a href="blog-new.php">
+                    <a href="/admin/berita/tambah-berita">
                         <span>Tambah Baru</span>
                     </a>
                 </li>
                 <li>
-                    <a href="blog-category.php">
+                    <a href="/admin/berita/kategori">
                         <span>Kategori</span>
                     </a>
                 </li>
                 <li>
-                    <a href="blog-tag.php">
+                    <a href="/admin/berita/tag">
                         <span>Label</span>
                     </a>
                 </li>
@@ -91,13 +91,13 @@
             </a>
             <ul>
                 <li>
-                    <a href="blog.php">
+                    <a href="/admin/halaman">
                         <i class="entypo-list"></i>
                         <span>Semua Halaman</span>
                     </a>
                 </li>
                 <li>
-                    <a href="blog-new.php">
+                    <a href="/admin/halaman/tambah-halaman">
                         <span>Tambah Baru</span>
                     </a>
                 </li>
@@ -110,39 +110,39 @@
             </a>
             <ul>
                 <li>
-                    <a href="message.php">
+                    <a href="/admin/pesan">
                         <i class="entypo-inbox"></i>
                         <span>Kotak Masuk</span>
                     </a>
                 </li>
                 <li>
-                    <a href="message-new.php">
+                    <a href="/admin/pesan/pesan-baru">
                         <span>Tulis Pesan Baru</span>
                     </a>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="/admin/komentar">
                 <i class="entypo-chat"></i>
                 <span>Komentar</span>
                 <span class="badge badge-secondary">2</span>
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="/admin/media">
                 <i class="entypo-camera"></i>
                 <span>Media</span>
             </a>
             <ul>
                 <li>
-                    <a href="media.php">
+                    <a href="/admin/media/semua-media">
                         <i class="entypo-picture"></i>
                         <span>Semua Media</span>
                     </a>
                 </li>
                 <li>
-                    <a href="media-new.php">
+                    <a href="/admin/media/tambah-media">
                         <span>Tambah Baru</span>
                     </a>
                 </li>
@@ -155,20 +155,20 @@
             </a>
             <ul>
                 <li>
-                    <a href="user.php">
+                    <a href="/admin/users">
                         <i class="entypo-users"></i>
                         <span>Semua Pengguna</span>
                     </a>
                 </li>
                 <li>
-                    <a href="user-new.php">
+                    <a href="/admin/users/new-user">
                         <span>Tambah Baru</span>
                     </a>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="master.php">
+            <a href="/admin/setting">
                 <i class="entypo-tools"></i>
                 <span>Pengaturan</span>
             </a>
@@ -205,14 +205,14 @@
                         </li>
 
                         <li>
-                            <a href="lockscreen.php">
+                            <a href="/admin/lockscreen">
                                 <i class="entypo-key"></i>
                                 Kunci Akun
                             </a>
                         </li>
 
                         <li>
-                            <a href="login.php">
+                            <a href="/admin/logout">
                                 <i class="entypo-logout"></i>
                                 Keluar
                             </a>
