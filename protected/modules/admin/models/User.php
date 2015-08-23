@@ -16,7 +16,7 @@ class User extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'corp_user';
+		return '{{user}}';
 	}
 
 	/**
@@ -31,7 +31,7 @@ class User extends CActiveRecord
 			array('username, password, email', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, username, password, email', 'safe', 'on'=>'search'),
+			array('userid, username, password, email,nama_lengkap,is_aktif,created_date,updated_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,10 +52,14 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
+			'userid' => 'User ID',
 			'username' => 'Username',
 			'password' => 'Password',
+			'nama_lengkap' => 'Nama Lengkap',
 			'email' => 'Email',
+			'is_aktif' => 'Aktif',
+			'created_date' => 'Tanggal Login',
+			'updated_date' => 'Tanggal Update',
 		);
 	}
 
@@ -77,10 +81,14 @@ class User extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
+		$criteria->compare('userid',$this->id);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('password',$this->password,true);
+		$criteria->compare('nama_lengkap',$this->nama_lengkap,true);
 		$criteria->compare('email',$this->email,true);
+		$criteria->compare('is_aktif',$this->is_aktif,true);
+		$criteria->compare('created_date',$this->created_date,true);
+		$criteria->compare('updated_date',$this->updated_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
