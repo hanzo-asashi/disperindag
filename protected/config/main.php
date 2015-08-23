@@ -42,11 +42,11 @@ return array(
             'allowAutoLogin' => true,
         ),
         
-        'request' => array(
-            'class' => 'application.components.DHttpRequest',
-            'csrfTokenName' => 'd!5p3r!nd@g',
-            'enableCsrfValidation' => true,
-        ),
+//        'request' => array(
+//            'class' => 'application.components.DHttpRequest',
+//            'csrfTokenName' => 'd!5p3r!nd@g',
+//            'enableCsrfValidation' => true,
+//        ),
 
         // uncomment the following to enable URLs in path-format
 
@@ -56,6 +56,9 @@ return array(
             'rules' => array(
                 '' => 'site/index',
                 'login' => 'site/login',
+                
+                // Admin ROute
+                'admin/berita/tambah-berita' => 'admin/berita/create',
                                 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

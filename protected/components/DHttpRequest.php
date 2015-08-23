@@ -5,8 +5,7 @@ class DHttpRequest extends CHttpRequest
 
     private $_csrfToken;
     public $CsrfValidationRoutes = array(
-        '/admin',
-        '/gii/default/login',
+        
     );
 
     /**

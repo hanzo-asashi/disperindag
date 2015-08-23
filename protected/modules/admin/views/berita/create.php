@@ -4,11 +4,11 @@
     </li>
 
     <li class="active">
-        <strong>Pengaturan</strong>
+        <strong>Berita</strong>
     </li>
 </ol>
 
-<h2>Pengaturan</h2>
+<h2>Tambah Berita</h2>
 <br />
 
 <form role="form" method="post" class="form-horizontal form-groups-bordered validate" action="">
