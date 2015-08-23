@@ -10,7 +10,7 @@ return array(
     'name' => 'Disperindag',   
 
     // preloading 'log' component
-    'preload' => array('log'),
+    'preload' => array('log','session'),
 
     // autoloading model and component classes
     'import' => array(
@@ -41,6 +41,12 @@ return array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
         ),
+        
+        'request' => array(
+            'class' => 'application.components.DHttpRequest',
+            'csrfTokenName' => 'd!5p3r!nd@g',
+            'enableCsrfValidation' => true,
+        ),
 
         // uncomment the following to enable URLs in path-format
 
@@ -63,6 +69,29 @@ return array(
 
         // database settings are configured in database.php
         'db' => require(dirname(__FILE__).'/database.php'),
+//        'cache' => array(
+//            'class' => 'system.caching.CApcCache',            
+//            'keyPrefix' => 'd!5p3r!nd@g',
+//        ),
+//        'sessionCache' => array(
+//            'class' => 'CApcCache',
+//        ),
+        // Handling Session
+        'session' => array(
+            'class' => 'CDbHttpSession',
+            //'autoStart' => false,
+            'sessionName' => 'DISPSESSID',
+            //'class' => 'CHttpSession',
+            'connectionID' => 'db',            
+            'sessionTableName' => 'sys_session',
+            'autoCreateSessionTable' => false,
+            'useTransparentSessionID' => true,
+            //'useTransparentSessionID' => ($_POST['DISPSESSID']) ? true : false,
+            'cookieMode' => 'only',
+            //'savePath' => dirname(__DIR__).'\runtime\session',
+            'timeout' => Yii::app()->params['sessionTimeout'],
+            'gCProbability' => 100,
+        ),
 
         'errorHandler' => array(
             // use 'site/error' action to display errors
@@ -77,11 +106,11 @@ return array(
                     'levels' => 'error, warning',
                 ),
                 // uncomment the following to show log messages on web pages
-                /*
+                
                 array(
                     'class'=>'CWebLogRoute',
                 ),
-                */
+                
             ),
         ),
 
@@ -92,6 +121,9 @@ return array(
     'params' => array(
         // this is used in contact page
         'adminEmail' => 'webmaster@example.com',
+        'cacheDuration' => 2592000,
+        'sessionTimeout' => 3600 * 12,
+        'itemPerPage' => 10,
         'themeBasePath' => 'themes'
     ),
 );
