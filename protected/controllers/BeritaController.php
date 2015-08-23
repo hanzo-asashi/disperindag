@@ -7,8 +7,18 @@
  */
 class BeritaController extends Controller{
     public function actionIndex(){
-        $this->render("index", array(
-            
-        ));
+        $model = new Berita('search');
+        if(isset($_GET['berita']))
+            $model->attributes = $_GET['berita'];
+        
+        $params = array(
+            'model'=>$model,
+        );
+        
+        if(isset($_GET['ajax'])){
+            $this->renderPartial("ajax", $params);            
+        }else{
+            $this->render("index", $params);
+        }
     }
 }

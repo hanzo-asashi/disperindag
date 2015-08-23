@@ -71,7 +71,7 @@ class Berita extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'berita_id' => 'Berita',
+			'berita_id' => 'ID',
 			'isi_berita' => 'Isi Berita',
 			'url' => 'Url',
 			'judul' => 'Judul',
@@ -80,7 +80,7 @@ class Berita extends CActiveRecord
 			'tgl_update' => 'Tgl Update',
 			'tags_id' => 'Tags',
 			'kategori_id' => 'Kategori',
-			'is_publish' => 'Is Publish',
+			'is_publish' => 'Status Publish',
 		);
 	}
 
@@ -114,7 +114,13 @@ class Berita extends CActiveRecord
 		$criteria->compare('is_publish',$this->is_publish);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+                    'criteria'=>$criteria,
+                    'sort'=>array(
+                        'defaultOrder'=>'berita_id ASC',
+                    ),
+                    'pagination'=>array(
+                        'pageSize'=>5
+                    ),
 		));
 	}
 
