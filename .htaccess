@@ -18,3 +18,83 @@
   #RewriteCond $1 !^(index\.php|assets|images|css|robots\.txt)
   #RewriteRule ^(.+)$ index.php?$1 [PT,L,QSA]
 </IfModule>
+<ifModule mod_headers.c>
+    <filesMatch "\.(ico|jpe?g|png|gif|swf)$">
+    Header set Cache-Control "max-age=2592000, public"
+    </filesMatch>
+    <filesMatch "\.(css)$">
+    Header set Cache-Control "max-age=604800, public"
+    </filesMatch>
+    <filesMatch "\.(js)$">
+    Header set Cache-Control "max-age=604800, private"
+    </filesMatch>
+    <filesMatch "\.(woff)$">
+    Header set Cache-Control "max-age=604800, private"
+    </filesMatch>    
+    <filesMatch "\.(x?html?|php)$">
+    Header set Cache-Control "max-age=600, private, must-revalidate"
+    </filesMatch>
+</ifModule>
+
+<IfModule mod_deflate.c>
+    # Insert filter
+    SetOutputFilter DEFLATE
+
+    #Baris berikut untuk compress .js and .css
+    AddOutputFilter DEFLATE js css
+
+    #Baris berikut juga mengcompress berdasarkan tipe file content, for the following list of Content-Type:s
+    AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml application/xml text/css application/x-javascript application/javascript
+
+    #Baris berikut untuk mencegah bugs dari browser yang lain
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+    # Make sure proxies don't deliver the wrong content
+    Header append Vary User-Agent env=!dont-vary
+</IfModule>
+
+# Baris berikut untuk menambahkan vary: accept-encoding untuk GZIP Compression
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|xml|gz)$">
+    Header append Vary: Accept-Encoding
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_filter.c>
+    AddOutputFilterByType DEFLATE "application/atom+xml" \
+                                  "application/javascript" \
+                                  "application/json" \
+                                  "application/ld+json" \
+                                  "application/manifest+json" \
+                                  "application/rdf+xml" \
+                                  "application/rss+xml" \
+                                  "application/schema+json" \
+                                  "application/vnd.geo+json" \
+                                  "application/vnd.ms-fontobject" \
+                                  "application/x-font-ttf" \
+                                  "application/x-javascript" \
+                                  "application/x-web-app-manifest+json" \
+                                  "application/xhtml+xml" \
+                                  "application/xml" \
+                                  "font/eot" \
+                                  "font/opentype" \
+                                  "image/bmp" \
+                                  "image/svg+xml" \
+                                  "image/vnd.microsoft.icon" \
+                                  "image/x-icon" \
+                                  "text/cache-manifest" \
+                                  "text/css" \
+                                  "text/html" \
+                                  "text/javascript" \
+                                  "text/plain" \
+                                  "text/vcard" \
+                                  "text/vnd.rim.location.xloc" \
+                                  "text/vtt" \
+                                  "text/x-component" \
+                                  "text/x-cross-domain-policy" \
+                                  "text/xml"
+
+</IfModule>
+
