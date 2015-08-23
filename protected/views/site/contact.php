@@ -1,85 +1,63 @@
-<?php
-/* @var $this SiteController */
-/* @var $model ContactForm */
-/* @var $form CActiveForm */
-
-$this->pageTitle=Yii::app()->name . ' - Contact Us';
-$this->breadcrumbs=array(
-	'Contact',
-);
-?>
-
-<h1>Contact Us</h1>
-
-<?php if(Yii::app()->user->hasFlash('contact')): ?>
-
-<div class="flash-success">
-	<?php echo Yii::app()->user->getFlash('contact'); ?>
+<div id="head-page">
+    <div class="container">
+        <h1>Hubungi Kami</h1>
+    </div>
 </div>
 
-<?php else: ?>
+<div class="breadcrumb">
+    <div class="container">
+        <a href="index.php">Beranda</a>
+        &nbsp;&nbsp;/&nbsp;&nbsp;
+        <b>Hubungi Kami</b>
+    </div>
+</div>
 
-<p>
-If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-</p>
+<div id="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 title">
+                <h1>Butuh Bantuan?</h1>
+                <p>Kami akan melayani Anda secepat mungkin!</p>
+            </div>
 
-<div class="form">
+            <div class="col-md-8">
+                <ul class="list-inline no-padding">
+                    <li><a href="tel:+6285212345678" class="btn-custom-info"><i class="fa fa-phone"></i>&nbsp;&nbsp;0852-1234-5678</a></li>
+                    <li><a href="mailto:service@bptp-disperindagsulsel.com" class="btn-custom-info"><i class="fa fa-envelope"></i>&nbsp;&nbsp;service@bptp-disperindagsulsel.com</a></li>
+                </ul>
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'contact-form',
-	'enableClientValidation'=>true,
-	'clientOptions'=>array(
-		'validateOnSubmit'=>true,
-	),
-)); ?>
+                <br>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+                <div class="row">
+                    <form action="" class="form-custom">
+                        <ul class="list-unstyled no-padding">
+                            <li class="col-md-4">
+                                <label for="">Nama Lengkap</label>
+                                <input type="text">
+                            </li>
+                            <li class="col-md-4">
+                                <label for="">Email</label>
+                                <input type="text">
+                            </li>
+                            <li class="col-md-4">
+                                <label for="">Subjek</label>
+                                <input type="text">
+                            </li>
+                            <li class="col-md-12">
+                                <label for="">Pesan Anda</label>
+                                <textarea name="" id="" rows="10"></textarea>
+                            </li>
+                            <li class="col-md-4">
+                                <button>Kirim</button>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
 
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name'); ?>
-		<?php echo $form->error($model,'name'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'email'); ?>
-		<?php echo $form->textField($model,'email'); ?>
-		<?php echo $form->error($model,'email'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'subject'); ?>
-		<?php echo $form->textField($model,'subject',array('size'=>60,'maxlength'=>128)); ?>
-		<?php echo $form->error($model,'subject'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'body'); ?>
-		<?php echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'body'); ?>
-	</div>
-
-	<?php if(CCaptcha::checkRequirements()): ?>
-	<div class="row">
-		<?php echo $form->labelEx($model,'verifyCode'); ?>
-		<div>
-		<?php $this->widget('CCaptcha'); ?>
-		<?php echo $form->textField($model,'verifyCode'); ?>
-		</div>
-		<div class="hint">Please enter the letters as they are shown in the image above.
-		<br/>Letters are not case-sensitive.</div>
-		<?php echo $form->error($model,'verifyCode'); ?>
-	</div>
-	<?php endif; ?>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Submit'); ?>
-	</div>
-
-<?php $this->endWidget(); ?>
-
-</div><!-- form -->
-
-<?php endif; ?>
+            <div class="col-md-4">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d127164.84346218982!2d119.40262754999999!3d-5.1195955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sid!2sid!4v1439111455493" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>

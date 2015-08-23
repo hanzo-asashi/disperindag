@@ -50,12 +50,12 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layanan <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Semua Layanan</a></li>
-                        <li><a href="#">Ball Room CCC</a></li>
+                        <li><a href="/service/">Semua Layanan</a></li>
+                        <li><a href="/service/view/id">Ball Room CCC</a></li>
                     </ul>
                 </li>
-                <li><a href="news.php">Berita</a></li>
-                <li><a href="contact.php">Hubungi Kami</a></li>
+                <li><a href="/berita">Berita</a></li>
+                <li><a href="/site/contact">Hubungi Kami</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#" class="search-click"><i class="fa fa-search"></i><span class="view-mobile">&nbsp;&nbsp;Pencarian</span></a></li>
