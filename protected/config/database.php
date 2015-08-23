@@ -10,5 +10,9 @@ return array(
     'username' => 'root',
     'password' => 'BlackID85',
     'charset' => 'utf8',
+    'tablePrefix' => 'sys_',
+    'schemaCachingDuration' => 3600,
+    'enableParamLogging' => true,
+    'enableProfiling' => true,
 
 );
