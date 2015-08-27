@@ -8,17 +8,20 @@
  * @property string $isi_berita
  * @property string $url
  * @property string $judul
- * @property string $image_path
+ * @property string $imageid
  * @property string $tgl_berita
  * @property string $tgl_update
  * @property string $tags_id
  * @property string $kategori_id
  * @property integer $is_publish
+ * @property integer $is_draft
+ * @property integer $is_archive
  *
  * The followings are the available model relations:
  * @property Kategori $kategori
  * @property StatusPublish $isPublish
  * @property Tags $tags
+ * @property Image $image
  */
 class Berita extends CActiveRecord
 {
@@ -39,15 +42,14 @@ class Berita extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('kategori_id', 'required'),
-			array('is_publish', 'numerical', 'integerOnly'=>true),
+			array('is_publish, is_draft, is_archive', 'numerical', 'integerOnly'=>true),
 			array('url', 'length', 'max'=>20),
 			array('judul', 'length', 'max'=>50),
-			array('image_path', 'length', 'max'=>255),
-			array('tags_id, kategori_id', 'length', 'max'=>11),
+			array('imageid, tags_id, kategori_id', 'length', 'max'=>11),
 			array('isi_berita, tgl_berita, tgl_update', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('berita_id, isi_berita, url, judul, image_path, tgl_berita, tgl_update, tags_id, kategori_id, is_publish', 'safe', 'on'=>'search'),
+			array('berita_id, isi_berita, url, judul, imageid, tgl_berita, tgl_update, tags_id, kategori_id, is_publish, is_draft, is_archive', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,6 +64,7 @@ class Berita extends CActiveRecord
 			'kategori' => array(self::BELONGS_TO, 'Kategori', 'kategori_id'),
 			'isPublish' => array(self::BELONGS_TO, 'StatusPublish', 'is_publish'),
 			'tags' => array(self::BELONGS_TO, 'Tags', 'tags_id'),
+			'image' => array(self::BELONGS_TO, 'Image', 'imageid'),
 		);
 	}
 
@@ -71,16 +74,18 @@ class Berita extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'berita_id' => 'ID',
+			'berita_id' => 'Berita',
 			'isi_berita' => 'Isi Berita',
 			'url' => 'Url',
 			'judul' => 'Judul',
-			'image_path' => 'Image Path',
+			'imageid' => 'Imageid',
 			'tgl_berita' => 'Tgl Berita',
 			'tgl_update' => 'Tgl Update',
 			'tags_id' => 'Tags',
 			'kategori_id' => 'Kategori',
-			'is_publish' => 'Status Publish',
+			'is_publish' => 'Is Publish',
+			'is_draft' => 'Is Draft',
+			'is_archive' => 'Is Archive',
 		);
 	}
 
@@ -106,21 +111,17 @@ class Berita extends CActiveRecord
 		$criteria->compare('isi_berita',$this->isi_berita,true);
 		$criteria->compare('url',$this->url,true);
 		$criteria->compare('judul',$this->judul,true);
-		$criteria->compare('image_path',$this->image_path,true);
+		$criteria->compare('imageid',$this->imageid,true);
 		$criteria->compare('tgl_berita',$this->tgl_berita,true);
 		$criteria->compare('tgl_update',$this->tgl_update,true);
 		$criteria->compare('tags_id',$this->tags_id,true);
 		$criteria->compare('kategori_id',$this->kategori_id,true);
 		$criteria->compare('is_publish',$this->is_publish);
+		$criteria->compare('is_draft',$this->is_draft);
+		$criteria->compare('is_archive',$this->is_archive);
 
 		return new CActiveDataProvider($this, array(
-                    'criteria'=>$criteria,
-                    'sort'=>array(
-                        'defaultOrder'=>'berita_id ASC',
-                    ),
-                    'pagination'=>array(
-                        'pageSize'=>5
-                    ),
+			'criteria'=>$criteria,
 		));
 	}
 
