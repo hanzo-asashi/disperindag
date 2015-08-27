@@ -22,7 +22,7 @@
             </div>
 
             <div class="col-md-8">
-                <img src="assets/img/page/makassar_disperindag.png" alt="">
+                <img src="<?php $this->baseUrl; ?>/static/assets/img/page/makassar_disperindag.png" alt="">
                 <p>
                     Nama Makassar sudah disebutkan dalam pupuh 14/3 kitab Nagarakretagama karya Mpu Prapanca pada abad ke-14, sebagai salah satu daerah taklukkan Majapahit. Walaupun demikian, Raja Gowa ke-9 Tumaparisi Kallonna (1510-1546) diperkirakan adalah tokoh pertama yang benar-benar mengembangkan kota Makassar. Ia memindahkan pusat kerajaan dari pedalaman ke tepi pantai, mendirikan benteng di muara Sungai Jeneberang, serta mengangkat seorang syahbandar untuk mengatur perdagangan.	
                 </p>
@@ -46,10 +46,10 @@
 
             <div class="col-md-4">
                 <ul class="list-unstyled link-accordion">
-                    <li><a href="about.php">Visi Misi</a></li>
-                    <li><a href="about.php" class="active">Sejarah Kota Makassar</a></li>
-                    <li><a href="about.php">Struktur Organisasi</a></li>
-                    <li><a href="about.php">Arti Lambang</a></li>
+                    <li><a href="/about/visimisi">Visi Misi</a></li>
+                    <li><a href="/about/sejarah" class="active">Sejarah Kota Makassar</a></li>
+                    <li><a href="/about/strukturorganisasi">Struktur Organisasi</a></li>
+                    <li><a href="/about/artilambang">Arti Lambang</a></li>
                 </ul>
             </div>
         </div>
