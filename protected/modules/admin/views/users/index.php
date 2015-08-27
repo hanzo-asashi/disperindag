@@ -37,7 +37,7 @@
                 <td>Gifa Eriyanto</td>
                 <td>Abu Sulaim</td>
                 <td>***********</td>
-                <td><a href="#" data-toggle="modal" data-target="#modal-hapus" class="bg"><i class="fa fa-trash-o"></i> &nbsp;Hapus</a></td>
+                <td><a href="/admin/users?hapus" data-toggle="modal" data-target="#modal-hapus" class="bg"><i class="fa fa-trash-o"></i> &nbsp;Hapus</a></td>
             </tr>
 
             <tr>
@@ -51,32 +51,28 @@
     </table>
 </div>
 
-<?php $registerscript = "
-	<!-- Modal 1 (Basic)-->
-	<div class='modal fade' id='modal-hapus'>
-		<div class='modal-dialog'>
-			<div class='modal-content'>
+<div class='modal fade' id='modal-hapus'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
 
-				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-					<h4 class='modal-title'>Hapus Pengguna</h4>
-				</div>
-				
-				<div class='modal-body'>
-					Apakah Anda yakin menghapus pengguna ini?
-				</div>
-				
-				<div class='modal-footer no-margin'>
-					<button type='button' class='btn btn-default' data-dismiss='modal'>Kembali</button>
-					<button type='button' class='btn btn-danger'>Hapus</button>
-				</div>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                <h4 class='modal-title'>Hapus Pengguna</h4>
+            </div>
 
-			</div>
-		</div>
-	</div>
+            <div class='modal-body'>
+                Apakah Anda yakin menghapus pengguna ini?
+            </div>
 
-	<script>
-		$('.nav-user').addClass('opened');
-		$('.nav-user ul li:nth-child(1)').addClass('active');
-	</script>
-" ?>
+            <div class='modal-footer no-margin'>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Kembali</button>
+                <button type='button' class='btn btn-danger'>Hapus</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    $('.nav-user').addClass('opened');
+    $('.nav-user ul li:nth-child(1)').addClass('active');
+</script>
