@@ -1,66 +1,56 @@
 <div class="mail-env">
-
-
     <!-- Mail Body -->
     <div class="mail-body">
-
         <div class="mail-header">
             <!-- title -->
             <h3 class="mail-title">
                 Semua Berita
                 <span class="count">(6)</span>
             </h3>
-
             <!-- search -->
             <form method="get" role="form" class="mail-search">
                 <div class="input-group">
                     <input type="text" class="form-control" name="s" placeholder="Cari berita..." />
-
                     <div class="input-group-addon">
                         <i class="entypo-search"></i>
                     </div>
                 </div>
             </form>
         </div>
-
-
         <!-- mail table -->
         <table class="table mail-table">
             <!-- mail table header -->
             <thead>
                 <tr>
                     <th width="5%">
-            <div class="checkbox checkbox-replace">
-                <input type="checkbox" />
-            </div>
-            </th>
-            <th colspan="4">
+                        <div class="checkbox checkbox-replace">
+                            <input type="checkbox" />
+                        </div>
+                    </th>
+                    <th colspan="4">
+                        <div class="mail-select-options"><button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i>&nbsp; Hapus</button></div>
+                        <div class="mail-select-options"><button class="btn btn-default btn-sm"><i class="entypo-archive"></i>&nbsp; Arsipkan</button></div>
+                        <div class="mail-select-options"><button class="btn btn-default btn-sm"><i class="entypo-install"></i>&nbsp; Pindah ke Draf</button></div>
 
-            <div class="mail-select-options"><button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i>&nbsp; Hapus</button></div>
-            <div class="mail-select-options"><button class="btn btn-default btn-sm"><i class="entypo-archive"></i>&nbsp; Arsipkan</button></div>
-            <div class="mail-select-options"><button class="btn btn-default btn-sm"><i class="entypo-install"></i>&nbsp; Pindah ke Draf</button></div>
+                        <div class="mail-pagination" colspan="2">
+                            <strong>1-30</strong> <span>dari 79</span>
 
-            <div class="mail-pagination" colspan="2">
-                <strong>1-30</strong> <span>dari 79</span>
-
-                <div class="btn-group">
-                    <a href="#" class="btn btn-sm btn-white"><i class="entypo-left-open"></i></a>
-                    <a href="#" class="btn btn-sm btn-white"><i class="entypo-right-open"></i></a>
-                </div>
-            </div>
-            </th>
-            </tr>
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-sm btn-white"><i class="entypo-left-open"></i></a>
+                                <a href="#" class="btn btn-sm btn-white"><i class="entypo-right-open"></i></a>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
             </thead>
 
             <!-- email list -->
             <tbody>
-
                 <tr class="alert-empty"><!-- empty -->
                     <td colspan="4" align="center">
                         Belum Ada Berita
                     </td>
                 </tr>
-
                 <?php for ($i = 0; $i < 10; $i++) { ?>
                     <tr class="unread"><!-- new email class: unread -->
                         <td>
@@ -77,7 +67,6 @@
                         <td class="col-time">13:52</td>
                     </tr>
                 <?php } ?>
-
             </tbody>
         </table>
     </div>
@@ -114,12 +103,9 @@
                 </a>
             </li>
         </ul>
-
     </div>
-
 </div>
 <hr>
-
 <?php $registerscript = "
 	<script>
 		$('.nav-blog').addClass('opened');
