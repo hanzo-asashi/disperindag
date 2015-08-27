@@ -69,7 +69,7 @@
                             </div>
                         </td>
                         <td class="col-name">
-                            <a href="blog-edit.php" class="col-name">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+                            <a href="/admin/berita/update" class="col-name">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
                         </td>
                         <td class="col-options">
                             Komputer
@@ -102,14 +102,14 @@
             </li>
 
             <li>
-                <a href="blog-draft.php">
+                <a href="/admin/berita/draft">
                     <span class="badge badge-gray pull-right">1</span>
-                    Draf
+                    Draft
                 </a>
             </li>
 
             <li>
-                <a href="blog-archive.php">
+                <a href="/admin/berita/archive">
                     Arsip
                 </a>
             </li>

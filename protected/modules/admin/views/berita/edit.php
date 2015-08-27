@@ -1,6 +1,5 @@
 <div class="mail-env">
 
-
     <!-- Mail Body -->
     <div class="mail-body">
 
@@ -16,7 +15,7 @@
                 <div class="pull-right">
 
                     <a href="#" class="btn btn-default btn-icon">
-                        Simpan di Draf
+                        Simpan di Draft
                         <i class="entypo-tag"></i>
                     </a>
 
@@ -86,7 +85,7 @@
                         <div class="panel-body">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new thumbnail" style="width: 100%; height: auto;" data-trigger="fileinput">
-                                    <img src="../assets/img/gallery/post-1.jpg" alt="...">
+                                    <img src="<?php echo yii::app()->request->baseUrl ?>/static/assets/img/gallery/post-1.jpg" alt="...">
                                 </div>
                                 <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 100%; max-height: auto"></div>
                                 <div>
@@ -168,8 +167,8 @@
 		</div>
 	</div>
 
-	<script src='assets/libs/ckeditor-full/ckeditor.js'></script>
-	<script src='assets/libs/js/fileinput.js'></script>
+	<script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/ckeditor-full/ckeditor.js'></script>
+	<script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/js/fileinput.js'></script>
 
 	<script>
 		CKEDITOR.replace( 'editor' );

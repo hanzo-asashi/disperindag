@@ -36,7 +36,7 @@
         <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
         <!-- Search Bar -->
         <li id="search">
-            <form method="get" action="search.php">
+            <form method="get" action="/search">
                 <input type="text" name="q" class="search-input" placeholder="Apa yang Anda cari..."/>
                 <button type="submit">
                     <i class="entypo-search"></i>
@@ -68,7 +68,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/berita/tambah-berita">
+                    <a href="/admin/berita/create">
                         <span>Tambah Baru</span>
                     </a>
                 </li>

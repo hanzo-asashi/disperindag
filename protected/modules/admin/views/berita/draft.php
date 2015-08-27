@@ -1,6 +1,4 @@
 <div class="mail-env">
-
-
     <!-- Mail Body -->
     <div class="mail-body">
 
@@ -68,7 +66,7 @@
                             </div>
                         </td>
                         <td class="col-name">
-                            <a href="blog-edit.php" class="col-name">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+                            <a href="/admin/berita/update" class="col-name">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
                         </td>
                         <td class="col-options">
                             Komputer
@@ -86,7 +84,7 @@
 
         <!-- compose new email button -->
         <div class="mail-sidebar-row hidden-xs">
-            <a href="blog-new.php" class="btn btn-success btn-icon btn-block">
+            <a href="/admin/berita/create" class="btn btn-success btn-icon btn-block">
                 Tambah Baru
                 <i class="entypo-pencil"></i>
             </a>
@@ -95,20 +93,20 @@
         <!-- menu -->
         <ul class="mail-menu">
             <li>
-                <a href="blog.php">
+                <a href="/admin/berita">
                     Semua Berita
                 </a>
             </li>
 
             <li class="active">
-                <a href="blog-draft.php">
+                <a href="/admin/berita/draft">
                     <span class="badge badge-gray pull-right">1</span>
                     Draf
                 </a>
             </li>
 
             <li>
-                <a href="blog-archive.php">
+                <a href="/admin/berita/archive">
                     Arsip
                 </a>
             </li>

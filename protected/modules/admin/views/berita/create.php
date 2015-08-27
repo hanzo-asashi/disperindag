@@ -168,8 +168,8 @@
 		</div>
 	</div>
 
-	<script src='assets/libs/ckeditor-full/ckeditor.js'></script>
-	<script src='assets/libs/js/fileinput.js'></script>
+	<script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/ckeditor-full/ckeditor.js'></script>
+	<script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/js/fileinput.js'></script>
 
 	<script>
 		CKEDITOR.replace( 'editor' );

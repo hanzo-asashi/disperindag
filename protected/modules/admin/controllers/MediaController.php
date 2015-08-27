@@ -6,3 +6,10 @@
  * and open the template in the editor.
  */
 
+class MediaController extends Controller{
+    public function actionIndex(){
+        $this->render('index',array(
+            
+        ));
+    }
+}
