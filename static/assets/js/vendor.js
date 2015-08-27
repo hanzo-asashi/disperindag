@@ -13576,3080 +13576,14 @@ function rb_show_sidebar_menu(with_animation)
 				
 		}, public_vars.sidebarTransitionTime/2);
 	}
-};/**
- * jVectorMap version 1.2.2
- *
- * Copyright 2011-2013, Kirill Lebedev
- * Licensed under the MIT license.
- *
- */(function(e){var t={set:{colors:1,values:1,backgroundColor:1,scaleColors:1,normalizeFunction:1,focus:1},get:{selectedRegions:1,selectedMarkers:1,mapObject:1,regionName:1}};e.fn.vectorMap=function(e){var n,r,i,n=this.children(".jvectormap-container").data("mapObject");if(e==="addMap")jvm.WorldMap.maps[arguments[1]]=arguments[2];else{if(!(e!=="set"&&e!=="get"||!t[e][arguments[1]]))return r=arguments[1].charAt(0).toUpperCase()+arguments[1].substr(1),n[e+r].apply(n,Array.prototype.slice.call(arguments,2));e=e||{},e.container=this,n=new jvm.WorldMap(e)}return this}})(jQuery),function(e){function r(t){var n=t||window.event,r=[].slice.call(arguments,1),i=0,s=!0,o=0,u=0;return t=e.event.fix(n),t.type="mousewheel",n.wheelDelta&&(i=n.wheelDelta/120),n.detail&&(i=-n.detail/3),u=i,n.axis!==undefined&&n.axis===n.HORIZONTAL_AXIS&&(u=0,o=-1*i),n.wheelDeltaY!==undefined&&(u=n.wheelDeltaY/120),n.wheelDeltaX!==undefined&&(o=-1*n.wheelDeltaX/120),r.unshift(t,i,o,u),(e.event.dispatch||e.event.handle).apply(this,r)}var t=["DOMMouseScroll","mousewheel"];if(e.event.fixHooks)for(var n=t.length;n;)e.event.fixHooks[t[--n]]=e.event.mouseHooks;e.event.special.mousewheel={setup:function(){if(this.addEventListener)for(var e=t.length;e;)this.addEventListener(t[--e],r,!1);else this.onmousewheel=r},teardown:function(){if(this.removeEventListener)for(var e=t.length;e;)this.removeEventListener(t[--e],r,!1);else this.onmousewheel=null}},e.fn.extend({mousewheel:function(e){return e?this.bind("mousewheel",e):this.trigger("mousewheel")},unmousewheel:function(e){return this.unbind("mousewheel",e)}})}(jQuery);var jvm={inherits:function(e,t){function n(){}n.prototype=t.prototype,e.prototype=new n,e.prototype.constructor=e,e.parentClass=t},mixin:function(e,t){var n;for(n in t.prototype)t.prototype.hasOwnProperty(n)&&(e.prototype[n]=t.prototype[n])},min:function(e){var t=Number.MAX_VALUE,n;if(e instanceof Array)for(n=0;n<e.length;n++)e[n]<t&&(t=e[n]);else for(n in e)e[n]<t&&(t=e[n]);return t},max:function(e){var t=Number.MIN_VALUE,n;if(e instanceof Array)for(n=0;n<e.length;n++)e[n]>t&&(t=e[n]);else for(n in e)e[n]>t&&(t=e[n]);return t},keys:function(e){var t=[],n;for(n in e)t.push(n);return t},values:function(e){var t=[],n,r;for(r=0;r<arguments.length;r++){e=arguments[r];for(n in e)t.push(e[n])}return t}};jvm.$=jQuery,jvm.AbstractElement=function(e,t){this.node=this.createElement(e),this.name=e,this.properties={},t&&this.set(t)},jvm.AbstractElement.prototype.set=function(e,t){var n;if(typeof e=="object")for(n in e)this.properties[n]=e[n],this.applyAttr(n,e[n]);else this.properties[e]=t,this.applyAttr(e,t)},jvm.AbstractElement.prototype.get=function(e){return this.properties[e]},jvm.AbstractElement.prototype.applyAttr=function(e,t){this.node.setAttribute(e,t)},jvm.AbstractElement.prototype.remove=function(){jvm.$(this.node).remove()},jvm.AbstractCanvasElement=function(e,t,n){this.container=e,this.setSize(t,n),this.rootElement=new jvm[this.classPrefix+"GroupElement"],this.node.appendChild(this.rootElement.node),this.container.appendChild(this.node)},jvm.AbstractCanvasElement.prototype.add=function(e,t){t=t||this.rootElement,t.add(e),e.canvas=this},jvm.AbstractCanvasElement.prototype.addPath=function(e,t,n){var r=new jvm[this.classPrefix+"PathElement"](e,t);return this.add(r,n),r},jvm.AbstractCanvasElement.prototype.addCircle=function(e,t,n){var r=new jvm[this.classPrefix+"CircleElement"](e,t);return this.add(r,n),r},jvm.AbstractCanvasElement.prototype.addGroup=function(e){var t=new jvm[this.classPrefix+"GroupElement"];return e?e.node.appendChild(t.node):this.node.appendChild(t.node),t.canvas=this,t},jvm.AbstractShapeElement=function(e,t,n){this.style=n||{},this.style.current={},this.isHovered=!1,this.isSelected=!1,this.updateStyle()},jvm.AbstractShapeElement.prototype.setHovered=function(e){this.isHovered!==e&&(this.isHovered=e,this.updateStyle())},jvm.AbstractShapeElement.prototype.setSelected=function(e){this.isSelected!==e&&(this.isSelected=e,this.updateStyle(),jvm.$(this.node).trigger("selected",[e]))},jvm.AbstractShapeElement.prototype.setStyle=function(e,t){var n={};typeof e=="object"?n=e:n[e]=t,jvm.$.extend(this.style.current,n),this.updateStyle()},jvm.AbstractShapeElement.prototype.updateStyle=function(){var e={};jvm.AbstractShapeElement.mergeStyles(e,this.style.initial),jvm.AbstractShapeElement.mergeStyles(e,this.style.current),this.isHovered&&jvm.AbstractShapeElement.mergeStyles(e,this.style.hover),this.isSelected&&(jvm.AbstractShapeElement.mergeStyles(e,this.style.selected),this.isHovered&&jvm.AbstractShapeElement.mergeStyles(e,this.style.selectedHover)),this.set(e)},jvm.AbstractShapeElement.mergeStyles=function(e,t){var n;t=t||{};for(n in t)t[n]===null?delete e[n]:e[n]=t[n]},jvm.SVGElement=function(e,t){jvm.SVGElement.parentClass.apply(this,arguments)},jvm.inherits(jvm.SVGElement,jvm.AbstractElement),jvm.SVGElement.svgns="http://www.w3.org/2000/svg",jvm.SVGElement.prototype.createElement=function(e){return document.createElementNS(jvm.SVGElement.svgns,e)},jvm.SVGElement.prototype.addClass=function(e){this.node.setAttribute("class",e)},jvm.SVGElement.prototype.getElementCtr=function(e){return jvm["SVG"+e]},jvm.SVGElement.prototype.getBBox=function(){return this.node.getBBox()},jvm.SVGGroupElement=function(){jvm.SVGGroupElement.parentClass.call(this,"g")},jvm.inherits(jvm.SVGGroupElement,jvm.SVGElement),jvm.SVGGroupElement.prototype.add=function(e){this.node.appendChild(e.node)},jvm.SVGCanvasElement=function(e,t,n){this.classPrefix="SVG",jvm.SVGCanvasElement.parentClass.call(this,"svg"),jvm.AbstractCanvasElement.apply(this,arguments)},jvm.inherits(jvm.SVGCanvasElement,jvm.SVGElement),jvm.mixin(jvm.SVGCanvasElement,jvm.AbstractCanvasElement),jvm.SVGCanvasElement.prototype.setSize=function(e,t){this.width=e,this.height=t,this.node.setAttribute("width",e),this.node.setAttribute("height",t)},jvm.SVGCanvasElement.prototype.applyTransformParams=function(e,t,n){this.scale=e,this.transX=t,this.transY=n,this.rootElement.node.setAttribute("transform","scale("+e+") translate("+t+", "+n+")")},jvm.SVGShapeElement=function(e,t,n){jvm.SVGShapeElement.parentClass.call(this,e,t),jvm.AbstractShapeElement.apply(this,arguments)},jvm.inherits(jvm.SVGShapeElement,jvm.SVGElement),jvm.mixin(jvm.SVGShapeElement,jvm.AbstractShapeElement),jvm.SVGPathElement=function(e,t){jvm.SVGPathElement.parentClass.call(this,"path",e,t),this.node.setAttribute("fill-rule","evenodd")},jvm.inherits(jvm.SVGPathElement,jvm.SVGShapeElement),jvm.SVGCircleElement=function(e,t){jvm.SVGCircleElement.parentClass.call(this,"circle",e,t)},jvm.inherits(jvm.SVGCircleElement,jvm.SVGShapeElement),jvm.VMLElement=function(e,t){jvm.VMLElement.VMLInitialized||jvm.VMLElement.initializeVML(),jvm.VMLElement.parentClass.apply(this,arguments)},jvm.inherits(jvm.VMLElement,jvm.AbstractElement),jvm.VMLElement.VMLInitialized=!1,jvm.VMLElement.initializeVML=function(){try{document.namespaces.rvml||document.namespaces.add("rvml","urn:schemas-microsoft-com:vml"),jvm.VMLElement.prototype.createElement=function(e){return document.createElement("<rvml:"+e+' class="rvml">')}}catch(e){jvm.VMLElement.prototype.createElement=function(e){return document.createElement("<"+e+' xmlns="urn:schemas-microsoft.com:vml" class="rvml">')}}document.createStyleSheet().addRule(".rvml","behavior:url(#default#VML)"),jvm.VMLElement.VMLInitialized=!0},jvm.VMLElement.prototype.getElementCtr=function(e){return jvm["VML"+e]},jvm.VMLElement.prototype.addClass=function(e){jvm.$(this.node).addClass(e)},jvm.VMLElement.prototype.applyAttr=function(e,t){this.node[e]=t},jvm.VMLElement.prototype.getBBox=function(){var e=jvm.$(this.node);return{x:e.position().left/this.canvas.scale,y:e.position().top/this.canvas.scale,width:e.width()/this.canvas.scale,height:e.height()/this.canvas.scale}},jvm.VMLGroupElement=function(){jvm.VMLGroupElement.parentClass.call(this,"group"),this.node.style.left="0px",this.node.style.top="0px",this.node.coordorigin="0 0"},jvm.inherits(jvm.VMLGroupElement,jvm.VMLElement),jvm.VMLGroupElement.prototype.add=function(e){this.node.appendChild(e.node)},jvm.VMLCanvasElement=function(e,t,n){this.classPrefix="VML",jvm.VMLCanvasElement.parentClass.call(this,"group"),jvm.AbstractCanvasElement.apply(this,arguments),this.node.style.position="absolute"},jvm.inherits(jvm.VMLCanvasElement,jvm.VMLElement),jvm.mixin(jvm.VMLCanvasElement,jvm.AbstractCanvasElement),jvm.VMLCanvasElement.prototype.setSize=function(e,t){var n,r,i,s;this.width=e,this.height=t,this.node.style.width=e+"px",this.node.style.height=t+"px",this.node.coordsize=e+" "+t,this.node.coordorigin="0 0";if(this.rootElement){n=this.rootElement.node.getElementsByTagName("shape");for(i=0,s=n.length;i<s;i++)n[i].coordsize=e+" "+t,n[i].style.width=e+"px",n[i].style.height=t+"px";r=this.node.getElementsByTagName("group");for(i=0,s=r.length;i<s;i++)r[i].coordsize=e+" "+t,r[i].style.width=e+"px",r[i].style.height=t+"px"}},jvm.VMLCanvasElement.prototype.applyTransformParams=function(e,t,n){this.scale=e,this.transX=t,this.transY=n,this.rootElement.node.coordorigin=this.width-t-this.width/100+","+(this.height-n-this.height/100),this.rootElement.node.coordsize=this.width/e+","+this.height/e},jvm.VMLShapeElement=function(e,t){jvm.VMLShapeElement.parentClass.call(this,e,t),this.fillElement=new jvm.VMLElement("fill"),this.strokeElement=new jvm.VMLElement("stroke"),this.node.appendChild(this.fillElement.node),this.node.appendChild(this.strokeElement.node),this.node.stroked=!1,jvm.AbstractShapeElement.apply(this,arguments)},jvm.inherits(jvm.VMLShapeElement,jvm.VMLElement),jvm.mixin(jvm.VMLShapeElement,jvm.AbstractShapeElement),jvm.VMLShapeElement.prototype.applyAttr=function(e,t){switch(e){case"fill":this.node.fillcolor=t;break;case"fill-opacity":this.fillElement.node.opacity=Math.round(t*100)+"%";break;case"stroke":t==="none"?this.node.stroked=!1:this.node.stroked=!0,this.node.strokecolor=t;break;case"stroke-opacity":this.strokeElement.node.opacity=Math.round(t*100)+"%";break;case"stroke-width":parseInt(t,10)===0?this.node.stroked=!1:this.node.stroked=!0,this.node.strokeweight=t;break;case"d":this.node.path=jvm.VMLPathElement.pathSvgToVml(t);break;default:jvm.VMLShapeElement.parentClass.prototype.applyAttr.apply(this,arguments)}},jvm.VMLPathElement=function(e,t){var n=new jvm.VMLElement("skew");jvm.VMLPathElement.parentClass.call(this,"shape",e,t),this.node.coordorigin="0 0",n.node.on=!0,n.node.matrix="0.01,0,0,0.01,0,0",n.node.offset="0,0",this.node.appendChild(n.node)},jvm.inherits(jvm.VMLPathElement,jvm.VMLShapeElement),jvm.VMLPathElement.prototype.applyAttr=function(e,t){e==="d"?this.node.path=jvm.VMLPathElement.pathSvgToVml(t):jvm.VMLShapeElement.prototype.applyAttr.call(this,e,t)},jvm.VMLPathElement.pathSvgToVml=function(e){var t="",n=0,r=0,i,s;return e=e.replace(/(-?\d+)e(-?\d+)/g,"0"),e.replace(/([MmLlHhVvCcSs])\s*((?:-?\d*(?:\.\d+)?\s*,?\s*)+)/g,function(e,t,o,u){o=o.replace(/(\d)-/g,"$1,-").replace(/^\s+/g,"").replace(/\s+$/g,"").replace(/\s+/g,",").split(","),o[0]||o.shift();for(var a=0,f=o.length;a<f;a++)o[a]=Math.round(100*o[a]);switch(t){case"m":return n+=o[0],r+=o[1],"t"+o.join(",");case"M":return n=o[0],r=o[1],"m"+o.join(",");case"l":return n+=o[0],r+=o[1],"r"+o.join(",");case"L":return n=o[0],r=o[1],"l"+o.join(",");case"h":return n+=o[0],"r"+o[0]+",0";case"H":return n=o[0],"l"+n+","+r;case"v":return r+=o[0],"r0,"+o[0];case"V":return r=o[0],"l"+n+","+r;case"c":return i=n+o[o.length-4],s=r+o[o.length-3],n+=o[o.length-2],r+=o[o.length-1],"v"+o.join(",");case"C":return i=o[o.length-4],s=o[o.length-3],n=o[o.length-2],r=o[o.length-1],"c"+o.join(",");case"s":return o.unshift(r-s),o.unshift(n-i),i=n+o[o.length-4],s=r+o[o.length-3],n+=o[o.length-2],r+=o[o.length-1],"v"+o.join(",");case"S":return o.unshift(r+r-s),o.unshift(n+n-i),i=o[o.length-4],s=o[o.length-3],n=o[o.length-2],r=o[o.length-1],"c"+o.join(",")}return""}).replace(/z/g,"e")},jvm.VMLCircleElement=function(e,t){jvm.VMLCircleElement.parentClass.call(this,"oval",e,t)},jvm.inherits(jvm.VMLCircleElement,jvm.VMLShapeElement),jvm.VMLCircleElement.prototype.applyAttr=function(e,t){switch(e){case"r":this.node.style.width=t*2+"px",this.node.style.height=t*2+"px",this.applyAttr("cx",this.get("cx")||0),this.applyAttr("cy",this.get("cy")||0);break;case"cx":if(!t)return;this.node.style.left=t-(this.get("r")||0)+"px";break;case"cy":if(!t)return;this.node.style.top=t-(this.get("r")||0)+"px";break;default:jvm.VMLCircleElement.parentClass.prototype.applyAttr.call(this,e,t)}},jvm.VectorCanvas=function(e,t,n){return this.mode=window.SVGAngle?"svg":"vml",this.mode=="svg"?this.impl=new jvm.SVGCanvasElement(e,t,n):this.impl=new jvm.VMLCanvasElement(e,t,n),this.impl},jvm.SimpleScale=function(e){this.scale=e},jvm.SimpleScale.prototype.getValue=function(e){return e},jvm.OrdinalScale=function(e){this.scale=e},jvm.OrdinalScale.prototype.getValue=function(e){return this.scale[e]},jvm.NumericScale=function(e,t,n,r){this.scale=[],t=t||"linear",e&&this.setScale(e),t&&this.setNormalizeFunction(t),n&&this.setMin(n),r&&this.setMax(r)},jvm.NumericScale.prototype={setMin:function(e){this.clearMinValue=e,typeof this.normalize=="function"?this.minValue=this.normalize(e):this.minValue=e},setMax:function(e){this.clearMaxValue=e,typeof this.normalize=="function"?this.maxValue=this.normalize(e):this.maxValue=e},setScale:function(e){var t;for(t=0;t<e.length;t++)this.scale[t]=[e[t]]},setNormalizeFunction:function(e){e==="polynomial"?this.normalize=function(e){return Math.pow(e,.2)}:e==="linear"?delete this.normalize:this.normalize=e,this.setMin(this.clearMinValue),this.setMax(this.clearMaxValue)},getValue:function(e){var t=[],n=0,r,i=0,s;typeof this.normalize=="function"&&(e=this.normalize(e));for(i=0;i<this.scale.length-1;i++)r=this.vectorLength(this.vectorSubtract(this.scale[i+1],this.scale[i])),t.push(r),n+=r;s=(this.maxValue-this.minValue)/n;for(i=0;i<t.length;i++)t[i]*=s;i=0,e-=this.minValue;while(e-t[i]>=0)e-=t[i],i++;return i==this.scale.length-1?e=this.vectorToNum(this.scale[i]):e=this.vectorToNum(this.vectorAdd(this.scale[i],this.vectorMult(this.vectorSubtract(this.scale[i+1],this.scale[i]),e/t[i]))),e},vectorToNum:function(e){var t=0,n;for(n=0;n<e.length;n++)t+=Math.round(e[n])*Math.pow(256,e.length-n-1);return t},vectorSubtract:function(e,t){var n=[],r;for(r=0;r<e.length;r++)n[r]=e[r]-t[r];return n},vectorAdd:function(e,t){var n=[],r;for(r=0;r<e.length;r++)n[r]=e[r]+t[r];return n},vectorMult:function(e,t){var n=[],r;for(r=0;r<e.length;r++)n[r]=e[r]*t;return n},vectorLength:function(e){var t=0,n;for(n=0;n<e.length;n++)t+=e[n]*e[n];return Math.sqrt(t)}},jvm.ColorScale=function(e,t,n,r){jvm.ColorScale.parentClass.apply(this,arguments)},jvm.inherits(jvm.ColorScale,jvm.NumericScale),jvm.ColorScale.prototype.setScale=function(e){var t;for(t=0;t<e.length;t++)this.scale[t]=jvm.ColorScale.rgbToArray(e[t])},jvm.ColorScale.prototype.getValue=function(e){return jvm.ColorScale.numToRgb(jvm.ColorScale.parentClass.prototype.getValue.call(this,e))},jvm.ColorScale.arrayToRgb=function(e){var t="#",n,r;for(r=0;r<e.length;r++)n=e[r].toString(16),t+=n.length==1?"0"+n:n;return t},jvm.ColorScale.numToRgb=function(e){e=e.toString(16);while(e.length<6)e="0"+e;return"#"+e},jvm.ColorScale.rgbToArray=function(e){return e=e.substr(1),[parseInt(e.substr(0,2),16),parseInt(e.substr(2,2),16),parseInt(e.substr(4,2),16)]},jvm.DataSeries=function(e,t){var n;e=e||{},e.attribute=e.attribute||"fill",this.elements=t,this.params=e,e.attributes&&this.setAttributes(e.attributes),jvm.$.isArray(e.scale)?(n=e.attribute==="fill"||e.attribute==="stroke"?jvm.ColorScale:jvm.NumericScale,this.scale=new n(e.scale,e.normalizeFunction,e.min,e.max)):e.scale?this.scale=new jvm.OrdinalScale(e.scale):this.scale=new jvm.SimpleScale(e.scale),this.values=e.values||{},this.setValues(this.values)},jvm.DataSeries.prototype={setAttributes:function(e,t){var n=e,r;if(typeof e=="string")this.elements[e]&&this.elements[e].setStyle(this.params.attribute,t);else for(r in n)this.elements[r]&&this.elements[r].element.setStyle(this.params.attribute,n[r])},setValues:function(e){var t=Number.MIN_VALUE,n=Number.MAX_VALUE,r,i,s={};if(this.scale instanceof jvm.OrdinalScale||this.scale instanceof jvm.SimpleScale)for(i in e)e[i]?s[i]=this.scale.getValue(e[i]):s[i]=this.elements[i].element.style.initial[this.params.attribute];else{if(!this.params.min||!this.params.max){for(i in e)r=parseFloat(e[i]),r>t&&(t=e[i]),r<n&&(n=r);this.params.min||this.scale.setMin(n),this.params.max||this.scale.setMax(t),this.params.min=n,this.params.max=t}for(i in e)r=parseFloat(e[i]),isNaN(r)?s[i]=this.elements[i].element.style.initial[this.params.attribute]:s[i]=this.scale.getValue(r)}this.setAttributes(s),jvm.$.extend(this.values,e)},clear:function(){var e,t={};for(e in this.values)this.elements[e]&&(t[e]=this.elements[e].element.style.initial[this.params.attribute]);this.setAttributes(t),this.values={}},setScale:function(e){this.scale.setScale(e),this.values&&this.setValues(this.values)},setNormalizeFunction:function(e){this.scale.setNormalizeFunction(e),this.values&&this.setValues(this.values)}},jvm.Proj={degRad:180/Math.PI,radDeg:Math.PI/180,radius:6381372,sgn:function(e){return e>0?1:e<0?-1:e},mill:function(e,t,n){return{x:this.radius*(t-n)*this.radDeg,y:-this.radius*Math.log(Math.tan((45+.4*e)*this.radDeg))/.8}},mill_inv:function(e,t,n){return{lat:(2.5*Math.atan(Math.exp(.8*t/this.radius))-5*Math.PI/8)*this.degRad,lng:(n*this.radDeg+e/this.radius)*this.degRad}},merc:function(e,t,n){return{x:this.radius*(t-n)*this.radDeg,y:-this.radius*Math.log(Math.tan(Math.PI/4+e*Math.PI/360))}},merc_inv:function(e,t,n){return{lat:(2*Math.atan(Math.exp(t/this.radius))-Math.PI/2)*this.degRad,lng:(n*this.radDeg+e/this.radius)*this.degRad}},aea:function(e,t,n){var r=0,i=n*this.radDeg,s=29.5*this.radDeg,o=45.5*this.radDeg,u=e*this.radDeg,a=t*this.radDeg,f=(Math.sin(s)+Math.sin(o))/2,l=Math.cos(s)*Math.cos(s)+2*f*Math.sin(s),c=f*(a-i),h=Math.sqrt(l-2*f*Math.sin(u))/f,p=Math.sqrt(l-2*f*Math.sin(r))/f;return{x:h*Math.sin(c)*this.radius,y:-(p-h*Math.cos(c))*this.radius}},aea_inv:function(e,t,n){var r=e/this.radius,i=t/this.radius,s=0,o=n*this.radDeg,u=29.5*this.radDeg,a=45.5*this.radDeg,f=(Math.sin(u)+Math.sin(a))/2,l=Math.cos(u)*Math.cos(u)+2*f*Math.sin(u),c=Math.sqrt(l-2*f*Math.sin(s))/f,h=Math.sqrt(r*r+(c-i)*(c-i)),p=Math.atan(r/(c-i));return{lat:Math.asin((l-h*h*f*f)/(2*f))*this.degRad,lng:(o+p/f)*this.degRad}},lcc:function(e,t,n){var r=0,i=n*this.radDeg,s=t*this.radDeg,o=33*this.radDeg,u=45*this.radDeg,a=e*this.radDeg,f=Math.log(Math.cos(o)*(1/Math.cos(u)))/Math.log(Math.tan(Math.PI/4+u/2)*(1/Math.tan(Math.PI/4+o/2))),l=Math.cos(o)*Math.pow(Math.tan(Math.PI/4+o/2),f)/f,c=l*Math.pow(1/Math.tan(Math.PI/4+a/2),f),h=l*Math.pow(1/Math.tan(Math.PI/4+r/2),f);return{x:c*Math.sin(f*(s-i))*this.radius,y:-(h-c*Math.cos(f*(s-i)))*this.radius}},lcc_inv:function(e,t,n){var r=e/this.radius,i=t/this.radius,s=0,o=n*this.radDeg,u=33*this.radDeg,a=45*this.radDeg,f=Math.log(Math.cos(u)*(1/Math.cos(a)))/Math.log(Math.tan(Math.PI/4+a/2)*(1/Math.tan(Math.PI/4+u/2))),l=Math.cos(u)*Math.pow(Math.tan(Math.PI/4+u/2),f)/f,c=l*Math.pow(1/Math.tan(Math.PI/4+s/2),f),h=this.sgn(f)*Math.sqrt(r*r+(c-i)*(c-i)),p=Math.atan(r/(c-i));return{lat:(2*Math.atan(Math.pow(l/h,1/f))-Math.PI/2)*this.degRad,lng:(o+p/f)*this.degRad}}},jvm.WorldMap=function(e){var t=this,n;this.params=jvm.$.extend(!0,{},jvm.WorldMap.defaultParams,e);if(!jvm.WorldMap.maps[this.params.map])throw new Error("Attempt to use map which was not loaded: "+this.params.map);this.mapData=jvm.WorldMap.maps[this.params.map],this.markers={},this.regions={},this.regionsColors={},this.regionsData={},this.container=jvm.$("<div>").css({width:"100%",height:"100%"}).addClass("jvectormap-container"),this.params.container.append(this.container),this.container.data("mapObject",this),this.container.css({position:"relative",overflow:"hidden"}),this.defaultWidth=this.mapData.width,this.defaultHeight=this.mapData.height,this.setBackgroundColor(this.params.backgroundColor),this.onResize=function(){t.setSize()},jvm.$(window).resize(this.onResize);for(n in jvm.WorldMap.apiEvents)this.params[n]&&this.container.bind(jvm.WorldMap.apiEvents[n]+".jvectormap",this.params[n]);this.canvas=new jvm.VectorCanvas(this.container[0],this.width,this.height),"ontouchstart"in window||window.DocumentTouch&&document instanceof DocumentTouch?this.params.bindTouchEvents&&this.bindContainerTouchEvents():this.bindContainerEvents(),this.bindElementEvents(),this.createLabel(),this.params.zoomButtons&&this.bindZoomButtons(),this.createRegions(),this.createMarkers(this.params.markers||{}),this.setSize(),this.params.focusOn&&(typeof this.params.focusOn=="object"?this.setFocus.call(this,this.params.focusOn.scale,this.params.focusOn.x,this.params.focusOn.y):this.setFocus.call(this,this.params.focusOn)),this.params.selectedRegions&&this.setSelectedRegions(this.params.selectedRegions),this.params.selectedMarkers&&this.setSelectedMarkers(this.params.selectedMarkers),this.params.series&&this.createSeries()},jvm.WorldMap.prototype={transX:0,transY:0,scale:1,baseTransX:0,baseTransY:0,baseScale:1,width:0,height:0,setBackgroundColor:function(e){this.container.css("background-color",e)},resize:function(){var e=this.baseScale;this.width/this.height>this.defaultWidth/this.defaultHeight?(this.baseScale=this.height/this.defaultHeight,this.baseTransX=Math.abs(this.width-this.defaultWidth*this.baseScale)/(2*this.baseScale)):(this.baseScale=this.width/this.defaultWidth,this.baseTransY=Math.abs(this.height-this.defaultHeight*this.baseScale)/(2*this.baseScale)),this.scale*=this.baseScale/e,this.transX*=this.baseScale/e,this.transY*=this.baseScale/e},setSize:function(){this.width=this.container.width(),this.height=this.container.height(),this.resize(),this.canvas.setSize(this.width,this.height),this.applyTransform()},reset:function(){var e,t;for(e in this.series)for(t=0;t<this.series[e].length;t++)this.series[e][t].clear();this.scale=this.baseScale,this.transX=this.baseTransX,this.transY=this.baseTransY,this.applyTransform()},applyTransform:function(){var e,t,n,r;this.defaultWidth*this.scale<=this.width?(e=(this.width-this.defaultWidth*this.scale)/(2*this.scale),n=(this.width-this.defaultWidth*this.scale)/(2*this.scale)):(e=0,n=(this.width-this.defaultWidth*this.scale)/this.scale),this.defaultHeight*this.scale<=this.height?(t=(this.height-this.defaultHeight*this.scale)/(2*this.scale),r=(this.height-this.defaultHeight*this.scale)/(2*this.scale)):(t=0,r=(this.height-this.defaultHeight*this.scale)/this.scale),this.transY>t?this.transY=t:this.transY<r&&(this.transY=r),this.transX>e?this.transX=e:this.transX<n&&(this.transX=n),this.canvas.applyTransformParams(this.scale,this.transX,this.transY),this.markers&&this.repositionMarkers(),this.container.trigger("viewportChange",[this.scale/this.baseScale,this.transX,this.transY])},bindContainerEvents:function(){var e=!1,t,n,r=this;this.container.mousemove(function(i){return e&&(r.transX-=(t-i.pageX)/r.scale,r.transY-=(n-i.pageY)/r.scale,r.applyTransform(),t=i.pageX,n=i.pageY),!1}).mousedown(function(r){return e=!0,t=r.pageX,n=r.pageY,!1}),jvm.$("body").mouseup(function(){e=!1}),this.params.zoomOnScroll&&this.container.mousewheel(function(e,t,n,i){var s=jvm.$(r.container).offset(),o=e.pageX-s.left,u=e.pageY-s.top,a=Math.pow(1.3,i);r.label.hide(),r.setScale(r.scale*a,o,u),e.preventDefault()})},bindContainerTouchEvents:function(){var e,t,n=this,r,i,s,o,u,a=function(a){var f=a.originalEvent.touches,l,c,h,p;a.type=="touchstart"&&(u=0),f.length==1?(u==1&&(h=n.transX,p=n.transY,n.transX-=(r-f[0].pageX)/n.scale,n.transY-=(i-f[0].pageY)/n.scale,n.applyTransform(),n.label.hide(),(h!=n.transX||p!=n.transY)&&a.preventDefault()),r=f[0].pageX,i=f[0].pageY):f.length==2&&(u==2?(c=Math.sqrt(Math.pow(f[0].pageX-f[1].pageX,2)+Math.pow(f[0].pageY-f[1].pageY,2))/t,n.setScale(e*c,s,o),n.label.hide(),a.preventDefault()):(l=jvm.$(n.container).offset(),f[0].pageX>f[1].pageX?s=f[1].pageX+(f[0].pageX-f[1].pageX)/2:s=f[0].pageX+(f[1].pageX-f[0].pageX)/2,f[0].pageY>f[1].pageY?o=f[1].pageY+(f[0].pageY-f[1].pageY)/2:o=f[0].pageY+(f[1].pageY-f[0].pageY)/2,s-=l.left,o-=l.top,e=n.scale,t=Math.sqrt(Math.pow(f[0].pageX-f[1].pageX,2)+Math.pow(f[0].pageY-f[1].pageY,2)))),u=f.length};jvm.$(this.container).bind("touchstart",a),jvm.$(this.container).bind("touchmove",a)},bindElementEvents:function(){var e=this,t;this.container.mousemove(function(){t=!0}),this.container.delegate("[class~='jvectormap-element']","mouseover mouseout",function(t){var n=this,r=jvm.$(this).attr("class").baseVal?jvm.$(this).attr("class").baseVal:jvm.$(this).attr("class"),i=r.indexOf("jvectormap-region")===-1?"marker":"region",s=i=="region"?jvm.$(this).attr("data-code"):jvm.$(this).attr("data-index"),o=i=="region"?e.regions[s].element:e.markers[s].element,u=i=="region"?e.mapData.paths[s].name:e.markers[s].config.name||"",a=jvm.$.Event(i+"LabelShow.jvectormap"),f=jvm.$.Event(i+"Over.jvectormap");t.type=="mouseover"?(e.container.trigger(f,[s]),f.isDefaultPrevented()||o.setHovered(!0),e.label.text(u),e.container.trigger(a,[e.label,s]),a.isDefaultPrevented()||(e.label.show(),e.labelWidth=e.label.width(),e.labelHeight=e.label.height())):(o.setHovered(!1),e.label.hide(),e.container.trigger(i+"Out.jvectormap",[s]))}),this.container.delegate("[class~='jvectormap-element']","mousedown",function(e){t=!1}),this.container.delegate("[class~='jvectormap-element']","mouseup",function(n){var r=this,i=jvm.$(this).attr("class").baseVal?jvm.$(this).attr("class").baseVal:jvm.$(this).attr("class"),s=i.indexOf("jvectormap-region")===-1?"marker":"region",o=s=="region"?jvm.$(this).attr("data-code"):jvm.$(this).attr("data-index"),u=jvm.$.Event(s+"Click.jvectormap"),a=s=="region"?e.regions[o].element:e.markers[o].element;if(!t){e.container.trigger(u,[o]);if(s==="region"&&e.params.regionsSelectable||s==="marker"&&e.params.markersSelectable)u.isDefaultPrevented()||(e.params[s+"sSelectableOne"]&&e.clearSelected(s+"s"),a.setSelected(!a.isSelected))}})},bindZoomButtons:function(){var e=this;jvm.$("<div/>").addClass("jvectormap-zoomin").text("+").appendTo(this.container),jvm.$("<div/>").addClass("jvectormap-zoomout").html("&#x2212;").appendTo(this.container),this.container.find(".jvectormap-zoomin").click(function(){e.setScale(e.scale*e.params.zoomStep,e.width/2,e.height/2)}),this.container.find(".jvectormap-zoomout").click(function(){e.setScale(e.scale/e.params.zoomStep,e.width/2,e.height/2)})},createLabel:function(){var e=this;this.label=jvm.$("<div/>").addClass("jvectormap-label").appendTo(jvm.$("body")),this.container.mousemove(function(t){var n=t.pageX-15-e.labelWidth,r=t.pageY-15-e.labelHeight;n<5&&(n=t.pageX+15),r<5&&(r=t.pageY+15),e.label.is(":visible")&&e.label.css({left:n,top:r})})},setScale:function(e,t,n,r){var i,s=jvm.$.Event("zoom.jvectormap");e>this.params.zoomMax*this.baseScale?e=this.params.zoomMax*this.baseScale:e<this.params.zoomMin*this.baseScale&&(e=this.params.zoomMin*this.baseScale),typeof t!="undefined"&&typeof n!="undefined"&&(i=e/this.scale,r?(this.transX=t+this.defaultWidth*(this.width/(this.defaultWidth*e))/2,this.transY=n+this.defaultHeight*(this.height/(this.defaultHeight*e))/2):(this.transX-=(i-1)/e*t,this.transY-=(i-1)/e*n)),this.scale=e,this.applyTransform(),this.container.trigger(s,[e/this.baseScale])},setFocus:function(e,t,n){var r,i,s,o,u;if(jvm.$.isArray(e)||this.regions[e]){jvm.$.isArray(e)?o=e:o=[e];for(u=0;u<o.length;u++)this.regions[o[u]]&&(i=this.regions[o[u]].element.getBBox(),i&&(typeof r=="undefined"?r=i:(s={x:Math.min(r.x,i.x),y:Math.min(r.y,i.y),width:Math.max(r.x+r.width,i.x+i.width)-Math.min(r.x,i.x),height:Math.max(r.y+r.height,i.y+i.height)-Math.min(r.y,i.y)},r=s)));this.setScale(Math.min(this.width/r.width,this.height/r.height),-(r.x+r.width/2),-(r.y+r.height/2),!0)}else e*=this.baseScale,this.setScale(e,-t*this.defaultWidth,-n*this.defaultHeight,!0)},getSelected:function(e){var t,n=[];for(t in this[e])this[e][t].element.isSelected&&n.push(t);return n},getSelectedRegions:function(){return this.getSelected("regions")},getSelectedMarkers:function(){return this.getSelected("markers")},setSelected:function(e,t){var n;typeof t!="object"&&(t=[t]);if(jvm.$.isArray(t))for(n=0;n<t.length;n++)this[e][t[n]].element.setSelected(!0);else for(n in t)this[e][n].element.setSelected(!!t[n])},setSelectedRegions:function(e){this.setSelected("regions",e)},setSelectedMarkers:function(e){this.setSelected("markers",e)},clearSelected:function(e){var t={},n=this.getSelected(e),r;for(r=0;r<n.length;r++)t[n[r]]=!1;this.setSelected(e,t)},clearSelectedRegions:function(){this.clearSelected("regions")},clearSelectedMarkers:function(){this.clearSelected("markers")},getMapObject:function(){return this},getRegionName:function(e){return this.mapData.paths[e].name},createRegions:function(){var e,t,n=this;for(e in this.mapData.paths)t=this.canvas.addPath({d:this.mapData.paths[e].path,"data-code":e},jvm.$.extend(!0,{},this.params.regionStyle)),jvm.$(t.node).bind("selected",function(e,t){n.container.trigger("regionSelected.jvectormap",[jvm.$(this).attr("data-code"),t,n.getSelectedRegions()])}),t.addClass("jvectormap-region jvectormap-element"),this.regions[e]={element:t,config:this.mapData.paths[e]}},createMarkers:function(e){var t,n,r,i,s,o=this;this.markersGroup=this.markersGroup||this.canvas.addGroup();if(jvm.$.isArray(e)){s=e.slice(),e={};for(t=0;t<s.length;t++)e[t]=s[t]}for(t in e)i=e[t]instanceof Array?{latLng:e[t]}:e[t],r=this.getMarkerPosition(i),r!==!1&&(n=this.canvas.addCircle({"data-index":t,cx:r.x,cy:r.y},jvm.$.extend(!0,{},this.params.markerStyle,{initial:i.style||{}}),this.markersGroup),n.addClass("jvectormap-marker jvectormap-element"),jvm.$(n.node).bind("selected",function(e,t){o.container.trigger("markerSelected.jvectormap",[jvm.$(this).attr("data-index"),t,o.getSelectedMarkers()])}),this.markers[t]&&this.removeMarkers([t]),this.markers[t]={element:n,config:i})},repositionMarkers:function(){var e,t;for(e in this.markers)t=this.getMarkerPosition(this.markers[e].config),t!==!1&&this.markers[e].element.setStyle({cx:t.x,cy:t.y})},getMarkerPosition:function(e){return jvm.WorldMap.maps[this.params.map].projection?this.latLngToPoint.apply(this,e.latLng||[0,0]):{x:e.coords[0]*this.scale+this.transX*this.scale,y:e.coords[1]*this.scale+this.transY*this.scale}},addMarker:function(e,t,n){var r={},i=[],s,o,n=n||[];r[e]=t;for(o=0;o<n.length;o++)s={},s[e]=n[o],i.push(s);this.addMarkers(r,i)},addMarkers:function(e,t){var n;t=t||[],this.createMarkers(e);for(n=0;n<t.length;n++)this.series.markers[n].setValues(t[n]||{})},removeMarkers:function(e){var t;for(t=0;t<e.length;t++)this.markers[e[t]].element.remove(),delete this.markers[e[t]]},removeAllMarkers:function(){var e,t=[];for(e in this.markers)t.push(e);this.removeMarkers(t)},latLngToPoint:function(e,t){var n,r=jvm.WorldMap.maps[this.params.map].projection,i=r.centralMeridian,s=this.width-this.baseTransX*2*this.baseScale,o=this.height-this.baseTransY*2*this.baseScale,u,a,f=this.scale/this.baseScale;return t<-180+i&&(t+=360),n=jvm.Proj[r.type](e,t,i),u=this.getInsetForPoint(n.x,n.y),u?(a=u.bbox,n.x=(n.x-a[0].x)/(a[1].x-a[0].x)*u.width*this.scale,n.y=(n.y-a[0].y)/(a[1].y-a[0].y)*u.height*this.scale,{x:n.x+this.transX*this.scale+u.left*this.scale,y:n.y+this.transY*this.scale+u.top*this.scale}):!1},pointToLatLng:function(e,t){var n=jvm.WorldMap.maps[this.params.map].projection,r=n.centralMeridian,i=jvm.WorldMap.maps[this.params.map].insets,s,o,u,a,f;for(s=0;s<i.length;s++){o=i[s],u=o.bbox,a=e-(this.transX*this.scale+o.left*this.scale),f=t-(this.transY*this.scale+o.top*this.scale),a=a/(o.width*this.scale)*(u[1].x-u[0].x)+u[0].x,f=f/(o.height*this.scale)*(u[1].y-u[0].y)+u[0].y;if(a>u[0].x&&a<u[1].x&&f>u[0].y&&f<u[1].y)return jvm.Proj[n.type+"_inv"](a,-f,r)}return!1},getInsetForPoint:function(e,t){var n=jvm.WorldMap.maps[this.params.map].insets,r,i;for(r=0;r<n.length;r++){i=n[r].bbox;if(e>i[0].x&&e<i[1].x&&t>i[0].y&&t<i[1].y)return n[r]}},createSeries:function(){var e,t;this.series={markers:[],regions:[]};for(t in this.params.series)for(e=0;e<this.params.series[t].length;e++)this.series[t][e]=new jvm.DataSeries(this.params.series[t][e],this[t])},remove:function(){this.label.remove(),this.container.remove(),jvm.$(window).unbind("resize",this.onResize)}},jvm.WorldMap.maps={},jvm.WorldMap.defaultParams={map:"world_mill_en",backgroundColor:"#505050",zoomButtons:!0,zoomOnScroll:!0,zoomMax:8,zoomMin:1,zoomStep:1.6,regionsSelectable:!1,markersSelectable:!1,bindTouchEvents:!0,regionStyle:{initial:{fill:"white","fill-opacity":1,stroke:"none","stroke-width":0,"stroke-opacity":1},hover:{"fill-opacity":.8},selected:{fill:"yellow"},selectedHover
-:{}},markerStyle:{initial:{fill:"grey",stroke:"#505050","fill-opacity":1,"stroke-width":1,"stroke-opacity":1,r:5},hover:{stroke:"black","stroke-width":2},selected:{fill:"blue"},selectedHover:{}}},jvm.WorldMap.apiEvents={onRegionLabelShow:"regionLabelShow",onRegionOver:"regionOver",onRegionOut:"regionOut",onRegionClick:"regionClick",onRegionSelected:"regionSelected",onMarkerLabelShow:"markerLabelShow",onMarkerOver:"markerOver",onMarkerOut:"markerOut",onMarkerClick:"markerClick",onMarkerSelected:"markerSelected",onViewportChange:"viewportChange"};;jQuery.fn.vectorMap('addMap', 'europe_merc_en',{"insets": [{"width": 900.0, "top": 0, "height": 1000.9604273175629, "bbox": [{"y": -11469120.592856118, "x": -4159649.2860909165}, {"y": -3250621.673697606, "x": 3229902.613642692}], "left": 0}], "paths": {"BE": {"path": "M400.74,604.29l-0.53,-2.71l-0.54,-0.63l-1.78,-0.57l-2.13,-0.17l-0.39,-0.34l-0.52,-2.77l-0.72,-1.47l-1.1,-1.13l-0.38,-0.11l-1.14,0.27l-1.44,0.87l-0.87,0.25l-0.9,-0.69l-2.11,-2.57l-0.18,-0.59l0.24,-1.12l-0.86,-1.96l-0.11,-0.72l5.67,-3.5l3.55,-1.85l1.24,-0.42l0.35,1.54l0.39,0.7l0.62,0.5l0.83,-0.0l1.3,-0.85l1.19,0.2l0.86,0.39l1.05,0.92l1.15,0.17l2.08,-0.89l1.87,-1.34l0.76,-1.46l0.74,0.35l0.94,0.12l0.66,-0.29l0.19,-0.42l-0.22,-1.1l0.54,-0.5l0.48,-0.18l1.07,0.98l0.85,0.08l1.68,-1.39l0.34,0.46l0.12,0.79l0.21,0.3l0.58,0.23l1.3,-0.1l1.16,-1.18l0.54,2.22l1.66,1.65l1.66,0.52l2.16,-0.5l1.53,1.73l2.54,0.99l0.28,0.39l-0.09,0.64l-0.91,2.06l-0.08,1.01l-1.24,1.51l-0.16,0.93l0.73,1.48l0.43,0.22l1.63,-0.66l0.22,0.32l-0.5,-0.02l-0.41,0.39l0.39,0.41l2.41,0.08l1.66,1.4l0.54,0.94l0.78,0.61l-0.65,0.78l0.11,0.96l0.57,0.67l1.12,0.26l0.45,0.51l0.28,2.54l-2.36,1.63l-0.72,1.73l-1.65,-0.4l-0.41,0.13l-1.48,1.78l-1.12,2.64l-0.64,1.01l-0.26,2.39l0.9,1.25l1.15,2.2l-0.93,1.81l-0.99,-0.01l-2.53,0.59l-3.15,-3.48l-1.97,-0.86l-1.61,-1.2l-1.78,-0.28l-0.28,-2.28l-0.66,-1.01l0.91,-3.54l-0.17,-0.44l-0.57,-0.37l-0.39,-0.02l-0.73,0.38l-0.99,1.02l-0.66,1.89l-1.3,0.77l-2.26,0.3l-2.47,-0.3l-0.27,-0.38l0.63,-1.13l0.11,-0.87l-0.74,-1.24l0.43,-1.46l-0.06,-0.87l-1.77,-1.59l-1.45,-0.4l-2.33,-0.24l-0.8,0.21l-0.42,0.48Z", "name": "Belgium"}, "FR": {"path": "M467.37,761.27l0.82,-0.95l0.95,-2.17l1.24,-0.96l3.09,-0.99l1.23,-1.27l0.6,0.05l1.08,0.57l0.51,-0.04l0.35,-0.34l0.44,-1.15l-0.18,-1.04l0.1,-2.29l0.34,-1.07l0.24,-0.03l0.41,0.47l0.22,2.13l-0.31,3.82l0.26,0.79l0.7,1.12l0.41,7.09l-0.06,0.45l-2.01,3.69l-0.12,3.65l-0.25,0.85l-0.6,0.97l-1.03,2.98l-0.66,0.99l-2.15,-1.44l-1.44,-0.71l-0.96,-1.06l0.8,-1.11l0.2,-0.78l-0.24,-0.44l-2.04,-0.96l0.01,-0.46l0.51,-1.13l-0.22,-1.26l-0.41,-0.3l-1.24,-0.04l1.07,-1.47l0.06,-1.21l-1.58,-1.39l-0.21,-0.77l0.39,-0.5l0.84,-0.43l0.16,-0.57l-0.67,-1.09l-0.6,-0.2ZM334.27,716.57l0.62,-7.77l0.54,-3.46l0.77,-3.06l2.9,2.5l0.75,1.18l1.1,4.36l0.83,0.94l1.16,0.89l0.49,-0.01l0.11,-0.48l-0.46,-0.97l-0.8,-0.78l-1.22,-5.55l-0.81,-1.7l-1.34,-1.51l-3.86,-2.82l-0.27,-0.42l-0.09,-0.53l0.72,0.03l1.05,0.5l0.56,-0.45l-0.98,-3.56l-0.57,-7.56l-0.31,-0.33l-2.25,-0.31l-0.99,-0.42l-5.23,-3.17l-1.78,-3.26l-1.87,-2.49l-0.4,-0.96l0.03,-0.94l0.94,-2.26l-0.02,-0.35l-0.86,-1.47l-0.96,-0.44l-0.45,-0.45l0.51,-0.94l0.44,-0.63l0.86,-0.17l1.3,0.24l1.31,0.68l1.18,0.23l0.44,-0.25l-0.17,-0.48l-3.41,-1.95l-5.05,0.63l-1.72,-0.55l-0.25,-0.97l0.63,-0.57l0.66,-1.16l-0.05,-0.47l-0.75,-0.82l-1.14,-0.42l-2.89,0.21l0.67,-1.11l-0.12,-0.56l-0.73,-0.48l-2.6,0.42l-1.15,-0.35l-1.51,-1.53l-1.37,0.16l-0.87,-0.53l-0.91,-0.14l-0.6,0.13l-0.86,-0.78l-5.42,-1.72l-2.3,-0.21l-2.17,0.75l-0.91,-0.21l-0.73,-0.94l-0.91,-2.02l-2.94,-1.24l0.28,-0.39l1.49,-0.22l1.83,-0.65l0.84,-0.97l-0.09,-0.58l-1.43,-0.98l-1.1,-0.28l-0.54,-0.72l1.88,0.19l2.2,-0.22l0.25,-0.67l-0.82,-0.89l-1.51,-0.55l-1.79,-0.09l-0.89,0.3l-1.49,-0.09l-0.45,-1.38l0.49,-1.59l2.4,-1.53l6.28,-1.76l2.68,0.26l2.02,-0.33l2.4,-1.17l1.02,-0.96l3.04,-0.54l2.88,0.96l2.78,3.79l1.41,1.37l0.5,0.04l3.23,-2.21l4.66,0.06l0.91,1.14l0.69,-0.11l0.4,-1.04l0.64,-0.89l0.33,0.26l0.33,0.7l0.38,0.23l5.25,-0.22l0.92,-0.24l0.11,-0.72l-1.32,-0.87l-1.06,-2.05l-0.24,-8.12l-1.5,-2.48l-1.65,-3.65l-0.75,-2.13l0.11,-1.36l3.43,0.31l2.89,-0.79l1.06,0.42l-0.06,1.53l0.44,2.16l1.33,2.37l0.35,0.18l2.37,-0.11l2.66,0.69l3.28,0.11l5.03,1.18l2.18,-0.75l1.93,-1.44l3.73,-0.96l0.55,-0.7l-0.38,-0.6l-2.08,0.2l-1.74,-0.82l-0.2,-0.75l0.96,-2.77l5.65,-3.26l4.18,-1.0l4.36,-1.86l2.3,-1.97l1.51,-2.54l0.98,-0.91l0.1,-0.53l-0.49,-0.78l0.37,-9.34l0.38,-1.62l0.78,-1.3l1.22,-1.03l1.88,-1.13l7.17,-1.62l0.68,-0.39l0.91,2.43l-0.25,0.78l0.24,1.01l1.04,1.5l1.31,1.39l1.09,0.83l0.36,0.07l1.21,-0.37l1.31,-0.82l0.86,-0.2l0.81,0.82l0.66,1.35l0.2,1.52l0.44,1.48l0.82,0.62l2.14,0.17l1.47,0.43l0.27,0.27l0.53,2.7l0.37,0.56l0.57,0.07l0.75,-0.73l0.33,-0.04l2.14,0.23l1.15,0.28l1.54,1.38l-0.5,1.95l0.75,1.2l-0.08,0.63l-0.63,1.13l-0.02,0.47l0.23,0.48l0.48,0.36l2.78,0.39l2.64,-0.38l1.51,-0.89l0.82,-2.12l1.15,-0.96l0.14,0.09l-0.89,3.44l0.7,1.19l0.35,2.59l0.4,0.32l1.73,0.18l1.55,1.17l2.02,0.9l2.07,2.49l1.03,0.95l0.75,0.1l1.02,-0.37l2.11,-0.2l0.56,0.68l1.0,0.3l0.86,0.75l0.7,0.19l1.04,-0.19l0.75,-0.68l0.65,-0.23l0.63,0.07l1.34,0.83l0.7,-0.05l0.84,0.26l0.91,0.88l0.56,1.57l2.41,3.45l0.87,0.08l1.01,-0.96l0.31,-0.06l1.17,0.43l0.24,0.99l0.29,0.4l0.51,0.07l0.84,-0.24l1.24,0.28l3.11,-0.8l0.9,1.21l1.32,0.64l5.32,1.06l1.56,0.68l0.06,1.38l-4.08,5.17l-0.6,1.89l-0.4,2.77l-0.79,2.59l-1.22,2.56l-0.44,1.88l0.31,1.37l-0.19,1.86l-0.73,2.64l-0.14,2.09l0.68,1.69l-1.11,0.71l-0.93,1.7l-0.88,0.37l-1.62,0.02l-0.4,-0.76l-0.69,-0.41l-1.33,0.07l-1.26,0.82l-0.92,1.18l-0.05,0.4l0.29,0.66l1.04,0.49l-0.59,1.01l-3.55,4.13l-0.31,0.64l-2.89,1.62l-0.29,0.61l-0.36,3.2l-3.37,2.89l-1.4,3.71l0.83,1.17l-0.31,1.62l-0.69,0.69l-0.84,0.43l-0.22,0.36l0.02,1.24l0.26,0.37l0.65,0.2l1.25,-0.15l1.53,-0.9l1.1,-1.24l0.05,-0.45l-0.58,-1.09l1.13,-1.17l1.32,-0.66l1.9,-0.13l2.27,0.4l-0.07,0.63l0.23,1.09l0.4,0.73l-0.56,1.99l0.05,0.33l1.71,2.23l0.78,0.7l0.76,1.43l-0.87,0.9l-1.98,1.25l-0.23,0.8l0.05,0.88l0.34,0.79l0.96,0.73l1.81,3.3l1.74,1.74l-0.45,0.81l-0.48,1.93l-1.23,0.43l-1.73,1.42l-1.94,-0.13l-1.07,0.56l-0.2,0.39l0.1,0.96l0.83,1.06l0.71,2.02l0.98,0.8l2.2,0.66l0.63,2.08l-0.89,0.65l-1.59,3.18l0.64,1.71l-0.22,0.82l0.42,1.21l0.91,1.06l2.59,1.58l2.3,1.2l0.79,0.23l3.44,-0.73l0.4,1.16l-1.09,2.0l-1.48,1.92l0.08,1.79l-0.81,-0.18l-0.26,0.1l-0.47,0.73l-2.5,1.3l-4.33,4.15l-1.97,1.19l-0.54,0.88l-0.41,1.34l-1.07,1.05l-0.93,0.5l-2.59,0.59l-2.4,1.15l-1.16,-0.49l-2.85,0.05l-1.9,-1.47l-3.43,-0.9l-1.09,-2.02l-0.32,-0.21l-2.66,-0.08l-0.38,-0.19l-0.13,-1.19l-0.51,-0.38l-1.08,0.31l-1.01,0.05l-0.8,0.5l-0.8,-0.06l-0.3,0.45l-0.6,0.06l-4.44,-1.52l-2.06,-0.44l-0.69,-0.37l-0.73,-1.14l-1.16,-0.62l-2.13,0.7l-1.65,1.83l-7.11,4.99l-1.43,2.24l-1.51,3.07l-0.15,1.66l0.65,4.56l1.47,2.48l-2.59,-0.65l-1.27,0.19l-1.1,0.51l-1.61,0.42l-0.59,0.48l-0.23,0.67l-5.67,-1.43l-1.65,0.67l-0.82,0.54l-0.31,-0.05l-0.81,-1.21l-2.74,-1.31l0.33,-0.53l0.05,-0.58l-0.69,-0.9l-2.88,-0.72l-1.0,0.58l-0.79,-1.28l-0.93,-0.51l-1.23,-0.09l-2.65,-1.2l-3.33,-1.09l-0.98,-0.15l-0.8,0.43l-0.27,0.76l-0.12,1.69l-1.28,0.05l-1.87,-0.25l-1.59,0.13l-0.92,-0.48l-3.16,0.54l-2.05,-1.68l-1.47,-0.82l-0.75,-0.03l-0.76,0.36l-1.02,0.15l-1.27,-0.01l-2.48,-2.58l-2.3,-0.18l-4.56,-1.95l-0.09,-0.44l-0.51,-0.41l-0.46,0.22l-0.66,1.01l-0.36,-0.03l-0.39,-0.31l0.67,-1.19l0.26,-1.01l-0.04,-0.91l-0.19,-0.32l-0.97,-0.57l-2.09,-0.28l-1.07,-0.42l-0.43,-0.26l-0.43,-0.72l-0.01,-0.23l2.1,-0.62l2.07,-2.52l1.89,-8.61l1.35,-10.16l0.91,-1.75l1.14,-0.48l0.17,-0.6l-1.03,-1.42l-0.62,-0.03l-0.42,0.47ZM332.29,692.33l0.62,0.41l1.29,1.71l-0.17,0.6l-1.61,-2.11l-0.13,-0.61Z", "name": "France"}, "BG": {"path": "M662.06,779.7l0.29,-4.47l0.72,-1.97l-0.05,-0.73l-0.34,-0.49l-0.52,-0.26l-1.47,-3.96l-0.7,-0.68l-1.51,-0.6l-1.28,-0.79l-1.09,-1.05l-1.71,-2.22l0.72,-0.31l1.36,-2.03l0.19,-0.9l-0.22,-0.76l-0.64,-0.66l-0.42,-1.38l0.35,-1.45l0.03,-0.76l-0.32,-0.79l0.26,-0.66l0.98,-0.53l1.96,-0.1l0.31,-0.18l1.24,-1.83l0.8,-0.64l1.21,-1.55l0.5,-1.79l-0.16,-0.38l-1.53,-1.15l-1.32,-1.95l-2.83,-1.84l-0.67,-1.06l-0.35,-1.57l-1.06,-1.96l-0.32,-1.31l-0.05,-1.42l0.65,-2.45l2.31,-1.27l0.53,-2.35l0.69,-0.56l4.0,2.7l-0.42,0.66l-1.07,0.63l-0.66,0.92l-0.16,0.92l0.16,0.81l0.83,0.78l0.32,0.08l4.09,-0.73l4.13,0.37l5.62,1.25l3.78,0.44l2.81,-0.57l9.81,2.01l4.63,0.3l2.7,-0.78l1.88,-1.07l1.63,-2.0l3.74,-2.52l3.64,-1.42l4.81,-1.16l3.04,-0.38l4.52,2.7l1.98,0.06l1.32,0.37l0.46,0.53l0.53,0.26l1.96,-0.49l2.27,3.01l2.33,0.93l2.13,0.54l2.52,0.07l-0.28,3.98l-1.09,1.74l-1.9,-0.61l-2.52,0.58l-1.57,2.51l-1.43,1.52l-0.53,3.32l-0.1,4.8l-0.71,0.46l-1.03,0.31l-3.65,4.39l0.11,0.6l2.06,1.21l0.86,0.86l1.53,2.59l2.15,2.88l0.22,0.74l-1.32,-0.21l-0.64,0.1l-0.51,0.43l-1.75,-0.07l-1.67,0.7l-0.61,-0.36l-2.39,-2.37l-0.84,-0.35l-3.35,0.61l-1.82,1.24l-1.07,0.28l-2.65,0.24l-0.64,0.49l-0.8,2.02l-2.11,0.55l-0.45,0.52l-0.21,0.73l-1.3,-0.33l-1.48,0.47l-0.63,1.29l0.23,0.75l0.41,0.52l0.41,1.46l0.15,1.46l-0.2,0.68l-0.78,0.53l-1.79,0.65l-1.97,-0.3l-0.78,0.26l-2.65,0.28l-3.58,0.98l-1.53,-1.24l-1.96,-0.91l-1.99,-0.53l-1.14,0.56l-2.1,-1.36l-0.95,-1.84l-0.73,-0.28l-1.5,0.57l-4.42,-0.07l-0.37,0.29l-0.38,0.96l-1.79,0.09l-1.58,0.76l-1.64,0.45l-2.62,-0.21l-2.71,0.24l-1.28,1.13l-2.51,-0.18Z", "name": "Bulgaria"}, "DK": {"path": "M554.96,499.02l-0.26,0.21l-1.99,-0.59l-2.46,-1.48l0.36,-2.9l0.46,-0.91l4.45,3.23l0.05,1.08l-0.59,1.37ZM521.15,486.08l-0.25,-0.86l0.75,-1.06l0.34,1.24l-0.84,0.67ZM520.72,481.07l0.03,2.28l-0.27,0.55l-0.4,0.36l-1.35,0.49l-1.27,0.77l-1.14,1.37l-0.39,1.71l0.87,1.56l1.46,0.74l0.31,1.95l-1.02,0.97l-3.08,1.13l-0.26,0.33l-0.33,2.81l0.1,2.25l-0.28,3.52l-1.98,0.78l-1.45,-2.95l-0.03,-1.37l-0.48,-1.53l-0.1,-1.38l-0.58,-2.16l-0.29,-0.28l-2.47,-0.6l-1.09,-0.06l-1.23,0.32l-1.45,-2.74l0.25,-3.16l-0.85,-1.81l-0.08,-1.45l-0.81,-0.98l-0.77,-0.37l-0.29,-1.34l0.57,-0.27l2.37,0.2l0.83,-0.18l0.63,-0.39l2.05,-3.19l0.14,-1.41l1.58,-0.25l0.68,0.87l-0.17,1.79l0.12,2.42l0.21,0.33l1.85,0.79l0.46,-0.28l0.84,-2.54l0.56,-0.67l0.16,-1.79l-0.3,-1.0l-0.45,-0.59l2.03,-1.76l2.32,-1.54l1.24,-0.07l1.34,0.37l1.87,0.92l0.26,0.48l-0.8,1.61l-0.27,1.06l0.58,3.36ZM517.36,499.11l2.2,0.61l0.74,0.77l-2.0,-0.19l-2.42,1.56l-0.39,-0.23l0.38,-0.94l0.82,-0.49l0.66,-1.08ZM504.45,502.62l2.48,1.52l1.74,-0.02l0.86,0.47l0.29,2.5l-0.82,0.43l-1.38,-0.15l-1.55,0.7l-5.34,-3.16l0.24,-3.35l2.23,-0.22l1.26,1.28ZM500.22,444.71l-0.32,0.34l-1.16,-0.52l0.46,-0.65l2.1,-0.44l-0.67,0.58l-0.4,0.68ZM495.93,505.32l-0.8,-1.92l0.9,-1.17l0.6,-1.35l1.52,-2.01l-2.22,6.44ZM468.61,501.67l-0.42,-3.06l-0.75,-1.79l0.93,-0.36l0.25,-0.4l-0.25,-4.11l-0.49,-2.2l-3.84,-2.45l-2.69,-2.0l0.93,-8.99l-1.09,-3.94l0.56,-11.09l1.11,-0.15l2.53,1.23l1.03,0.14l0.64,0.97l1.01,0.6l0.54,-0.17l0.67,-1.33l0.23,-1.94l1.95,-2.52l2.06,-1.26l1.51,2.01l0.44,0.17l0.3,-0.36l0.79,-7.67l-0.25,-0.42l-1.96,-0.8l-1.91,0.69l-1.78,3.39l-1.35,3.83l-2.06,0.33l-1.75,1.05l-2.33,-1.9l-0.02,-1.3l0.21,-0.81l1.89,-3.21l2.46,-2.99l2.43,0.03l2.03,-1.02l1.03,-0.11l3.53,0.22l2.12,-0.8l1.72,-1.56l3.52,-6.16l1.89,-2.46l4.05,-0.96l3.66,-2.92l-1.29,1.68l-0.51,2.25l1.24,2.99l-0.25,1.7l0.09,3.29l-1.16,1.76l-1.3,3.68l-0.63,0.77l-0.18,9.37l1.46,1.9l1.55,0.93l4.82,0.03l0.88,1.58l-0.87,3.34l-1.29,1.2l-1.67,0.9l-0.82,0.03l-1.39,-1.7l-0.57,-0.05l-0.78,0.66l-0.82,1.1l-1.25,5.05l-0.57,3.25l-0.65,-0.38l-1.22,-0.04l-1.74,0.85l-0.08,0.65l0.75,0.69l0.67,1.01l-0.16,0.3l-1.36,0.71l-1.2,1.36l-0.52,1.04l-1.54,1.26l-0.95,1.54l1.01,5.62l-0.33,1.28l-1.81,2.03l-0.77,1.94l0.38,0.54l1.53,-0.02l0.85,0.36l0.51,0.47l0.44,0.55l-0.3,0.95l0.36,1.86l-1.27,-0.61l-1.64,0.37l-2.05,0.77l-0.95,-0.03l-0.98,-0.85l-3.84,-1.23l-2.9,-0.16ZM494.77,485.66l2.19,6.48l-0.41,1.1l0.28,1.73l-0.27,1.44l-1.98,1.73l-2.24,0.08l-2.46,-0.89l-3.43,-1.7l-0.24,-0.84l-0.54,-0.65l-0.92,-2.91l0.02,-3.41l1.58,-0.42l3.82,-1.75l0.68,0.21l1.14,0.97l1.1,0.05l1.66,-1.24ZM494.13,480.94l-0.33,-0.13l-0.07,-1.28l0.31,-1.35l-0.31,-1.36l1.08,1.96l-0.68,2.15ZM490.71,502.3l1.01,0.29l0.71,0.49l-0.45,0.12l-0.83,-0.41l-0.43,-0.49ZM483.61,498.7l2.32,1.66l0.74,1.8l-0.88,0.21l-0.75,-0.53l-1.03,-0.17l-0.39,-2.96Z", "name": "Denmark"}, "HR": {"path": "M540.53,702.53l1.22,0.52l4.01,-0.12l0.91,-0.6l1.57,-2.69l0.23,0.7l0.58,0.78l1.14,1.22l0.99,0.7l1.07,0.16l0.65,-0.44l0.53,-0.1l2.0,0.9l1.91,0.21l1.5,-0.52l0.25,-0.47l-0.74,-2.08l0.06,-0.41l0.76,-0.54l0.17,-0.39l-0.15,-0.5l-0.89,-0.91l2.12,-1.11l2.28,-0.7l0.64,-0.83l0.33,-2.44l-0.13,-1.33l-0.95,-1.3l0.14,-0.89l0.26,-0.4l1.9,-0.62l3.0,-1.43l0.95,-1.31l0.34,-0.13l1.86,0.07l0.48,-0.66l-0.21,-1.73l0.87,-0.67l1.2,0.17l1.86,0.75l2.35,1.32l1.59,1.44l0.9,1.62l1.32,1.39l1.63,0.96l1.18,1.17l1.02,1.66l1.3,0.88l1.77,0.25l0.87,0.44l0.48,0.89l0.9,0.8l1.45,0.77l2.3,0.44l4.38,0.11l1.08,0.21l2.53,-0.91l1.72,-2.04l0.65,0.11l1.95,-0.41l-0.06,0.46l-0.61,0.48l-0.1,0.51l0.73,1.3l0.66,1.99l-0.32,1.28l0.67,1.0l0.98,0.43l-0.49,0.98l0.08,1.58l1.31,1.29l3.14,1.32l0.66,0.66l0.14,0.41l-2.13,0.11l-0.84,-0.49l-0.59,0.26l-0.1,0.64l-0.63,0.2l-0.28,0.45l0.49,3.06l-0.16,0.7l-0.63,-0.04l-0.37,0.18l-0.19,0.82l-0.37,0.03l-1.26,-0.31l-0.48,-0.44l-0.13,-1.17l-0.45,-0.95l-1.47,-1.2l-2.31,-0.16l-2.74,-0.92l-2.11,0.26l-1.82,-0.41l-1.86,1.23l-0.56,-0.01l-1.55,-1.44l-0.69,-0.2l-2.03,0.81l-2.45,-0.83l-0.89,-0.13l-0.74,0.25l-0.95,-0.25l-2.74,-1.97l-0.5,0.03l-1.6,1.42l-3.35,-0.36l-0.33,0.12l-1.05,1.05l-1.23,2.02l-0.75,0.73l-0.54,-0.22l-0.92,-0.81l-1.73,-2.23l-1.03,-0.53l-1.29,-0.12l-0.89,0.25l-0.64,0.56l-0.8,6.43l-0.02,1.77l0.15,0.31l1.92,1.58l2.27,2.72l0.74,0.36l1.42,5.59l1.25,1.88l3.93,3.98l1.7,2.56l5.03,4.91l2.25,0.92l0.2,0.26l0.02,1.77l0.32,0.95l1.52,2.04l2.97,2.86l0.35,0.86l-0.53,0.37l-3.21,-3.09l-2.74,-1.81l-3.21,-3.45l-4.07,-1.33l-2.77,-1.47l-1.94,0.18l-1.87,0.46l-1.04,0.01l-0.62,-0.2l-0.43,-0.68l0.07,-0.66l-0.23,-1.18l-1.64,-1.49l-2.27,-1.44l-2.07,-1.79l-4.21,-4.91l-0.62,-1.16l1.07,-0.13l0.64,-0.29l1.03,-0.01l1.33,0.32l0.45,-0.21l-0.09,-0.48l-2.73,-2.12l-3.85,-4.11l-1.1,-1.86l-0.13,-2.01l0.29,-2.9l-0.72,-2.27l-3.1,-2.87l-1.26,-1.54l-2.23,-0.86l-1.17,0.06l-0.32,0.2l-0.64,1.19l-0.42,2.29l-3.54,5.99l-0.91,-0.0l-1.53,-2.81l-1.51,-2.21l-0.34,-2.31l-1.11,-4.59l0.29,-0.24l0.5,0.57l3.57,0.94l1.06,-0.45l0.68,-1.02ZM583.9,749.49l0.22,-0.0l0.37,0.18l-0.59,-0.18ZM585.83,750.3l4.5,2.14l-1.03,-0.23l-3.48,-1.91ZM591.15,752.63l0.21,-0.05l-0.02,-0.51l-0.36,-0.41l0.3,-0.1l0.55,0.16l0.59,1.06l2.4,1.66l-2.2,-1.45l-1.47,-0.36ZM598.83,757.38l1.49,0.61l0.07,0.58l-0.84,-0.58l-0.72,-0.6ZM573.91,745.84l0.82,-0.12l1.61,0.25l0.73,0.75l1.83,0.21l-1.98,-0.05l-1.67,-0.37l-1.34,-0.68ZM577.1,750.17l1.82,0.38l1.91,-0.23l1.77,0.43l-1.8,-0.21l-1.62,0.56l-1.33,-0.28l-0.74,-0.64ZM578.23,744.14l-2.02,0.05l-1.74,-0.32l-0.63,-0.4l0.03,-0.19l0.17,-0.5l1.74,0.08l3.02,0.55l0.37,0.32l-0.94,0.4ZM552.34,719.61l1.55,1.4l1.43,1.85l1.28,1.21l-0.34,0.31l-3.0,-2.95l-0.35,-1.02l-0.57,-0.81ZM551.12,716.23l-1.1,-0.31l-0.1,-0.25l0.21,-0.49l0.33,0.02l0.67,1.03ZM550.91,712.03l-0.95,0.23l-1.06,-1.3l-1.24,-0.17l-0.69,-0.69l0.92,-0.75l0.51,-1.07l2.51,3.76ZM545.03,709.15l0.08,0.85l-0.23,-0.75l0.15,-0.1ZM545.54,711.47l0.91,1.08l-0.18,1.84l0.2,2.75l0.25,0.98l-1.57,-4.47l-0.1,-0.56l0.44,-0.62l0.04,-1.0Z", "name": "Croatia"}, "DE": {"path": "M430.52,589.48l0.97,-0.07l2.67,-2.47l0.09,-0.38l-0.17,-0.43l-0.63,-0.32l-0.02,-0.54l1.21,-2.81l0.46,-2.14l-0.12,-1.07l-1.34,-2.34l-0.02,-0.74l-1.91,-2.83l0.0,-0.59l0.61,-0.52l1.94,-0.95l1.59,0.59l0.75,0.54l0.42,0.03l0.89,-0.68l1.27,0.06l3.04,-1.25l0.65,-0.78l0.41,-1.07l-1.19,-1.45l0.09,-0.61l1.65,-1.1l1.69,-1.57l0.67,-1.48l0.24,-2.68l-0.54,-1.13l-0.46,-0.56l-0.36,-0.14l-1.7,0.04l-0.97,-0.42l-0.5,-0.63l-0.1,-0.44l0.34,-0.98l-0.14,-0.82l0.27,-0.19l3.46,0.01l0.6,-0.57l0.3,-2.24l0.88,-3.13l0.86,-1.85l0.25,-7.2l-0.67,-1.24l-1.26,-1.07l0.68,-3.81l1.26,-2.09l0.9,-0.52l4.55,-0.36l4.92,0.14l1.91,3.01l-0.7,1.53l0.15,0.5l1.25,0.8l0.39,0.02l0.6,-0.29l0.21,-0.24l0.87,-3.24l1.24,0.97l0.46,0.7l0.03,2.62l0.37,0.39l0.42,-0.34l0.59,-3.71l-0.43,-2.68l0.29,-2.41l1.01,-1.82l3.66,0.85l4.04,-0.45l1.39,0.86l3.63,4.91l1.35,0.86l1.5,0.25l0.45,-0.27l-0.2,-0.48l-1.99,-1.0l-4.4,-5.97l-1.45,-0.79l-1.93,-0.22l-1.11,-0.52l-0.67,-0.77l-0.19,-0.67l-0.05,-6.23l-0.75,-0.9l-1.15,-0.44l-0.85,0.39l-0.78,0.0l-0.18,-0.95l0.21,-0.71l2.27,-0.64l1.73,-0.97l0.2,-0.33l0.07,-1.65l-1.1,-1.54l-1.22,-2.36l-1.42,-2.2l-0.13,-2.09l2.64,0.13l3.72,1.2l1.13,0.91l1.33,0.01l2.1,-0.79l1.37,-0.31l0.62,0.45l0.82,0.2l0.3,0.43l1.87,0.59l1.6,2.28l0.08,1.92l-2.05,2.39l-0.08,0.45l0.4,0.23l3.43,-0.34l0.85,1.63l0.47,0.18l1.84,-0.63l4.88,2.75l0.36,0.02l3.37,-1.4l0.56,1.86l-0.69,2.09l-2.61,2.38l-0.1,0.44l0.59,1.51l1.08,0.56l2.63,-0.28l3.91,1.46l0.33,-0.03l0.93,-0.54l3.21,-3.39l1.18,-0.67l4.19,-0.52l0.3,-0.2l0.74,-1.27l1.74,-1.37l1.1,-1.45l2.51,-2.63l5.75,1.25l1.62,2.93l4.08,3.29l3.74,-0.18l1.2,2.79l0.69,3.98l2.21,2.01l3.07,0.85l0.5,3.73l1.57,6.19l-0.05,1.81l-0.55,2.02l-0.95,1.66l-1.28,0.95l-0.84,1.21l-0.2,1.41l1.83,2.5l3.48,3.02l1.31,2.4l-0.62,2.01l-0.21,1.81l0.32,1.14l0.57,0.81l0.87,0.64l0.27,0.73l-0.16,1.17l0.17,1.01l0.6,0.68l-0.99,3.62l-1.01,1.83l0.33,1.44l1.36,2.39l0.15,0.59l-0.36,1.71l0.21,0.69l2.55,1.47l0.3,0.46l1.06,3.83l-0.69,3.28l-0.61,1.82l-1.6,3.52l-0.29,0.35l-0.32,0.04l-1.13,-0.64l0.12,-1.06l-0.89,-1.06l-0.34,-1.02l-0.67,-0.4l-2.47,-0.58l-0.78,0.18l-0.57,0.76l-0.03,0.37l0.63,1.12l0.82,0.67l-2.02,0.72l-1.4,0.81l-1.38,0.49l-1.32,0.83l-2.59,0.93l-2.08,0.3l-0.56,0.43l-0.69,1.52l-0.23,0.16l-0.95,-0.35l-1.0,0.78l-1.04,0.35l-0.68,1.25l-2.05,0.39l-0.3,0.26l-0.68,1.48l-2.3,-0.48l-1.01,0.49l-2.21,0.38l-1.39,1.01l-1.28,1.63l-0.71,1.41l-0.39,-0.81l-1.35,-1.45l-0.75,-0.1l-0.34,0.18l-0.19,0.41l0.03,0.87l0.52,1.17l0.63,0.8l0.51,1.74l1.03,1.25l1.43,0.9l0.93,0.84l0.66,1.12l-0.15,0.59l-1.44,2.36l-0.03,0.37l0.32,0.67l1.2,1.48l1.76,3.68l0.7,1.04l1.86,1.85l1.5,0.08l1.31,1.32l1.63,2.16l1.18,0.97l0.85,0.33l0.58,0.65l0.91,1.79l0.82,0.55l1.28,-0.07l1.73,1.59l1.6,2.01l-0.17,2.9l-0.15,0.56l-0.71,0.79l-0.49,0.25l-2.32,-1.09l-0.46,0.08l-0.47,0.56l-0.67,3.4l-0.4,0.56l-0.62,0.54l-3.19,1.12l-2.56,1.48l-1.17,0.9l-0.82,1.19l-0.01,1.07l2.56,3.67l0.01,1.45l-0.75,1.71l0.22,0.48l1.69,0.42l0.19,0.61l-0.42,3.13l-1.34,-0.53l-0.88,-0.67l-0.25,-0.3l0.14,-0.9l-0.34,-0.65l-1.33,-0.77l-2.78,0.61l-0.64,-0.55l-0.98,-0.45l-2.11,-0.61l-0.61,0.29l-0.13,1.7l-6.22,0.72l-1.94,0.68l-1.45,0.89l-1.01,0.37l-0.43,0.65l-0.88,0.6l-0.9,0.17l-0.55,-0.17l-1.89,0.6l-0.58,-0.07l-1.08,-1.3l-0.22,-0.73l-0.38,-0.43l-1.71,-0.08l-1.23,-0.47l-2.31,0.11l-0.52,-0.17l-0.6,0.39l-0.4,2.58l-0.43,0.93l-0.69,0.96l-1.06,0.53l0.2,-1.15l-0.25,-0.46l-1.53,-0.42l0.04,-0.69l-0.67,-1.05l-2.74,-1.63l-1.22,-0.47l-0.44,0.1l-1.12,0.86l-1.25,-0.15l-0.38,0.13l-4.42,-2.82l-4.12,0.21l-0.69,-0.89l-0.86,-0.27l-0.55,0.32l-1.4,-1.25l-0.76,-0.28l-1.2,0.23l-1.13,0.86l-0.44,0.88l0.1,0.79l0.75,0.49l0.66,-0.02l-0.68,0.41l-0.31,0.08l-1.19,-0.33l-1.76,0.0l-1.52,0.63l-2.17,0.24l-3.01,-0.12l-1.57,-0.64l-0.4,-1.11l0.12,-1.89l0.74,-2.69l0.21,-1.96l-0.32,-1.3l0.41,-1.74l1.21,-2.53l0.81,-2.65l0.41,-2.83l0.55,-1.72l4.06,-5.1l0.02,-2.07l-0.27,-0.36l-1.85,-0.78l-5.27,-1.05l-1.02,-0.45l-0.95,-1.28l-0.31,-0.16l-0.79,0.01l-2.62,0.78l-1.16,-0.28l-0.93,0.15l-0.43,-1.19l-1.76,-0.61l-0.56,0.12l-0.6,0.69l-0.39,0.27l-0.23,-0.05l-2.06,-3.12l-0.64,-1.68l-1.19,-1.1l-1.24,-0.33l0.42,-2.45l0.36,-0.88l1.1,-1.46l0.03,-1.99l-0.31,-0.35l-2.09,-0.79l-0.85,-0.66l-1.52,-2.05l-0.35,-1.15l-0.02,-1.17l0.84,-2.71l2.47,-1.7l0.17,-0.39l-0.31,-2.84l-0.72,-0.97l-1.3,-0.38l-0.21,-0.31l-0.06,-0.22l0.78,-0.93l-0.06,-0.57l-1.04,-0.81l-0.55,-0.96l-1.52,-1.24l0.67,-3.48l-0.68,-1.1l-0.7,-0.49l-0.82,-0.26l-0.3,-0.54ZM542.83,524.91l0.1,0.73l-1.73,0.25l-1.34,-0.3l-0.24,-1.05l0.18,-1.56l-1.23,-1.42l-0.06,-0.63l4.44,3.5l-0.12,0.48ZM536.23,514.51l0.19,1.47l-1.39,-1.07l-1.53,0.02l-0.36,0.24l-0.82,1.84l-0.29,0.04l-2.15,-1.69l-0.38,-1.4l0.28,-3.31l0.73,-1.0l0.1,-1.16l1.11,-1.16l0.7,-0.03l0.33,0.98l0.56,0.8l2.03,0.99l0.19,0.27l0.09,0.3l-0.82,1.0l-0.34,0.88l0.45,1.11l1.32,0.9ZM503.24,513.06l-1.47,0.03l-0.67,-0.79l-0.58,-0.24l0.24,-0.64l0.29,-0.22l1.65,0.62l0.53,1.24ZM463.5,503.23l0.05,-1.19l0.23,-0.56l0.12,0.74l0.37,0.33l2.12,0.12l-2.59,0.32l-0.31,0.24ZM466.68,506.44l-0.26,0.28l-0.98,-0.05l-0.38,-0.28l0.57,-0.5l0.39,-0.05l0.56,0.18l0.1,0.42Z", "name": "Germany"}, "BA": {"path": "M580.15,707.05l2.68,1.89l1.16,0.3l0.81,-0.25l0.75,0.11l2.54,0.85l0.75,-0.09l1.33,-0.72l2.09,1.62l1.06,-0.05l1.55,-1.14l1.71,0.39l2.05,-0.28l2.67,0.91l2.34,0.17l0.97,0.84l0.38,0.79l0.25,1.39l0.83,0.7l1.42,0.35l1.5,-0.11l1.3,-0.56l1.28,-0.25l1.19,0.48l-0.23,1.56l-0.56,1.54l-1.92,3.28l-0.27,0.93l-0.18,2.47l0.5,1.2l1.23,0.56l1.38,0.98l3.19,3.3l-0.0,0.29l-0.25,0.24l-1.18,0.15l-2.09,-0.26l-0.66,0.29l-0.31,0.35l-0.07,0.42l3.28,4.9l0.08,0.98l-0.18,0.77l-0.21,0.34l-1.05,-0.55l-0.88,0.04l-0.85,0.27l-0.68,0.8l-1.39,0.28l-1.33,-0.42l-0.69,0.39l-0.24,1.02l1.26,2.52l-0.09,0.8l-0.77,-0.92l-0.67,-0.18l-0.84,0.13l-2.52,2.33l-0.72,2.03l0.01,1.54l-1.66,0.3l-0.53,0.44l-0.22,0.55l0.27,3.74l1.05,1.97l0.03,0.43l-1.04,1.13l-1.65,-0.64l-2.39,-1.64l-3.77,-2.81l-0.73,-1.17l-0.84,-0.25l-1.04,0.28l-0.39,-0.27l0.55,-0.64l-0.1,-0.86l-0.43,-0.78l-3.0,-2.88l-1.42,-1.91l-0.2,-0.59l-0.1,-2.08l-0.52,-0.59l-2.14,-0.84l-4.93,-4.82l-1.7,-2.56l-3.91,-3.95l-1.11,-1.63l-1.12,-4.83l-0.38,-0.96l-0.86,-0.5l-2.23,-2.68l-1.85,-1.53l0.68,-7.55l0.3,-0.29l0.72,-0.2l0.87,0.08l0.73,0.34l1.74,2.24l1.0,0.88l0.96,0.41l0.43,-0.09l0.97,-0.95l1.24,-2.03l0.88,-0.88l3.34,0.36l1.8,-1.42Z", "name": "Bosnia and Herzegovina"}, "HU": {"path": "M573.97,659.39l1.36,-1.19l0.31,-0.04l0.62,0.19l1.3,1.02l0.65,0.22l0.75,-0.31l1.89,-0.01l1.35,-0.25l0.31,-0.49l-0.47,-2.54l0.09,-0.51l0.54,-0.7l0.14,-1.14l0.82,-0.75l1.21,0.14l0.49,0.25l2.14,2.02l2.13,1.6l1.95,0.88l5.24,0.14l7.85,-0.48l0.32,-0.2l0.73,-1.34l-0.35,-1.08l0.02,-0.76l0.48,-1.05l1.48,-0.91l4.67,-0.44l2.81,-0.78l0.65,-1.22l0.78,-0.89l0.58,-0.15l2.39,1.34l1.51,0.48l5.93,-3.36l2.24,-4.74l1.8,-0.41l2.92,0.08l2.82,0.82l1.75,-0.1l2.56,-0.88l0.72,0.02l1.4,1.06l1.11,1.87l1.02,1.16l0.79,0.28l4.87,-1.12l0.36,-0.25l1.14,-0.11l0.82,2.29l0.51,0.73l1.17,0.4l1.17,0.69l0.97,1.52l1.38,0.63l1.11,-0.09l0.79,0.82l0.2,0.43l-0.12,0.68l0.28,1.0l-2.45,2.64l-0.83,0.59l-0.44,0.1l-1.06,-0.24l-1.0,0.2l-0.96,0.55l-0.96,0.27l-2.41,3.12l-0.96,0.68l-0.6,0.71l-0.15,2.29l-1.64,1.74l-1.17,3.36l-1.72,2.0l-0.13,1.57l-2.12,3.43l-0.24,0.95l0.21,0.74l-2.31,1.85l-0.94,2.45l0.14,1.32l-0.95,0.53l-0.53,1.65l-1.26,1.0l-2.6,-0.32l-1.19,0.27l-0.9,1.55l-0.97,0.62l-1.53,-0.61l-3.08,0.66l-0.46,0.34l-1.03,-0.52l-3.08,-0.38l-1.3,0.3l-3.01,-0.44l-1.3,0.28l-1.64,1.86l-1.88,1.16l-0.82,0.31l-0.64,-0.04l-0.71,-0.5l-0.4,-0.04l-0.48,0.32l-0.56,0.81l-1.04,0.48l-1.32,0.41l-2.47,0.21l-1.68,2.06l-2.17,0.77l-0.89,-0.21l-4.41,-0.11l-2.03,-0.37l-1.27,-0.67l-0.81,-0.72l-0.58,-0.99l-1.19,-0.58l-1.57,-0.18l-1.14,-0.77l-0.95,-1.58l-1.34,-1.31l-1.54,-0.89l-1.18,-1.22l-0.99,-1.74l-1.75,-1.57l-3.02,-1.6l-1.75,-2.57l-0.0,-0.88l-0.66,-0.85l-0.33,-1.94l-0.39,-0.72l-0.33,-0.2l-1.68,-0.08l1.48,-1.48l0.92,-0.52l1.34,0.06l0.6,-0.43l0.55,-2.37l-0.15,-0.56l-0.64,-0.31l-0.21,-1.14l0.59,-1.14l-0.32,-2.08l0.81,-0.11l1.52,-0.89l0.86,-1.94l-0.48,-1.76l-0.25,-0.25l-2.5,-0.85Z", "name": "Hungary"}, "JO": {"path": "M831.52,949.1l0.58,-3.75l0.44,-1.69l0.83,-1.68l-0.37,-3.48l0.04,-1.82l0.5,-2.26l-0.28,-2.5l0.23,-3.56l0.41,-0.71l1.55,-0.7l0.59,-0.08l1.29,0.3l0.72,0.65l1.37,2.1l2.34,0.77l2.13,1.76l1.5,0.42l4.88,0.65l26.06,-16.74l3.62,13.32l-0.67,0.21l-0.26,0.5l0.81,2.68l0.5,0.27l2.42,-0.64l0.41,1.14l-3.77,3.56l-0.39,0.16l-27.16,8.02l-0.18,0.65l7.06,7.67l6.48,7.64l-4.17,2.52l-2.33,5.15l-9.58,2.0l-0.86,0.61l-3.15,5.31l-5.4,4.48l-0.55,0.12l-13.96,-2.45l0.34,-1.63l-0.11,-1.17l1.27,-6.52l0.98,-2.53l0.02,-4.51l4.02,-11.13l-0.49,-1.73l0.27,-1.39Z", "name": "Jordan"}, "DZ": {"path": "M466.68,857.43l0.21,1.11l-1.91,1.1l-1.15,2.27l-1.81,1.41l-0.47,0.77l0.23,0.74l1.18,0.62l0.49,1.18l-1.38,8.28l0.01,1.22l0.97,2.56l0.14,1.12l-0.17,2.95l1.02,3.29l-1.03,1.83l-0.52,1.83l-0.43,4.05l-1.56,2.64l-0.98,0.79l-2.8,1.68l-1.33,2.64l-2.56,2.07l-0.62,0.8l-0.32,1.89l0.06,2.42l0.5,2.03l1.26,2.74l1.09,2.99l0.36,1.65l0.53,0.67l4.21,2.32l0.43,0.47l1.29,2.01l1.24,3.64l0.54,2.68l4.74,3.75l4.51,3.25l0.26,0.4l6.36,28.86l-2.6,1.66l-0.12,0.53l3.2,5.0l1.26,2.45l1.42,4.12l1.0,3.91l0.29,2.24l-0.36,6.31l0.62,8.2l-250.76,0.0l0.0,-9.15l0.21,-1.23l1.33,-0.75l3.96,-3.28l3.6,-2.35l4.25,-3.37l0.73,-0.35l1.98,-0.32l3.41,-2.85l1.14,-0.64l3.72,0.29l2.99,0.51l0.69,-0.17l0.64,-0.54l0.61,-0.87l0.32,-2.33l3.51,0.14l2.92,-0.33l3.15,-0.6l4.43,-1.38l2.23,-1.66l1.59,-1.74l2.87,-4.67l2.45,-1.3l6.17,-2.3l4.58,-3.38l3.74,-0.48l0.72,-0.43l0.65,-0.84l-0.07,-1.31l-0.77,-0.81l-1.94,-1.09l0.22,-1.59l0.36,-0.97l-0.1,-1.2l-0.72,-2.05l0.23,-1.21l1.4,-0.48l1.34,0.2l2.32,-0.3l5.73,-2.07l0.65,-0.91l0.73,-2.54l0.67,-0.37l5.54,-0.87l15.89,0.66l0.84,-0.33l0.24,-0.37l-0.02,-1.03l-0.46,-1.6l0.24,-0.85l2.27,-2.01l0.11,-0.47l-0.72,-1.49l-3.29,-2.45l-1.25,-1.24l-0.75,-1.39l-0.54,-3.1l-1.04,-1.87l-0.69,-2.06l0.63,-3.94l-0.98,-2.61l-0.14,-0.99l0.29,-3.4l-0.19,-3.04l-1.12,-3.1l0.75,-1.72l-0.2,-0.7l-1.0,-0.96l-0.34,-0.63l0.71,-1.69l-0.01,-0.69l-4.68,-3.87l-0.72,-0.88l-0.18,-0.57l2.12,0.25l1.51,-0.15l3.37,-1.51l2.63,-2.02l2.1,-1.11l1.75,-2.16l1.55,-1.34l2.26,-1.47l6.57,-3.18l0.86,-0.02l2.3,0.73l2.13,-0.32l1.4,-1.25l1.37,-2.65l2.09,-1.6l2.71,-1.65l3.72,-1.58l2.46,-1.47l3.79,-1.25l9.68,-0.81l4.98,-0.72l3.36,0.16l3.65,-2.39l1.61,-0.72l7.35,-0.18l3.59,-1.71l13.12,-0.0l1.53,0.54l1.53,0.89l2.81,2.27l1.59,0.49l1.83,-0.49l4.04,-2.08l4.64,-1.12l2.5,-1.26l1.15,-1.85l1.75,-0.55l1.23,1.33l4.77,1.42l3.1,-0.39l1.36,-0.44l0.26,-0.47l-0.33,-1.52l2.46,0.45l2.28,0.97l2.45,1.99l1.77,0.48l3.11,-0.91l5.73,-0.43Z", "name": "Algeria"}, "_1": {"path": "M795.47,887.17l1.26,-0.3l0.28,-0.24l0.63,-1.62l0.18,-1.53l4.6,0.73l2.05,0.09l2.1,-0.31l6.25,-2.01l1.81,-1.22l3.23,-1.46l-7.04,5.0l-0.61,1.93l0.32,1.03l0.42,0.57l-0.81,-0.29l-1.27,0.77l-1.5,0.46l-1.87,-0.33l-0.57,0.29l-0.13,-1.16l-0.43,-0.66l-0.66,-0.48l-1.98,0.03l-0.72,-0.25l-1.82,0.45l-2.09,0.94l-1.61,-0.44Z", "name": "Northern Cyprus"}, "JE": {"path": "M322.87,627.69l-0.04,0.58l-0.56,-0.31l-1.5,0.11l0.1,-0.9l1.39,0.17l0.62,0.36Z", "name": "Jersey"}, "FI": {"path": "M730.74,49.41l3.04,4.0l2.03,2.01l5.27,3.58l4.53,2.3l2.5,7.41l-1.21,2.89l-2.89,4.06l-2.47,4.41l-0.16,2.38l0.8,2.22l0.79,1.18l-5.04,3.34l-2.02,0.89l-0.2,0.53l0.54,1.2l0.34,0.24l3.32,0.25l0.65,0.69l0.05,0.83l-0.33,1.5l-3.69,8.68l-0.15,1.95l1.23,5.19l1.7,5.92l9.02,4.84l2.41,4.73l4.03,6.3l2.1,2.31l0.09,0.55l-0.61,4.16l-4.97,7.82l-4.47,7.99l-2.13,4.38l-0.32,2.91l0.41,1.66l2.71,5.27l2.31,5.56l1.07,3.11l0.64,2.85l1.09,2.72l3.14,6.19l2.49,10.08l0.2,1.93l-0.08,1.19l-0.62,0.25l-2.05,0.26l-2.15,0.96l-0.32,0.56l0.06,0.37l1.27,1.65l-1.18,3.04l-0.18,4.35l-1.28,2.24l-0.17,0.79l0.12,0.62l0.47,0.52l2.24,0.57l0.13,1.56l-0.18,1.0l-1.15,0.84l-1.43,1.5l-0.29,1.21l0.03,1.19l0.48,1.95l0.87,2.11l1.17,1.43l3.95,1.32l0.41,0.82l0.2,1.31l-0.07,1.23l-1.77,2.66l-0.04,1.39l1.66,5.0l3.94,2.79l1.23,1.33l0.31,1.02l0.18,1.77l-0.02,1.93l-0.28,1.66l-3.89,6.54l-2.72,1.67l-0.32,0.55l0.02,0.38l0.91,1.47l4.93,5.64l7.58,6.2l2.73,2.72l2.1,4.17l2.33,3.36l0.33,0.89l-0.03,0.93l-1.28,3.18l-2.05,6.14l-1.31,2.49l-3.38,4.58l-5.04,5.74l-3.52,4.71l-8.34,11.97l-2.68,2.9l-3.26,4.42l-6.92,6.41l-1.07,1.6l-3.47,2.96l-8.18,9.89l-0.51,0.14l-1.17,0.87l-1.85,0.21l-0.83,0.61l-2.74,-1.86l-0.83,-0.18l-1.91,0.59l-1.6,1.4l-3.06,0.45l-1.55,0.48l-0.55,0.36l-0.11,-0.89l0.4,-1.93l0.7,-1.47l0.06,-0.89l-0.47,-0.42l-0.5,0.09l-0.29,0.22l-1.0,2.01l-0.54,2.33l-0.91,1.0l-2.03,0.42l-2.14,-1.76l-1.35,-0.07l-0.35,0.58l0.67,1.32l0.4,1.7l-1.07,-0.03l-1.36,0.88l-1.15,1.23l-0.14,0.0l-0.69,-1.56l-0.56,-0.18l-1.47,0.84l-1.23,1.1l-2.65,0.44l-1.46,1.42l-2.54,0.94l-1.54,0.0l-3.37,1.2l-1.28,1.94l-0.73,0.51l-1.43,-0.51l-4.31,0.9l-4.08,1.17l-1.64,-0.06l-1.71,-0.48l-0.37,0.09l-1.89,1.67l-1.9,2.11l-1.94,0.7l-0.2,-0.07l0.36,-0.67l1.46,-1.24l0.99,-1.61l0.19,-1.51l-0.15,-0.35l-0.68,-0.53l-0.96,-0.22l-1.03,-1.23l-1.09,-2.96l-0.27,-0.25l-0.61,-0.17l-0.48,0.24l-0.33,0.88l-0.33,2.26l-0.81,1.01l-1.22,0.7l-2.11,-0.03l-0.23,-1.21l0.43,-1.49l-0.3,-0.54l0.19,-0.62l1.1,-0.16l0.65,-1.03l-0.03,-0.75l-0.32,-0.38l-0.7,-0.25l0.84,-2.1l0.12,-0.59l-0.25,-0.46l-0.63,-0.11l-0.43,0.18l-3.37,-0.63l-4.33,-2.69l-0.98,-0.16l-0.59,-2.19l-0.5,-0.28l-1.22,0.4l-1.27,1.18l-0.96,-0.89l-1.11,-0.64l-0.28,-0.91l-0.09,-3.58l-0.59,-5.55l0.22,-2.46l0.96,-1.84l0.41,-1.28l0.48,-3.18l0.11,-3.71l-0.23,-1.7l0.42,0.0l0.39,-0.49l-0.17,-0.72l-0.66,-1.07l0.82,-0.11l0.37,-0.29l0.18,-0.9l-0.72,-2.1l-0.1,-1.07l-2.19,-6.11l-1.7,-2.12l1.29,-6.59l-0.13,-1.68l-0.39,-2.15l-2.04,-1.99l-0.82,-5.97l0.19,-1.88l0.33,-1.44l0.67,-1.42l3.53,-4.71l0.27,-2.35l2.07,-0.16l0.33,-0.58l-1.09,-2.18l-0.29,-2.29l2.99,-0.87l1.48,0.77l3.16,-1.08l2.7,-2.0l0.16,-0.34l-0.05,-1.06l-0.94,-2.69l0.09,-0.12l0.71,0.27l0.44,-0.1l0.06,-0.45l-0.4,-0.82l0.03,-0.33l0.58,0.22l0.48,-0.16l1.76,-2.7l0.12,-2.0l2.96,-1.12l3.48,-4.22l3.21,-2.33l3.23,-4.15l1.26,-0.18l0.33,-0.3l0.71,-2.82l2.73,-3.74l0.96,-0.66l1.3,-3.44l3.49,-4.12l2.19,-5.18l1.2,-1.83l0.38,-1.84l1.06,-0.13l1.41,-1.52l2.45,-0.95l2.42,0.26l1.31,0.7l1.0,-0.22l0.31,-0.41l-0.1,-1.79l-0.65,-1.1l0.42,-0.76l1.28,-0.75l0.2,-0.38l-0.14,-1.79l-0.31,-1.15l-1.11,-1.44l0.54,-3.05l0.14,-3.59l0.54,-4.11l-1.61,-2.58l-5.46,-3.75l-1.19,0.05l-0.96,-0.37l-1.14,-2.58l0.61,-3.31l-0.42,-0.43l-0.8,0.21l-0.77,1.15l-1.5,1.18l-2.04,-0.95l-0.98,0.12l-1.36,-5.78l-1.93,-5.33l-2.17,-1.56l-0.34,-0.68l-0.26,-1.17l-0.36,-4.28l0.11,-2.06l0.23,-1.11l0.9,-0.87l1.36,-2.54l0.39,-4.46l0.58,-2.27l0.69,-1.42l-0.67,-2.43l-3.56,-6.55l-0.47,-2.07l-0.24,-1.86l0.04,-1.65l0.37,-1.05l1.36,-1.44l0.28,-0.8l-0.55,-3.51l-1.31,-0.93l-2.47,-0.43l0.14,-1.84l0.95,-2.51l0.09,-0.99l-0.56,-3.0l-0.17,-3.54l0.18,-2.67l1.69,-1.99l0.17,-0.98l-0.11,-0.32l-2.2,-2.25l-1.56,-2.51l-0.49,-1.47l-0.33,-0.27l-1.58,-0.2l-1.15,-4.3l-3.36,-4.08l-1.07,-0.94l-5.7,-2.69l-2.29,-0.53l-2.59,-1.52l-1.96,-1.95l-1.73,-1.29l-1.5,-1.61l-1.96,-1.42l-0.61,-1.28l-2.18,-2.33l-1.1,-1.61l-3.47,-2.84l-0.14,-2.09l-0.36,-0.8l-3.36,-1.96l0.41,-0.7l2.58,-0.07l2.31,1.09l0.44,-0.07l0.64,-0.66l0.32,-1.22l-1.0,-3.94l0.15,-0.86l0.94,-1.13l1.53,-0.93l2.51,-0.14l1.92,0.2l9.1,15.58l1.09,2.91l0.37,2.09l0.4,0.33l1.17,-0.01l7.57,1.67l0.9,1.08l0.35,0.14l2.44,-0.24l2.01,-1.1l3.29,-1.34l2.05,-3.39l1.6,0.23l4.44,3.19l5.02,2.2l1.5,1.79l1.88,0.49l0.36,-0.09l2.1,-1.93l1.16,-4.65l0.99,-2.01l1.36,-1.44l3.04,-1.02l1.01,-1.27l1.38,-2.68l0.31,-3.41l-0.26,-5.94l0.24,-1.89l1.13,-3.24l1.51,-8.58l0.66,-2.43l0.77,-1.41l1.14,-0.92l2.06,-2.63l2.93,-5.19l0.63,-0.35l2.0,-0.25l2.53,0.19l2.31,0.9l0.51,-0.06l1.21,-0.56l1.95,-1.66l3.25,-3.21l1.96,-0.83l1.62,0.11l2.03,3.39ZM687.39,226.03l-1.75,0.92l-1.21,-0.49l-0.02,-1.63l0.81,-0.8l1.6,-0.35l2.23,0.89l-1.11,0.44l-0.53,1.02ZM651.47,363.64l1.54,0.57l0.67,-0.12l0.48,0.83l-1.08,0.71l-0.18,0.3l-0.1,1.13l0.66,1.35l-0.71,-0.0l-0.49,-0.64l-0.35,-1.16l-1.29,-1.22l0.49,-1.53l0.36,-0.22ZM647.15,361.34l0.65,0.81l-0.29,0.7l0.88,0.94l-0.27,0.03l-1.19,-1.16l0.4,-0.75l-0.19,-0.59ZM646.44,369.25l-1.05,0.72l-0.05,-0.02l0.09,-1.13l0.59,-0.52l0.67,-0.04l-0.25,1.0ZM643.69,370.04l-0.74,0.17l-0.4,-0.42l0.75,-0.75l0.46,0.05l0.1,0.39l-0.17,0.57ZM641.17,358.98l-0.1,0.67l-1.33,0.09l-0.57,-0.96l-0.3,-2.24l0.42,0.76l1.87,1.68ZM638.04,280.67l0.16,0.7l0.46,0.29l1.0,-0.26l0.85,-0.81l0.29,0.19l-0.04,0.74l-0.6,-0.04l-0.81,1.3l-0.33,0.14l-1.16,-1.17l-0.65,-1.73l0.92,-0.0l-0.08,0.66Z", "name": "Finland"}, "BY": {"path": "M670.47,576.86l-0.14,-0.33l0.07,-1.84l1.09,-2.33l-0.23,-1.46l0.57,-1.96l0.0,-1.75l-0.9,-1.57l-1.27,-0.79l-0.67,-0.7l-3.41,-1.85l-0.14,-0.71l3.02,-4.5l0.86,-0.73l4.91,-2.5l0.89,-0.98l0.3,-2.84l-0.4,-4.75l-0.38,-1.94l-0.96,-3.65l-2.57,-7.45l-1.39,-7.02l2.8,0.35l1.98,-0.54l1.87,0.09l2.22,-0.4l0.58,0.63l1.45,0.64l2.18,-0.89l1.87,-1.07l1.88,0.11l0.38,-0.21l0.29,-0.54l0.51,-2.78l0.37,-0.38l2.44,0.21l1.02,-0.63l0.87,-1.3l1.24,-0.75l1.31,-0.08l0.94,-0.74l0.28,0.3l0.24,0.92l-0.35,0.8l0.35,0.88l1.04,0.5l1.46,-0.01l1.08,-0.41l0.46,-0.9l-0.01,-1.06l-0.3,-1.04l-0.8,-0.9l-1.82,-0.53l0.94,-2.83l1.44,-2.52l-0.03,-3.61l0.76,-2.62l0.98,-1.87l1.26,-0.58l1.7,-0.35l1.3,-1.06l0.65,-1.24l0.45,-1.67l0.33,-0.21l4.07,0.22l0.4,-0.26l0.62,-1.7l1.67,-1.56l0.07,-0.43l-0.46,-0.71l-1.14,-0.33l-2.37,-0.26l-0.27,-0.31l1.43,-4.66l0.37,-2.82l2.09,-0.44l0.81,-0.41l1.83,-2.51l1.13,-0.36l3.38,0.63l3.67,0.13l0.36,-0.17l0.92,-2.75l3.37,-3.9l1.74,-1.31l1.0,-0.26l2.17,2.17l0.76,-0.0l1.04,-0.8l1.94,-0.07l0.8,0.6l1.38,2.52l0.92,0.47l0.38,-0.04l2.04,-1.42l1.03,-0.43l0.58,0.01l3.69,1.88l0.22,1.06l-0.55,2.58l0.81,1.43l1.0,1.05l0.54,0.03l2.61,-1.97l0.89,-0.06l1.08,-0.6l0.83,-0.92l0.56,-0.23l1.41,0.2l2.49,-0.2l2.81,1.31l2.24,2.81l1.47,1.21l1.07,0.51l0.96,0.02l0.25,0.47l-0.08,3.91l-1.07,1.62l-0.1,1.36l1.98,3.46l0.23,1.82l-1.99,3.21l-0.54,2.62l0.11,0.67l2.65,2.29l1.84,1.11l0.3,0.39l-1.06,2.9l0.19,0.41l1.4,0.85l0.75,1.3l0.76,2.38l1.42,2.22l5.34,3.33l0.36,0.45l0.12,0.54l-0.16,1.41l-0.94,2.81l0.2,0.5l1.09,0.46l2.29,-0.11l2.71,0.34l3.12,1.87l0.01,0.6l-0.33,1.01l0.26,0.94l0.48,0.88l2.85,2.19l0.21,0.49l0.05,0.99l-0.05,0.48l-1.5,0.51l-1.54,0.99l-0.69,1.44l-2.28,1.78l-1.36,0.78l-1.04,0.03l-2.63,-0.36l-0.83,-0.78l-0.6,-0.98l-1.2,-0.4l-3.44,0.11l-0.75,0.53l-0.32,1.01l-1.4,2.7l0.03,0.46l2.49,3.47l1.23,1.41l0.34,0.74l-0.01,0.39l-0.6,0.9l0.15,1.66l1.02,1.62l-0.28,0.39l-0.11,4.92l0.38,0.8l0.7,0.58l0.5,0.83l0.89,2.03l-5.22,-0.07l-1.78,1.16l-2.01,-0.49l-1.46,0.77l-3.05,3.31l-1.28,1.91l-1.83,4.78l0.37,1.65l0.56,1.31l0.36,2.31l-0.69,0.78l-0.32,0.85l-0.88,-0.14l-1.37,-0.97l-0.42,-1.67l-2.25,-1.81l-1.44,-0.08l-2.08,0.52l-4.77,0.5l-2.67,1.07l-0.43,-0.44l-2.21,-4.44l-0.82,-0.4l-0.79,0.15l-1.09,1.12l-1.76,0.73l-0.86,0.78l-0.7,1.4l-0.58,-0.31l-0.82,-1.98l-0.91,-0.43l-1.58,-0.06l-1.73,-0.38l-1.44,-0.56l-0.78,0.12l-0.95,0.81l-0.72,0.09l-1.98,-0.68l-0.38,0.07l-0.51,0.45l-1.08,1.89l-0.2,0.04l0.15,-1.59l-0.21,-0.39l-1.37,-0.68l-2.02,-0.1l-1.95,0.21l-2.19,-3.39l-1.04,-0.2l-1.6,0.15l-2.37,-0.36l-4.24,-0.92l-0.92,-0.7l-1.7,-0.23l-4.61,-1.28l-1.95,-0.24l-7.05,-0.31l-2.77,0.16l-2.75,0.69l-5.02,0.35l-1.85,0.35l-0.75,0.78l-0.63,1.44l-2.01,2.33l-1.94,1.54l-1.24,-0.74l-2.22,-0.39l-1.09,0.35l-0.52,0.4l-0.15,0.4Z", "name": "Belarus"}, "FO": {"path": "M263.27,309.93l-0.46,1.48l-0.5,-0.17l-0.27,-0.48l0.08,-2.27l1.14,1.44ZM260.23,323.5l-1.07,-1.12l-1.0,-0.73l-0.43,-1.11l2.22,1.07l0.4,0.82l-0.12,1.07ZM259.09,318.06l-0.57,-0.37l-2.69,-3.27l-1.97,-5.11l2.3,-0.71l1.94,1.36l2.15,1.02l-0.28,3.24l-0.87,-0.95l-0.92,-0.33l-0.49,0.23l-0.26,0.75l0.04,0.69l0.44,0.63l1.18,2.83ZM257.15,329.12l1.63,0.7l0.03,0.97l0.48,1.08l0.04,1.16l-1.78,-2.53l-0.4,-1.38ZM252.9,313.63l1.13,1.04l0.26,0.48l-0.42,0.46l-0.65,0.15l-0.89,-0.15l-1.48,-0.73l-0.37,-1.19l0.72,0.01l1.23,-0.32l0.47,0.25Z", "name": "Faroe Islands"}, "PS": {"path": "M825.38,940.71l0.28,-1.09l-0.45,-3.89l0.72,-2.76l0.68,-1.81l1.49,-1.02l2.07,0.39l0.46,0.85l1.11,0.79l0.78,0.14l0.24,2.14l-0.5,2.18l-0.04,1.94l0.36,3.38l-0.78,1.47l-0.61,2.74l-0.42,0.03l-1.77,0.94l-2.31,0.87l-2.55,0.13l0.96,-3.28l1.03,-1.02l2.18,-1.17l0.26,-0.45l-0.25,-0.68l-1.06,-0.69l-1.0,-0.34l-0.87,0.22Z", "name": "West Bank"}, "LB": {"path": "M833.54,917.58l-0.48,-0.12l-0.63,0.34l-0.69,2.22l-0.87,0.56l-3.31,-0.18l0.97,-2.23l0.65,-2.15l1.15,-1.83l2.37,-6.11l1.36,-2.47l0.52,-3.59l2.02,-2.95l1.51,-0.87l0.87,-0.98l0.08,-1.21l3.51,-0.06l0.61,-0.69l0.78,0.23l0.36,0.4l-1.21,1.35l-0.05,0.59l0.35,0.31l1.54,0.5l0.53,0.44l1.01,3.21l-0.59,1.24l-0.94,1.13l-1.39,0.77l-0.91,1.01l-0.27,0.55l0.02,0.73l0.6,0.53l-2.85,0.05l-1.68,1.42l-0.32,0.47l-0.32,1.38l0.4,0.72l0.72,0.52l-0.71,0.45l-0.56,0.56l-0.23,0.63l-1.65,1.48l-2.26,1.66Z", "name": "Lebanon"}, "PT": {"path": "M226.07,830.85l0.09,-1.44l-0.54,-1.73l0.63,-0.35l1.29,-0.24l1.05,-0.96l0.66,-1.26l-0.29,-1.61l0.74,-1.45l1.91,-1.34l0.14,-0.49l-0.45,-0.23l-1.03,0.21l-1.33,0.94l-1.96,3.28l-0.57,1.48l-2.68,0.69l-1.22,-0.43l0.0,-1.79l0.59,-1.91l0.23,-2.6l0.82,-2.33l-0.24,-1.62l0.58,-0.72l0.98,-0.69l1.44,-2.13l4.21,-10.11l-0.17,-0.91l-0.44,-0.52l0.16,-1.21l1.34,-6.08l0.56,-0.84l0.66,-1.93l0.33,-6.08l-0.22,-1.3l-0.85,-2.32l-0.9,-4.92l-0.06,-1.48l0.64,-0.72l-0.26,-0.66l-1.02,-0.1l-0.4,-0.78l0.1,-1.01l1.29,-1.87l1.22,-1.17l1.85,-1.05l2.9,-0.83l0.74,-0.38l0.33,0.03l0.99,1.67l-1.02,1.5l-0.17,0.99l0.67,1.32l0.69,0.42l0.94,-0.08l2.16,-1.14l0.4,0.16l2.66,-0.31l2.39,0.93l1.71,0.04l1.83,-0.56l0.91,-0.62l0.35,-1.27l0.25,-0.19l1.58,0.52l2.24,0.1l0.57,-0.33l1.48,0.49l1.18,-0.09l0.37,0.34l0.19,0.56l-0.02,3.0l0.26,0.74l0.3,0.25l2.05,0.14l1.0,0.37l0.75,0.62l0.3,0.85l-0.91,1.32l-1.46,1.37l-2.17,1.27l-1.76,1.67l-1.17,1.92l-1.44,0.83l-0.44,0.44l-0.27,0.68l0.95,2.59l0.29,1.75l0.23,2.13l-0.23,3.01l-0.22,0.82l0.11,0.74l0.42,0.91l-2.59,2.2l-0.36,0.89l0.16,0.86l1.46,1.47l0.2,0.45l-0.18,1.35l-0.85,2.38l-0.79,1.41l-0.86,0.41l-4.59,0.03l-1.11,0.34l-0.24,0.57l1.23,2.22l1.47,1.3l0.41,2.17l1.81,3.55l1.86,0.66l0.45,0.65l-0.09,1.04l-0.5,1.26l-1.01,1.31l-1.24,0.95l-0.9,1.03l-0.42,2.72l-0.51,1.95l3.27,5.05l0.38,0.17l1.46,-0.19l-0.68,1.83l-2.21,0.72l-1.45,1.72l-1.2,2.09l-0.94,1.11l-0.83,2.61l1.25,6.56l-0.92,0.18l-4.53,2.71l-1.23,0.0l-2.73,-1.22l-4.69,-0.39l-1.51,-0.36l-2.09,0.78l-1.4,-0.02l-1.27,0.96l-0.22,-0.07l2.35,-6.55l-0.06,-2.73l0.36,-2.5l-0.42,-2.39l-0.73,-1.47l1.01,-3.86l-0.14,-2.12l-0.72,-1.92l2.22,0.3l0.41,-0.21l-0.05,-0.45l-0.96,-1.07l-1.18,-0.69l-1.66,0.13l-3.48,1.23ZM117.57,924.83l1.54,0.71l1.82,-0.35l2.35,1.13l-1.21,1.15l-2.2,-0.21l-1.95,-0.9l-0.62,-0.61l-0.12,-0.37l0.38,-0.55ZM10.65,856.46l-1.1,0.02l-0.22,-0.38l0.93,-0.15l0.4,0.52ZM2.48,841.91l1.1,0.18l4.28,-0.25l0.74,0.12l-0.07,0.69l-0.58,0.35l-2.4,0.32l-3.85,-0.78l-1.16,-0.94l-0.14,-0.65l0.41,-0.14l1.66,1.1Z", "name": "Portugal"}, "NO": {"path": "M728.69,20.59l0.21,0.53l1.37,0.56l0.35,-0.02l2.58,-1.44l0.51,0.99l-0.91,3.66l-0.16,5.54l-0.34,3.25l0.01,3.02l0.37,1.57l0.4,0.31l0.38,-0.33l1.56,-7.75l1.76,-2.49l0.64,-4.76l1.67,-5.71l1.85,-3.27l0.94,-0.78l3.39,0.12l1.4,1.13l1.35,2.74l1.1,1.22l3.32,1.26l1.0,1.33l0.19,0.81l0.3,0.3l0.8,0.18l0.36,-0.1l2.13,-2.05l1.07,-0.26l2.08,2.95l-0.44,2.28l0.14,0.92l0.42,0.33l2.74,-0.15l2.19,0.89l4.35,4.82l0.43,2.15l-0.2,2.51l-6.24,2.97l-2.83,2.92l-4.39,1.08l-15.45,-1.94l-0.45,0.46l0.31,2.11l0.24,0.31l10.67,4.54l0.5,1.07l-0.33,2.68l-0.01,2.2l0.21,1.55l1.02,1.7l1.55,0.69l2.56,-0.33l1.21,0.68l0.51,-0.1l1.0,-1.33l0.33,-3.6l0.44,-0.47l1.09,0.79l0.63,3.83l0.54,0.63l0.67,-0.18l0.67,-2.5l1.26,0.16l1.55,-0.23l1.77,0.4l0.69,4.85l-0.02,1.72l-0.33,1.64l-0.39,0.71l-0.76,0.3l-2.16,-0.14l-3.08,-1.95l-2.04,-1.89l-0.86,-0.18l-0.58,0.32l-0.13,0.41l0.48,1.85l-0.13,1.38l-0.72,2.95l-0.57,1.14l-1.19,1.47l-2.1,1.18l-6.22,2.59l-0.5,1.11l-1.93,6.59l-1.12,1.62l-1.69,0.86l-0.78,-1.13l-0.76,-2.09l0.17,-2.03l2.37,-4.15l2.91,-4.09l1.31,-3.11l-2.59,-8.0l-4.8,-2.57l-5.22,-3.55l-1.89,-1.87l-2.98,-3.92l-2.12,-3.55l-0.32,-0.19l-2.11,-0.09l-2.24,0.98l-3.3,3.25l-1.88,1.59l-0.98,0.45l-2.45,-0.88l-2.63,-0.19l-2.19,0.27l-0.94,0.49l-3.09,5.37l-2.01,2.57l-1.2,1.0l-0.86,1.61l-0.68,2.49l-1.51,8.6l-1.13,3.27l-0.25,2.03l0.26,5.89l-0.26,3.16l-1.32,2.58l-0.85,1.06l-1.21,0.24l-1.68,0.68l-1.6,1.64l-1.13,2.28l-1.14,4.57l-1.72,1.5l-1.55,-0.4l-1.41,-1.73l-5.01,-2.18l-4.52,-3.24l-2.11,-0.34l-0.4,0.19l-1.94,3.34l-3.18,1.3l-1.85,1.05l-2.14,0.21l-1.07,-1.16l-7.75,-1.71l-0.97,-0.0l-0.34,-1.86l-1.15,-3.03l-9.21,-15.76l-0.69,-0.3l-1.8,-0.15l-2.69,0.14l-1.86,1.07l-1.24,1.54l-0.18,1.22l0.99,3.92l-0.25,0.79l-0.25,0.23l-2.33,-1.05l-2.9,0.07l-0.33,0.2l-0.62,1.06l-6.65,0.59l-0.29,0.62l2.93,4.48l0.14,1.79l-0.38,3.47l-1.05,2.95l-1.21,2.37l-2.38,2.38l0.07,0.62l3.31,2.15l-3.23,3.94l-1.09,-0.17l-8.24,-3.78l-2.83,-1.03l-2.59,-0.33l-1.31,0.04l-5.22,-2.27l-1.37,0.27l-1.91,1.0l-0.21,0.32l-0.21,2.29l0.4,9.76l-0.68,2.36l-2.61,5.67l-7.65,-4.8l-0.53,0.09l-2.07,2.65l-5.22,4.86l-2.92,9.96l-1.52,2.31l-3.68,1.84l-0.9,2.81l3.17,6.39l0.97,3.29l-0.39,3.28l-2.21,2.68l-4.8,7.17l-4.43,7.41l-1.8,2.09l-0.09,0.31l0.8,6.06l-1.33,1.64l-2.94,2.0l-1.48,0.76l-1.59,0.45l-5.06,0.81l-0.33,0.45l1.24,9.45l-0.01,1.63l-0.52,1.65l-0.63,3.22l-0.94,11.18l-0.71,1.2l-0.99,3.01l-3.2,7.2l-6.3,11.59l0.12,0.52l3.03,2.15l2.65,1.5l0.53,2.2l0.38,3.94l-0.09,2.6l-2.23,4.6l-8.71,-1.83l-1.38,-0.02l-3.14,0.82l-2.71,1.62l-1.82,1.9l-4.9,8.29l-1.71,2.28l0.41,3.34l-2.83,5.96l1.86,6.38l1.01,2.49l-1.44,2.49l0.42,5.85l-0.34,3.81l2.56,9.05l-0.15,3.34l-1.85,12.87l0.11,0.33l1.88,1.95l2.64,2.3l1.48,0.91l2.13,2.65l1.58,2.5l-0.67,3.45l-0.7,1.36l-0.95,3.16l-0.13,0.16l-2.86,0.16l-1.65,0.57l-0.81,0.57l-0.17,0.36l0.29,3.17l3.24,9.6l0.45,2.51l-0.47,2.54l-0.51,1.45l-0.39,5.29l-2.54,3.65l-1.57,1.39l-2.31,0.54l-0.98,0.86l-1.41,4.59l-2.04,2.76l-0.01,1.31l1.52,7.0l-1.15,7.07l-0.88,2.27l-1.06,0.68l-0.63,-0.28l-1.04,-3.12l-0.31,-1.83l-0.26,-0.28l-7.04,-2.06l-1.17,-2.78l-1.31,-2.46l-0.17,-0.94l0.04,-4.7l-0.4,-2.05l-0.12,-2.25l-0.33,-0.37l-0.44,0.23l-0.83,1.85l0.42,2.96l-0.85,1.01l-1.21,0.55l-0.23,0.39l0.12,1.7l0.55,0.53l0.1,1.52l-0.3,2.51l-2.51,5.65l-0.73,1.09l-0.95,-0.38l-0.42,0.08l-1.59,1.51l-1.12,0.18l-0.56,-1.63l-2.24,-2.4l-0.34,-0.12l-1.06,0.14l-0.26,0.65l1.74,2.48l-0.41,0.78l-0.43,0.54l-0.88,0.34l-3.27,2.0l-0.09,0.6l0.97,1.11l-0.73,1.13l-1.2,0.32l-0.61,0.71l-0.27,1.0l-3.34,2.71l-5.48,6.93l-2.79,1.93l-1.92,1.96l-1.83,0.04l-2.13,1.68l-5.39,1.47l-3.6,-0.67l-2.53,0.56l-1.12,-0.97l-0.13,-0.61l0.26,-0.88l-0.22,-0.52l-0.6,-0.23l-1.01,-0.1l-0.36,0.16l-0.51,0.8l-0.05,1.11l-0.14,0.1l-1.6,-0.62l-0.27,-0.38l0.55,-1.09l1.13,-1.18l0.02,-0.54l-0.36,-0.86l-0.32,-0.28l-0.57,-0.09l-1.76,0.17l-1.26,-0.2l-4.4,-2.68l-1.12,-1.52l-3.59,-2.32l-1.57,-2.4l-0.89,-2.65l0.07,-2.43l0.43,-3.88l0.51,-0.66l2.96,1.27l3.29,2.32l0.32,0.06l0.78,-0.31l1.0,-1.77l1.95,-1.43l-0.0,-0.65l-0.57,-0.41l-0.43,-0.02l-2.77,1.56l-2.5,-2.53l0.0,-0.69l0.8,-1.05l0.27,-1.34l-0.41,-1.39l0.17,-1.53l1.26,-1.72l1.98,-1.84l1.46,-1.81l1.45,-1.08l0.13,-0.48l-0.16,-0.37l-0.52,-0.21l-1.78,0.75l-1.68,1.25l-1.89,1.98l-2.26,1.57l-3.78,1.64l-1.46,2.41l-1.26,0.87l-2.15,0.08l-0.44,-1.32l0.71,-5.93l0.76,-2.91l0.77,-1.89l1.38,-0.48l0.82,-1.35l0.38,0.0l0.75,0.7l2.61,0.69l0.44,-0.17l1.19,-1.82l1.66,-0.32l3.06,-1.99l0.11,-0.77l-0.48,-0.32l-3.35,0.51l-1.68,0.46l-0.65,-0.24l-0.34,-1.14l0.62,-1.16l2.86,-3.18l1.07,-1.52l0.57,-1.32l-0.05,-1.03l0.44,-1.71l2.73,-3.16l1.9,-1.24l0.47,0.8l-0.62,3.88l0.0,1.72l0.34,0.39l0.44,-0.28l1.81,-5.82l0.76,-1.32l0.81,-0.87l2.1,-0.63l0.84,-1.09l-0.38,-0.62l-2.66,0.33l-6.23,2.25l-2.73,2.06l-0.8,1.65l-1.79,2.27l-0.89,1.55l-0.41,2.22l-0.88,1.02l-1.48,0.56l-1.92,2.77l-0.86,2.22l-3.09,3.08l-1.1,1.73l-0.28,-0.46l-0.07,-1.59l0.19,-2.65l0.89,-1.92l0.47,-2.02l-0.58,-1.9l0.27,-0.74l2.06,0.55l1.6,-0.08l2.8,-1.49l0.17,-0.53l-0.42,-0.84l-0.32,-0.22l-3.17,-0.01l-1.59,-1.26l-1.32,-2.67l-0.6,-3.6l0.34,-0.87l5.04,-3.79l1.46,-1.83l-0.23,-0.64l-0.8,-0.17l-0.38,0.12l-1.87,2.07l-2.42,1.16l-1.49,-1.58l-0.85,-1.86l-0.51,-4.09l0.18,-2.19l-0.2,-2.64l0.83,-0.66l1.19,0.44l1.3,0.18l3.03,-0.25l6.46,-1.7l4.09,1.0l1.82,-0.08l2.7,-1.49l2.05,-0.14l1.53,1.02l0.82,1.14l0.18,1.82l0.79,1.15l0.56,0.1l0.53,-0.37l0.15,-0.45l-0.41,-1.32l-0.07,-1.78l6.57,-2.32l0.98,-1.06l-0.26,-0.66l-2.47,-0.3l-0.64,-1.83l1.39,-3.49l-0.13,-0.44l-0.69,-0.14l-1.59,1.92l-0.74,2.49l0.27,2.06l-0.21,0.63l-1.14,0.35l-2.99,0.15l-1.93,-0.81l-1.81,-0.45l-0.41,-0.41l0.18,-1.22l-0.49,-0.66l-0.6,0.1l-0.77,1.27l-0.68,2.44l-1.18,0.46l-4.09,-0.92l-5.91,0.55l-2.69,1.26l-1.5,-0.14l-2.81,-2.12l-1.06,-1.64l-0.41,-3.45l0.14,-1.27l1.98,-0.57l1.36,-0.04l1.09,-0.85l-0.05,-0.66l-2.19,-1.55l-0.88,-2.1l-1.46,-0.86l-0.84,-1.69l-0.23,-2.71l0.24,-1.78l0.47,-0.41l1.71,0.4l4.62,-0.32l4.36,1.97l3.22,1.17l6.26,-0.61l3.58,-1.79l0.06,-0.68l-1.0,-0.56l-3.83,1.02l-3.48,-0.04l-8.89,-2.67l-2.83,0.27l-1.21,-0.51l-0.75,-1.76l0.59,-3.57l0.85,-0.54l0.8,0.87l0.87,0.06l0.38,-0.21l0.85,-1.57l0.89,-1.04l0.63,-1.98l2.33,-1.85l1.1,-0.2l1.37,-0.83l0.66,0.18l0.59,0.86l1.09,0.87l1.8,-0.11l5.18,-1.67l1.58,-1.85l0.02,-0.45l-0.41,-0.18l-3.19,0.59l-2.67,0.94l-1.29,0.2l-0.13,-0.64l1.58,-2.11l0.44,-1.74l0.86,-0.64l1.1,0.03l2.43,-0.34l1.69,-0.48l2.85,0.32l4.29,0.71l2.75,1.71l1.33,-0.1l1.22,-0.49l0.67,-0.75l-0.19,-0.63l-1.97,-0.65l-0.08,-0.69l0.18,-0.52l3.39,-1.36l3.88,-0.32l0.31,-0.6l-0.68,-1.17l-0.43,-0.19l-8.5,1.73l-2.32,-1.18l-1.78,0.01l-1.32,0.71l-3.05,0.76l-0.27,-0.27l0.55,-1.76l1.97,-3.32l0.19,-0.82l0.77,-0.67l5.09,-1.93l2.54,-2.29l0.94,-0.24l1.15,0.15l1.62,-0.26l3.0,0.6l1.54,2.84l1.33,0.88l4.22,3.54l0.46,0.04l0.19,-0.42l-0.26,-1.19l-3.67,-4.82l-1.39,-1.2l-0.96,-2.19l0.32,-2.04l1.02,-1.31l4.04,-0.78l0.98,-1.01l0.17,-1.75l-0.7,-1.26l-0.35,-0.19l-1.44,0.05l-1.01,-0.51l-0.28,-1.31l0.41,-0.9l2.31,-1.93l1.25,-0.62l2.12,-0.66l3.68,1.48l0.18,0.5l-1.03,1.84l0.06,1.36l0.35,0.36l0.98,0.12l0.38,-0.17l2.18,-3.24l2.51,-0.44l1.22,-0.76l0.93,-0.33l1.7,2.83l1.36,1.37l0.55,2.38l0.3,0.3l0.57,0.13l0.43,-0.17l0.74,-1.17l1.32,-0.6l1.93,-0.42l3.32,0.66l1.66,-0.48l0.67,0.06l0.42,-0.52l-0.72,-2.28l-0.39,-0.6l0.61,-1.77l0.64,-0.7l2.26,-1.38l2.35,-0.72l1.44,-1.34l1.93,-1.24l0.17,-0.45l-0.88,-2.23l-0.34,-0.23l-1.1,-0.06l-0.17,-0.21l3.52,-2.93l0.1,-0.52l-0.57,-0.83l-1.99,-0.76l-1.33,0.61l-1.88,1.31l-2.23,2.11l0.02,0.6l0.66,0.56l0.92,1.47l-1.34,2.03l-7.99,6.02l-3.71,1.71l-1.4,-0.22l-0.36,-1.4l-0.85,-1.31l-0.86,-2.49l-0.4,-0.27l-1.5,0.07l-0.66,0.37l-0.12,-0.28l0.6,-2.53l1.19,-2.04l2.17,-1.72l1.04,-2.04l0.93,-3.04l3.06,-3.01l4.42,-7.39l3.56,-2.35l1.41,-2.67l2.14,-1.19l1.73,-1.95l1.47,-0.25l2.61,-1.86l1.58,-2.32l-0.28,-0.62l-1.24,-0.08l-2.96,1.73l0.06,-1.69l0.6,-2.31l1.8,-2.13l8.75,-6.29l0.65,0.77l1.07,1.88l0.41,0.2l2.74,-0.43l3.4,-3.9l2.4,-4.05l-0.06,-0.48l-0.48,-0.07l-1.3,0.71l-1.51,1.72l-2.67,2.22l-1.06,0.3l-0.42,-0.17l-0.56,-1.59l-0.96,-0.5l-0.93,0.22l-0.62,-0.76l-0.15,-2.51l2.01,-6.62l0.95,-1.99l3.82,-5.78l0.85,-3.2l1.51,-1.47l2.06,0.34l0.98,-0.56l0.14,-0.46l-0.77,-2.1l-2.46,-1.76l-0.08,-0.54l7.8,-2.63l3.83,0.09l0.32,-0.14l1.09,-1.3l2.16,-0.94l1.61,-1.69l-0.02,-0.57l-0.83,-0.75l-0.41,-0.08l-3.94,1.55l-2.4,0.71l-1.06,-0.02l-1.0,0.54l-2.68,0.17l-0.64,-6.33l0.44,-3.27l0.81,0.05l0.42,-0.37l0.26,-3.44l1.22,-1.87l1.91,-0.53l0.99,-0.95l1.22,-1.63l2.16,0.38l2.33,-0.41l0.26,-0.62l-0.58,-0.86l-2.91,-1.2l-0.56,-1.51l1.82,-1.57l1.18,-0.34l1.91,-3.73l1.0,-1.37l1.06,0.23l0.35,-0.1l1.66,-1.51l1.91,0.46l1.69,-1.06l2.27,-0.69l8.63,-0.28l0.38,-0.33l0.26,-1.55l-0.32,-0.46l-1.88,-0.37l-6.45,-0.4l-3.32,0.03l-1.26,0.35l-0.22,-0.23l0.06,-0.63l1.12,-1.38l0.62,-1.71l2.35,-3.91l2.6,-2.47l1.82,0.58l2.21,2.47l1.72,0.42l0.61,0.66l1.16,3.42l0.86,0.38l0.48,-0.42l-0.24,-3.24l1.51,-2.64l0.0,-0.39l-0.41,-0.76l-0.51,-0.18l-2.18,0.92l-1.56,-0.89l-1.33,-1.93l-0.36,-1.69l0.81,-1.7l0.8,-0.9l0.06,-0.45l-0.57,-1.11l-0.61,-0.13l-3.5,2.9l-2.31,0.63l-0.57,-0.23l0.47,-2.36l-0.28,-2.12l3.25,-5.06l0.94,-0.49l1.66,0.37l1.64,1.42l0.33,0.09l1.55,-0.28l1.56,-0.8l0.21,-0.41l-0.21,-1.43l-0.33,-0.34l-3.22,-0.54l-0.66,-0.91l0.22,-0.82l2.25,-1.22l2.23,-2.17l2.53,-0.62l2.01,-1.56l0.4,0.65l0.78,6.3l1.9,5.09l0.97,0.43l0.5,-0.45l-0.71,-4.19l0.59,-1.08l0.83,-0.92l0.36,-1.25l-0.25,-0.47l-0.84,-0.31l-0.71,-1.38l-1.12,-4.84l0.34,-1.11l2.35,-2.51l2.86,-0.56l3.21,1.81l1.36,0.07l2.11,-0.54l3.26,-1.53l1.85,-0.56l0.95,0.0l0.38,-0.28l0.25,-0.78l-0.19,-0.47l-0.84,-0.45l-0.44,-0.56l-0.73,-0.28l-3.23,0.81l-8.15,-0.26l-0.6,-0.67l-0.13,-1.32l0.83,-2.09l0.9,-1.14l3.02,-2.13l3.5,-0.42l3.52,-3.96l1.44,-3.18l0.75,-4.55l2.04,-3.57l5.25,-2.09l0.24,-0.28l0.21,-1.15l-0.55,-1.91l0.04,-3.42l1.44,-4.05l0.88,-1.3l1.02,1.08l1.39,2.85l2.33,1.8l3.1,0.36l0.33,-0.12l0.77,-0.81l-0.05,-0.6l-2.21,-1.61l-1.59,-2.02l-0.12,-1.91l0.59,-0.85l1.12,0.1l1.8,-0.36l1.47,-1.47l0.73,-3.99l2.05,-3.25l6.19,-2.08l0.27,0.51l-0.35,6.46l-0.76,4.29l0.02,3.09l0.32,0.39l0.45,-0.24l1.32,-3.16l1.73,-8.48l1.28,-3.95l1.38,-2.18l0.95,-0.47l1.11,-1.24l0.93,-0.49l0.64,2.54l-0.73,7.42l0.07,2.35l-0.81,3.05l-3.18,7.16l0.15,0.88l0.56,0.3l0.72,-0.33l1.4,-1.3l3.77,-6.36l3.14,0.77l0.49,-0.36l-0.01,-0.77l-2.41,-3.78l-0.38,-2.19l0.18,-6.11l0.89,-2.14l2.67,0.24l1.64,-0.3l0.68,0.92l0.34,0.16l1.78,-0.08l0.37,-0.29l1.16,-4.25l1.93,-0.31l1.99,2.77l2.6,2.05l2.03,2.82l0.64,0.01l0.58,-0.78l-1.04,-7.01l-1.25,-2.57l-2.76,-1.43l-2.73,-2.95l-0.65,-1.2l0.08,-0.64l2.13,-0.83l3.14,1.07l0.39,-0.08l2.66,-2.32l0.54,0.47l0.47,0.04l1.93,-1.15l1.17,1.52l0.53,0.09l1.03,-0.79l0.45,-2.2l3.19,-1.34l2.04,1.24l1.11,1.3l1.4,8.02l1.82,3.04l1.32,1.59l1.3,0.39l0.48,-0.22l0.63,-1.44l-0.04,-0.39l-1.17,-1.67l-0.3,-1.49l0.57,-3.97l0.65,-1.54l3.78,-6.07l3.07,-3.07l1.78,-0.25l0.31,-0.23l3.34,-7.19l0.85,-1.19l0.76,-0.26l0.27,-0.43l-0.22,-1.78l-0.19,-0.29l-1.65,-1.01l-0.05,-1.84l2.35,-2.63l2.84,-4.41l1.03,-0.22l0.85,1.14l2.81,2.02l1.71,2.3l1.32,1.23l0.39,0.09l1.08,-0.48l0.65,-1.68l0.6,-0.6l1.48,0.38l1.0,1.05l0.95,0.25l0.57,0.51l0.14,1.17l-1.49,1.57l-2.69,4.34l-2.64,4.89l-0.9,2.62l-0.86,6.7l-2.07,4.35l-0.1,3.19l0.83,1.39l0.52,0.16l2.43,-1.22l2.81,-3.96l0.76,-4.31l6.98,-11.5l3.3,-6.45l3.67,-5.28l1.57,-0.84l0.83,3.0l-0.77,4.49l-1.56,2.89l0.05,0.45l1.06,1.22l-0.21,3.29l-0.6,4.0l0.02,1.77l0.56,0.36l1.2,-0.53l4.52,-3.84l2.14,-6.91l0.49,-2.55l1.54,-2.21l3.01,-0.02l0.39,-0.35l0.12,-0.97l-0.13,-0.35l-3.8,-3.34l-0.37,-1.26l1.19,-1.88l3.42,-3.75l1.53,0.36l1.23,0.93l4.32,0.67l3.16,2.63l-0.12,4.13l-0.71,1.73l-0.69,1.04l-4.3,3.27l-0.84,1.79ZM756.72,55.78l-2.08,0.93l-0.12,-0.38l0.53,-1.4l0.6,-2.66l0.56,0.06l0.94,1.01l0.67,1.1l-1.1,1.34ZM697.76,1.96l3.4,1.5l1.18,0.01l1.68,2.79l0.45,0.18l0.38,-0.11l-0.1,1.01l-1.57,0.74l-2.78,0.52l-0.48,0.34l-2.04,-0.24l-1.26,-2.27l-2.21,-0.72l0.0,-0.34l1.36,-1.72l1.99,-1.68ZM676.07,25.02l-2.19,1.37l-1.21,-1.13l-0.57,-1.29l-0.09,-3.08l0.32,-1.77l0.83,-0.69l0.86,1.19l1.33,0.57l1.47,1.78l-0.74,3.05ZM670.57,26.08l0.33,3.3l-1.18,2.11l-2.88,2.92l0.01,0.91l-0.76,0.57l-1.27,0.47l-0.44,-0.3l0.1,-2.31l-0.26,-0.9l-0.64,-0.18l-0.86,0.75l-0.82,-0.89l-0.0,-1.09l0.28,-1.02l1.03,-1.59l1.6,-1.03l1.03,0.38l0.44,-0.11l3.64,-4.1l0.65,2.12ZM668.17,15.14l-0.65,2.28l-1.1,1.32l-3.15,5.12l-1.78,0.79l-0.72,0.89l-0.54,0.35l-2.17,-0.66l-0.45,0.16l-1.2,1.6l-1.49,0.24l-0.84,-0.19l-2.46,-1.84l-1.47,-2.01l-0.55,-1.18l1.74,0.02l0.9,-0.41l1.45,0.34l0.45,-0.2l0.83,-1.6l1.93,0.18l3.74,-1.23l1.28,0.64l0.5,-0.12l3.13,-4.12l1.09,0.0l1.2,-0.94l0.31,0.57ZM632.11,44.36l-0.59,0.74l-0.78,0.26l-0.54,-0.48l-0.86,-0.38l-0.89,0.09l-0.63,-1.33l0.08,-1.23l0.99,-1.75l1.96,-0.98l1.5,0.38l0.26,0.33l-0.51,4.34ZM618.41,39.62l0.82,0.62l0.86,-0.17l0.31,0.23l1.09,2.03l1.19,0.86l0.04,0.67l-0.9,0.83l-1.28,0.27l-1.28,-0.29l-0.86,-3.25l-1.32,-2.2l-0.15,-1.46l0.5,-0.13l0.99,1.99ZM611.42,45.45l1.25,2.35l0.43,0.2l1.07,-0.21l0.3,-0.25l0.27,-0.68l0.37,-0.21l1.08,0.84l-0.17,1.6l-2.02,2.45l-1.4,3.32l-1.55,0.67l-0.74,-0.34l-0.48,0.11l-1.67,2.0l-2.77,4.75l-0.29,2.22l-4.82,0.97l-1.75,0.63l-1.68,-0.75l-0.78,-1.45l0.17,-0.55l1.72,-0.33l0.32,-0.38l0.06,-1.51l0.42,-0.83l0.7,-0.7l0.43,-1.9l0.48,-0.33l1.25,0.44l0.47,-0.16l1.01,-1.44l0.49,0.91l0.41,0.2l0.33,-0.32l0.32,-1.7l-0.31,-1.64l0.14,-0.89l1.81,-2.66l0.82,-2.01l0.96,-1.07l0.9,0.16l0.47,-0.33l0.33,-1.9l-0.32,-2.03l0.11,-1.18l0.9,-2.82l0.45,-0.06l0.42,2.36l0.08,4.44ZM588.2,64.82l1.16,1.58l0.59,0.06l0.65,-0.6l1.16,-0.2l0.87,0.63l0.83,1.34l1.09,0.24l0.55,1.55l0.31,2.23l-0.67,1.58l-1.14,1.0l-0.29,2.2l0.36,2.61l-2.07,0.86l-2.51,0.4l-0.94,-1.2l-0.62,-0.02l-2.23,2.55l-2.19,3.9l-0.42,0.18l-0.04,-0.68l-0.21,-0.33l-1.59,-0.86l-1.79,-0.09l0.3,-0.9l1.65,-0.92l0.2,-0.28l0.35,-2.01l-0.31,-3.65l0.37,-2.84l0.88,-1.13l3.53,0.63l0.45,-0.27l0.46,-1.36l-0.29,-1.11l-1.87,-1.52l0.18,-0.61l1.2,-0.77l1.23,-0.11l0.35,-0.3l0.43,-1.79ZM564.02,103.19l0.22,0.55l0.69,-0.03l1.79,-3.47l1.94,-1.06l0.21,-0.31l0.12,-1.15l0.81,-1.37l-0.09,-1.92l0.34,-1.36l1.99,-1.1l1.07,1.07l0.69,1.36l0.89,3.12l-0.35,2.9l-2.32,2.29l-2.04,1.18l-1.97,2.77l-0.98,2.21l-0.58,0.33l-0.98,-0.69l-1.0,-0.0l-0.35,0.2l-1.04,1.85l-3.06,1.46l-0.89,-0.31l-0.05,-1.67l-0.48,-0.38l-0.78,0.16l-0.27,0.2l-1.2,2.24l-1.68,0.86l-1.35,-0.79l-0.48,0.06l-3.96,3.87l-3.56,0.69l-0.88,-0.32l-0.0,-2.0l2.35,-2.98l1.91,-2.06l7.04,-1.66l4.3,-6.46l1.09,-7.2l1.0,-2.53l-0.47,-1.73l-0.29,-0.27l-0.85,-0.19l-0.06,-1.88l0.57,-2.33l2.21,-3.31l1.29,-1.51l2.01,-4.04l0.82,-0.77l0.8,0.0l0.85,0.83l-0.18,1.95l-1.62,3.86l-2.5,3.6l0.3,2.4l0.98,2.03l0.29,6.4l-1.83,4.25l-0.44,2.15ZM556.52,89.09l1.78,3.83l0.76,2.09l-0.62,3.95l-1.55,1.88l-2.44,0.34l-1.68,-0.16l-0.96,-0.82l-0.13,-0.98l-0.22,-0.31l-0.68,-0.33l-0.43,0.05l-1.7,1.38l-0.97,0.15l-1.32,-0.94l-0.35,-1.47l1.56,-2.11l0.7,-1.58l1.4,0.12l0.54,0.54l1.05,0.34l0.51,-0.27l0.64,-2.13l-0.12,-1.52l0.27,-0.6l1.9,0.63l0.53,-0.38l0.0,-3.72l0.57,-0.09l0.54,0.71l0.41,1.38ZM538.62,114.54l1.03,0.67l2.02,-0.15l-0.19,0.65l-0.79,0.99l-2.04,0.85l-0.83,1.66l-0.45,0.43l-1.5,0.01l-1.13,0.43l-1.07,1.27l-0.65,-0.76l-0.68,0.13l-0.44,2.15l-1.48,0.62l-0.33,-2.72l1.24,-2.42l0.65,-0.16l0.75,0.11l0.42,-0.22l1.42,-3.0l1.83,-0.81l1.16,-0.09l1.06,0.35ZM526.27,128.13l-1.04,0.98l0.46,-2.2l1.06,-3.45l1.17,-1.58l0.27,0.29l-0.31,1.57l0.01,1.59l-1.63,2.79ZM520.17,196.19l-0.54,0.05l0.01,-0.83l0.54,-1.08l0.84,-0.7l2.31,-0.28l0.14,0.21l-0.59,0.66l-2.71,1.97ZM518.98,191.49l-0.66,0.12l0.12,-0.83l1.0,-1.41l0.59,-2.04l0.54,-0.52l0.86,0.74l0.02,1.61l-0.54,1.47l-1.92,0.87ZM512.61,205.49l-0.69,0.78l-1.19,-0.21l-0.1,-0.51l0.41,-1.51l0.78,-0.55l0.96,0.11l0.23,0.41l-0.41,1.49ZM502.6,230.16l-0.45,0.56l-1.53,-0.61l-2.96,0.52l-0.82,-0.56l0.76,-1.29l2.63,-1.66l1.19,0.06l1.34,1.9l-0.16,1.08ZM465.47,267.39l-1.37,0.06l-0.34,-0.25l1.69,-1.04l3.46,-1.29l0.46,-0.79l0.37,0.62l0.07,1.18l-0.25,0.44l-4.08,1.06ZM460.3,277.41l-1.04,0.02l-1.42,-0.42l-0.83,-0.83l-0.08,-0.48l1.55,-0.93l1.51,-0.52l0.61,0.86l0.06,1.73l-0.34,0.58ZM418.14,361.51l0.61,1.31l0.47,2.15l0.04,2.71l-0.56,-0.11l-0.6,-1.72l0.09,-1.91l-0.27,-1.84l0.23,-0.59ZM417.52,343.08l-0.83,0.25l-0.53,-0.17l0.28,-2.2l0.31,-0.27l0.34,-0.07l0.58,1.07l-0.15,1.4ZM228.97,13.75l-0.89,0.19l-0.38,-0.49l1.61,-2.24l5.98,-4.74l2.43,-4.57l4.03,-1.37l0.24,2.02l-0.29,2.92l-3.87,2.38l-4.62,1.77l-4.23,4.12Z", "name": "Norway"}, "TR": {"path": "M723.53,860.59l1.03,-0.2l0.97,-0.44l4.05,-0.38l1.07,-0.41l1.19,-1.58l1.86,-1.25l0.39,-0.72l-0.36,-0.56l-7.79,0.37l-4.31,-0.21l-0.83,0.68l-0.12,-1.16l0.44,-0.52l0.87,0.04l2.26,-0.71l0.28,-0.44l-0.39,-1.74l-1.53,-0.93l-0.58,-0.69l-1.07,-0.12l-0.73,-0.53l-0.21,-1.67l-0.76,-1.92l-1.01,-0.92l1.8,-0.64l0.27,-0.32l0.41,-2.69l-0.31,-1.79l-0.34,-0.32l-0.94,-0.13l-2.86,-1.29l-0.86,0.07l-0.95,-1.35l-1.69,-1.04l-0.37,-0.02l-1.3,0.77l-0.51,-0.15l-1.34,-0.91l-1.2,-0.45l-0.32,-0.34l0.5,-1.11l0.72,0.03l0.41,-0.34l0.16,-1.45l-0.75,-2.02l0.05,-0.73l0.51,-0.17l0.73,0.15l0.85,1.08l0.28,1.05l-0.15,1.36l0.63,1.14l0.58,0.43l0.61,-0.24l0.27,-1.04l0.55,0.43l1.41,0.26l3.22,-0.74l0.81,-0.74l0.08,-0.44l-0.38,-0.24l-2.23,0.07l-0.7,-0.47l-0.88,-1.23l-0.9,-2.37l1.84,-0.98l1.42,-1.93l-0.05,-0.53l-0.59,-0.56l-0.8,-0.35l-0.77,0.12l-0.43,-0.41l-0.06,-0.62l0.54,-0.84l-0.02,-1.28l-2.18,-2.93l0.25,-0.53l1.38,-1.38l1.32,-1.73l-0.09,-0.92l-0.29,-0.28l-1.14,-0.24l-4.65,0.74l-1.83,0.64l-2.83,0.26l-0.07,-1.25l0.73,-1.66l-0.07,-3.77l0.37,-1.81l1.77,-0.69l2.18,-3.03l3.42,-3.47l3.55,0.07l1.62,-1.0l1.85,-0.05l0.7,1.37l1.94,1.0l3.63,-0.11l1.84,-1.01l0.07,-0.6l-1.33,-1.5l1.34,-0.18l1.24,0.33l-0.82,1.45l0.21,0.55l0.46,0.19l4.59,-0.56l4.58,0.47l1.55,-0.25l3.6,0.02l0.93,-0.72l-0.05,-0.62l-1.1,-0.77l-1.16,-0.32l-0.92,-0.54l1.82,-1.36l7.34,-1.36l4.57,-0.53l0.35,-0.34l0.06,-0.39l-0.39,-0.46l-6.45,-0.87l-1.33,-0.63l-1.92,-1.58l-0.78,-1.04l0.6,-2.77l0.55,-0.6l2.16,-0.11l8.06,1.38l5.81,-0.82l6.37,2.01l6.03,-0.41l1.57,-1.12l1.46,-2.82l8.42,-4.81l3.0,-2.55l3.12,-1.36l5.51,-1.57l4.54,-2.04l1.21,-0.22l10.96,0.98l7.59,0.13l3.52,-1.91l1.48,0.48l-0.47,1.06l0.18,1.39l1.18,1.76l1.36,1.34l3.82,1.74l4.81,-1.42l1.46,0.46l1.73,4.59l1.44,1.72l1.88,1.17l1.41,0.22l0.36,-0.13l1.01,-1.11l0.69,-0.39l1.56,-0.17l2.7,1.48l1.19,1.73l4.95,1.27l4.49,0.63l2.03,1.39l6.39,1.39l2.61,-0.23l3.98,-1.45l7.64,-1.57l5.14,2.2l1.4,0.29l1.25,-0.17l1.64,0.58l2.16,-0.34l2.62,-1.2l0.0,69.29l-6.32,3.29l-4.43,1.47l-4.4,0.95l-7.9,-0.2l-0.92,-0.32l-3.39,-2.52l-1.92,-0.54l-1.6,-0.15l-4.06,1.84l-2.52,0.86l-3.79,1.66l-4.8,-0.16l-0.93,-0.71l-0.79,-1.06l-2.24,-0.58l-1.66,-0.18l-0.83,0.69l-0.44,1.34l-0.81,4.14l1.38,3.48l-1.95,0.2l-0.87,0.36l-0.62,0.54l-0.48,2.83l-1.12,0.43l-0.76,0.67l-0.67,1.65l-2.03,-1.23l-0.54,-0.1l0.56,-1.17l-1.91,-5.07l0.84,-1.41l2.0,-1.94l2.23,-2.57l-0.2,-2.76l-1.83,-1.81l-0.45,-0.05l-1.96,1.07l-1.39,1.17l-0.95,0.27l-0.99,0.67l-0.59,1.29l-1.03,0.82l-1.76,0.33l-2.82,-0.97l-3.11,-1.51l-1.91,-1.29l-1.69,-0.28l-1.48,0.6l-4.09,3.05l-3.79,4.48l-0.87,0.72l-3.45,1.86l-2.21,0.61l-1.14,-0.13l-4.62,0.83l-2.28,0.12l-1.85,0.97l-3.33,-1.02l-2.03,-1.33l-1.22,-1.36l-2.06,-3.03l-1.66,-1.6l-3.29,-1.3l-5.75,-3.17l-1.67,-0.4l-8.11,-0.75l-0.35,0.16l-0.92,1.37l-0.31,4.5l-0.67,1.18l-0.34,2.41l-0.4,0.53l-0.52,0.29l-1.11,-0.66l-1.18,-0.32l-1.99,0.97l-3.93,1.35l-1.22,0.17l-4.49,-1.67l-1.61,-1.05l-0.98,-1.1l-0.35,-1.96l-0.69,-1.24l-0.37,-1.73l-1.17,-0.63l-0.38,0.04l-0.89,0.63l-0.88,-0.02l-1.25,-0.4l-3.14,-1.72l-2.61,-0.19l-0.35,0.17l-1.42,2.05l-1.0,0.59l-0.76,0.12l0.86,-1.29l-0.36,-0.63l-3.8,0.25l-2.06,1.04l-1.39,-0.14l-0.77,-0.31ZM721.5,767.79l1.54,1.45l0.89,0.53l0.34,0.03l1.67,-0.72l1.77,0.09l0.65,-0.48l0.44,-0.07l1.38,0.24l-0.28,1.9l0.89,2.36l2.0,3.17l2.18,1.74l8.14,3.94l1.2,0.28l-0.72,2.57l-0.44,0.77l-2.12,0.54l-6.48,-1.72l-1.73,-0.18l-1.42,0.4l-2.05,1.2l-2.42,-0.38l-3.36,0.72l-0.29,0.24l-0.91,2.33l-2.25,2.63l-3.76,2.16l-2.85,1.26l-4.12,4.21l-1.86,2.43l-0.86,0.49l0.55,-1.43l-0.06,-1.98l2.44,-2.15l3.66,-1.75l1.14,-1.61l-0.34,-0.62l-2.94,0.04l-2.9,0.32l-1.81,-0.2l-1.39,0.1l-0.64,-1.49l0.76,-0.34l0.94,-1.36l2.12,-2.39l0.34,-0.92l-0.0,-0.71l-0.35,-1.11l0.02,-2.31l2.56,-1.73l0.82,-0.18l0.29,-0.26l0.3,-0.86l-0.18,-2.17l-0.39,-1.67l-1.28,-0.78l-1.16,-1.16l-1.1,-0.37l0.07,-0.53l0.3,-0.35l2.17,-0.59l0.91,-2.16l0.28,-0.18l2.45,-0.19l1.2,-0.31l1.23,-0.68l0.57,-0.55l2.33,-0.32l0.65,-0.26l0.45,0.16l0.86,0.93ZM702.54,801.16l-2.69,0.47l-0.4,-0.22l0.57,-0.63l2.0,-0.66l0.56,0.75l-0.04,0.28Z", "name": "Turkey"}, "GE": {"path": "M899.6,746.44l-3.54,-2.98l-2.62,-1.83l1.19,-2.03l0.66,-0.23l4.32,0.92l0.0,6.15Z", "name": "Georgia"}, "LI": {"path": "M479.66,671.16l0.01,-1.74l0.15,-0.5l0.75,1.72l-0.21,0.58l-0.69,-0.07Z", "name": "Liechtenstein"}, "LV": {"path": "M721.67,438.41l1.43,0.09l0.34,0.24l0.48,2.05l3.47,2.82l0.33,0.46l0.01,2.25l-0.17,0.57l-0.73,0.88l-0.62,2.01l-0.1,1.96l-0.96,3.24l0.28,0.5l0.22,0.06l2.09,-0.55l0.69,0.76l0.21,2.17l1.29,2.26l0.31,1.28l1.2,1.24l0.89,3.8l0.43,2.98l-0.61,2.43l-1.53,0.37l-1.91,1.45l-3.43,3.97l-0.8,2.59l-3.4,-0.11l-3.63,-0.62l-1.56,0.58l-1.72,2.42l-0.55,0.29l-1.99,0.33l-0.41,0.26l-2.31,-0.8l-1.52,-1.05l-2.67,-3.54l-5.8,-5.1l-1.16,-0.66l-6.82,-1.66l-1.61,-2.88l-0.54,-1.74l-1.08,-0.57l-2.2,0.73l-2.39,2.11l-0.62,0.25l-4.64,0.47l-1.47,-0.73l-2.73,-0.85l-2.72,-0.11l-5.62,-0.81l-1.26,0.91l-0.69,0.11l-0.87,-1.18l-1.46,-0.54l-1.58,0.45l-2.43,0.05l-6.94,-0.76l-5.97,2.31l-4.6,3.09l-3.09,2.44l-0.35,-3.84l0.22,-9.23l0.52,-4.48l2.44,-2.61l1.32,-2.18l0.78,-2.93l0.23,-2.66l0.49,-2.09l3.54,-6.07l2.8,-0.66l3.9,-1.74l4.02,-1.34l1.21,3.06l5.26,5.11l1.29,1.64l2.02,5.8l5.36,3.22l4.01,-1.02l4.75,-4.09l1.44,-2.02l0.35,-2.14l-0.55,-8.08l-0.83,-3.52l0.22,-1.7l0.45,-0.06l1.27,-1.03l4.19,-1.93l0.9,-0.11l0.98,-0.41l2.5,-1.39l1.64,1.62l0.76,-0.19l0.25,-0.58l-0.04,-0.48l0.37,0.11l3.08,2.43l1.28,0.62l0.78,0.17l1.09,1.17l2.52,0.73l0.49,1.25l3.62,4.67l2.42,1.58l1.23,0.34l4.93,-1.94l0.66,-0.01l0.88,0.73l2.08,1.02l2.44,0.3Z", "name": "Latvia"}, "EE": {"path": "M681.0,428.99l1.85,-5.56l0.33,-3.94l0.53,-0.44l0.31,-0.73l-0.27,-1.5l-0.23,-0.28l-1.86,-0.82l-0.98,0.09l-0.3,0.22l-1.27,2.22l-1.32,0.49l-1.32,-0.96l-3.16,-1.34l-0.74,-1.67l-0.19,-1.82l-1.79,-2.0l-0.66,-1.97l0.24,-1.23l1.44,-0.9l0.59,-1.02l-0.38,-0.58l-2.0,0.07l-0.9,-3.1l0.66,-0.88l0.4,-1.13l-0.06,-0.37l-0.54,-0.73l0.64,-1.94l-0.27,-2.08l1.74,-1.09l1.84,-0.83l4.02,-0.44l0.35,-0.47l-0.32,-1.69l1.45,-0.18l2.64,-2.45l2.79,0.39l3.91,-1.74l7.88,-0.09l1.05,-1.03l0.11,-0.36l-0.16,-1.57l1.09,0.21l2.35,-0.19l8.99,2.15l2.19,0.01l2.98,2.12l1.9,0.64l4.87,0.0l7.53,0.97l0.33,-0.11l1.44,-1.44l0.31,0.36l1.03,1.79l-1.13,0.71l-0.5,0.91l-0.86,0.1l-0.78,0.62l-1.99,6.09l-1.8,2.75l-1.51,1.6l-0.7,1.26l-0.41,1.42l-0.11,1.6l1.41,7.71l-0.02,1.31l-0.57,2.86l0.2,1.38l0.95,2.22l0.98,3.14l0.39,2.01l1.41,1.62l-0.18,0.36l-2.99,1.24l-0.67,1.85l-1.28,1.56l-0.65,3.27l-1.73,-0.3l-1.99,-0.97l-1.14,-0.83l-1.06,0.05l-4.81,1.9l-0.78,-0.28l-2.12,-1.37l-3.55,-4.57l-0.22,-0.75l-0.57,-0.79l-2.56,-0.74l-0.91,-1.06l-2.12,-0.82l-3.1,-2.45l-0.91,-0.3l-0.48,0.22l-0.18,1.08l-1.51,-1.6l-0.47,-0.06l-2.69,1.5l-0.9,0.37l-0.93,0.12l-4.3,1.98l-1.24,0.99ZM666.95,411.47l-0.72,0.17l-2.24,-1.55l0.42,-0.85l0.51,-0.33l1.86,0.63l0.27,1.58l-0.09,0.34ZM657.28,410.34l1.2,0.64l1.75,-0.61l1.74,0.37l4.31,3.07l0.13,0.26l-2.12,0.31l-0.28,0.18l-1.12,1.51l-0.83,0.3l-1.26,1.33l-1.71,1.28l-0.37,0.69l-2.88,-0.13l-2.03,0.62l-1.49,1.65l-0.56,2.75l-0.95,2.04l-0.87,0.66l-0.64,0.07l-0.05,-1.05l2.21,-3.0l0.51,-1.07l-0.22,-0.54l-1.04,-0.41l-0.98,-1.08l-1.95,-1.19l-0.16,-0.42l0.74,-0.47l0.55,-0.85l0.31,-1.09l-1.49,-2.81l0.37,-0.19l0.82,0.08l0.99,0.76l0.5,-0.01l1.12,-0.93l0.29,-0.08l0.7,0.29l0.52,-0.21l0.76,-1.73l1.81,-0.57l0.94,-0.55l0.73,0.12ZM661.52,404.19l-1.1,1.14l-0.61,-0.78l-0.71,0.02l-1.36,2.77l-1.28,0.4l-0.58,-0.35l0.05,-1.0l-1.1,-3.09l-1.41,-0.84l-2.03,-0.13l-0.64,-0.53l4.62,-0.68l0.31,-0.24l0.55,-1.32l0.99,-1.28l0.57,-0.1l0.4,0.19l0.14,1.0l0.45,0.68l2.33,0.59l0.86,1.66l0.29,1.79l-0.76,0.12Z", "name": "Estonia"}, "LT": {"path": "M639.04,493.11l-0.42,-1.51l0.48,-2.73l-0.91,-3.93l-1.46,-4.66l-0.19,-5.97l3.46,-2.73l4.53,-3.04l5.71,-2.22l6.79,0.77l2.53,-0.05l1.38,-0.45l1.01,0.31l0.94,1.27l0.38,0.16l1.24,-0.25l0.89,-0.77l5.47,0.79l2.69,0.11l2.58,0.81l1.73,0.78l4.88,-0.51l0.87,-0.37l2.25,-2.03l1.72,-0.65l0.51,0.19l0.53,1.67l1.95,3.25l6.96,1.7l0.96,0.56l5.68,4.99l2.72,3.59l1.71,1.17l2.35,0.84l-0.34,2.48l-1.32,4.17l-0.07,1.06l0.77,0.72l2.49,0.27l0.89,0.33l-1.58,1.48l-0.59,1.58l-4.14,-0.14l-0.72,0.57l-0.47,1.75l-0.49,1.0l-0.97,0.85l-1.73,0.37l-1.61,0.84l-1.09,2.1l-0.79,2.71l0.04,3.55l-1.4,2.42l-1.02,3.07l0.14,0.7l0.38,0.29l0.74,0.01l0.99,0.34l0.49,0.62l0.2,0.76l-0.12,1.13l-0.71,0.29l-1.28,0.01l-0.65,-0.35l0.31,-1.09l-0.3,-1.16l-0.7,-0.82l-0.54,-0.04l-1.12,0.88l-1.25,0.06l-1.41,0.86l-1.0,1.42l-0.69,0.39l-2.26,-0.26l-0.33,0.12l-0.7,0.82l-0.62,2.99l-1.96,-0.05l-1.91,1.09l-1.98,0.81l-1.79,-1.28l-2.45,0.42l-1.87,-0.08l-1.89,0.53l-2.23,-0.16l-0.76,-0.35l0.01,-2.94l-0.39,-1.58l-1.22,-1.48l-2.8,-1.96l-1.63,-0.54l-0.44,-0.99l-1.72,-1.03l-1.08,-0.16l-0.74,0.59l-0.86,-2.51l0.06,-1.53l0.33,-1.57l1.64,-4.81l-0.07,-0.95l-1.29,-1.58l-1.45,-0.99l-0.77,-1.97l-0.36,-0.25l-6.64,-0.1l-2.62,-0.85l-4.3,-2.23l-1.38,-0.88l-0.74,-0.93l-0.4,-0.14l-1.64,0.26ZM635.23,491.83l0.33,-0.58l-0.01,0.05l-0.31,0.53Z", "name": "Lithuania"}, "LU": {"path": "M433.16,608.92l-0.06,1.71l0.46,1.5l1.68,2.23l1.02,0.77l2.0,0.79l0.06,0.59l-0.1,0.8l-1.01,1.28l-0.42,1.02l-0.46,2.55l-0.97,-0.59l-0.83,-0.1l-1.01,0.31l-0.69,0.65l-0.64,0.14l-0.49,-0.13l-0.78,-0.71l-1.03,-0.33l-0.19,-0.29l0.51,-0.77l0.56,-1.35l-0.01,-0.37l-1.29,-2.45l-0.76,-0.92l0.01,-0.3l0.23,-1.75l0.59,-0.89l1.04,-2.49l1.29,-1.55l1.12,0.22l0.2,0.44Z", "name": "Luxembourg"}, "RO": {"path": "M631.67,697.2l-0.56,-0.63l-1.03,-1.82l-2.98,-2.05l-1.35,-2.26l3.03,-0.78l1.62,0.61l0.76,-0.31l0.68,-0.59l0.67,-1.35l0.8,-0.2l2.68,0.33l1.45,-0.91l0.51,-0.6l0.47,-1.51l0.83,-0.34l0.25,-0.38l-0.15,-1.42l0.8,-2.12l1.19,-0.78l1.2,-1.14l0.11,-0.4l-0.24,-0.85l0.18,-0.55l2.14,-3.44l0.14,-1.59l1.69,-1.94l1.12,-3.27l1.65,-1.75l0.16,-2.31l1.43,-1.23l2.32,-3.03l2.51,-0.86l1.07,0.24l0.76,-0.2l0.99,-0.71l2.71,-2.99l2.29,-1.12l1.16,-1.59l0.55,0.04l2.94,1.93l3.45,-0.05l4.49,1.14l0.87,-0.13l1.64,0.74l1.41,-0.1l1.42,-0.55l1.27,-0.17l1.09,0.28l4.18,4.21l0.35,0.14l1.25,-0.15l1.28,-0.44l1.42,-1.61l3.86,-1.71l9.42,-1.65l0.27,-0.17l1.57,-2.48l0.38,-1.72l3.99,-1.06l1.18,-0.07l0.88,0.14l1.43,0.84l1.0,1.05l2.3,3.92l1.04,2.32l0.64,2.5l0.82,1.64l1.56,1.8l2.2,4.2l2.1,2.29l0.48,1.2l0.7,1.07l2.94,2.7l1.03,3.6l1.19,2.94l-0.22,2.53l0.28,1.15l-1.67,6.04l-0.28,3.32l0.21,2.91l0.55,2.22l0.04,1.07l-1.06,0.85l0.01,0.51l1.84,2.84l1.43,2.0l1.94,1.17l4.3,1.16l0.61,-0.14l0.26,-0.3l-0.22,-1.02l1.39,0.37l1.89,-0.63l2.59,-1.55l2.25,-0.3l2.06,0.87l1.68,1.89l-0.92,5.2l-0.95,2.36l-5.83,1.39l-0.37,-2.54l0.54,-0.79l-0.24,-0.62l-1.88,-0.27l-0.78,0.64l-0.53,0.9l0.39,2.2l-0.98,1.7l-0.07,1.55l-0.45,0.73l-0.09,0.71l0.46,0.44l0.41,-0.07l-0.22,0.59l-2.08,2.53l-0.77,1.68l0.18,5.84l-0.97,4.2l-2.4,-0.05l-2.03,-0.51l-2.2,-0.88l-2.17,-3.0l-0.44,-0.16l-1.84,0.54l-0.83,-0.74l-1.6,-0.44l-1.74,-0.01l-4.75,-2.77l-3.29,0.41l-4.86,1.18l-3.76,1.46l-3.91,2.62l-1.6,1.97l-1.69,0.97l-2.45,0.73l-4.48,-0.28l-9.86,-2.02l-2.86,0.57l-3.66,-0.43l-5.68,-1.26l-4.2,-0.38l-4.07,0.71l-0.45,-0.36l0.03,-1.18l0.47,-0.6l0.94,-0.52l0.63,-0.65l0.16,-0.82l-0.14,-0.35l-1.19,-0.97l-2.27,-1.27l-1.03,-0.87l-0.14,-0.78l-0.62,-0.67l-0.83,-0.38l-0.6,-0.65l-0.42,-0.93l0.08,-0.82l0.58,-0.79l0.7,-0.33l1.23,0.06l0.46,-0.27l0.18,-0.45l-0.32,-0.89l-1.13,-0.91l-2.26,-1.09l-1.99,0.57l-2.13,2.22l-1.06,0.26l-0.89,-1.38l-1.6,-0.88l-2.39,-0.32l-1.24,-0.5l-0.58,-0.87l-1.0,-0.66l-2.05,-0.66l0.04,-0.14l1.79,-0.2l0.48,-0.61l0.05,-0.5l-0.21,-0.37l-1.68,-0.75l-0.53,-0.47l0.36,-0.07l0.52,-0.46l0.17,-0.74l0.8,-1.09l-0.1,-0.71l-0.98,-1.0l-2.71,-0.92l-1.0,-0.91l-0.81,-0.13l-0.92,-0.48l-3.06,-2.78l-0.16,-0.19l0.17,-0.86l-0.27,-1.19l0.18,-1.25l-0.06,-1.7l-0.35,-0.47l-0.53,0.03l-0.28,0.27Z", "name": "Romania"}, "EG": {"path": "M765.39,947.08l-0.33,0.13l-0.25,0.42l0.35,0.35l1.86,0.21l4.2,-0.94l0.68,-0.91l0.41,-1.3l1.34,0.22l4.59,2.07l1.26,0.02l3.65,-1.3l0.33,0.2l-0.63,0.21l-0.2,1.01l-1.37,1.85l0.15,0.6l1.78,0.83l1.38,0.31l1.14,1.85l0.47,0.2l1.62,-0.55l1.02,-1.3l0.01,-0.48l-0.43,-0.59l3.25,2.71l1.25,0.6l1.19,-0.1l2.22,-0.67l0.73,0.08l2.79,-0.82l0.75,1.1l0.43,0.14l2.43,-0.72l3.95,-0.0l3.29,-0.84l3.66,-1.92l3.74,10.93l0.56,2.41l1.74,3.98l3.24,10.91l-0.63,0.61l-1.57,2.64l-1.61,7.92l-2.3,6.16l-0.28,3.94l-0.35,1.3l-7.31,0.0l-0.69,-0.6l-2.23,-3.16l-2.46,-2.12l-2.21,-2.66l-0.58,-1.84l0.0,-1.33l-1.02,-3.16l-0.79,-1.55l-2.75,-3.27l-0.78,-1.72l-1.21,-1.88l-1.01,-4.32l-1.1,-2.75l-0.58,-0.19l-1.26,0.76l-0.19,0.42l0.19,0.99l-1.05,1.55l-0.66,1.85l0.51,1.77l2.32,2.4l0.41,0.9l0.51,2.08l-0.06,3.04l0.43,1.11l1.68,2.15l1.54,3.41l1.72,1.95l2.46,3.64l2.44,2.53l-113.28,0.0l-0.01,-17.93l-1.55,-6.06l-0.85,-4.97l-1.24,-3.81l-0.1,-0.95l2.33,-3.94l1.16,-3.58l0.16,-1.69l-1.3,-4.49l-0.33,-4.13l3.51,-4.58l0.78,1.49l0.29,0.21l2.13,0.33l7.0,-1.71l18.21,3.83l4.0,2.63l1.21,0.35l2.7,-0.05l1.97,1.54l7.36,0.74l3.88,1.67l2.23,1.34l1.58,0.48l1.29,-0.09l1.61,-0.51l2.12,-1.0l2.25,-1.35l4.54,-3.39l1.47,-0.55l2.32,0.1l0.33,-0.2l2.2,-2.98l2.26,-0.24ZM783.58,946.31l0.38,0.23l0.46,0.51l-0.84,-0.74Z", "name": "Egypt"}, "PL": {"path": "M544.56,530.02l3.69,1.76l0.59,-0.42l-0.41,-1.52l0.16,-1.04l-0.09,-1.6l-0.29,-0.36l-2.82,-0.82l-1.63,-0.25l-0.14,-0.77l2.28,0.24l4.48,-2.15l7.74,-2.8l8.26,-2.63l1.96,-0.29l1.95,-0.56l1.66,-1.82l1.11,-1.73l2.39,-2.61l4.3,-0.97l1.78,-1.35l3.38,-1.78l7.81,-2.03l3.24,-0.44l3.09,-0.05l2.75,1.55l-1.08,-0.15l-0.41,0.54l2.05,5.43l1.15,1.98l2.39,1.56l2.01,0.53l6.0,-0.86l2.21,-1.18l0.48,-0.44l0.44,0.19l7.66,0.61l26.6,1.42l7.64,0.23l0.78,-0.29l0.64,-0.74l0.67,0.09l1.02,0.51l0.42,0.33l0.3,0.87l0.32,0.3l1.63,0.5l2.61,1.81l1.05,1.22l0.34,1.35l-0.04,2.8l1.64,8.25l2.59,7.51l0.94,3.57l0.67,4.61l0.08,2.96l-0.17,1.35l-0.64,0.73l-4.88,2.48l-1.07,0.91l-2.82,3.98l-0.45,1.29l0.48,1.07l3.51,1.92l0.61,0.66l1.24,0.78l0.63,1.17l-0.02,1.35l-0.58,2.0l0.21,1.58l-1.05,2.09l-0.07,2.31l1.61,3.69l0.25,1.02l-0.28,0.98l0.16,1.1l2.67,3.94l1.0,2.84l0.68,1.19l1.48,1.46l0.06,0.25l-0.34,0.31l-0.83,0.22l-0.47,0.71l0.03,0.41l0.88,1.28l0.62,2.14l-0.06,1.62l-0.46,0.45l-1.02,1.95l-3.57,0.8l-2.76,3.09l-1.34,1.2l-5.08,5.84l-4.48,6.15l-0.8,1.45l0.11,1.4l0.97,3.88l-0.36,2.61l1.95,2.02l-0.07,0.46l-0.17,0.16l-1.22,-0.33l-1.61,-0.76l-1.5,-0.11l-5.93,-2.56l-0.67,-1.73l-1.16,-1.07l-2.51,-0.86l-0.94,-0.6l-4.1,-0.41l-3.7,0.22l-0.35,0.18l-1.02,1.56l-0.57,0.37l-0.89,0.04l-0.79,-0.24l-1.04,-0.89l-1.53,-0.45l-1.21,0.19l-1.5,-0.22l-1.01,0.19l-2.84,1.54l-0.82,1.06l-0.53,1.46l-1.53,-0.66l-1.68,0.55l-0.18,-0.07l0.36,-1.12l-0.2,-2.19l-0.78,-0.64l-1.19,-0.28l-2.05,-3.46l-0.61,-0.57l-0.54,0.01l-1.81,1.46l-0.86,0.43l-1.25,2.14l-1.88,0.06l-0.37,-1.81l-0.32,-0.3l-1.13,-0.21l-0.43,-2.09l-2.81,-2.95l-0.3,-1.07l0.09,-0.58l-0.34,-1.02l-0.77,-0.56l-2.28,-0.58l-0.67,0.25l-1.22,-0.97l-1.3,-0.54l-0.68,-0.79l-0.48,-0.18l-0.44,0.19l-0.49,0.63l-1.25,0.48l-0.38,-0.15l-1.96,-2.41l-1.05,-0.71l1.32,-0.62l0.55,-0.99l-0.18,-1.66l-0.4,-0.44l-0.48,0.0l-0.59,0.45l-1.26,0.4l-1.67,0.19l-3.57,-2.6l-2.32,-0.8l-1.43,-0.25l-0.42,0.2l-0.17,0.61l1.63,3.37l-1.87,0.99l-0.93,0.69l-0.68,0.82l-0.44,0.28l-0.3,-0.05l-0.43,-0.31l-1.49,-2.68l-2.02,-2.42l-1.45,-0.69l-0.14,-0.32l0.76,-0.95l1.08,-0.45l0.91,-1.63l-0.15,-0.71l-0.78,-0.83l-1.05,-0.73l-3.23,0.48l-0.63,0.29l-0.82,-1.15l-0.66,-0.13l-2.18,-1.32l-1.26,-0.23l-2.4,-0.95l-0.97,-0.07l-0.4,-0.24l-0.94,-1.37l-0.24,-1.55l-0.24,-0.31l-1.8,-0.74l-1.84,-0.48l-0.45,0.2l-0.17,0.44l0.01,2.23l-0.9,0.41l-0.49,0.02l1.25,-2.63l0.65,-1.91l0.72,-3.66l-1.09,-3.92l-0.46,-0.75l-2.48,-1.38l0.26,-2.07l-0.25,-0.9l-1.31,-2.28l-0.26,-1.15l0.96,-1.58l1.05,-3.89l-0.11,-0.38l-0.56,-0.54l-0.13,-0.69l0.15,-1.4l-0.35,-0.94l-0.96,-0.76l-0.48,-0.69l-0.22,-0.87l0.82,-3.92l-1.52,-2.73l-3.5,-3.04l-1.57,-1.99l0.11,-0.97l0.65,-0.98l1.4,-1.08l1.02,-1.78l0.63,-2.29l0.04,-2.03l-1.57,-6.2l-0.42,-3.23ZM601.84,505.56l2.93,1.92l0.06,0.12l-0.63,-0.29l-2.36,-1.76Z", "name": "Poland"}, "LY": {"path": "M507.03,919.87l1.65,0.8l2.05,0.39l6.38,3.81l2.05,0.48l4.43,0.45l5.34,-1.56l1.83,-0.26l3.38,1.43l1.6,0.42l2.49,0.11l4.28,1.3l1.03,0.43l2.49,2.07l1.39,0.71l8.88,1.9l1.1,1.15l1.18,2.3l0.07,3.04l1.82,5.05l1.39,2.08l1.62,1.78l1.78,1.07l3.95,1.53l4.54,0.61l4.47,0.2l7.64,2.09l6.46,2.41l1.67,1.22l3.2,1.15l6.52,5.7l3.62,1.97l2.67,0.43l2.51,-0.38l4.04,-1.98l1.73,-1.21l4.15,-5.0l1.38,-2.65l0.56,-1.89l-0.12,-1.99l-0.52,-1.75l-1.16,-1.81l-0.77,-2.22l-0.46,-4.06l0.61,-2.8l0.75,-1.67l1.19,-1.72l3.33,-3.35l3.35,-2.37l5.88,-3.09l3.38,-0.03l1.53,-0.36l2.92,-2.23l0.96,-0.07l1.67,0.54l4.66,-0.15l1.97,0.59l2.53,1.4l3.11,0.86l4.34,1.86l0.47,2.44l-0.31,1.88l0.15,0.34l2.64,1.97l6.89,0.88l1.27,0.47l1.97,1.47l1.35,0.47l4.75,0.2l2.77,-0.31l2.53,0.48l0.86,0.43l0.92,1.02l1.54,3.33l-2.81,3.48l-1.12,1.72l0.34,4.36l1.3,4.49l-0.16,1.44l-1.1,3.38l-2.03,3.22l-0.37,1.03l0.13,1.17l1.23,3.8l0.85,4.94l1.54,5.99l0.0,17.82l-204.27,0.0l-0.64,-8.23l0.36,-6.34l-0.51,-3.29l-0.81,-3.02l-1.45,-4.2l-1.31,-2.57l-3.0,-4.65l2.49,-1.57l3.87,-1.75l1.34,-0.82l4.42,-6.34l0.54,-1.29l0.04,-1.4l-0.2,-1.5l-1.71,-6.7l0.53,-1.14l1.51,-2.15l0.3,-0.22l2.44,-0.61l0.97,-1.14l0.88,-1.98l2.06,-1.36l0.81,-0.99l9.3,-5.48l0.42,-0.96l0.0,-1.0l-1.08,-1.99l0.07,-3.98l0.56,-4.02Z", "name": "Libya"}, "CH": {"path": "M479.6,662.65l1.17,0.96l-0.19,1.24l-1.08,2.37l-0.61,2.01l0.03,2.38l0.41,0.34l1.73,0.1l1.62,0.39l1.18,0.51l0.53,1.42l1.7,1.08l1.85,0.67l1.05,-0.32l2.1,-2.22l0.49,0.22l0.44,1.06l-0.64,3.09l-0.12,1.45l0.55,1.07l-0.03,0.85l-0.56,0.04l-1.06,-0.3l-0.97,-1.03l-0.36,-0.12l-0.87,0.16l-0.91,0.53l-0.68,2.49l0.1,0.69l0.54,0.69l0.34,1.03l0.4,2.0l-0.66,0.02l-0.89,-1.65l-0.71,-0.85l-0.93,-0.1l-3.29,1.39l-1.17,-0.15l-0.53,-0.68l-0.69,-2.5l-0.43,-0.33l-1.86,-0.19l-0.78,0.73l-0.12,3.6l-0.59,1.21l-2.45,3.28l-0.3,0.8l-0.07,0.86l0.6,1.97l-0.15,0.28l-0.57,0.18l-0.41,-0.38l-0.33,-1.17l-1.25,-1.31l0.53,-1.01l-0.09,-0.63l-0.27,-0.25l-2.3,-0.63l-2.34,-2.49l-0.22,-0.59l-0.03,-2.92l-0.26,-0.45l-0.34,-0.17l-0.95,0.11l-1.04,0.89l-0.87,1.18l-1.9,1.44l-0.22,0.68l0.56,1.56l-1.72,2.71l-2.49,1.66l-3.28,-1.05l-3.04,1.3l-2.54,0.59l-0.81,-0.37l-0.35,-0.32l-0.91,-1.76l-0.81,-0.74l-1.56,-2.02l0.56,-1.98l-0.65,-1.96l0.11,-0.66l-0.16,-0.38l-0.41,-0.25l-2.44,-0.43l-2.12,0.13l-1.6,0.77l-1.5,1.62l0.04,0.54l0.49,0.92l-0.78,0.9l-1.39,0.82l-1.04,0.03l-0.01,-0.72l0.78,-0.42l0.92,-1.0l0.38,-1.99l-0.82,-1.14l1.26,-3.23l3.32,-2.8l0.66,-3.83l2.81,-1.54l0.38,-0.73l3.54,-4.13l0.68,-1.13l0.08,-0.58l-0.32,-0.52l-0.87,-0.26l-0.11,-0.25l0.73,-0.94l1.0,-0.63l0.87,-0.01l0.29,0.63l0.48,0.42l1.17,0.23l1.15,-0.18l1.04,-0.44l1.17,-1.93l1.36,-0.75l1.08,0.42l3.11,0.12l2.32,-0.25l1.46,-0.62l1.62,0.0l1.12,0.33l0.74,-0.13l0.42,-0.35l0.99,-0.2l0.42,-0.48l-0.0,-0.54l-0.36,-0.4l-1.54,0.06l-0.29,-0.27l0.33,-0.65l0.85,-0.61l0.67,-0.14l0.43,0.14l1.65,1.37l0.36,0.04l0.55,-0.33l0.26,0.13l0.63,0.88l0.35,0.16l3.94,-0.29l4.53,2.88Z", "name": "Switzerland"}, "GR": {"path": "M728.07,873.66l-0.82,0.28l-0.24,-0.45l0.52,-1.72l-0.53,-1.67l0.73,-0.69l0.52,-0.99l1.24,-1.06l3.69,-1.37l-0.01,0.51l-1.12,2.58l-1.01,1.31l0.1,1.01l-1.47,0.36l-1.6,1.9ZM728.22,863.13l-0.27,-0.34l0.32,-0.21l-0.01,0.38l-0.04,0.17ZM717.36,859.42l2.55,-1.38l0.5,-0.08l0.34,0.18l-1.43,0.67l-0.57,0.51l-1.39,0.1ZM718.65,878.87l0.91,2.37l-0.41,0.12l-0.44,0.55l0.1,-1.09l-0.54,-1.27l0.37,-0.69ZM711.83,843.42l0.38,-0.48l1.25,-0.44l0.97,-0.02l1.6,0.54l1.04,0.09l0.08,0.38l-0.76,0.13l-1.67,0.88l-0.52,-0.14l-1.09,-0.87l-1.27,-0.08ZM716.42,855.63l0.55,0.52l-0.06,0.11l-0.63,0.11l0.13,-0.74ZM708.44,815.85l-0.19,0.84l0.12,0.38l1.83,1.68l0.67,1.39l-0.81,-0.33l-0.51,0.48l0.48,1.13l-0.42,0.15l-0.94,-0.02l-2.93,-0.85l-0.4,-0.54l1.64,-1.31l0.38,-0.59l-0.35,-0.62l-1.61,0.2l-1.23,1.51l-1.9,-0.64l-0.62,-0.69l0.67,-1.16l1.35,0.04l1.0,-0.37l1.05,-0.49l0.23,-0.72l1.91,-0.13l0.58,0.64ZM623.81,810.32l1.16,0.04l0.95,-0.9l0.37,-1.51l0.52,0.06l0.54,-0.27l0.14,-1.02l-0.95,-2.19l0.82,-0.58l0.37,-0.58l2.5,-0.51l0.87,-0.71l0.92,-3.24l1.12,-2.57l1.85,-0.83l0.87,-1.39l0.42,-1.11l0.03,-0.78l-1.01,-2.15l0.08,-0.89l4.52,-0.29l1.18,-0.71l2.08,0.65l0.38,-0.04l2.86,-1.56l1.98,-2.74l0.71,-0.35l1.9,-0.17l0.67,-0.32l2.75,0.61l1.46,0.09l3.19,-1.1l0.24,-0.3l0.39,-2.28l0.19,-0.17l1.59,-0.06l3.27,0.26l1.33,-1.14l2.46,-0.23l1.39,0.22l1.45,-0.03l1.72,-0.47l1.58,-0.76l1.15,0.06l0.73,-0.19l0.48,-0.4l0.23,-0.78l4.18,0.07l1.52,-0.56l1.02,1.87l2.49,1.64l0.51,-0.05l0.76,-0.54l1.8,0.48l1.82,0.85l1.56,1.27l0.34,0.08l3.75,-1.02l2.61,-0.27l0.83,-0.27l1.98,0.3l1.94,-0.7l1.02,-0.68l0.44,-1.26l-0.17,-1.64l-0.44,-1.57l-0.58,-1.03l0.37,-0.64l1.02,-0.27l2.66,0.81l1.11,1.11l1.07,0.59l0.51,3.23l-0.2,0.57l-0.82,0.21l-2.79,1.88l-0.18,0.32l-0.07,1.76l0.1,1.44l0.29,0.57l0.0,0.53l-0.25,0.62l-2.03,2.26l-0.89,1.29l-0.53,0.19l-0.33,-0.54l-2.26,-1.4l-4.82,-0.78l-2.28,-0.97l-1.11,0.13l-2.18,-1.07l-1.44,0.53l-2.74,1.89l-1.3,-0.18l-1.73,-1.2l-1.34,-0.18l-1.39,0.72l-1.98,2.22l-1.87,1.01l-1.79,-0.41l-2.49,0.01l-0.39,0.32l-0.22,1.54l0.54,0.95l1.16,1.28l-0.51,1.22l0.47,1.12l1.15,0.46l1.34,-0.05l2.29,1.35l1.09,1.62l-1.43,-1.46l-1.36,-0.41l-2.03,-1.01l-1.46,-0.12l-1.3,0.68l-0.21,0.3l0.01,1.1l1.4,1.44l1.88,1.53l0.38,1.36l-0.36,0.56l-1.16,-0.77l-2.27,-3.51l-3.48,-0.89l-0.41,0.16l-0.54,0.75l-0.06,0.36l0.64,1.89l0.6,0.93l2.53,1.83l-2.98,-0.99l-0.81,-1.57l-0.21,-2.17l-0.21,-0.31l-5.5,-3.18l-0.48,-1.26l0.48,-0.56l0.4,-1.19l-0.44,-0.52l-1.69,0.3l-0.91,0.72l-1.48,0.71l-0.23,0.34l-0.06,1.19l0.23,1.11l-0.49,1.55l-0.49,2.79l0.31,1.61l3.34,4.3l1.11,2.97l0.86,1.24l1.73,1.32l1.72,2.29l0.71,1.15l0.45,1.69l-1.19,0.99l-0.54,0.03l-0.17,-0.2l0.59,-1.34l-0.3,-1.13l-2.29,-1.28l-0.36,-0.02l-1.05,0.48l-1.12,0.84l-0.13,0.47l0.64,1.55l0.72,1.04l0.34,1.34l0.54,0.29l-0.85,0.72l-1.61,0.75l-2.75,0.19l-0.62,0.53l0.17,0.65l1.6,0.33l1.19,0.84l3.27,1.0l1.75,1.32l1.37,0.1l1.46,2.19l2.81,0.76l1.71,2.41l2.02,0.46l1.63,0.8l0.42,0.67l0.24,1.4l0.11,3.15l0.38,2.38l-0.07,1.66l-0.28,0.32l-0.27,0.01l-1.2,-1.62l-4.01,-3.98l-0.66,-0.44l-0.67,-0.1l-1.29,0.76l-3.11,0.6l-1.91,0.94l-0.4,0.66l0.16,0.47l0.62,0.4l0.7,0.83l0.03,1.37l0.68,1.65l1.08,0.63l1.24,0.01l0.4,0.19l0.21,0.63l0.99,1.18l-2.94,0.98l-1.08,0.67l-0.47,-0.29l-0.04,-1.1l-0.18,-0.32l-2.13,-1.31l-1.23,-0.28l-0.95,-0.84l-0.56,0.03l-0.67,0.74l-0.1,0.35l0.54,2.54l1.2,1.86l1.93,4.63l0.87,2.71l0.17,1.23l-0.38,2.42l1.32,2.58l-1.49,-1.12l-1.97,-2.59l-0.69,-1.63l-0.31,-0.24l-0.85,-0.13l-1.6,0.24l-0.3,0.23l-1.62,3.58l-0.03,1.51l-0.2,-0.12l-0.55,-0.49l-0.05,-3.23l-1.96,-3.06l-0.93,-0.44l-1.11,-2.05l-0.42,-0.17l-1.05,0.26l-0.96,0.74l-0.29,3.11l-0.28,0.55l-1.67,-1.7l-2.03,-3.56l-0.05,-1.78l1.53,-2.05l-0.23,-1.47l-1.56,-2.75l-2.1,-1.69l-1.1,-0.49l-0.63,-1.82l-1.13,-0.93l-0.83,-0.41l-0.09,-0.31l2.42,-2.23l1.21,-2.73l0.3,-0.07l1.43,0.67l1.49,-0.18l1.47,-1.84l0.88,-0.79l1.48,0.1l3.86,2.24l4.28,1.33l2.03,1.1l1.29,1.18l1.71,0.41l0.46,-0.42l-0.25,-1.38l0.41,-0.2l2.17,0.02l0.75,-0.58l0.42,-0.64l0.0,-0.44l-0.47,-0.73l-1.04,-0.53l-1.48,-0.32l-0.72,0.2l-1.17,-0.5l-1.13,-0.96l-2.27,-0.94l-2.15,-1.59l-0.59,0.13l-0.44,0.81l-0.7,0.39l-1.1,0.06l-3.73,-1.0l-2.15,0.78l-2.11,0.23l-2.11,0.51l-0.94,-1.26l-0.45,-1.11l-0.48,-0.4l-0.62,0.33l-0.02,1.01l-0.26,0.63l-1.27,0.38l-0.68,-0.49l-1.66,-4.66l-1.61,-2.12l-1.25,-0.59l-0.09,-0.88l0.08,-0.59l1.16,-0.17l2.36,0.94l0.91,-0.26l0.7,-0.8l-0.11,-1.0l-0.38,-0.99l-0.35,-0.25l-2.63,-0.12l-1.94,0.46l-0.65,-0.34l-0.33,-0.57l-1.59,-1.37l-1.38,-1.85l-2.27,-1.3l-1.43,-3.71l-1.08,-1.48ZM707.95,863.4l-0.21,0.27l-0.36,-0.35l0.4,0.11l0.17,-0.03ZM708.78,862.82l0.04,-0.14l0.08,0.09l-0.12,0.04ZM703.63,846.52l1.02,-1.02l1.54,-0.05l0.67,-0.23l-0.95,0.66l-2.28,0.64ZM672.76,879.36l0.46,1.24l0.9,0.38l0.93,0.12l1.72,-0.14l0.86,-0.96l0.54,-0.01l0.16,0.35l-0.78,0.39l-0.2,0.25l0.02,0.53l1.05,0.68l0.85,-0.04l0.27,1.06l0.84,0.62l1.92,-0.04l3.7,-0.97l3.65,0.24l1.5,1.05l2.58,0.12l2.39,0.54l3.39,-0.67l-0.18,2.26l0.14,0.81l0.83,0.61l0.91,-0.13l0.88,-0.81l1.67,-0.55l1.83,0.0l1.36,-1.17l-0.22,1.61l-0.46,1.7l-0.8,0.32l-4.51,-0.11l-8.47,1.09l-5.41,0.4l-0.4,-0.14l-0.14,-1.56l-0.42,-0.67l-1.9,-0.58l-1.59,-0.73l-6.45,-1.05l-1.48,-0.4l-2.55,0.2l-0.77,-0.02l-0.45,-0.27l-0.32,-0.47l-0.18,-1.85l0.28,-1.81l0.86,0.52l0.45,-0.09l0.69,-0.88l0.04,-0.97ZM704.26,834.82l-0.94,0.71l-1.18,-1.17l0.87,-0.53l0.55,-1.23l-0.5,-1.21l-1.38,-1.5l-0.04,-0.65l1.74,-0.37l1.18,0.88l0.4,0.1l-0.13,0.49l0.19,3.06l-0.62,0.56l-0.15,0.86ZM698.5,796.09l-0.89,0.27l-1.01,-0.88l0.82,-0.3l1.08,0.9ZM696.84,856.2l-0.81,0.43l-0.56,-0.63l-0.36,-1.14l1.86,-1.8l0.35,0.39l-0.04,1.74l-0.44,1.02ZM695.75,865.79l0.1,0.34l-0.34,0.48l0.2,-0.44l0.05,-0.39ZM695.07,848.41l-0.74,0.06l0.04,-0.65l0.14,-0.1l0.99,0.41l-0.43,0.28ZM695.31,804.04l-0.51,0.64l-0.56,2.25l-0.58,-0.14l-0.13,-1.02l-0.43,-0.38l-0.69,0.29l-0.37,0.86l-0.49,0.04l-0.55,-0.29l-0.13,-1.99l1.87,-0.08l0.57,0.71l0.52,0.09l0.85,-0.5l0.4,-0.55l0.26,-0.09l-0.02,0.15ZM694.65,861.11l-0.67,-0.7l-0.18,-0.35l0.97,0.79l-0.12,0.26ZM693.07,854.7l-0.79,0.95l-0.49,-0.08l-0.17,-0.26l0.42,-0.92l0.93,-0.54l0.09,0.85ZM690.78,845.21l1.8,0.33l0.17,0.22l-0.27,0.6l-0.44,-0.09l-1.26,-1.06ZM689.22,842.95l-0.12,0.35l-0.67,-0.83l-1.1,-0.87l-0.4,-0.73l-0.69,-0.53l-0.11,-0.63l0.58,-0.28l0.74,1.11l1.26,0.28l-0.03,0.61l0.54,1.51ZM686.25,792.71l-1.26,0.46l-1.42,-0.97l0.01,-0.39l1.18,-1.6l0.95,0.09l0.6,0.81l-0.06,1.6ZM685.69,856.02l0.34,0.68l-0.14,0.11l-0.15,-0.29l-0.06,-0.5ZM682.97,822.45l0.5,0.31l0.3,1.12l-0.91,-0.63l0.11,-0.81ZM684.17,824.27l0.39,0.37l-0.34,0.1l-0.05,-0.47ZM661.56,823.86l3.22,-2.04l1.94,-0.51l1.2,1.15l0.73,1.81l0.91,0.84l1.51,0.75l0.76,0.12l2.51,1.33l3.0,0.3l1.18,2.04l0.1,0.42l-0.29,0.83l0.44,2.16l0.77,2.11l1.43,1.25l1.41,0.3l1.25,-0.03l-0.0,1.63l-0.63,0.59l-1.0,-0.73l-0.75,-0.07l-0.54,-0.66l-1.34,-0.92l-0.33,-1.5l-0.57,-0.62l-0.53,-1.21l-0.58,-0.46l-0.24,-0.68l-0.36,-0.36l-3.76,-0.2l-1.21,-0.6l-0.6,-1.97l-1.43,-0.98l-1.93,-2.13l-1.56,-1.19l-1.53,-0.8l-1.62,-0.52l-1.58,0.53ZM681.22,860.85l0.53,0.3l0.2,-0.02l-0.82,0.14l0.1,-0.43ZM682.24,861.08l0.48,-0.53l0.35,-0.09l-0.0,0.48l-0.82,0.14ZM682.93,853.54l-0.53,-0.08l0.11,-0.46l0.26,-0.18l0.23,0.11l-0.07,0.6ZM681.96,849.49l-0.3,-0.69l0.24,-0.33l0.33,0.53l-0.28,0.49ZM680.68,845.86l-0.28,0.26l-0.05,-0.37l0.44,-1.0l0.29,-0.03l0.08,0.15l-0.49,0.99ZM674.97,817.83l0.0,-0.01l0.01,-0.01l-0.02,0.02ZM672.56,819.57l-0.63,-0.07l-0.25,-0.51l0.88,0.57ZM668.89,840.07l0.31,-0.62l0.21,-0.0l0.22,0.52l-0.21,0.17l-0.53,-0.06ZM661.94,867.06l1.49,1.67l-0.54,1.1l-0.82,-0.29l-0.27,-0.53l-0.06,-1.49l0.2,-0.45ZM633.68,842.46l0.54,0.64l-1.22,0.96l-1.24,-1.08l-0.99,-1.58l0.51,-0.67l0.6,0.86l1.24,0.35l0.56,0.51ZM627.1,835.16l0.71,-1.9l0.36,0.37l0.46,0.09l0.52,-0.24l0.61,-1.36l0.25,2.14l0.25,0.34l0.84,0.33l1.11,1.57l-0.08,0.65l-1.84,-0.74l-0.97,0.26l-0.29,-1.2l-0.71,-0.95l-0.55,0.0l-0.68,0.65ZM630.94,831.07l0.1,0.11l-0.0,0.23l-0.09,-0.35ZM629.87,828.02l0.46,-2.19l0.49,-0.86l0.33,-0.19l0.13,0.3l-0.06,2.58l-0.22,0.3l-1.13,0.06ZM620.87,813.3l-0.2,-0.14l-1.04,-2.17l-2.08,-2.38l-0.02,-0.36l0.57,-0.38l1.56,-0.34l0.9,0.62l-1.09,1.46l0.06,0.44l0.67,0.74l0.33,1.93l0.33,0.58ZM622.63,814.25l0.03,0.01l0.0,0.0l-0.04,-0.01Z", "name": "Greece"}, "RU": {"path": "M726.1,454.64l0.8,-2.72l0.1,-1.95l0.58,-1.88l0.65,-0.73l0.29,-0.84l0.13,-1.42l-0.13,-1.22l-0.58,-0.87l-3.38,-2.73l-0.51,-2.09l-0.77,-0.47l-1.2,-0.08l0.01,-0.15l0.58,-2.8l1.19,-1.41l0.68,-1.84l2.7,-1.0l0.5,-0.52l0.11,-0.59l-0.27,-0.67l-1.18,-1.17l-0.39,-1.96l-0.99,-3.19l-0.93,-2.14l-0.18,-1.14l0.56,-2.79l0.03,-1.48l-1.41,-7.78l0.09,-1.33l0.39,-1.33l0.61,-1.1l1.48,-1.56l1.84,-2.82l1.92,-5.97l0.37,-0.35l1.23,-0.31l0.55,-0.99l0.77,-0.32l0.48,-0.59l-0.24,-1.22l-1.51,-2.02l0.64,-1.82l-0.24,-2.5l-0.42,-2.01l0.47,-1.2l0.51,-0.07l1.11,1.59l1.66,0.87l0.46,-0.06l1.21,-1.12l0.51,-2.27l0.55,-0.6l1.05,0.71l1.95,0.31l1.71,-0.14l1.21,-0.48l0.64,-0.85l0.47,-1.32l0.85,-1.54l0.75,-0.85l6.83,1.15l6.11,2.21l0.48,-0.18l0.47,-0.83l0.26,-1.57l-0.14,-0.37l-2.61,-1.86l-1.43,-2.56l-2.05,-2.03l-2.31,-0.29l-2.76,0.7l-3.86,-0.4l-3.38,-3.72l-2.3,-1.23l-1.66,-3.22l0.85,0.64l0.63,-0.25l0.39,-3.33l-1.08,-1.44l-0.94,-0.74l-0.46,-0.02l-4.46,2.9l-4.01,0.75l7.55,-9.14l3.44,-2.94l1.07,-1.6l6.97,-6.47l3.26,-4.42l2.7,-2.91l8.36,-12.0l3.51,-4.7l5.03,-5.72l3.41,-4.62l1.37,-2.59l2.08,-6.21l1.3,-3.23l0.06,-1.22l-0.43,-1.23l-2.34,-3.38l-2.17,-4.27l-2.82,-2.81l-7.52,-6.14l-4.88,-5.59l-0.74,-1.2l2.85,-1.85l2.78,-4.44l1.22,-2.28l0.35,-1.94l-0.17,-3.86l-0.37,-1.22l-1.48,-1.65l-3.73,-2.55l-1.58,-4.78l-0.01,-0.88l1.82,-2.84l0.08,-1.46l-0.25,-1.53l-0.75,-1.24l-3.82,-1.22l-0.99,-1.19l-0.84,-2.02l-0.43,-1.75l-0.04,-0.98l0.25,-1.04l1.22,-1.21l1.21,-0.87l0.38,-1.53l-0.01,-1.3l-0.23,-0.75l-0.28,-0.26l-2.3,-0.58l-0.14,-0.43l1.44,-2.87l0.18,-4.38l1.21,-3.06l-0.05,-0.39l-1.25,-1.63l1.9,-0.85l1.92,-0.23l1.0,-0.39l0.25,-0.34l0.1,-1.47l-0.21,-2.06l-2.53,-10.26l-3.15,-6.21l-1.07,-2.68l-0.63,-2.82l-1.1,-3.17l-2.33,-5.61l-2.69,-5.25l-0.34,-1.37l0.26,-2.58l2.09,-4.31l4.44,-7.95l5.01,-7.89l0.69,-4.57l-0.22,-0.93l-2.12,-2.32l-4.01,-6.25l-2.44,-4.79l-8.95,-4.75l-2.84,-10.73l0.11,-1.7l3.7,-8.72l0.35,-1.59l-0.06,-1.1l-0.44,-0.8l-0.65,-0.47l-3.37,-0.3l-0.27,-0.62l1.77,-0.79l4.48,-3.06l3.08,-1.61l0.76,-0.89l0.56,-1.05l2.33,-7.48l5.88,-2.34l2.35,-1.35l1.31,-1.63l0.63,-1.28l0.43,-1.45l0.46,-3.14l-0.43,-1.76l0.28,0.03l2.03,1.87l3.2,2.03l2.54,0.22l1.15,-0.41l0.73,-1.18l0.36,-1.81l0.02,-1.85l-0.65,-4.58l1.81,0.41l5.42,3.09l1.68,-0.29l1.78,-1.12l1.6,-3.59l0.92,-0.48l1.42,0.77l0.56,-0.19l0.46,-1.26l-0.81,-3.02l0.12,-0.88l4.95,3.01l2.46,2.5l5.01,2.1l0.75,0.98l0.06,1.85l-0.22,1.55l-0.84,0.74l-1.96,-0.14l-7.79,-2.65l-0.45,0.15l-1.16,1.62l-0.01,0.46l1.05,1.5l2.17,1.56l0.61,2.76l0.44,0.31l3.43,-0.39l3.27,1.08l1.42,-0.27l0.14,0.45l-1.02,2.26l0.06,0.42l0.51,0.62l0.52,0.09l3.72,-2.31l1.52,-0.56l0.61,0.4l0.11,1.67l-0.61,2.36l-0.08,1.88l-1.11,4.24l-1.8,1.42l-0.75,1.83l0.09,0.44l0.44,0.08l2.61,-1.12l1.49,-1.29l2.67,-6.14l0.61,-0.64l7.18,-0.11l1.59,0.37l6.9,2.86l2.08,0.29l2.37,-0.37l1.0,-1.42l0.5,-0.24l7.5,3.12l10.27,7.13l15.04,11.67l8.44,10.2l1.18,2.35l3.08,1.24l0.46,-0.12l0.47,-0.6l1.36,0.58l10.17,9.3l3.45,0.48l0.44,-0.49l-0.75,-2.85l1.0,1.14l1.93,3.63l2.3,2.63l2.34,3.93l1.56,1.24l0.0,47.02l-5.21,4.56l-10.96,5.6l-8.53,2.09l-3.4,0.15l-6.67,-1.03l-3.61,-1.11l-4.47,-3.17l-4.31,-1.65l-3.02,-0.73l-5.34,-0.29l-11.58,-3.14l-1.95,-1.07l-7.29,-6.19l-0.47,-0.04l-2.84,1.72l-1.38,0.25l-0.9,-1.65l0.64,-1.2l-0.22,-0.51l-4.14,-1.78l-3.43,-0.15l-1.79,-1.48l-2.23,-1.16l-0.42,0.03l-0.88,0.62l-0.32,-0.0l-4.36,-2.65l-1.94,-2.14l-1.99,-3.72l0.43,-1.16l0.58,-0.85l-0.21,-0.61l-7.3,-2.32l-6.84,-0.31l-0.39,0.25l0.1,0.45l1.19,1.1l3.06,0.66l1.79,1.5l2.02,2.07l-0.47,2.83l0.11,0.35l3.01,2.98l2.23,2.73l0.24,1.05l1.02,0.65l3.18,0.77l0.51,2.21l-0.52,1.21l0.63,1.65l2.55,1.61l1.59,0.47l1.51,0.79l-0.66,1.54l-1.45,1.17l-1.52,0.56l-0.07,0.71l1.0,0.53l1.95,-0.17l7.26,3.16l3.81,3.18l3.91,5.82l1.24,2.8l0.09,1.49l-0.21,1.51l-0.56,1.68l-0.27,1.77l-1.34,4.99l-0.92,1.65l-1.83,1.95l-0.07,0.44l3.58,7.37l1.78,5.8l0.31,2.29l0.07,3.57l1.41,1.4l-1.06,1.58l0.21,4.84l2.25,3.77l3.48,2.56l2.37,0.55l2.74,-0.93l1.91,1.22l4.59,4.49l2.08,4.73l1.08,1.19l4.73,1.78l3.53,1.09l5.36,2.84l1.09,0.15l0.32,-0.11l2.56,-2.41l4.44,-1.69l1.65,-2.77l-0.12,-2.02l-1.16,-3.67l-0.43,-3.74l-1.49,-1.45l-1.45,-1.0l-4.47,0.66l-1.75,-0.13l-1.29,-0.86l-1.89,-2.47l-3.67,-6.18l-1.98,-2.1l-0.58,-1.21l-0.65,-1.71l0.07,-2.42l1.49,-0.03l1.8,-1.66l1.39,-5.95l1.98,-0.67l1.07,0.05l5.11,2.7l6.59,7.4l1.6,0.82l1.58,0.11l2.21,-0.17l0.4,0.84l1.34,1.14l1.14,0.23l5.89,2.28l6.94,4.52l2.84,-0.14l0.34,-0.25l1.02,-2.51l0.21,-1.02l2.66,-2.39l1.77,-0.38l2.67,0.89l0.46,-0.16l0.52,-0.84l0.0,506.22l-4.48,-0.89l-1.09,0.47l-1.25,2.12l-1.01,-0.71l-4.8,-4.74l-2.57,-3.21l-8.3,-7.38l-1.28,-0.66l-4.35,-1.06l-1.66,-0.8l-4.42,-5.25l-0.44,-0.12l-1.9,0.68l-1.64,-0.17l-0.96,-0.43l-1.06,-0.71l-0.73,-0.92l-0.91,-2.18l-1.26,-1.48l-3.53,-1.87l-3.92,-1.08l-0.23,-0.53l3.13,-1.16l1.03,-0.79l-0.06,-0.66l-2.53,-1.22l1.28,-0.65l1.32,0.73l1.67,1.53l1.62,0.67l0.44,-0.1l0.61,-0.66l5.08,-1.25l0.28,-0.26l0.35,-1.01l0.01,-1.27l-0.43,-0.39l-0.4,-0.01l0.03,-0.98l0.72,-1.61l2.37,-2.92l1.21,-3.83l0.77,-0.63l0.38,0.28l0.1,1.49l0.33,0.32l0.41,-0.2l1.34,-2.92l1.41,-0.01l1.31,0.29l1.25,-0.21l0.25,-0.65l-2.4,-2.97l-3.26,-3.03l-0.34,-0.1l-1.22,0.2l-0.64,-0.35l-1.33,-2.33l-0.42,-1.48l2.39,0.29l2.55,-1.41l0.8,-0.18l1.5,0.44l2.14,0.29l0.45,-0.45l-0.18,-1.36l-0.55,-1.35l2.23,-1.02l2.36,-0.68l4.37,-2.31l1.9,-0.4l0.28,-0.22l0.28,-0.67l0.04,-0.86l-1.34,-3.29l-0.35,-0.23l-2.33,-0.07l-0.34,0.18l-1.2,1.79l-3.31,0.59l-0.65,-0.05l0.57,-0.56l1.35,-0.59l0.35,-0.52l-0.4,-0.62l-2.51,0.45l-1.42,1.33l-3.11,1.42l-0.1,-1.03l0.2,-0.56l0.62,-0.55l0.25,-0.96l-0.25,-0.37l-0.79,-0.32l-0.03,-0.16l0.72,-1.7l0.04,-1.46l0.35,-1.44l0.92,-0.85l1.93,-0.27l1.85,-0.94l1.14,-1.07l1.33,-2.35l0.84,-0.29l3.44,0.35l3.15,0.07l4.72,-0.22l0.88,-1.04l0.03,-1.72l1.44,-4.02l1.0,-1.37l0.03,-0.89l-0.22,-0.33l-1.27,-0.47l0.56,-1.07l-0.11,-1.26l-0.64,-2.53l-1.13,-0.84l-1.37,-0.35l0.69,-2.56l0.98,-1.16l1.29,0.25l1.26,-0.29l0.46,-0.43l0.08,-0.38l-0.45,-0.86l-1.67,-0.54l-1.38,-0.69l-0.55,-0.79l-0.17,-0.64l2.6,-1.09l2.44,-2.82l0.58,-1.15l0.3,-1.25l-0.02,-1.38l-0.93,-1.43l0.0,-1.14l0.49,-1.16l-0.19,-0.71l-1.11,-0.71l-1.09,0.16l-1.02,0.44l-1.09,-0.08l-4.23,-3.2l-2.19,-0.33l-0.65,-0.7l-0.53,-1.15l-0.5,-0.48l-0.41,-0.09l-1.92,0.76l-1.29,-0.11l-1.82,-1.19l-1.73,-1.43l-2.77,-0.31l-2.78,-1.88l-0.98,0.18l-0.5,0.74l-0.3,1.56l-0.99,0.29l-1.15,-0.82l-3.28,-3.0l-1.28,-2.13l-0.41,-1.78l-2.39,-2.65l-1.28,-0.1l-2.82,1.39l-1.96,0.26l-3.11,1.01l-1.78,1.64l-1.53,-1.41l-1.78,-0.35l-0.86,0.28l-0.61,-0.48l-0.77,-1.22l-1.19,-0.96l-3.32,-0.57l-1.33,0.7l-1.47,1.13l-0.76,-0.33l-0.56,-1.36l-0.86,-0.57l-0.95,-1.55l-0.24,-1.33l0.61,-1.4l0.04,-1.14l-0.33,-0.99l-0.47,-0.7l-0.48,-2.19l-0.42,-1.0l-0.06,-0.63l0.3,-0.64l-0.02,-0.38l-0.61,-0.68l-1.48,-0.01l-0.33,-0.23l-0.82,-2.41l-0.46,-0.65l-0.33,-0.15l-1.05,0.04l-3.09,0.69l-0.5,-0.05l-2.96,-1.38l-3.42,-0.17l0.7,-0.81l0.03,-0.94l-0.65,-0.68l-0.27,-1.05l-0.08,-2.9l-1.15,-2.04l0.03,-0.33l3.24,-0.77l0.56,-0.73l-0.01,-1.08l-3.91,-4.55l-1.3,-3.82l-1.3,-2.19l-1.46,-1.5l-1.22,-0.71l-1.88,0.22l-2.12,-0.03l-2.34,-0.43l-1.88,0.29l-3.43,1.87l-1.11,0.07l-3.96,-1.21l-1.13,0.01l-0.75,0.31l-0.54,0.62l-1.11,3.5l-1.96,1.25l-1.8,0.08l-2.58,-1.15l-1.01,-2.51l-0.55,-0.92l-0.69,-0.56l-0.24,-0.45l0.1,-4.59l0.26,-0.19l0.1,-0.53l-1.16,-1.85l-0.08,-1.21l0.59,-0.85l-0.02,-0.8l-0.47,-0.97l-1.24,-1.42l-2.32,-3.27l1.8,-3.63l3.19,-0.1l0.86,0.3l0.42,0.81l1.2,1.02l2.79,0.38l1.43,-0.09l1.52,-0.87l2.38,-1.86l0.66,-1.4l1.34,-0.87l1.61,-0.51l0.32,-0.35l0.03,-1.95l-0.44,-0.95l-2.86,-2.2l-0.5,-1.32l0.33,-0.86l-0.01,-0.91l-0.19,-0.34l-3.54,-2.08l-2.83,-0.36l-2.29,0.11l-0.48,-0.22l0.86,-2.62l0.17,-1.52l-0.24,-0.98l-0.57,-0.68l-5.18,-3.18l-1.34,-2.1l-0.71,-2.27l-0.86,-1.51l-1.4,-0.91l1.01,-2.42l-0.09,-0.75l-0.53,-0.64l-1.83,-1.1l-2.38,-1.94l0.1,-1.53l0.32,-1.17l2.04,-3.39l-0.3,-2.26l-1.92,-3.3l0.06,-0.92l1.11,-1.77l0.04,-4.33l-0.33,-0.63l-0.47,-0.4l-0.94,0.06l-0.89,-0.42l-1.26,-1.03l-2.41,-2.96l-3.02,-1.41l-2.75,0.17l-1.6,-0.18l-0.75,0.31l-0.88,0.95l-0.93,0.51l-0.91,0.07l-0.74,0.45l-1.76,1.41l-0.65,-0.67l-0.71,-1.26l0.56,-2.16l-0.04,-1.03l-0.45,-0.83l-1.25,-0.71l-2.68,-1.3l-0.92,-0.06l-1.38,0.55l-1.89,1.32l-0.41,-0.17l-1.33,-2.45l-1.11,-0.87l-2.47,0.01l-1.35,0.82l-1.61,-1.85l0.69,-2.81l-0.45,-3.12l-0.89,-3.88l-1.32,-1.48l-0.22,-1.1l-1.32,-2.34l-0.14,-1.94l-0.5,-0.91l-1.03,-0.51l-1.6,0.46ZM899.6,232.85l-0.9,-3.59l-1.29,-3.31l-1.92,-2.18l-3.31,-6.13l-1.31,-3.03l-0.64,-3.09l0.86,-4.66l6.82,-4.98l1.7,-2.04l0.0,33.01ZM836.14,220.47l0.36,1.05l0.13,1.96l-0.4,1.26l0.15,1.1l-0.31,0.29l-1.1,-2.13l-0.34,-0.22l-0.61,-0.03l-0.69,-0.9l-0.33,-1.5l0.27,-0.18l0.62,0.12l1.45,-1.16l0.8,0.34ZM617.24,512.38l1.73,-1.68l1.39,-2.15l1.19,-2.86l0.38,-3.79l1.52,-0.7l4.05,0.06l1.77,-1.11l4.11,-5.21l-3.73,5.01l0.12,0.59l1.12,0.63l1.37,0.24l1.63,0.9l1.62,0.15l2.62,-0.77l0.29,-0.34l0.62,-7.45l1.54,-0.23l0.73,0.87l1.5,0.95l4.31,2.24l2.76,0.91l6.56,0.12l0.72,1.85l1.59,1.15l1.08,1.22l0.06,0.56l-1.62,4.75l-0.36,1.75l-0.05,1.76l0.98,2.81l-7.52,-0.22l-26.58,-1.42l-7.53,-0.6Z", "name": "Russia"}, "IQ": {"path": "M899.6,939.49l-1.3,-0.62l-15.83,-2.83l1.43,-1.36l0.1,-0.42l-0.61,-1.72l-0.46,-0.26l-2.44,0.62l-0.58,-1.92l0.66,-0.21l0.26,-0.49l-3.78,-13.91l22.55,-13.6l0.0,36.73Z", "name": "Iraq"}, "IS": {"path": "M52.03,247.38l1.77,-1.74l-0.23,-0.69l-0.78,-0.08l-0.21,-0.33l-0.04,-1.04l0.66,-1.8l3.22,-2.5l1.3,-0.52l0.35,-0.52l-0.05,-0.51l-0.44,-0.42l-0.84,-0.34l-0.38,0.06l-3.34,2.65l-2.29,0.87l-0.52,-0.13l-1.18,-0.97l-0.83,-1.44l0.05,-0.53l1.13,-2.04l-0.18,-0.77l-0.97,-0.4l-2.1,-1.89l-3.69,0.09l-8.62,-1.12l-1.85,0.52l-2.86,1.66l-1.56,0.49l-0.58,-0.26l-0.65,-0.79l-1.18,-2.51l0.19,-0.76l0.94,-0.5l0.7,-0.24l2.42,0.33l2.78,-1.04l1.83,-0.23l0.69,-0.27l1.3,-1.24l0.51,0.25l0.33,0.65l0.51,0.19l2.89,-1.22l0.97,-0.6l0.42,-0.66l1.16,0.53l1.3,0.06l1.51,-0.45l8.1,-0.29l0.29,-0.14l0.85,-0.97l0.49,-1.04l0.5,-2.19l-0.25,-0.72l-0.56,-0.17l-3.43,1.96l-4.6,-1.06l-1.16,-0.95l0.31,-0.63l2.1,-2.03l2.19,-1.66l3.26,-1.81l0.85,-0.77l0.21,-1.1l-0.17,-0.37l-2.19,-1.51l-4.16,0.32l-1.16,-1.75l-3.44,-1.06l-2.31,0.6l-1.05,-0.94l-0.45,-0.06l-2.95,1.49l-6.52,2.15l-2.65,1.51l-1.17,0.41l-1.51,-1.13l-2.78,-1.38l-3.01,-0.43l-0.13,-0.38l1.63,-2.22l1.03,-0.37l1.06,0.19l2.44,1.74l1.66,0.54l0.45,-0.15l-0.02,-0.48l-1.98,-2.43l-0.11,-2.37l-0.7,-0.82l-0.54,-1.4l0.11,-0.22l0.52,-0.12l1.51,0.5l3.93,2.8l0.33,0.06l1.95,-0.5l1.21,-1.11l1.41,-0.75l0.09,-0.64l-0.69,-0.52l-3.38,-0.05l-1.7,-0.53l-0.82,-0.73l-0.68,-1.19l0.15,-0.34l0.74,-0.4l2.82,0.15l0.34,-0.65l-3.22,-3.84l-0.11,-0.52l0.24,-1.23l3.11,1.34l0.86,0.09l0.36,-0.63l-2.12,-2.4l0.57,-0.47l0.35,-1.34l0.74,-0.4l0.84,-0.02l0.91,0.44l3.13,2.62l0.39,0.63l0.13,2.69l0.51,0.27l1.1,-0.37l0.85,0.44l0.79,-0.11l1.27,-1.72l0.44,0.22l0.42,0.71l0.14,0.69l-0.08,3.64l0.72,0.16l0.76,-1.1l1.3,-0.08l0.36,-0.28l0.21,-0.74l0.05,-2.36l-0.12,-2.02l-0.19,-0.54l-5.05,-2.95l-0.79,-0.61l-0.91,-1.16l0.11,-0.35l0.76,-0.49l1.32,-0.23l3.3,0.03l0.6,-0.38l0.04,-0.57l-0.83,-0.84l-1.44,-0.43l-0.38,-0.96l-0.48,-0.3l-1.79,0.43l-1.95,0.02l-1.63,-0.41l0.65,-0.95l1.55,-1.47l0.59,-0.3l2.25,0.25l2.14,-0.41l1.61,0.46l1.34,1.42l2.02,2.63l2.76,1.73l0.29,0.54l1.44,1.36l2.9,3.68l2.92,2.13l0.05,0.22l-0.33,0.43l-1.08,0.71l-0.12,0.55l0.46,0.58l1.38,0.5l0.94,1.26l0.05,0.45l-0.94,4.33l-0.82,1.13l-2.53,-0.77l-0.48,0.55l0.77,1.56l1.89,1.45l0.32,0.6l-0.23,0.66l0.11,0.43l0.69,0.23l0.39,-0.22l-0.11,1.2l-0.77,2.24l0.14,0.39l0.44,0.26l0.67,-0.11l0.53,0.17l0.98,1.09l0.9,3.73l0.45,1.22l0.39,0.26l0.37,-0.28l0.32,-1.08l0.73,-3.94l0.68,-0.66l0.31,-0.98l0.52,-3.02l1.75,-2.23l0.76,-0.63l0.55,-0.11l1.69,2.68l1.13,0.44l0.69,-0.38l0.6,-1.71l0.75,-3.28l0.17,-3.65l-0.4,-3.95l0.23,-2.74l0.78,-1.52l0.85,-0.39l1.19,0.55l0.95,0.95l2.02,3.92l1.69,2.12l1.47,2.27l0.92,0.82l1.65,0.35l0.6,-0.34l0.29,-0.63l0.13,-0.96l-0.3,-5.61l0.37,-1.67l0.5,-1.06l2.46,-0.73l1.46,-0.85l1.32,-1.27l1.0,-0.63l0.67,-0.07l0.76,0.41l0.91,1.04l1.48,2.12l1.89,3.54l2.41,2.67l1.52,4.85l0.56,0.32l0.45,-0.18l0.36,-0.64l0.22,-0.86l0.04,-1.98l-0.69,-2.51l-2.24,-6.21l-0.04,-1.07l0.19,-0.63l1.27,-0.08l3.55,0.56l1.05,0.87l3.21,4.74l0.56,0.34l0.57,-0.23l0.11,-0.34l0.95,-0.71l0.68,-0.86l1.16,-2.16l2.36,-3.67l0.78,0.18l1.18,0.93l0.7,0.88l1.44,0.65l1.4,-0.3l1.64,-1.31l1.85,-0.8l0.87,-2.14l0.14,-0.94l-1.5,-5.7l0.5,-0.91l3.12,-1.34l2.71,-0.1l0.5,0.29l3.57,5.11l0.23,2.6l0.83,0.98l1.62,1.09l1.75,0.09l2.54,-1.16l1.18,-0.84l2.56,-2.59l1.39,-0.66l2.36,0.17l-0.53,0.39l-1.27,0.44l-1.68,1.59l-1.67,3.68l-1.23,1.95l0.14,1.06l1.54,1.45l1.58,0.78l0.35,0.0l1.28,-0.63l0.34,0.15l0.49,0.87l0.36,1.84l-0.25,2.0l-0.84,2.01l-1.16,1.72l0.11,0.89l0.27,0.27l1.16,0.29l4.59,-1.08l0.45,2.3l0.41,0.81l-0.1,0.64l-1.91,2.65l0.04,0.52l0.52,0.04l2.26,-1.67l1.66,-0.44l2.96,0.81l1.14,0.88l0.71,1.64l0.55,0.19l1.16,-0.51l0.53,0.73l0.02,0.86l-0.5,1.43l-0.18,1.33l-0.39,0.41l-1.13,0.54l-0.32,0.83l1.14,2.13l0.99,0.22l0.06,0.16l-0.09,1.0l-1.36,1.33l0.08,0.6l2.28,1.54l0.21,0.42l0.03,0.74l-0.17,0.87l-0.35,0.91l-0.53,0.46l-1.57,0.09l-1.23,0.73l-0.17,0.46l0.33,1.06l-0.03,1.31l-0.3,1.56l-1.28,2.4l-1.19,1.26l-1.07,0.75l-1.97,-0.27l-1.13,-0.63l-0.59,0.37l0.12,1.98l-1.11,1.2l-0.1,0.35l0.23,1.1l0.4,0.59l-0.18,1.2l-0.55,1.32l-0.92,1.43l-1.02,0.87l-2.15,1.11l-1.93,1.92l-1.14,0.66l-3.21,-0.0l-3.3,1.23l-4.61,2.56l-3.14,2.08l-2.41,2.33l-3.11,3.69l-2.24,1.51l-1.26,0.39l-2.7,0.36l-2.17,0.99l-7.27,1.88l-2.53,1.05l-0.52,1.12l-1.06,1.54l-0.06,0.51l0.51,0.88l-0.79,1.45l-1.62,1.07l-0.57,-0.01l-1.23,-1.03l-0.68,0.14l-0.32,0.77l0.47,1.07l-0.72,0.38l-4.64,1.41l-7.97,-1.05l-3.15,-1.09l-4.03,-1.79l-2.42,-0.48l-3.19,-0.11l-2.61,-2.36l-1.18,-1.43l-0.07,-0.46l0.32,-0.95l1.05,-0.18l0.46,-0.43l-0.0,-0.39l-0.69,-1.24l-0.56,-0.15l-0.73,0.46l-1.64,1.61l-0.48,-0.04l-0.8,-0.67l-0.03,-0.67l-0.34,-0.38l-1.94,-0.31l-1.66,-1.0l-1.65,-1.45l-0.11,-0.25l0.65,-0.66l0.0,-0.56l-0.99,-0.42l-1.65,0.39l-1.88,1.89l-0.69,0.37l-12.45,0.45l-3.57,0.35l-0.37,-0.83l-0.66,-4.53l0.4,-1.51l0.75,0.77l0.67,1.31l0.68,0.58l0.39,0.08l4.37,-1.48l1.84,-1.03l0.91,-1.1l0.86,-1.55l0.97,-0.88l1.93,-4.39l0.66,-0.78l0.74,-0.48l1.86,-0.38l0.32,-0.35l-0.23,-0.41l-1.27,-0.59l-1.38,-0.04l-4.25,2.63l-0.71,0.0Z", "name": "Iceland"}, "AL": {"path": "M613.44,797.24l0.71,0.37l0.54,-0.18l0.25,-0.53l-0.24,-1.42l-1.29,-2.73l-0.08,-0.6l0.6,-2.17l1.07,-2.7l-0.07,-3.07l0.32,-2.32l-0.53,-3.42l0.72,-2.32l0.66,-0.66l0.41,-0.79l0.07,-2.85l-0.14,-0.31l-1.48,-1.25l-1.55,-0.28l0.22,-3.44l-0.41,-1.1l-0.58,-0.72l1.48,-2.83l1.94,-2.72l1.45,-2.45l0.35,-0.19l0.14,1.95l0.34,0.67l0.46,0.38l1.36,-0.12l2.47,-1.12l0.4,0.31l1.07,1.73l0.73,1.58l1.63,0.74l0.75,0.58l0.98,0.89l0.45,0.84l0.69,2.81l0.08,1.65l-1.02,3.79l0.14,2.27l-0.49,0.38l-0.41,0.9l0.58,2.29l-0.01,2.26l1.13,2.71l1.17,1.19l0.79,2.43l0.76,0.52l1.67,-0.22l0.63,0.19l0.28,0.64l-0.08,1.47l0.99,2.03l-0.0,0.47l-0.98,2.06l-2.02,0.99l-1.22,2.77l-0.81,3.04l-0.51,0.45l-1.87,0.27l-0.79,0.32l-0.48,0.67l-0.87,0.59l-0.21,0.35l0.03,0.66l0.92,1.88l0.01,0.35l-0.59,-0.07l-0.38,0.18l-0.49,1.71l-0.64,0.61l-0.77,-0.11l-1.53,-0.86l-0.08,-1.34l-0.42,-1.26l-1.55,-3.09l-5.08,-3.08l-1.09,-1.24l-0.66,-1.41Z", "name": "Albania"}, "IT": {"path": "M469.9,691.31l-0.56,1.08l0.07,0.46l1.38,1.43l0.35,1.2l0.67,0.62l0.39,0.09l0.95,-0.3l0.54,-0.78l0.02,-0.33l-0.62,-1.99l0.05,-0.5l0.85,-1.57l1.79,-2.27l0.69,-1.4l0.16,-3.67l0.28,-0.19l1.26,0.26l0.68,2.33l0.91,1.09l1.61,0.22l2.16,-1.01l1.19,-0.39l0.47,0.07l1.26,2.25l1.01,0.39l0.85,-0.34l0.29,-0.66l-0.48,-2.15l-0.38,-1.14l-0.49,-0.59l-0.07,-0.49l0.58,-2.02l1.01,-0.29l0.89,0.95l1.41,0.46l1.05,-0.04l0.36,-0.3l0.11,-1.49l-0.54,-0.98l0.1,-1.22l0.51,-2.07l2.74,0.18l0.85,0.94l1.2,0.49l1.33,0.11l0.99,-0.15l0.73,-0.64l1.39,-2.61l1.33,-0.69l2.47,-0.14l1.3,-0.28l3.33,0.22l5.25,-1.87l-0.79,1.3l0.29,1.3l3.38,4.85l1.32,0.63l3.0,0.5l6.35,1.47l4.39,0.35l2.42,0.59l-0.14,0.56l-1.48,0.9l-2.25,1.94l-0.4,1.29l0.31,0.97l0.4,0.4l1.07,-0.01l1.68,0.7l-1.91,2.13l-0.18,0.8l0.11,0.58l0.42,0.47l1.26,0.01l-0.56,2.32l0.21,0.68l0.32,0.25l-0.57,0.11l-1.09,1.02l-3.28,-1.12l-0.36,0.05l-0.67,0.48l-0.59,1.03l-1.1,1.06l-1.74,0.54l-1.9,1.27l-3.44,1.54l0.87,-0.92l-0.27,-0.67l-0.81,0.02l-1.93,1.09l-1.21,1.11l-0.67,3.99l0.15,0.36l0.75,0.59l1.4,3.14l1.69,1.37l-0.68,1.95l-0.76,0.63l-0.89,-0.55l-0.55,0.02l-0.38,0.32l-0.41,2.1l0.76,5.71l1.31,4.08l1.28,1.75l2.77,2.63l2.99,1.43l5.23,4.39l2.91,1.42l0.67,0.66l1.71,3.32l1.5,3.86l1.62,6.08l1.22,3.12l2.38,3.43l4.86,4.81l4.45,3.54l4.31,2.25l3.28,0.38l7.54,-0.47l1.23,0.19l1.16,0.48l0.26,1.15l-0.4,0.79l-1.55,1.03l-1.76,1.71l-0.18,1.97l0.13,0.33l1.61,1.45l7.32,3.67l7.47,3.06l2.27,1.52l2.76,2.46l6.43,3.27l1.11,1.6l3.92,3.43l1.72,2.55l0.31,1.86l-1.73,4.57l-1.28,-0.42l-1.79,-1.39l-2.85,-6.0l-0.31,-0.23l-5.22,-0.61l-1.02,-0.42l-1.68,-0.94l-0.59,-1.49l-0.79,-0.5l-2.02,-0.19l-1.76,1.16l-1.67,2.38l-1.89,3.41l-1.89,4.91l-0.14,2.1l1.3,2.31l3.02,1.05l2.29,1.64l1.44,1.63l0.11,4.13l0.66,2.33l-0.76,1.02l-1.95,-0.3l-2.66,0.87l-2.01,1.63l-0.93,1.81l0.2,3.78l-0.34,1.27l-3.55,2.77l-1.88,2.82l-1.09,2.31l-4.05,0.04l-0.89,-1.36l-0.03,-2.22l0.66,-1.28l1.74,-0.88l1.12,-3.12l-0.31,-2.31l1.08,-1.46l2.9,-0.77l0.31,-0.37l0.18,-3.17l-1.43,-1.67l-1.14,-5.74l-2.28,-4.77l-1.22,-4.27l-0.98,-2.18l-1.83,-1.35l-2.59,0.01l-1.2,-0.29l-4.54,-2.92l-0.2,-0.28l0.02,-0.55l0.76,-1.45l-1.08,-3.2l-0.96,-1.41l-1.41,-0.85l-2.82,0.74l-1.22,-0.1l-0.67,0.3l0.98,-1.38l-0.02,-0.48l-0.44,-0.55l-1.9,-1.1l-2.75,-0.25l-0.44,0.23l-0.02,-0.8l-2.55,-4.67l-1.77,-1.98l-1.26,-0.46l-1.45,0.37l-2.51,-0.8l-1.63,-0.2l-1.0,0.21l-1.17,0.54l-0.34,-0.21l-0.3,-0.67l-2.37,-1.95l-2.99,-1.13l-5.69,-6.14l-1.76,-2.32l-3.66,-2.61l-2.36,-3.81l-1.97,-1.43l-2.74,-1.11l-0.87,0.12l-0.85,0.41l-0.47,-0.04l0.67,-0.36l0.25,-0.43l-0.32,-1.64l-3.12,-3.75l-1.85,-1.25l-1.22,-2.35l-1.05,-0.55l-1.52,-0.14l0.23,-2.84l-0.17,-1.36l-0.99,-3.12l-1.72,-2.68l-1.0,-6.27l-0.95,-2.06l-2.0,-1.42l-4.25,-1.52l-5.95,-4.1l-1.4,-0.14l-3.65,-1.61l-2.23,-0.28l-3.25,1.58l-3.52,3.97l-2.85,4.09l-0.94,0.72l-3.6,1.36l-2.76,0.56l-0.12,-1.26l2.22,-3.05l0.39,-1.01l-0.55,-1.83l-0.32,-0.25l-0.66,-0.06l-3.0,0.75l-0.57,-0.16l-4.65,-2.62l-0.81,-0.95l-0.28,-0.86l0.22,-0.82l-0.63,-1.47l1.44,-2.83l0.69,-0.34l0.31,-0.53l-0.47,-2.41l-0.34,-0.49l-0.56,-0.36l-1.88,-0.47l-0.69,-0.59l-0.19,-0.95l-0.45,-0.95l-0.74,-0.87l-0.06,-0.57l0.56,-0.33l2.18,0.08l1.81,-1.47l1.33,-0.49l1.22,-3.36l-0.45,-0.8l-1.5,-1.46l-0.69,-1.53l-1.1,-1.74l-1.02,-0.8l-0.17,-1.06l0.14,-0.46l1.71,-0.97l0.91,-0.91l1.54,0.72l2.75,-0.64l2.79,-1.24l3.17,1.06l1.21,-0.53l1.94,-1.36l1.89,-2.93l0.06,-0.92l-0.5,-1.19l1.79,-1.34l0.96,-1.27l0.83,-0.7l0.36,0.01l0.0,2.77l0.37,1.0l2.52,2.68l2.33,0.69ZM518.45,731.88l-0.02,0.41l0.4,0.76l0.42,0.21l0.8,-0.14l0.3,-0.24l0.4,-0.97l-0.13,-0.93l-0.46,-0.31l-0.85,0.14l-0.87,1.08ZM536.18,697.22l1.72,1.73l0.45,0.97l-0.13,0.14l-0.49,0.11l0.18,-0.65l-1.73,-2.29ZM561.63,834.76l-1.42,2.78l-3.31,4.87l-0.94,3.33l-0.89,2.26l0.22,2.33l1.37,1.38l-0.45,0.36l-0.08,0.54l1.5,1.87l0.07,0.54l-0.01,0.51l-1.35,1.22l-0.68,0.88l-0.54,1.89l0.13,1.29l-1.04,-0.07l-1.48,-0.49l-1.61,0.19l-3.49,-1.39l-1.85,-2.95l-1.47,-1.25l-1.62,-1.01l-3.36,-0.01l-1.3,-0.55l-2.86,-1.99l-3.08,-1.62l-2.59,-2.23l-1.81,-0.5l-1.7,-1.12l-2.3,0.05l-0.68,-0.07l-0.69,-0.33l-1.44,-1.21l-1.13,-2.32l1.43,-3.76l1.56,-0.94l0.69,-0.85l1.22,1.59l1.08,0.65l0.86,-0.16l1.27,-0.74l0.28,-0.93l1.16,-0.85l1.6,-0.02l0.58,0.13l0.56,0.95l1.47,0.42l2.51,1.71l0.8,0.33l0.85,0.08l2.14,-0.75l1.44,-0.26l3.16,0.4l1.85,-0.44l1.18,-0.05l1.9,-0.71l1.43,-1.16l0.6,-0.24l2.48,-0.0l2.02,0.24l0.95,-0.38l0.59,-0.68l0.54,-0.24l1.0,0.15l2.07,-1.22l0.73,-0.07l0.33,0.18l-0.42,0.44ZM539.48,791.01l-0.33,0.08l-0.16,-0.12l0.04,-0.11l0.45,0.15ZM512.96,859.12l0.47,0.17l0.21,0.48l-0.66,-0.33l-0.02,-0.32ZM491.6,752.91l0.12,0.33l-0.27,0.73l-0.73,-0.37l-1.65,0.43l-0.73,-0.07l-0.14,-0.39l2.01,-0.41l0.89,0.1l0.51,-0.35ZM462.39,788.24l0.85,0.78l2.2,0.43l1.63,-0.32l1.72,-0.81l1.8,-1.09l2.33,-2.81l1.52,-0.64l0.76,-0.76l0.47,-1.09l0.55,0.75l1.11,0.25l1.28,0.74l1.05,1.62l0.78,0.63l-0.6,1.2l0.07,0.43l1.06,0.91l0.62,1.04l1.5,4.61l0.13,0.89l-0.27,0.91l-1.92,3.28l0.22,1.94l0.56,1.25l0.07,1.2l-1.21,11.63l-0.7,3.09l-0.69,0.31l-3.03,-1.32l-1.53,0.32l-1.02,-0.62l-0.64,0.26l-0.45,3.35l-0.68,1.25l-0.99,0.76l-0.9,0.05l-1.96,-0.29l-0.55,-0.5l-2.34,-4.09l-0.25,-4.66l0.64,-1.44l0.19,-1.49l-0.11,-1.16l0.54,0.17l0.4,-0.17l0.24,-0.38l0.1,-1.85l-0.77,-1.29l-1.16,-0.43l0.02,-1.65l0.64,-0.79l0.21,-0.94l0.02,-2.96l-0.87,-1.24l-0.3,-1.51l-0.51,-1.19l-2.14,-2.59l-0.11,-1.98l0.39,-1.97ZM464.41,820.05l0.73,0.4l-0.35,0.78l-0.36,-0.53l-0.02,-0.65ZM462.91,784.93l0.16,-0.34l0.17,-0.1l-0.11,0.23l-0.23,0.21Z", "name": "Italy"}, "GG": {"path": "M315.33,622.63l0.7,-0.4l-0.2,0.58l-0.5,-0.19Z", "name": "Guernsey"}, "CZ": {"path": "M515.02,605.17l1.18,1.22l0.6,1.3l0.68,0.07l1.12,-1.97l1.22,-1.55l1.17,-0.83l2.1,-0.34l0.78,-0.44l2.54,0.45l0.47,-0.37l0.61,-1.4l2.01,-0.39l0.93,-1.4l0.85,-0.24l0.73,-0.66l0.74,0.35l0.86,-0.38l0.82,-1.68l0.23,-0.14l1.96,-0.26l2.67,-0.96l1.4,-0.87l1.36,-0.48l1.4,-0.81l2.23,-0.79l0.35,-0.58l-0.13,-0.44l-1.0,-0.79l-0.44,-0.75l0.19,-0.3l2.62,0.47l0.32,0.21l0.2,0.81l0.77,0.97l-0.1,0.91l0.14,0.35l0.7,0.55l1.1,0.41l0.84,-0.22l0.54,-0.74l1.07,-0.08l1.18,-0.54l0.23,-0.32l0.1,-0.87l-0.06,-1.43l2.95,1.0l0.27,1.55l1.18,1.67l0.73,0.39l0.88,0.05l2.38,0.94l1.19,0.21l2.13,1.29l0.69,0.16l0.77,1.17l0.47,0.09l0.75,-0.37l2.71,-0.51l0.88,0.61l0.63,0.69l-0.46,1.03l-1.25,0.65l-1.03,1.32l-0.03,0.37l0.44,0.82l1.33,0.59l2.03,2.39l1.46,2.64l0.85,0.62l0.83,0.04l0.72,-0.48l0.69,-0.83l2.79,-1.64l0.2,-0.3l-0.0,-0.73l-1.51,-2.89l3.13,0.93l3.76,2.67l2.01,-0.22l1.78,-0.72l0.14,0.98l-0.25,0.55l-1.49,0.7l-0.22,0.46l0.6,1.03l0.8,0.4l2.0,2.44l0.71,0.31l1.77,-0.56l0.62,-0.62l0.65,0.75l1.38,0.57l1.35,1.06l0.41,0.01l0.45,-0.25l2.04,0.52l0.45,0.35l0.06,1.17l0.35,1.26l2.89,3.11l0.29,1.61l-0.8,0.31l-2.2,0.11l-0.84,0.56l-1.7,1.62l-0.69,1.11l-2.65,1.57l-0.53,0.83l-0.34,1.0l-0.32,2.33l-0.34,0.42l-1.86,0.8l-0.38,0.66l-1.71,1.61l-1.71,0.9l-1.82,0.27l-4.18,-0.63l-0.83,0.51l-0.98,1.24l-1.31,2.93l-0.44,-1.23l-0.26,-0.25l-2.26,-0.61l-2.33,-1.29l-1.26,-0.04l-1.45,1.19l-1.81,-0.01l-2.07,-0.3l-3.07,-2.2l-1.87,-0.0l-1.26,-0.49l-2.64,-1.45l-1.33,-0.38l-1.92,0.54l-0.3,-0.4l-0.99,-0.59l-1.17,-0.12l-0.34,0.15l-0.38,0.57l-0.57,4.01l-1.37,0.09l-1.59,2.14l-0.22,1.26l-2.5,-0.47l-0.96,0.29l-0.74,0.71l-2.2,-0.04l-1.68,-0.43l-0.85,-1.81l-0.93,-0.77l-1.42,-0.78l-0.59,-0.96l-3.04,-2.99l-1.58,-0.03l-0.34,-0.28l-0.83,-1.68l-0.74,-0.83l-0.92,-0.38l-1.09,-0.89l-1.55,-2.07l-1.49,-1.51l-1.54,-0.1l-1.63,-1.62l-0.63,-0.92l-1.79,-3.73l-1.39,-1.87l1.37,-2.27l0.23,-0.67l-0.06,-0.58l-0.81,-1.35l-1.05,-0.95l-1.4,-0.89l-0.84,-1.06l-0.41,-1.53l-0.69,-0.94l-0.46,-1.04l0.0,-0.42Z", "name": "Czech Republic"}, "CY": {"path": "M794.03,886.97l0.24,0.44l0.92,0.52l1.16,0.44l0.81,0.05l3.69,-1.39l0.77,0.25l1.77,-0.07l0.67,0.72l0.1,1.49l0.39,0.41l0.44,-0.07l0.52,-0.49l2.08,0.27l1.62,-0.52l0.92,-0.65l1.04,0.51l0.57,-0.04l0.22,0.51l-2.53,0.28l-1.71,-0.06l-2.74,2.8l-1.27,0.86l-1.53,0.52l-2.52,0.39l-0.72,0.34l-0.65,0.73l-0.17,0.93l-0.36,-0.04l-0.29,-0.76l-0.79,-0.61l-2.51,0.13l-3.1,-1.23l-1.68,-3.5l-0.14,-1.39l0.95,0.25l1.22,-0.73l1.03,-1.03l1.11,-0.38l0.47,0.11Z", "name": "Cyprus"}, "GB": {"path": "M267.99,458.3l0.95,-0.81l2.22,-0.47l1.99,-1.82l-0.04,-0.62l-1.51,-1.05l1.55,-1.1l1.97,-3.53l0.45,-3.41l-1.47,-2.94l-1.73,-1.04l-0.26,-1.18l0.17,-0.63l0.52,-0.67l0.84,-0.56l1.41,-0.57l0.02,-0.73l-1.22,-0.58l-0.4,-0.61l-0.37,-1.49l0.66,-2.72l1.03,-2.33l3.27,0.08l0.76,-0.67l1.73,0.57l0.49,-0.53l-0.33,-0.74l-2.9,-3.46l-0.18,-0.45l0.8,-1.88l-0.05,-1.74l0.15,-0.42l0.68,-0.24l2.94,-0.0l0.7,-0.32l0.21,-0.49l-0.97,-2.12l-0.11,-0.88l0.3,-3.39l0.59,-1.06l0.96,-0.44l1.37,0.35l0.47,0.39l0.65,1.09l0.42,0.19l0.65,-0.15l2.12,-1.29l0.64,1.16l0.48,0.18l3.28,-1.14l4.42,-0.51l2.71,-0.76l2.79,-0.27l2.63,-0.85l2.42,0.34l-0.8,2.61l0.09,2.22l-0.14,0.56l-1.26,2.11l-2.68,2.1l-4.93,4.81l-3.03,2.55l-0.42,1.22l-0.22,1.59l0.33,0.45l1.65,0.3l0.34,0.27l-0.24,0.47l-2.55,2.75l-0.85,2.67l0.4,0.52l2.08,-0.11l1.69,-0.51l3.24,-1.56l2.98,-1.14l1.33,-0.04l2.79,0.91l0.76,0.05l1.31,-0.43l1.15,-0.07l8.28,0.29l2.28,-0.53l1.31,0.56l1.18,1.5l1.16,2.86l-0.02,0.32l-0.68,1.26l-1.38,1.75l-1.17,2.34l-0.96,3.96l-2.29,5.9l-2.23,3.25l-1.03,2.36l-1.2,1.78l-1.14,1.1l-1.18,0.72l-3.74,0.85l-2.27,1.6l-1.24,0.48l-0.25,0.45l0.41,0.32l1.52,-0.06l1.58,-0.57l2.55,-0.19l2.81,1.73l-0.22,1.19l-1.07,1.06l-2.99,0.31l-2.67,2.75l-1.14,0.8l-1.15,0.38l-1.49,-0.12l-2.82,-0.72l-1.22,-0.74l-0.52,0.09l0.01,0.52l1.15,1.27l1.42,0.75l7.68,1.59l0.76,-0.22l2.32,-1.57l3.01,-0.02l5.97,2.93l4.24,5.51l2.34,2.39l0.58,1.64l2.55,11.24l1.78,5.96l0.83,1.71l1.24,1.34l5.33,2.63l1.12,0.83l4.06,5.21l1.87,2.07l1.7,1.41l-0.72,0.68l-0.7,1.64l0.52,1.91l3.27,6.38l-1.46,-0.08l-2.56,-2.05l-0.34,-0.1l-2.53,0.46l-2.7,-0.17l-0.39,0.35l0.29,0.44l2.37,0.68l2.55,0.06l5.57,4.98l1.87,2.93l1.09,3.78l-0.69,1.58l-2.33,2.44l-1.09,1.51l0.1,0.56l3.44,2.25l0.81,-0.1l0.84,-0.4l2.3,-3.08l1.79,-0.21l1.59,0.13l1.62,0.39l1.51,-0.11l2.82,0.75l1.42,0.66l3.62,3.05l0.74,1.58l0.36,2.12l0.04,2.35l-1.32,4.15l-0.75,3.48l-0.39,0.65l-1.91,1.96l-1.05,0.67l-0.59,-0.29l-0.59,0.05l-0.36,0.35l-0.01,0.74l0.57,0.94l0.01,0.94l-0.96,0.76l-1.01,0.33l-2.18,-0.41l-2.75,1.71l0.05,0.71l1.83,0.82l0.28,0.66l-0.41,1.35l-1.06,0.62l-2.77,0.4l-1.17,0.4l-1.22,0.82l-0.13,0.5l0.47,0.21l1.28,-0.37l0.69,0.26l0.54,1.22l0.69,0.56l2.9,0.65l5.09,-0.33l1.72,0.12l-0.23,3.52l-0.31,0.41l-4.28,2.3l-1.05,1.79l-0.2,0.76l-2.5,-0.05l-1.13,0.99l-2.03,0.68l-3.14,1.65l-1.14,0.25l-5.55,-1.09l-3.42,0.1l-4.47,0.95l-1.03,-0.14l-1.69,-0.89l-1.85,-0.65l-2.08,-0.28l-1.72,-0.82l-0.48,0.1l-0.03,0.49l0.88,1.29l-2.07,1.32l-1.02,0.28l-1.2,-0.04l-2.36,0.42l-2.18,-0.21l-0.42,0.51l0.34,1.12l0.46,0.78l-0.49,0.2l-4.19,-0.72l-0.76,0.14l-0.59,0.62l-1.22,-0.29l-1.51,-1.13l-1.69,-0.8l-1.68,-0.36l-1.46,0.12l-5.8,1.99l-1.15,1.93l-0.54,2.53l-0.76,2.18l-1.16,1.56l-1.2,0.18l-1.39,-1.14l-2.7,-1.3l-0.89,-0.86l-0.51,-0.16l-1.53,0.72l-1.12,0.03l-1.73,0.36l-3.13,1.13l-3.9,2.82l-0.6,0.67l-0.87,1.86l-1.05,0.26l-1.16,-1.14l-1.67,-0.55l-1.81,0.44l-0.78,0.53l-0.13,-0.16l-0.01,-0.87l0.99,-1.18l3.15,-1.1l2.75,-2.74l1.87,-2.59l0.53,-0.49l1.02,-0.43l0.41,-0.97l3.81,-4.26l0.33,-1.04l0.45,-3.11l3.09,-1.22l1.42,-3.38l4.39,-0.78l3.11,0.05l3.19,0.68l1.69,0.06l1.81,-0.31l1.37,-1.05l2.17,-3.39l3.93,-4.4l2.15,-2.91l-0.03,-0.52l-0.51,-0.05l-1.48,1.03l-2.68,2.43l-3.23,0.95l-4.09,3.15l-3.42,-0.48l-2.62,-2.65l-1.95,-1.24l-0.95,-0.1l-2.2,0.64l-0.86,-0.03l0.39,-0.61l1.05,-0.66l0.18,-0.41l-0.32,-0.32l-2.45,-0.48l-1.6,-1.3l-1.97,-0.15l-1.06,0.24l-1.7,1.23l-2.28,1.14l-2.76,-1.59l-0.46,-0.59l-0.01,-1.49l-0.45,-1.17l-0.61,-0.42l0.77,-1.1l1.19,-0.94l2.84,-1.02l4.29,-2.4l2.39,-1.02l2.34,-1.83l1.04,-1.23l1.34,-3.3l0.93,-1.45l-0.19,-0.59l-0.75,-0.29l-0.32,-0.87l0.1,-0.99l0.42,-1.23l-0.41,-1.34l-0.63,-1.24l0.21,-1.99l-0.41,-0.46l-1.8,0.07l-1.73,0.35l-1.67,0.82l-1.49,1.04l-0.78,0.11l0.52,-1.2l3.18,-2.8l1.04,-2.05l0.74,-0.81l2.07,-1.64l4.01,-1.86l2.17,0.12l1.58,-0.29l1.42,-0.69l1.17,-0.12l2.98,1.9l0.46,-0.02l0.14,-0.43l-0.83,-2.74l0.77,-0.41l1.96,2.62l0.98,0.31l1.56,-0.4l0.15,-0.7l-0.6,-0.47l-0.85,-0.11l-0.77,-0.35l-0.68,-0.78l-1.22,-2.68l0.06,-1.5l1.77,-3.25l-0.2,-0.58l-0.73,-0.29l-0.48,-0.46l-0.16,-1.41l0.21,-1.21l1.74,-1.39l0.52,-1.98l0.2,-2.27l-0.29,-0.97l-0.42,-0.29l-1.84,0.19l-1.54,0.98l-0.44,-0.02l-1.98,-2.2l-3.29,-5.43l-0.28,-2.09l1.67,-4.74l2.55,-3.01l3.04,-1.06l0.27,-0.38l-0.27,-0.38l-0.74,-0.23l-4.79,-0.04l-1.68,0.4l-1.59,1.34l-1.72,0.57l-2.23,1.99l-1.45,-0.13l-0.7,0.15l-1.0,-1.3l-0.89,-0.22l-0.79,0.32l-1.4,1.11l-1.26,0.58l-1.58,-0.64l-2.29,-1.33l-0.49,0.07l-0.53,0.61l-0.51,1.25l-0.2,1.24l-1.05,-1.08l-1.35,-2.19l-0.44,-1.32l-0.03,-1.35l0.38,-0.31l0.58,0.4l0.61,-0.21l1.22,-3.8l3.28,-6.41l0.66,-2.16l-0.1,-1.26l-0.58,-1.21l-2.23,-2.4l0.26,-3.95l0.65,-1.31l2.85,0.03l0.39,-0.29l-0.18,-0.45l-1.15,-0.68l-2.17,-1.88l0.57,-2.32l-0.16,-0.44l-0.47,0.01l-0.36,0.31l-1.44,2.93l-0.45,0.38l-1.58,0.48l-0.27,0.27l-0.27,0.94l-1.02,0.4l-0.02,-1.5l0.31,-1.49l0.59,-1.15l2.4,-2.8l-0.01,-0.53l-0.53,-0.05l-1.23,0.91l-2.72,2.65l-1.82,2.46l-0.11,1.22l0.6,2.94l-0.16,1.3l-2.3,9.07l-0.69,1.17l-1.07,-0.08l-0.33,-0.44l0.0,-0.6l1.16,-5.42l0.4,-1.15l2.0,-3.35l-0.58,-0.4l-0.77,0.33l-0.24,-0.21l0.17,-5.66l0.74,-1.98l0.27,-2.79l1.91,-6.35l0.79,-0.94l0.31,-1.67l1.67,-3.42l-0.09,-0.44l-0.44,-0.08l-0.51,0.25l-4.68,4.55l-1.04,0.72l-1.43,-0.19l-1.12,-0.46l-0.84,-0.93l-0.41,-1.97l-0.37,-0.32l-1.69,-0.24ZM338.49,351.38l0.71,0.05l0.38,-0.49l0.14,0.2l-0.7,3.0l-0.53,-0.08l-0.19,-1.21l0.19,-1.46ZM336.19,358.76l-0.95,-2.02l0.84,-2.76l0.57,0.05l0.11,0.49l-0.06,0.4l-0.3,0.03l-0.4,0.54l0.19,3.27ZM332.48,358.59l0.28,2.02l0.63,0.27l0.34,-0.24l0.84,1.47l0.35,0.2l0.93,-0.2l-1.62,8.07l-0.26,2.82l-0.62,1.0l-0.43,1.89l-0.24,-0.28l1.04,-5.35l-0.23,-1.28l-0.43,-0.95l-0.35,-0.23l-1.17,-0.03l-0.77,0.3l-0.07,-0.8l-0.35,-0.51l-1.5,-0.08l-0.36,-0.79l0.8,-0.29l1.3,0.08l1.63,-1.11l0.16,-0.44l-1.02,-3.72l-0.28,-0.28l-1.3,-0.4l0.11,-0.26l0.77,-0.43l1.07,-1.79l0.48,-0.21l0.36,0.02l-0.07,1.54ZM330.27,596.78l1.69,-0.65l0.94,-0.78l1.99,0.72l0.62,0.55l-0.85,0.64l-0.5,1.01l-0.58,0.17l-0.57,0.0l-2.74,-1.68ZM315.92,393.53l-0.76,0.02l0.43,-0.84l0.69,-0.3l1.09,0.11l-1.46,1.02ZM309.71,391.5l0.45,-0.18l1.48,1.66l-1.6,-0.93l-0.34,-0.55ZM312.25,394.0l1.06,0.38l-0.07,0.48l-0.72,0.4l-0.19,-0.21l-0.08,-1.06ZM305.69,400.44l-0.16,-0.9l0.09,-1.14l0.43,-1.51l0.55,-0.23l1.05,0.17l1.3,0.89l0.31,0.44l-0.68,1.64l0.39,0.51l0.96,-0.01l1.42,0.53l0.88,0.08l0.46,0.42l-0.3,0.93l-0.51,0.25l-1.97,-1.25l-2.22,0.51l-0.25,-0.09l-0.26,-0.51l-0.17,-1.28l-0.65,-0.11l-0.67,0.67ZM310.58,406.16l-0.56,-1.19l0.7,-0.19l0.13,0.04l-0.26,1.33ZM306.96,405.33l-0.62,0.04l-1.05,-1.33l-0.4,-0.96l0.05,-0.41l1.01,0.18l0.49,1.04l0.1,0.87l0.41,0.56ZM293.37,538.91l0.65,0.51l1.0,0.04l-3.61,2.89l-0.4,-0.64l-0.84,-0.16l-0.93,-1.61l-0.17,-2.51l1.12,-0.58l1.69,0.04l1.49,2.02ZM281.02,488.71l-1.3,0.01l-1.06,-0.62l-0.77,-3.06l0.26,-1.01l0.56,-0.81l0.6,-0.12l0.68,0.48l0.27,0.47l0.72,2.14l0.04,2.52ZM264.08,494.45l1.85,0.57l1.34,0.01l1.1,1.5l0.7,2.75l1.58,2.68l2.02,2.29l0.06,1.11l-0.58,0.6l-1.5,0.92l-0.19,0.34l0.01,1.01l0.58,0.36l1.75,-0.7l1.87,0.2l0.6,0.83l0.74,2.62l-0.07,0.56l-0.49,-1.03l-0.74,-0.69l-0.86,-0.37l-0.54,0.45l0.33,1.63l-0.13,2.19l0.51,0.57l0.7,0.08l-0.47,1.62l-1.15,0.52l-1.55,0.22l-0.3,0.22l-0.69,1.87l-0.78,1.44l-0.91,0.72l-1.13,-0.14l-1.41,-0.7l-1.16,-0.14l-1.49,0.77l-2.96,0.07l0.14,-1.98l-0.37,-0.76l-1.47,-0.41l-0.36,-0.32l-0.69,-1.16l-0.31,-1.49l-0.87,-1.13l-1.19,-0.84l-0.89,0.09l-2.1,2.51l-0.03,0.43l0.53,1.18l-1.86,1.72l-0.42,0.64l-0.73,-0.31l-1.77,0.08l-0.68,-0.19l-1.08,-1.02l-2.17,-0.6l-0.51,-1.6l-3.05,-2.92l-0.26,-0.65l1.12,-1.07l3.34,-1.35l0.67,-0.65l0.21,-0.68l-0.19,-0.44l-1.81,-1.12l-0.2,-0.3l0.26,-0.23l1.89,0.12l2.55,-1.36l1.47,-2.7l0.7,-3.02l0.26,-0.45l1.74,-1.23l0.57,0.66l1.39,0.12l1.06,-0.91l1.05,-2.23l0.51,-0.1l0.95,0.18l1.71,-0.3l3.04,-1.13l1.22,-0.02ZM261.35,437.4l2.87,-0.91l0.27,-0.31l0.23,-1.34l0.27,-0.05l0.6,0.39l1.0,1.53l0.27,1.91l-0.25,2.49l0.37,2.32l0.21,0.32l1.04,0.81l2.54,0.51l2.3,-0.13l0.21,0.19l0.03,0.37l-0.29,0.55l-1.34,1.3l-1.93,2.38l-0.35,-0.03l-0.25,-3.5l-0.5,-0.36l-1.68,0.46l-1.24,-0.05l-0.6,-0.35l-1.55,-3.02l-0.25,-0.21l-3.03,-0.85l-0.78,-1.09l-0.21,-0.58l0.5,-0.84l0.83,0.21l0.51,-0.2l0.48,-0.55l0.07,-0.59l-0.37,-0.79ZM269.32,480.07l-0.42,0.05l-0.11,-0.17l-0.13,-1.44l0.32,-0.61l1.67,-1.13l-0.04,-0.68l-0.6,-0.32l0.36,-0.79l1.99,-1.57l-0.76,2.12l-2.3,4.54ZM271.87,467.13l-5.06,1.27l-1.51,-0.1l0.11,-0.38l1.42,-0.4l0.28,-0.31l0.62,-3.28l-0.18,-0.41l-2.2,-1.43l0.24,-0.9l1.31,-0.71l0.74,-0.07l0.87,0.77l1.09,1.8l1.67,0.46l0.78,0.6l-0.2,3.09ZM263.02,482.49l0.34,-1.93l0.56,-0.92l0.52,-0.33l0.31,0.29l0.54,0.01l1.9,-1.47l0.88,4.47l0.02,0.51l-0.35,0.7l-2.19,1.1l0.41,-1.24l-0.4,-1.3l0.19,-0.96l-0.33,-0.57l-0.4,-0.09l-0.6,0.25l-1.4,1.48ZM255.6,420.58l0.54,0.18l0.79,0.83l0.42,0.1l0.91,-0.32l1.07,0.16l0.48,-0.56l-0.83,-2.28l0.08,-0.24l0.37,-0.41l2.68,-1.59l3.78,-2.89l0.32,1.28l-0.06,1.74l-1.62,4.22l-0.74,0.28l-0.55,1.03l-1.75,1.18l-0.16,0.45l0.38,0.29l1.45,0.02l0.21,0.19l0.01,0.6l-2.22,2.34l-1.51,0.87l-1.42,1.97l-0.91,0.22l-0.74,1.3l-0.47,0.44l-1.0,-1.14l1.42,-1.07l0.28,-0.81l1.05,-0.67l0.15,-0.49l-0.27,-0.43l-1.83,-1.05l-0.55,-0.54l0.81,-0.78l-0.17,-0.68l-1.1,-0.85l0.03,-1.95l0.71,-0.94ZM265.13,451.87l-0.43,0.13l-0.79,-1.05l0.9,-0.49l0.47,0.63l-0.16,0.77ZM260.83,461.13l0.91,-1.13l0.2,-0.06l-0.21,0.32l-0.9,0.88ZM252.85,434.6l1.07,1.0l-0.97,1.87l-1.51,-0.01l-2.36,-1.55l0.42,-0.7l1.04,0.18l0.79,-0.39l0.91,0.05l0.62,-0.45ZM251.91,448.05l-0.78,-0.05l-0.29,-0.24l-0.42,-1.39l0.09,-4.28l1.15,0.06l0.25,5.9ZM249.74,451.78l-0.89,0.26l-0.13,-0.08l0.18,-0.56l0.53,-0.18l0.37,0.26l-0.06,0.29Z", "name": "United Kingdom"}, "IM": {"path": "M286.39,521.0l0.85,-2.84l1.13,-1.0l1.39,-2.46l1.04,-0.53l0.56,2.66l-0.64,0.88l-0.3,0.96l-2.48,2.65l-0.85,-0.4l-0.7,0.1Z", "name": "Isle of Man"}, "AT": {"path": "M480.85,662.6l0.88,0.03l1.25,-0.87l2.7,1.28l1.06,0.99l0.21,1.25l0.58,0.34l1.0,0.18l-0.17,1.42l0.45,0.42l0.93,-0.16l0.98,-0.59l0.88,-1.16l0.54,-1.2l0.32,-2.26l2.66,-0.01l1.18,0.46l1.37,0.06l0.36,0.8l1.2,1.49l1.26,0.26l1.86,-0.57l0.42,0.16l1.17,-0.23l1.18,-0.77l0.32,-0.55l0.96,-0.36l1.37,-0.85l1.86,-0.65l6.31,-0.72l0.57,-0.78l-0.03,-1.08l1.7,0.46l1.74,1.04l0.77,-0.01l1.94,-0.61l0.92,0.48l0.17,0.34l-0.12,0.9l0.52,0.74l2.21,1.37l0.84,-0.01l0.34,-0.25l0.26,-0.68l0.29,-3.14l-0.53,-1.14l-1.48,-0.31l0.68,-1.51l-0.01,-1.67l-2.62,-3.87l0.0,-0.39l0.63,-0.94l3.51,-2.24l3.24,-1.14l0.81,-0.68l0.6,-0.89l0.74,-3.44l2.3,1.08l1.13,-0.49l0.92,-1.09l0.2,-0.81l0.05,-2.46l1.8,1.26l0.78,1.76l0.27,0.23l2.0,0.5l2.41,0.05l1.07,-0.86l0.58,-0.14l2.69,0.52l0.46,-0.34l0.2,-1.4l1.35,-1.84l1.18,0.05l0.4,-0.29l0.35,-1.23l0.41,-3.21l0.69,0.05l1.44,1.07l1.99,-0.56l1.1,0.3l2.62,1.44l1.42,0.56l1.7,-0.06l3.22,2.26l2.2,0.32l2.06,0.01l1.61,-1.25l1.38,0.32l1.56,1.0l2.14,0.57l0.82,1.91l-0.09,0.78l-1.07,2.2l0.03,1.42l1.48,3.9l1.27,2.29l0.23,0.84l0.64,0.62l-0.61,0.77l-0.14,1.14l-0.52,0.67l-0.13,0.72l0.4,2.38l-2.86,0.19l-0.51,0.27l-1.57,-1.1l-1.06,-0.32l-0.8,0.2l-1.67,1.4l-0.16,0.49l0.15,0.37l0.24,0.23l2.63,0.89l0.38,1.13l-0.64,1.55l-1.24,0.72l-0.9,0.09l-0.35,0.33l-0.11,0.79l0.35,1.71l-0.59,1.17l0.29,1.55l0.72,0.43l-0.39,1.83l-0.2,0.22l-1.37,-0.05l-1.08,0.6l-2.2,2.18l-0.81,0.42l-0.93,1.15l-0.07,1.97l-2.42,-0.6l-1.83,0.26l-1.32,0.9l-1.3,0.45l-3.01,-0.25l-2.94,0.34l-1.49,0.4l-0.87,0.57l-1.18,1.63l-2.07,1.18l-0.49,0.61l-1.69,-0.48l-4.29,-0.66l-3.67,-0.98l-1.21,-0.07l-3.4,-0.8l-4.39,-0.34l-6.31,-1.46l-2.97,-0.49l-1.1,-0.53l-1.59,-2.57l-1.5,-1.92l-0.24,-0.75l0.92,-1.63l-0.31,-0.58l-0.38,-0.14l-2.97,0.84l-2.59,1.05l-3.28,-0.23l-1.34,0.29l-2.69,0.19l-1.65,0.93l-1.47,2.74l-0.28,0.26l-0.73,0.12l-1.23,-0.1l-0.8,-0.3l-1.15,-1.11l-2.84,-0.2l-0.02,-0.6l-0.54,-1.29l-1.09,-0.62l-0.46,0.09l-2.23,2.36l-0.4,0.14l-1.68,-0.61l-1.44,-0.93l-0.63,-1.5l-1.43,-0.61l-1.69,-0.4l0.16,-0.7l-0.74,-1.56l-0.34,-1.59l1.04,-2.27l0.26,-1.61l-0.13,-0.36l-0.62,-0.56Z", "name": "Austria"}, "NL": {"path": "M408.13,581.3l-1.22,-0.35l-1.76,-0.89l-2.65,0.66l-1.6,-0.81l-1.48,-0.12l-1.5,-1.49l0.4,-0.46l0.52,-0.21l2.52,-0.14l1.79,0.44l3.4,2.53l1.12,0.06l1.05,-0.35l0.2,-0.6l-0.47,-0.7l-2.25,-1.13l-0.38,-0.36l1.58,-0.21l0.28,-0.62l-0.68,-1.41l-2.37,-2.81l1.69,-3.7l1.7,-1.48l2.27,-3.05l1.5,-2.59l1.09,-3.03l1.57,-8.18l1.05,-2.57l1.59,0.62l2.35,-1.18l4.09,-3.1l1.28,-2.75l1.07,-1.14l4.54,-2.37l2.47,-0.7l9.99,-0.76l2.06,2.54l1.31,0.64l1.56,0.34l-0.08,6.04l-0.12,0.66l-0.85,1.8l-0.9,3.19l-0.24,2.06l-0.1,0.14l-3.38,-0.01l-0.91,0.7l0.09,1.09l-0.35,1.02l0.23,0.85l0.62,0.78l1.43,0.64l1.69,-0.01l0.67,1.09l-0.2,2.34l-0.52,1.21l-1.58,1.47l-1.49,0.88l-0.41,0.54l-0.14,1.12l1.16,1.37l-0.66,1.03l-2.85,1.17l-1.16,-0.09l-0.95,0.66l-0.68,-0.47l-2.04,-0.66l-2.29,1.1l-0.94,0.99l0.06,1.1l1.41,2.28l0.44,0.42l0.08,0.88l1.33,2.3l0.07,0.73l-0.42,1.93l-1.25,2.96l0.1,1.06l0.66,0.4l-2.38,2.09l-0.75,-0.08l-0.4,0.23l-0.15,0.33l0.11,0.79l0.45,0.62l1.53,0.76l0.44,0.76l-0.63,2.84l-2.92,-0.17l-0.55,-0.24l-0.61,-1.22l1.26,-1.68l0.2,-1.27l0.91,-2.07l0.15,-0.95l-0.48,-0.88l-0.8,-0.51l-1.86,-0.6l-0.82,-0.78l-0.4,-0.72l-0.6,-0.38l-2.4,0.5l-1.13,-0.36l-1.4,-1.33l-0.51,-2.18l-0.51,-0.57l-0.55,0.01l-1.1,1.23l-1.02,0.08l-0.26,-0.89l-0.83,-0.93l-0.51,0.02l-1.53,1.4l-0.32,-0.0l-0.96,-0.97l-0.47,-0.15l-0.98,0.4l-0.76,0.7l-0.12,0.37l0.16,1.07l-0.73,-0.09l-1.0,-0.51ZM416.5,544.21l-1.04,1.24l-0.52,-0.36l0.33,-0.98l1.24,-1.29l-0.0,1.4ZM407.39,582.29l-0.46,0.82l-1.7,1.23l-1.73,0.79l-0.76,-0.08l-1.0,-0.89l-1.0,-0.45l-1.48,-0.26l-1.64,0.93l-0.24,-0.03l-0.52,-0.74l-0.32,-1.48l0.64,-0.21l2.08,-0.12l1.73,0.65l2.26,0.32l1.78,-0.84l1.17,0.66l1.19,-0.28ZM404.03,574.35l1.37,1.32l-1.09,0.31l-1.63,-1.33l-0.37,-0.07l-0.9,0.26l-0.22,-0.35l0.87,-0.28l1.96,0.14Z", "name": "Netherlands"}, "AD": {"path": "M373.43,758.44l-1.46,0.82l-1.46,0.33l-0.28,-1.68l0.14,-0.67l0.71,-0.63l2.5,0.63l0.25,0.42l-0.39,0.78Z", "name": "Andorra"}, "IE": {"path": "M249.88,499.5l-0.72,3.05l-1.27,2.43l-2.29,1.19l-1.78,-0.14l-0.76,0.56l-0.11,0.68l0.39,0.62l1.74,1.23l-0.4,0.41l-3.42,1.4l-1.1,0.92l-0.39,0.91l0.45,1.05l3.11,3.01l0.36,1.44l0.28,0.29l2.29,0.63l1.08,1.02l0.97,0.25l1.73,-0.08l0.64,0.32l0.82,-0.31l0.34,-0.61l2.03,-1.92l0.07,-0.4l-0.54,-1.27l1.77,-2.1l0.26,0.02l0.83,0.65l0.7,0.93l0.25,1.34l0.88,1.46l0.49,0.44l1.34,0.31l0.14,0.22l-0.2,1.85l0.2,0.6l0.37,0.28l3.31,-0.05l1.47,-0.78l0.87,0.11l0.43,0.62l0.12,0.4l-0.53,0.17l-0.95,-0.16l-0.36,0.12l-0.62,0.81l-0.03,1.06l0.37,1.48l0.72,1.04l1.0,4.48l0.72,1.48l0.16,4.06l-0.29,0.7l1.44,6.23l0.23,3.57l-1.37,2.64l-0.52,1.55l-0.42,1.76l-0.24,2.6l-1.67,3.02l-0.66,0.7l-0.8,0.45l-0.11,0.61l1.57,1.84l-1.08,0.69l-1.5,0.28l-1.76,-0.52l-1.29,0.05l-1.47,0.99l-0.62,-1.6l-0.39,-0.26l-0.37,0.29l-0.46,1.69l-0.81,0.45l-1.8,-0.11l-3.05,0.49l-1.27,0.56l-1.42,2.38l-3.3,1.25l-1.16,1.57l-1.3,0.81l-0.92,0.21l-1.88,-1.61l-1.82,-0.01l-0.38,0.31l0.84,1.12l0.14,1.07l-0.15,0.96l-0.58,0.43l-1.05,0.18l-1.42,1.15l-1.88,0.31l-1.22,1.16l-6.41,1.85l-2.25,-0.67l-1.06,0.17l-2.65,1.02l-0.62,-0.1l1.31,-2.03l2.33,-1.41l0.24,-0.36l-0.24,-0.61l-0.92,-0.18l-4.33,0.92l-1.55,0.79l-0.61,0.09l0.24,-0.42l1.88,-1.59l1.75,-1.16l0.67,-0.9l1.97,-1.06l0.18,-0.51l-0.5,-0.22l-6.49,2.24l-1.45,-0.23l-0.31,-0.48l-0.42,-0.17l-1.0,0.22l-0.33,-0.98l1.83,-2.13l1.09,-0.94l2.7,-1.32l0.65,-1.11l-0.18,-0.54l-0.82,-0.34l-3.95,0.24l-1.47,-0.16l0.33,-0.98l1.82,-1.32l0.92,-0.2l0.84,0.12l1.84,0.86l2.24,-0.28l0.23,-0.68l-0.83,-0.81l-0.15,-1.72l-0.52,-0.6l0.55,-0.52l1.1,-0.58l1.69,-1.74l0.5,-0.22l3.45,-0.44l3.73,-0.95l3.73,-1.32l0.27,-0.37l-0.26,-0.38l-1.81,-0.7l-0.85,-0.9l-0.61,0.03l-1.42,1.9l-0.92,0.65l-2.8,0.38l-2.48,-0.77l-0.85,0.73l-1.82,0.89l-0.5,0.06l1.23,-0.9l3.05,-2.98l0.72,-0.99l0.99,-1.67l-0.27,-1.09l-0.45,-0.38l1.96,-3.0l0.63,-0.5l1.29,-0.09l2.05,-0.78l1.03,-1.11l-0.13,-0.63l-1.4,-0.65l-1.53,-0.36l-5.03,0.28l-0.68,-0.56l-0.25,-1.07l-0.47,-0.48l-1.26,-0.09l-1.06,0.35l-0.73,-0.2l0.79,-0.86l-0.22,-0.66l-1.41,-0.28l-1.47,0.22l-0.83,-0.25l-0.02,-0.32l0.46,-0.63l-0.04,-0.52l-0.61,-0.62l-0.08,-0.5l0.39,-0.23l0.89,0.1l1.63,-0.65l2.09,-0.31l0.34,-0.36l-0.26,-0.42l-1.78,-0.63l-0.53,-0.41l0.08,-1.14l1.92,-1.12l2.21,-0.53l0.3,-0.47l-0.15,-0.75l0.15,-0.81l-0.35,-0.47l-2.29,-0.26l-1.82,0.48l0.15,-1.06l0.55,-1.59l-0.0,-2.19l-0.56,-0.33l-0.54,0.24l-0.11,-1.1l-0.45,-1.05l-0.54,-0.2l-0.98,0.45l0.02,-0.66l0.36,-0.78l0.57,-0.29l2.28,0.14l1.56,-0.74l1.99,-0.18l3.18,0.22l2.2,1.97l0.48,0.04l0.59,-0.37l1.17,-1.38l3.34,0.55l2.12,0.74l0.86,-0.24l0.24,-0.45l-0.31,-1.45l-0.64,-0.93l0.73,-1.04l1.07,-0.84l0.69,-0.41l1.7,-0.54l0.87,-0.58l0.65,-1.88l0.78,-1.38l-0.41,-0.59l-4.27,0.72l-3.65,-1.47l0.4,-0.73l0.76,-0.59l1.46,-0.5l0.37,-0.76l0.71,-0.49l1.27,-1.37l0.09,-0.37l-0.44,-1.7l0.21,-1.09l0.94,-0.97l0.58,-1.86l1.75,-0.32l1.68,-0.79l2.62,-0.12l0.61,0.29l0.57,-0.4l-0.12,-1.11l0.77,-0.12l0.23,0.14l0.28,1.06l0.51,0.59l0.15,0.94l-0.32,0.73l-0.61,0.64l-0.01,0.54l0.4,0.47l-0.75,1.02l0.02,0.5l0.49,0.09l1.08,-0.59l1.44,-1.25l0.14,-0.33l-0.08,-1.07l-0.63,-2.42l0.15,-1.06l0.63,-0.62l2.0,-0.38l0.27,-0.6l-0.48,-0.98l0.67,0.24l1.22,1.12l2.21,1.39l-0.9,0.99l-1.53,0.95l-0.71,1.13l-2.08,1.47l-0.45,0.7ZM215.27,524.99l-1.08,-1.32l-1.84,-0.28l0.23,-0.18l0.5,0.2l1.82,0.03l0.29,0.2l0.08,1.34Z", "name": "Ireland"}, "ES": {"path": "M408.54,806.45l-3.92,-1.92l-1.35,-0.24l-0.05,-1.1l2.42,-0.19l2.04,0.68l1.11,1.86l-0.24,0.9ZM392.9,807.55l0.23,0.45l1.3,0.59l1.57,-0.48l0.58,0.13l0.48,0.19l0.12,0.76l-2.23,3.76l-0.63,1.53l-2.0,1.3l-2.16,-1.09l-1.33,-0.3l-0.24,-0.26l-0.3,-1.64l-0.9,-0.87l-1.21,-0.21l-1.53,1.1l-0.3,-0.51l-0.96,-0.33l-0.18,-0.31l0.01,-0.41l5.44,-4.13l1.57,-0.91l3.11,-0.99l-0.12,0.68l0.38,0.44l-0.49,0.68l-0.18,0.82ZM246.2,735.75l1.22,0.61l1.34,-0.17l1.24,0.73l2.0,1.96l2.73,0.76l2.34,-0.58l3.76,-0.12l1.99,0.25l3.37,-0.46l1.91,0.16l3.17,-0.91l2.44,1.14l4.71,0.54l2.86,0.96l7.98,1.62l2.94,0.01l4.03,-0.9l1.65,-0.65l1.67,0.36l2.21,-0.75l0.9,0.13l1.48,1.11l5.05,1.5l0.39,-0.09l1.26,-1.2l0.79,-0.22l3.5,0.75l3.76,1.6l1.99,0.11l2.79,-0.43l2.23,-1.03l0.6,1.22l0.69,0.47l1.22,0.49l2.11,0.28l0.59,0.36l-0.15,1.31l-0.77,1.44l0.31,0.76l0.54,0.38l1.12,0.03l0.58,-0.81l0.29,0.38l4.79,2.05l2.22,0.17l0.28,0.48l2.09,2.05l1.77,0.1l2.27,-0.49l1.21,0.7l1.6,1.44l0.66,0.35l3.38,-0.5l0.83,0.47l1.65,-0.13l1.85,0.25l1.62,-0.06l0.52,-0.57l0.13,-1.79l0.28,-0.5l4.03,1.18l2.69,1.21l1.2,0.08l0.58,0.27l0.92,1.51l-0.15,0.72l0.17,1.67l0.34,0.67l0.29,0.18l1.34,-0.1l2.18,-1.08l2.72,1.27l1.04,1.36l0.91,0.03l2.09,-1.15l4.83,1.34l1.22,0.11l0.43,-0.36l0.18,-0.75l0.24,-0.16l1.53,-0.39l1.03,-0.49l0.91,-0.18l3.01,0.65l0.29,0.89l0.68,0.56l0.13,0.53l-1.47,0.43l-0.36,0.35l-0.22,1.72l0.4,0.76l0.66,0.48l0.12,0.35l0.12,2.3l-3.12,3.04l-9.38,5.44l-2.31,2.68l-0.75,0.53l-6.92,1.64l-4.92,1.77l-2.33,0.63l-4.48,4.38l0.15,0.68l1.0,0.31l1.01,1.14l-0.21,0.31l-1.77,0.94l-0.66,0.25l-0.57,-0.11l-0.64,0.31l-3.14,5.25l-2.76,3.74l-1.59,1.68l-1.6,2.44l-3.43,6.31l-0.06,2.1l1.72,6.31l1.03,1.7l1.35,1.36l2.56,1.19l0.44,0.79l-0.68,0.84l-2.51,1.89l-4.44,2.59l-1.99,2.12l-0.47,2.0l-1.34,1.05l-0.49,2.71l-0.93,2.4l-0.86,1.49l-0.11,1.0l0.11,0.33l1.08,1.08l-0.31,0.27l-2.07,0.37l-5.27,0.17l-4.47,3.05l-2.27,2.81l-1.9,4.82l-2.24,2.75l-0.73,0.37l-1.61,-1.19l-2.0,-0.19l-2.06,0.42l-1.15,1.04l-1.38,0.48l-1.51,-0.46l-3.4,-0.26l-1.61,0.07l-2.22,0.77l-1.95,-0.52l-3.38,-0.28l-7.47,0.66l-1.12,0.44l-0.89,1.17l-2.19,1.95l-3.54,0.1l-3.34,1.42l-0.86,0.92l-1.35,2.32l-0.34,1.3l-0.47,-0.2l-0.49,0.14l-0.28,0.31l-0.22,1.1l-1.82,0.66l-2.32,-0.98l-2.03,-1.54l-1.11,-0.17l-1.64,-2.27l-0.73,-1.5l-0.5,-1.57l0.09,-0.73l-0.15,-0.54l-1.61,-0.86l-0.3,-1.21l1.03,-1.83l0.84,-0.77l0.51,-0.22l0.23,-0.46l-0.41,-0.31l-1.41,0.09l-0.96,1.01l-1.1,-1.71l-5.09,-3.89l0.24,-0.66l-0.04,-0.69l-0.71,-0.21l-0.83,1.02l-0.44,0.2l-2.71,-0.17l-2.75,0.44l-1.23,-6.43l0.76,-2.29l0.88,-1.0l1.16,-2.03l1.34,-1.59l1.45,-0.39l0.9,-0.47l0.9,-2.52l-0.45,-0.58l-1.76,0.16l-2.99,-4.45l0.48,-1.73l0.33,-2.48l0.72,-0.84l1.32,-1.03l1.08,-1.4l0.62,-1.57l0.04,-1.51l-0.83,-1.04l-1.59,-0.44l-1.7,-3.34l-0.39,-2.17l-1.56,-1.43l-0.96,-1.71l0.58,-0.18l4.66,-0.05l1.22,-0.66l0.9,-1.57l0.9,-2.51l0.22,-1.58l-0.39,-0.96l-1.42,-1.43l-0.03,-0.22l0.18,-0.52l2.07,-1.61l0.66,-0.75l0.09,-0.37l-0.55,-1.64l0.22,-0.74l0.23,-3.11l-0.24,-2.21l-0.32,-1.92l-0.9,-2.21l0.44,-0.62l1.55,-0.93l1.13,-1.88l1.61,-1.54l2.17,-1.27l1.61,-1.49l1.16,-1.78l-0.43,-1.32l-1.0,-0.9l-1.25,-0.49l-1.89,-0.11l-0.12,-3.44l-0.35,-0.88l-0.9,-0.64l-1.05,0.13l-1.76,-0.53l-0.62,0.34l-2.05,-0.09l-1.8,-0.53l-0.82,0.6l-0.23,1.1l-0.62,0.44l-1.71,0.52l-1.36,-0.04l-2.56,-0.95l-2.6,0.31l-0.65,-0.16l-2.25,1.21l-0.6,0.03l-0.64,-1.17l1.24,-2.3l-1.13,-2.11l-0.35,-0.28l-0.72,-0.07l-4.59,1.58l-1.38,0.89l-1.2,1.16l-0.69,0.18l-0.19,-2.68l2.55,-2.95l-0.12,-0.64l-0.7,-0.27l-0.73,0.02l0.02,-0.28l0.52,-0.45l0.53,-0.98l-0.13,-0.52l-0.94,-0.87l0.16,-2.18l-0.16,-0.91l-0.55,-0.29l-2.46,0.91l-0.02,-0.83l1.25,-1.82l0.2,-0.73l-0.32,-0.48l-1.45,-0.27l-1.05,-0.86l-1.35,-1.9l-0.01,-0.92l0.72,-2.37l2.0,-1.16l1.91,-1.66l2.78,0.31l1.74,-0.38l1.63,-0.93l0.94,-0.23l1.45,-0.8l0.21,-0.37l-0.05,-1.07l-0.43,-0.79l0.26,-0.45l3.27,-2.05l2.1,-0.27l1.92,-0.99ZM370.09,822.55l-0.59,1.0l-1.82,-0.47l0.28,-0.77l0.38,-0.09l0.3,-0.37l0.03,-0.74l0.47,-0.65l2.58,-0.62l0.4,0.36l0.09,0.51l-1.55,1.64l-0.58,0.21ZM370.19,826.26l0.43,0.52l0.1,0.05l-0.66,0.0l0.12,-0.57ZM164.44,986.52l-0.91,0.93l-0.45,-0.16l0.4,-1.81l0.38,-0.52l1.75,-0.91l1.51,-0.38l0.82,-1.29l0.11,0.12l-0.32,0.61l-0.3,2.07l-0.85,0.59l-2.14,0.74ZM155.36,999.51l0.78,-0.22l1.68,-1.33l1.2,-3.09l1.67,-3.23l0.34,-1.34l0.46,-0.37l0.9,0.0l0.27,0.48l-0.01,1.5l-0.47,2.65l-0.81,2.19l-3.47,1.23l-1.83,1.68l-0.72,-0.16ZM141.28,999.14l0.12,1.42l-4.09,0.0l0.43,-0.45l0.41,-1.1l2.82,0.24l0.31,-0.11ZM128.8,994.8l-1.25,3.65l-0.98,1.28l-0.52,0.38l-1.25,0.3l-1.66,-1.95l-1.27,-2.62l0.38,-0.25l1.2,0.08l2.71,-0.49l0.66,-0.26l2.6,-2.17l2.12,-0.22l-2.74,2.27ZM117.33,1000.26l-0.31,0.07l-0.43,-0.25l-0.53,-0.94l0.59,-0.89l1.3,0.6l0.26,0.51l-0.89,0.89ZM108.62,992.86l-0.21,-0.78l-1.49,-2.77l0.71,-0.97l1.38,-0.03l0.55,0.71l0.18,0.72l-0.31,0.65l0.09,1.05l-0.14,0.57l-0.76,0.86Z", "name": "Spain"}, "ME": {"path": "M601.12,757.98l1.21,-1.1l0.26,-0.7l-0.08,-0.77l-1.01,-1.83l-0.28,-3.35l0.35,-0.49l1.74,-0.27l0.34,-0.4l-0.02,-1.76l0.66,-1.79l2.21,-1.98l0.71,0.07l0.52,0.87l0.42,0.19l0.65,-0.13l0.32,-0.35l0.09,-1.44l-1.24,-2.45l0.15,-0.38l1.18,0.39l1.27,-0.29l0.39,1.35l2.73,2.11l1.83,2.4l0.91,0.78l0.86,0.24l1.56,1.02l2.14,0.5l5.16,3.34l0.06,0.69l-1.5,0.46l-0.45,0.77l-1.61,-0.07l-0.34,0.18l-0.34,0.52l-0.01,0.42l0.75,1.68l-0.21,1.1l-1.58,0.8l-1.77,0.5l-0.39,-0.55l0.04,-1.42l-0.34,-0.84l-0.76,-0.28l-0.81,0.49l-1.49,2.52l-1.98,2.78l-1.63,3.13l0.06,0.43l0.63,0.74l0.35,0.94l-0.21,2.87l-1.43,-0.98l-0.89,-2.04l-3.09,-3.46l-3.53,-2.37l0.23,-0.74l-0.35,-0.57l-0.74,-0.03l-0.78,0.24l-0.92,-1.42l-0.01,-0.28Z", "name": "Montenegro"}, "MD": {"path": "M712.32,647.0l2.52,-1.71l0.66,0.26l4.48,0.01l1.54,-1.19l0.68,0.26l0.38,-0.05l1.69,-1.1l2.16,0.48l1.31,0.62l0.9,0.99l1.06,0.71l1.04,0.28l0.39,0.35l0.09,0.65l0.25,0.31l1.11,0.42l1.67,-0.01l0.43,0.29l-0.2,0.78l0.22,0.63l0.55,0.16l0.43,-0.24l0.16,0.1l0.56,1.13l0.64,-0.0l0.78,-1.03l2.85,0.55l1.16,2.34l0.83,0.99l0.79,0.46l0.36,0.01l1.48,-0.77l0.97,1.55l0.21,2.88l-1.17,3.96l0.18,1.13l0.34,0.68l2.43,1.71l0.73,1.0l0.98,0.71l0.8,0.11l0.21,0.21l-0.0,1.41l-0.4,1.1l0.03,0.9l0.67,0.99l0.18,1.74l0.45,0.6l1.66,1.11l2.08,1.04l0.46,0.78l0.3,1.05l-0.24,3.57l0.15,0.34l2.5,2.04l-0.39,0.44l-2.87,0.44l-0.99,-1.46l-0.81,-0.37l-0.43,0.11l-1.01,0.83l-0.6,-0.13l-1.41,-0.93l-0.63,0.02l-0.4,0.28l-0.45,-0.1l-0.39,-0.35l-0.63,0.13l-0.61,1.3l-0.09,-2.08l-0.51,-0.58l-0.54,-0.06l-1.51,0.62l-1.29,0.78l-0.61,1.03l0.04,1.22l0.2,1.58l0.79,2.03l-0.42,0.89l-0.3,1.41l-1.21,1.27l-1.45,0.78l-0.21,0.32l-0.12,1.55l-0.74,1.0l-1.47,1.18l-0.96,1.36l0.22,2.0l-0.29,0.91l-2.1,0.16l-1.19,0.69l-1.43,-2.23l0.89,-0.65l0.13,-0.31l-0.05,-1.34l-0.55,-2.19l-0.21,-2.8l0.26,-3.17l1.69,-6.31l-0.28,-1.05l0.2,-2.72l-1.21,-2.99l-1.05,-3.67l-3.04,-2.86l-1.16,-2.25l-2.07,-2.24l-2.23,-4.24l-1.53,-1.75l-0.76,-1.5l-0.65,-2.51l-1.07,-2.38l-2.4,-4.08l-1.17,-1.21l-1.54,-0.91l-1.87,-0.17Z", "name": "Moldova"}, "SY": {"path": "M844.04,897.4l1.11,-1.3l-0.02,-0.52l-0.85,-0.85l-1.19,-0.34l-0.46,0.18l-0.33,0.57l-3.36,0.05l-0.95,-3.36l-0.15,-1.54l0.03,-1.78l0.71,-2.66l-0.54,-3.44l-1.84,-2.54l0.97,-4.39l0.55,-0.86l0.68,0.07l2.09,1.27l0.61,0.02l0.33,-0.26l0.62,-1.65l0.51,-0.47l1.27,-0.49l0.25,-0.32l0.36,-2.67l1.09,-0.64l2.15,-0.23l0.33,-0.34l0.03,-0.71l-1.37,-3.16l0.78,-3.96l0.6,-1.4l1.38,0.14l2.06,0.53l0.6,0.92l1.35,0.92l4.99,0.16l4.0,-1.72l2.55,-0.87l3.79,-1.77l1.41,0.13l1.75,0.49l3.25,2.44l1.18,0.44l8.14,0.22l4.57,-0.98l4.51,-1.49l6.03,-3.16l0.0,45.72l-23.23,14.01l-26.4,16.95l-4.43,-0.68l-1.33,-0.38l-2.04,-1.71l-2.15,-0.64l-1.38,-2.09l-0.84,-0.76l-1.24,-0.34l1.58,-2.98l-0.0,-0.38l-0.4,-0.73l-0.16,-1.21l0.5,-0.98l-0.93,-2.32l0.0,-0.67l0.39,-1.49l0.52,-0.46l0.25,-0.66l1.15,-0.88l0.32,-0.54l-0.11,-0.55l-0.81,-0.52l-0.26,-0.47l0.28,-0.83l1.49,-1.43l1.28,-0.11l1.97,0.2l0.55,-0.3l0.1,-0.6l-1.12,-0.84l-0.02,-0.19l0.9,-1.18l1.43,-0.79l1.05,-1.27l0.73,-1.51l-1.07,-3.76l-0.88,-0.8l-1.26,-0.52Z", "name": "Syria"}, "TN": {"path": "M482.99,852.14l-0.01,0.38l0.63,1.3l0.62,0.13l0.9,-0.79l0.1,-0.46l-0.22,-0.69l2.33,0.06l1.18,0.62l-0.09,2.67l1.92,2.93l-0.48,1.22l0.19,0.5l1.62,0.84l0.41,-0.03l1.44,-1.01l0.78,-1.49l2.48,-0.81l2.57,-2.19l0.89,-0.14l0.25,1.41l0.56,1.33l-0.77,0.49l-1.21,1.67l-2.27,4.17l-2.02,1.18l-1.67,1.69l-0.59,1.27l-0.18,1.57l0.43,2.5l1.22,2.53l1.33,1.47l1.39,0.55l2.78,2.15l-0.03,1.28l0.41,1.6l0.16,1.94l0.96,1.55l-2.08,3.21l-1.23,2.49l-2.34,3.35l-2.07,2.16l-4.51,3.25l-1.16,1.12l-0.83,1.3l-0.35,1.31l0.15,1.5l1.49,3.37l2.07,2.11l2.35,1.19l3.02,-0.37l-0.07,0.9l0.25,1.55l0.42,0.34l2.46,-0.33l0.86,-1.34l1.22,0.73l0.85,3.0l1.42,1.07l-0.59,0.47l0.06,0.64l1.93,0.69l0.92,-0.21l1.03,0.51l-0.6,4.33l-0.07,4.15l1.09,2.01l0.02,0.64l-0.33,0.75l-9.1,5.28l-0.81,0.99l-2.17,1.45l-0.98,2.12l-0.8,0.93l-2.17,0.47l-0.67,0.48l-1.59,2.27l-0.64,1.56l1.74,6.84l0.17,2.48l-0.49,1.18l-4.27,6.12l-4.56,2.2l-6.38,-28.84l-0.44,-0.64l-4.55,-3.28l-4.61,-3.64l-0.39,-2.37l-1.27,-3.72l-1.38,-2.17l-0.66,-0.69l-2.67,-1.34l-1.47,-0.94l-0.33,-0.44l-0.3,-1.49l-1.11,-3.03l-1.26,-2.75l-0.44,-1.79l-0.06,-2.28l0.23,-1.57l0.46,-0.61l2.59,-2.09l1.28,-2.6l2.69,-1.61l1.11,-0.88l1.02,-1.44l0.79,-1.64l0.42,-4.01l0.46,-1.67l1.09,-1.94l-1.0,-3.56l0.17,-2.91l-0.15,-1.28l-0.96,-2.48l-0.02,-1.05l1.39,-8.47l-0.2,-0.85l-0.48,-0.76l-1.22,-0.73l2.15,-1.87l0.96,-2.05l2.03,-1.19l0.19,-0.36l-0.23,-1.46l3.11,-0.98l3.17,-2.67l1.06,-0.62l7.27,-2.44l1.5,0.38l-0.58,1.21ZM502.47,893.73l0.76,-0.69l-0.01,0.26l-0.75,0.42ZM499.08,910.1l-1.11,0.53l-1.49,-0.62l0.2,-1.86l1.95,-0.06l1.28,1.19l-0.83,0.83Z", "name": "Tunisia"}, "MA": {"path": "M183.87,1000.56l4.34,-1.23l5.88,-2.78l1.71,-1.14l1.85,-2.29l2.91,-2.85l5.49,-3.47l2.64,-2.04l3.88,-4.9l2.59,-4.08l2.15,-2.64l1.48,-2.33l1.06,-2.42l0.62,-3.92l-0.46,-1.78l-1.63,-2.45l-1.08,-0.69l-0.23,-0.89l0.57,-2.05l-0.01,-3.5l0.33,-5.56l1.77,-4.45l4.47,-6.07l0.84,-2.55l0.55,-5.21l5.45,-5.5l3.27,-4.33l1.08,-1.01l2.81,-1.94l10.02,-4.33l5.67,-3.1l3.44,-2.38l2.0,-2.74l5.46,-10.58l5.39,-15.08l0.39,-1.54l3.92,-0.69l1.44,-0.59l1.54,-1.03l0.77,0.22l-0.43,0.58l0.05,2.05l1.2,2.24l2.05,2.5l3.74,3.16l2.92,1.27l4.05,0.75l4.85,-1.35l2.58,-0.02l1.25,-0.53l1.38,0.8l2.66,0.27l2.67,-0.46l2.09,-1.36l0.81,-0.96l0.14,0.91l1.5,3.05l0.38,0.21l1.4,-0.12l1.35,0.37l2.86,-0.18l2.48,0.29l0.39,1.12l0.8,0.98l4.49,3.57l-0.7,2.37l0.45,0.83l1.07,1.24l-0.75,1.82l1.13,3.1l0.19,2.94l-0.29,3.48l0.18,1.15l0.93,2.34l-0.62,4.11l0.73,2.19l1.01,1.79l0.54,3.1l0.86,1.62l1.4,1.41l3.22,2.4l0.45,1.0l-2.27,2.1l-0.29,1.28l0.48,1.65l0.0,0.6l-0.35,0.15l-15.86,-0.65l-5.67,0.89l-0.48,0.16l-0.74,0.62l-0.77,2.66l-0.29,0.47l-5.56,2.01l-2.13,0.27l-1.38,-0.2l-0.92,0.17l-0.92,0.48l-0.45,0.87l-0.07,0.98l0.21,1.05l0.52,1.13l0.08,1.03l-0.34,0.87l-0.19,2.01l0.29,0.49l1.99,1.0l0.49,0.55l-0.02,0.72l-0.41,0.44l-0.36,0.23l-3.94,0.55l-4.54,3.36l-6.13,2.29l-2.62,1.39l-3.0,4.81l-1.49,1.63l-2.02,1.53l-4.34,1.35l-3.07,0.58l-2.84,0.32l-3.76,-0.09l-0.47,0.42l-0.26,2.28l-0.86,1.05l-0.34,0.11l-6.16,-0.87l-0.74,0.09l-1.45,0.78l-3.3,2.77l-1.8,0.25l-1.01,0.48l-4.25,3.37l-3.61,2.36l-3.96,3.28l-1.5,0.9l-0.3,0.62l-0.07,1.06l-0.0,9.19l-48.57,0.0Z", "name": "Morocco"}, "RS": {"path": "M607.43,694.23l1.43,-0.66l0.67,-0.9l0.79,0.49l0.84,0.05l1.11,-0.39l2.07,-1.28l1.45,-1.72l0.89,-0.22l3.1,0.44l1.27,-0.3l2.95,0.37l0.56,0.26l1.11,1.34l0.9,1.6l2.92,1.98l0.94,1.69l0.82,0.93l0.36,0.13l0.44,-0.13l-0.13,2.35l0.28,1.51l-0.19,0.47l0.38,0.85l1.07,0.81l1.0,1.23l1.11,0.85l1.09,0.58l0.67,0.07l1.1,0.96l2.7,0.91l0.61,0.65l-0.69,1.03l-0.21,0.78l-0.6,0.19l-0.36,0.59l0.15,0.54l0.36,0.4l1.93,0.97l-2.13,0.47l-0.24,0.38l0.03,0.67l0.28,0.36l2.16,0.68l0.88,0.58l0.67,0.94l1.51,0.59l2.22,0.27l1.43,0.79l0.84,1.39l0.44,0.18l1.66,-0.47l1.96,-2.12l1.73,-0.5l1.78,0.96l0.94,0.76l-0.01,0.31l-1.17,-0.08l-0.9,0.42l-0.93,1.29l-0.07,1.23l0.49,1.09l0.77,0.86l0.94,0.47l0.34,0.4l0.09,0.67l-0.85,0.78l-0.34,0.97l-0.07,1.18l-2.38,1.36l-0.77,2.8l0.05,1.62l0.35,1.45l1.09,2.01l0.33,1.52l0.8,1.33l2.94,1.95l1.3,1.93l1.4,1.06l-0.38,1.29l-1.11,1.4l-0.82,0.66l-1.16,1.72l-1.91,0.11l-0.58,0.2l-0.91,0.7l-0.37,0.94l0.33,0.99l-0.38,2.28l0.49,1.58l0.79,1.05l-0.09,0.56l-1.26,1.87l-0.77,0.2l-0.82,-0.62l-0.8,-0.13l-2.37,0.93l-0.99,-0.27l-1.15,-0.01l-1.29,0.39l-0.97,0.62l-1.51,0.43l-0.46,-0.06l-0.44,-1.11l1.2,-1.01l0.12,-0.61l1.51,-3.19l0.32,-1.47l-0.6,-0.58l-0.96,-0.04l-3.32,-1.16l0.13,-1.16l-0.16,-0.37l-2.14,-1.45l-0.23,-0.79l-2.28,-2.55l-1.31,-0.52l-1.52,-0.97l-0.29,-1.17l-0.31,-0.43l-0.36,-0.16l-0.7,0.12l-2.03,1.27l-0.19,0.71l0.6,1.35l-0.08,0.36l-0.27,0.55l-2.07,1.61l-0.22,0.85l0.24,0.73l-0.99,0.33l-0.24,-0.95l-0.97,-0.79l-1.42,-0.65l-3.01,-2.08l-2.27,-0.57l-1.43,-0.97l-0.81,-0.21l-0.75,-0.63l-1.89,-2.46l-2.6,-1.97l-0.27,-1.11l0.66,-0.77l1.07,-0.13l0.62,0.47l0.7,0.1l0.4,-0.18l0.39,-0.62l0.26,-1.14l-0.15,-1.32l-3.17,-4.62l0.37,-0.2l1.9,0.27l1.45,-0.17l0.69,-0.56l0.12,-0.9l-0.6,-0.83l-2.83,-2.89l-1.52,-1.09l-1.04,-0.41l-0.22,-0.36l0.08,-2.69l0.23,-0.73l1.92,-3.26l0.59,-1.66l0.3,-1.67l-0.28,-0.66l-1.62,-0.68l-1.86,0.37l0.29,-1.19l-0.45,-2.79l0.57,-0.18l0.29,-0.6l0.62,0.3l2.51,-0.1l0.49,-0.51l0.04,-0.66l-1.02,-1.28l-3.31,-1.43l-1.03,-1.04l0.03,-1.02l0.26,-0.52l0.32,-0.19l0.15,-0.53l-0.32,-0.42l-1.26,-0.54l-0.32,-0.55l0.34,-1.15l-0.72,-2.16l-0.61,-1.11l0.62,-0.63l0.12,-0.95ZM608.92,713.89l-0.15,0.05l-0.03,-0.11l0.03,0.0l0.15,0.06Z", "name": "Republic of Serbia"}, "_2": {"path": "M623.27,757.81l0.24,-1.54l-0.64,-1.85l1.62,0.1l0.42,-0.26l0.24,-0.63l3.48,-1.21l0.27,-0.77l-0.31,-0.68l0.11,-0.27l1.93,-1.44l0.48,-0.91l0.09,-0.8l-0.53,-1.37l1.92,-1.04l0.57,1.55l1.67,1.07l1.21,0.46l2.1,2.35l0.35,0.96l2.04,1.36l-0.14,1.25l0.27,0.42l3.69,1.29l0.95,0.07l-1.89,4.72l-1.1,0.79l-0.15,0.67l0.39,1.06l-2.01,0.48l-0.91,0.75l-0.55,1.34l-1.37,-1.24l-1.43,-0.05l-3.97,1.87l-0.58,1.18l-0.11,2.13l-0.4,0.59l-1.15,-0.16l0.13,-0.59l-0.09,-1.82l-0.71,-2.9l-0.54,-1.04l-1.97,-1.7l-1.41,-0.55l-0.7,-1.49l-1.12,-1.82l-0.39,-0.34Z", "name": "Kosovo"}, "MK": {"path": "M629.76,770.81l1.85,0.12l0.77,-1.05l0.12,-2.17l0.29,-0.75l3.61,-1.73l0.87,-0.05l1.45,1.28l0.68,0.07l0.37,-0.29l0.55,-1.44l0.63,-0.48l2.17,-0.48l0.87,0.08l1.64,-0.47l1.06,-0.65l1.13,-0.32l2.05,0.3l2.47,-0.94l1.13,0.71l2.02,2.64l1.19,1.15l1.42,0.89l1.52,0.61l0.43,0.46l1.44,3.93l0.78,0.59l-0.71,2.3l-0.29,4.43l-1.85,0.25l-0.52,0.58l-0.37,2.2l-1.41,0.59l-1.4,0.37l-4.12,-0.72l-0.77,0.33l-2.03,0.2l-1.01,0.55l-1.97,2.74l-2.55,1.33l-1.37,-0.54l-0.87,-0.09l-1.25,0.72l-4.43,0.29l-0.62,-0.92l-1.03,-0.28l-1.56,0.2l-0.21,-0.21l-0.69,-2.3l-1.23,-1.28l-1.02,-2.49l0.04,-2.16l-0.55,-2.19l0.89,-1.03l-0.15,-2.37l0.58,-2.53Z", "name": "Macedonia"}, "_0": {"path": "M627.93,372.06l0.7,-0.37l0.79,0.11l0.34,0.7l-0.59,0.08l-0.66,-0.55l-0.58,0.04ZM621.67,364.12l1.24,-0.08l0.95,0.92l0.19,0.49l0.83,0.46l0.12,0.28l-0.69,1.47l-0.79,-0.2l-0.71,0.2l-0.56,0.43l-0.28,1.0l0.01,1.31l-2.67,0.27l-0.48,-0.31l-0.93,-3.41l0.14,-0.68l0.51,-0.28l0.07,1.53l0.49,0.37l0.85,-0.2l0.3,-0.31l0.33,-2.27l-0.27,-0.67l-0.82,-0.81l0.33,-0.68l0.43,-0.21l0.58,1.0l0.85,0.36ZM616.95,368.3l-0.64,0.24l-0.32,0.56l-0.17,-0.79l0.34,-1.25l0.44,-0.03l0.36,1.27Z", "name": "Aland"}, "SK": {"path": "M655.87,631.05l-1.9,3.64l-1.26,3.82l-2.03,2.36l-0.31,3.48l-4.47,1.08l-0.41,-0.12l-0.87,-0.99l-1.18,-1.95l-1.82,-1.3l-1.08,-0.0l-2.47,0.86l-1.64,0.09l-2.75,-0.81l-3.03,-0.08l-2.18,0.48l-0.29,0.27l-2.04,4.56l-5.08,2.97l-0.52,0.23l-1.01,-0.4l-1.4,-0.92l-1.39,-0.49l-1.03,0.33l-0.9,1.03l-0.41,0.98l-2.51,0.7l-4.73,0.45l-1.83,1.08l-0.76,1.56l-0.02,0.95l0.35,0.81l-0.52,0.95l-7.62,0.47l-5.1,-0.13l-1.6,-0.75l-2.05,-1.53l-2.2,-2.08l-0.77,-0.38l-1.72,-0.08l-0.56,-0.46l-0.25,-0.85l-1.28,-2.31l-1.42,-3.76l-0.03,-0.96l1.04,-2.13l0.59,-2.63l1.02,-2.06l0.91,-1.15l0.51,-0.29l3.99,0.65l2.07,-0.33l1.88,-1.0l1.85,-1.74l0.31,-0.58l1.68,-0.67l0.66,-0.72l0.41,-2.54l0.59,-1.41l2.67,-1.59l0.77,-1.2l2.28,-1.98l2.01,-0.06l1.06,-0.34l1.13,0.21l0.34,1.84l0.41,0.34l2.46,-0.08l0.33,-0.2l1.3,-2.21l0.67,-0.28l1.67,-1.31l2.37,3.81l1.76,0.6l0.16,1.81l-0.41,1.35l0.24,0.46l0.62,0.25l1.16,-0.23l0.56,-0.3l1.74,0.75l0.53,-0.23l0.66,-1.8l0.66,-0.82l2.54,-1.36l0.84,-0.14l1.48,0.22l1.01,-0.2l1.35,0.4l1.04,0.88l1.07,0.31l1.07,-0.05l1.05,-0.65l0.94,-1.45l3.44,-0.23l3.81,0.34l0.99,0.62l2.34,0.78l0.92,0.81l0.87,1.98l2.5,1.18l4.23,1.61Z", "name": "Slovakia"}, "MT": {"path": "M547.71,875.26l-0.13,0.16l-0.99,-0.02l-0.88,-0.65l-0.01,-1.05l0.71,0.19l1.3,1.37ZM543.79,872.02l0.28,-0.06l0.27,0.11l-0.31,0.1l-0.24,-0.15Z", "name": "Malta"}, "SI": {"path": "M558.46,699.25l-0.66,0.46l-0.26,0.91l0.1,0.85l0.58,1.14l-0.9,0.34l-1.63,-0.17l-2.29,-0.95l-0.74,0.14l-0.71,0.45l-0.48,-0.14l-1.82,-1.7l-0.5,-0.67l-0.21,-0.73l-0.56,-0.38l-0.98,0.46l-1.37,2.56l-0.58,0.35l-3.7,0.07l-1.47,-0.57l-0.3,0.12l-0.6,1.1l-0.55,0.3l-3.27,-0.86l-0.17,-0.26l1.46,-1.12l0.72,0.08l1.14,-0.32l0.41,-0.43l0.07,-0.44l-0.66,-1.38l-1.49,-1.57l-0.84,-0.64l-1.03,-0.4l0.47,-2.78l-0.18,-0.35l-0.39,-0.21l-1.07,0.1l-0.12,-0.3l0.06,-0.4l1.74,-1.82l0.25,-0.48l0.01,-0.6l-0.28,-0.35l-1.94,-0.78l-0.57,-0.14l-0.43,0.12l-0.21,-0.51l0.23,-0.86l2.1,-1.8l1.52,-0.91l0.4,-1.02l2.72,0.36l2.33,0.72l6.41,1.16l0.69,-0.73l2.11,-1.22l1.22,-1.66l0.57,-0.4l1.39,-0.38l2.85,-0.33l3.14,0.24l1.44,-0.49l1.21,-0.86l1.64,-0.23l2.52,0.65l0.46,-0.21l0.29,-0.52l0.02,-1.95l0.65,-0.69l0.6,-0.29l2.27,0.1l0.55,2.37l0.65,0.82l0.05,1.0l1.27,1.7l-1.71,-0.3l-0.33,0.11l-0.91,0.6l-0.29,0.47l0.08,1.98l-1.46,-0.16l-0.73,0.24l-1.03,1.37l-0.8,0.48l-4.2,1.66l-0.65,1.45l0.14,0.81l0.87,1.1l0.11,1.12l-0.29,2.2l-0.25,0.37l-2.25,0.7l-2.4,1.26l-0.26,0.57l0.11,0.35l0.95,0.97Z", "name": "Slovenia"}, "SM": {"path": "M519.7,732.37l-0.29,0.05l-0.15,-0.29l0.37,-0.56l0.3,-0.05l-0.22,0.85Z", "name": "San Marino"}, "SA": {"path": "M828.43,1000.56l-0.39,-0.48l-1.55,-0.85l-3.37,-0.33l-1.4,-0.33l-1.08,0.64l-0.04,-0.45l0.88,-1.73l1.31,-3.75l0.28,-3.37l1.97,-9.42l14.06,2.47l0.87,-0.16l5.7,-4.67l3.14,-5.29l0.56,-0.43l9.78,-2.09l0.4,-0.41l2.09,-4.89l4.38,-2.58l0.11,-0.61l-6.8,-8.01l-6.64,-7.21l26.57,-7.85l0.63,-0.29l1.87,-1.74l16.35,2.92l1.5,0.75l0.0,60.17l-71.17,0.0Z", "name": "Saudi Arabia"}, "UA": {"path": "M658.32,650.19l-1.08,-0.51l-0.92,-1.49l-1.31,-0.77l-0.96,-0.27l-0.96,-1.94l-0.2,-0.88l-0.27,-0.29l-0.53,-0.14l-0.82,0.11l0.12,-2.73l2.04,-2.41l1.28,-3.88l1.8,-3.21l0.18,-0.7l3.24,1.11l0.78,-0.47l0.27,-0.66l-0.17,-0.8l-1.81,-1.76l0.38,-2.45l-1.11,-4.95l0.69,-1.27l4.45,-6.12l5.02,-5.77l1.33,-1.2l2.72,-3.04l3.39,-0.67l0.29,-0.23l1.03,-2.0l0.59,-0.71l0.05,-1.97l-0.66,-2.26l-0.84,-1.27l0.93,-0.4l0.6,-0.55l0.12,-0.38l-0.13,-0.6l-1.56,-1.62l-0.6,-1.04l-1.05,-2.94l-2.64,-3.89l-0.07,-0.74l0.28,-1.06l-0.31,-1.26l-0.63,-1.31l-0.0,-1.85l0.97,-0.46l1.03,0.08l0.88,0.26l1.12,0.81l0.37,0.05l2.55,-1.85l2.08,-2.41l1.03,-1.93l1.64,-0.31l5.05,-0.36l2.72,-0.69l2.64,-0.16l8.85,0.53l4.61,1.28l1.66,0.23l0.91,0.69l4.31,0.93l2.47,0.37l1.68,-0.14l0.69,0.14l1.65,2.87l0.42,0.44l0.94,0.19l1.49,-0.26l1.89,0.09l0.88,0.47l-0.15,1.53l0.14,0.35l0.64,0.35l0.83,-0.28l1.33,-2.16l2.03,0.66l0.94,-0.12l1.33,-0.91l1.4,0.54l1.8,0.4l1.45,0.03l0.68,0.32l0.76,1.92l1.27,0.56l0.44,-0.21l0.8,-1.6l0.66,-0.56l1.64,-0.65l1.18,-1.17l0.32,-0.03l0.7,0.8l1.69,3.64l0.72,0.76l0.41,0.1l2.78,-1.12l4.78,-0.51l2.08,-0.52l1.14,0.08l1.79,1.52l0.47,1.73l1.58,1.11l1.46,0.27l0.44,-0.25l0.41,-1.08l0.7,-0.75l0.1,-0.37l-0.43,-2.58l-0.89,-2.56l0.65,-1.9l1.11,-2.7l1.15,-1.72l2.99,-3.25l1.14,-0.58l1.68,0.53l0.38,-0.04l1.64,-1.15l2.95,-0.06l2.72,0.18l2.7,1.18l2.07,-0.09l2.38,-1.48l1.21,-3.63l0.71,-0.57l0.83,-0.02l4.14,1.24l1.43,-0.13l3.31,-1.83l1.74,-0.27l2.24,0.43l2.19,0.03l1.58,-0.25l0.96,0.55l1.33,1.35l1.22,2.04l1.39,3.99l3.77,4.28l0.05,0.6l-0.17,0.3l-3.31,0.76l-0.33,0.35l-0.03,0.98l1.12,1.93l0.07,2.78l0.33,1.34l0.62,0.61l0.03,0.27l-0.85,1.2l0.1,0.45l0.53,0.35l3.41,0.14l3.05,1.41l0.8,0.05l1.44,-0.42l2.37,-0.29l1.24,3.0l0.79,0.44l0.93,-0.06l0.44,0.18l-0.29,0.75l0.08,0.8l0.44,1.07l0.49,2.23l0.76,1.51l0.0,0.82l-0.65,1.68l0.27,1.52l1.1,1.84l0.8,0.5l0.78,1.6l1.12,0.48l0.4,-0.05l1.63,-1.25l1.11,-0.58l2.84,0.56l0.86,0.75l0.79,1.25l0.85,0.66l0.4,0.06l0.74,-0.3l1.52,0.3l0.8,0.93l0.81,0.54l0.46,-0.01l1.04,-0.79l0.84,-0.94l2.97,-0.97l1.99,-0.27l2.79,-1.37l0.8,0.1l0.96,1.36l1.06,1.01l0.33,1.64l1.42,2.33l3.34,3.06l1.35,0.96l1.19,-0.1l0.72,-0.41l0.28,-0.49l0.19,-1.39l0.24,-0.32l0.35,-0.01l2.68,1.86l2.58,0.24l1.68,1.38l2.11,1.32l1.67,0.1l1.75,-0.7l0.77,1.37l0.77,0.84l1.08,0.35l1.25,0.06l4.2,3.19l1.53,0.18l1.24,-0.49l0.78,-0.1l0.42,0.26l0.11,0.41l-0.48,1.0l0.0,1.37l0.93,1.44l0.02,1.11l-0.24,1.06l-0.48,0.98l-2.34,2.7l-1.74,0.57l-0.99,0.59l-0.18,0.44l0.32,1.13l0.8,1.06l1.5,0.75l1.56,0.51l0.06,0.2l-0.91,0.26l-1.42,-0.27l-0.36,0.12l-1.29,1.57l-0.82,3.06l0.29,0.48l1.57,0.38l0.76,0.48l0.67,3.33l-0.42,0.45l-0.14,0.84l0.36,0.58l1.16,0.39l0.02,0.26l-1.0,1.4l-1.48,4.14l0.01,1.58l-0.4,0.6l-4.46,0.21l-3.11,-0.07l-3.51,-0.36l-1.21,0.39l-1.59,2.61l-0.97,0.89l-1.65,0.82l-2.08,0.34l-1.22,1.22l-0.39,1.6l-0.04,1.46l-0.73,1.69l0.08,0.69l0.25,0.3l0.73,0.29l-0.78,0.87l-0.27,0.75l0.12,1.57l-4.77,-0.25l-3.94,0.43l-2.9,3.13l-1.6,0.01l-2.4,0.86l-1.66,1.09l-1.63,1.92l-1.37,-0.85l-1.76,0.03l-1.94,0.67l-2.0,1.42l-0.99,0.22l-2.41,-0.39l-2.68,0.84l-5.93,4.86l-0.82,1.42l-0.05,-1.11l-0.84,-1.38l-0.68,-0.01l-2.19,3.3l-1.23,0.48l-1.63,1.02l-0.19,0.32l-0.08,2.33l0.2,1.76l0.69,2.16l1.61,3.51l3.22,4.92l1.57,1.84l1.22,0.8l1.55,0.17l2.79,-1.54l0.97,-0.2l2.35,0.56l0.4,-0.13l0.81,-0.94l1.12,-0.49l1.49,-0.06l1.78,0.43l1.58,0.6l-1.53,2.81l-0.71,2.98l-1.95,0.66l-2.39,-0.08l-2.33,0.46l-1.41,-1.18l-1.21,-0.64l-1.47,-0.33l-1.52,0.41l-1.72,2.39l-2.83,1.69l-0.78,1.54l-2.43,-0.36l-2.43,0.31l-3.47,1.67l-2.67,3.57l-2.71,2.1l-2.08,0.64l-1.94,-0.2l-1.25,-0.6l-2.56,-2.11l1.03,-2.16l1.11,-4.34l-0.15,-1.62l-0.76,-2.44l-2.21,-1.73l-1.97,0.23l-0.85,-0.39l-3.81,-3.01l-2.13,-0.2l-2.04,0.55l-0.57,-0.3l-0.37,-0.64l4.07,-3.44l4.17,-2.97l1.91,-0.34l2.58,-1.45l2.69,-2.13l0.14,-0.4l-0.38,-1.67l-0.61,-1.32l-0.46,-0.22l-2.1,0.69l-2.02,-1.19l-0.79,-0.93l-0.42,-0.13l-3.46,1.0l-2.01,-0.14l-4.21,0.91l-1.85,-0.85l-4.05,-2.59l-1.5,-0.52l-1.23,0.07l-0.24,-0.29l0.33,-0.16l1.0,-0.06l1.25,-0.47l0.35,-0.69l-0.06,-0.84l-0.28,-0.35l-2.07,-0.64l-1.91,-0.19l-1.28,-0.84l1.12,-0.01l2.23,0.66l3.41,0.24l3.09,0.67l0.38,-0.12l2.55,-2.27l0.42,-0.54l0.0,-0.47l-0.45,-0.15l-2.93,0.97l-2.88,-0.6l-1.01,-0.8l-0.87,-1.21l-0.36,-1.34l0.25,-1.43l-0.36,-2.64l-1.36,-3.44l-1.17,-1.28l-0.51,-0.06l-0.15,0.49l1.04,2.48l0.38,1.63l0.62,1.51l-0.15,3.92l-0.32,1.16l-0.97,0.27l-2.86,-0.54l0.35,-1.86l-0.19,-0.42l-0.46,0.04l-0.99,0.87l-1.19,2.03l-0.9,0.26l-2.57,-0.21l-4.62,1.43l-0.27,0.3l-0.99,3.58l-0.88,1.96l-1.92,3.08l-3.91,4.6l-2.77,1.27l-1.44,0.89l-0.94,0.34l-1.73,-0.41l-0.35,0.08l-0.88,0.77l-0.4,0.94l-0.01,1.6l0.96,1.33l0.73,3.64l-0.1,0.59l-1.49,-1.49l-2.43,-0.97l-2.6,0.38l-2.62,1.57l-1.62,0.53l-0.81,-0.35l-0.75,-0.01l-0.35,0.24l-0.2,0.46l0.07,0.7l-3.82,-1.02l-1.69,-0.99l-1.17,-1.64l0.9,-0.59l2.11,-0.16l0.54,-0.25l0.41,-1.44l-0.27,-1.71l0.82,-1.16l1.38,-1.09l0.91,-1.21l0.19,-1.65l1.41,-0.78l1.43,-1.58l0.78,-2.71l-0.83,-2.15l-0.21,-2.46l0.31,-0.49l1.14,-0.7l1.41,-0.51l0.1,2.48l0.33,0.39l0.57,-0.02l0.42,-0.31l0.58,-1.12l0.97,0.32l0.81,-0.34l1.27,0.86l0.94,0.23l0.94,-0.39l0.5,-0.52l0.24,0.08l1.09,1.61l0.46,0.15l3.15,-0.52l1.02,-1.05l-0.07,-0.55l-2.64,-2.15l0.22,-3.58l-0.33,-1.16l-0.59,-1.02l-2.29,-1.21l-1.57,-1.05l-0.24,-0.35l-0.11,-1.55l-0.67,-0.99l-0.04,-0.53l0.41,-1.17l0.1,-1.22l-0.25,-0.8l-0.39,-0.39l-0.89,-0.15l-0.83,-0.6l-0.72,-0.99l-2.31,-1.6l-0.25,-0.5l-0.13,-0.65l0.83,-2.52l0.34,-1.47l0.02,-0.96l-0.27,-2.37l-1.11,-1.82l-0.83,-0.2l-1.4,0.75l-0.44,-0.24l-0.7,-0.81l-1.23,-2.47l-0.27,-0.21l-3.34,-0.63l-0.37,0.16l-0.57,0.76l-0.35,-0.78l-0.48,-0.31l-0.55,0.07l0.17,-0.66l-0.16,-0.43l-0.76,-0.52l-1.94,-0.06l-0.67,-0.27l-0.21,-0.8l-0.57,-0.52l-1.13,-0.33l-0.89,-0.58l-1.05,-1.1l-1.54,-0.71l-2.5,-0.53l-1.84,1.16l-0.7,-0.27l-0.4,0.07l-1.36,1.16l-2.83,0.06l-2.42,-0.32l-2.8,1.9l-0.37,0.72l-4.06,1.07l-0.28,0.3l-0.38,1.78l-1.4,2.22l-9.4,1.66l-4.0,1.77l-1.37,1.58l-1.14,0.38l-0.91,0.1l-4.13,-4.15l-1.49,-0.45l-1.55,0.17l-1.38,0.55l-1.24,0.09l-1.5,-0.74l-0.95,0.13l-4.48,-1.13l-3.47,0.04l-2.68,-1.84l-1.06,-0.13l-0.33,0.14l-0.66,0.78l-0.47,0.81l-2.05,0.97l0.02,-1.29l-0.37,-0.74l-1.21,-1.11l-1.14,0.11ZM779.03,687.05l0.22,0.18l-0.17,-0.08l-0.05,-0.1ZM780.28,687.7l2.42,0.64l-1.93,-0.42l-0.48,-0.22Z", "name": "Ukraine"}, "SE": {"path": "M520.61,469.32l2.48,1.18l0.77,-0.25l0.66,-0.53l0.12,-0.46l-0.81,-2.03l-0.71,-0.96l-0.31,-0.9l1.09,-0.26l1.08,0.08l0.38,-0.21l0.88,-1.82l-0.49,-2.51l-1.41,-1.04l-0.95,-0.33l-1.89,-3.82l-2.08,-2.12l-3.61,-7.9l-1.33,-5.49l-0.54,-0.27l-0.81,0.34l-0.91,-4.21l-0.09,-1.66l-0.22,-0.34l-1.74,-0.87l-0.42,-6.28l-0.27,-0.35l-1.93,-0.66l-1.25,-2.78l-0.24,-5.63l-0.16,-0.3l-1.38,-1.04l-0.93,0.09l0.29,-2.28l-0.65,-5.3l-0.22,-4.86l-0.54,-1.56l-0.28,-1.63l0.53,-2.01l0.93,-0.16l1.05,1.11l1.09,3.26l1.21,0.67l0.38,-0.03l1.5,-1.06l0.94,-2.44l1.19,-7.4l-1.58,-7.87l2.06,-2.83l1.29,-4.38l0.6,-0.59l2.53,-0.66l1.72,-1.53l2.65,-3.82l0.45,-3.77l0.02,-1.78l0.5,-1.35l0.49,-2.64l-0.49,-2.83l-3.22,-9.55l-0.25,-2.82l0.57,-0.41l1.44,-0.48l2.87,-0.15l0.6,-0.5l1.02,-3.31l0.72,-1.41l0.72,-3.73l-1.73,-2.91l-2.22,-2.76l-1.56,-0.98l-2.6,-2.26l-1.71,-1.77l1.83,-12.69l0.16,-3.49l-2.56,-9.03l0.34,-3.81l-0.42,-5.76l1.41,-2.29l0.04,-0.37l-1.07,-2.63l-1.83,-5.93l2.81,-5.93l-0.44,-3.22l1.64,-2.2l4.88,-8.26l1.67,-1.74l2.56,-1.51l2.82,-0.74l1.21,0.01l8.93,1.88l0.41,-0.16l0.57,-0.83l0.86,-1.77l1.09,-2.57l0.09,-2.71l-0.38,-4.04l-0.58,-2.45l-5.66,-3.73l6.15,-11.32l3.22,-7.23l1.0,-3.02l0.76,-1.34l0.95,-11.25l1.16,-4.9l0.01,-1.76l-1.2,-9.1l4.7,-0.76l1.78,-0.5l1.58,-0.82l3.01,-2.05l1.56,-1.9l-0.71,-6.36l1.74,-2.04l4.43,-7.41l4.78,-7.14l2.32,-2.9l0.41,-3.67l-1.03,-3.46l-3.09,-5.97l0.79,-2.46l1.41,-0.51l2.03,-1.11l1.75,-2.58l2.84,-9.83l5.17,-4.81l1.91,-2.44l7.72,4.85l0.58,-0.17l2.83,-6.13l0.72,-2.5l-0.39,-9.91l0.19,-2.01l1.67,-0.88l0.85,-0.21l5.18,2.26l3.9,0.3l2.74,0.99l8.27,3.79l1.46,0.25l0.35,-0.12l3.69,-4.49l-0.1,-0.58l-3.26,-2.12l2.07,-2.08l1.33,-2.55l1.12,-3.16l0.39,-3.55l-0.2,-2.16l-2.62,-4.05l6.05,-0.53l3.47,2.02l0.39,2.79l3.55,2.9l1.04,1.56l2.16,2.31l0.68,1.36l2.01,1.46l1.44,1.55l1.74,1.31l1.98,1.96l2.76,1.64l2.34,0.55l5.61,2.65l0.91,0.82l3.22,3.93l1.13,4.34l0.34,0.3l1.59,0.2l0.46,1.36l1.61,2.59l2.16,2.21l-0.05,0.46l-1.79,2.23l-0.19,2.87l0.17,3.59l0.55,2.93l-0.05,0.73l-0.97,2.62l-0.15,2.12l0.22,0.51l0.35,0.22l2.48,0.33l0.77,0.47l0.52,3.05l-0.14,0.46l-1.35,1.43l-0.5,1.33l-0.06,1.87l0.25,1.97l0.52,2.26l3.58,6.58l0.58,2.1l-0.64,1.17l-0.61,2.36l-0.39,4.43l-1.25,2.29l-0.98,1.02l-0.26,1.27l-0.12,2.25l0.36,4.3l0.29,1.32l0.45,0.91l2.15,1.52l1.86,5.14l1.35,5.72l-3.05,0.65l-2.57,-1.46l-0.4,0.0l-1.26,0.72l-2.34,0.04l-2.67,0.6l-1.52,1.58l-2.21,-1.5l-2.31,-2.76l-0.62,0.01l-1.64,2.05l-0.67,0.24l-1.05,-1.81l-0.87,-0.32l-0.46,0.14l-0.54,0.79l-0.4,1.66l-0.67,1.4l-0.37,4.65l-1.89,-0.37l-0.47,0.45l0.14,0.89l0.62,0.84l-0.51,0.46l-2.1,-0.07l-0.4,0.29l-0.2,1.08l0.55,1.07l-0.71,1.14l-2.53,0.63l-1.49,-0.15l-0.38,0.18l-0.51,0.86l-0.11,1.09l0.29,0.89l0.74,0.61l0.12,1.25l-1.49,-1.89l-0.41,-0.15l-0.5,0.11l-0.29,0.52l0.37,1.12l0.96,1.3l0.51,1.18l0.44,1.4l-0.08,0.97l-1.96,3.54l-3.11,4.35l-0.82,2.26l0.07,0.39l1.85,2.57l1.55,5.67l1.66,2.52l-0.66,2.32l-2.8,2.49l-3.29,3.91l-3.44,9.53l-1.05,1.17l-2.98,1.58l-1.22,1.64l-2.17,1.78l-4.05,1.68l-1.79,2.21l-0.8,2.18l-0.46,0.08l-0.83,-0.81l-1.19,-0.66l-0.59,0.31l-0.15,1.71l-1.2,-1.02l-0.6,0.1l-0.94,1.58l-0.68,2.38l-2.53,3.06l-2.72,-0.55l-0.43,0.19l-0.33,0.58l0.16,0.55l0.64,0.39l-1.07,0.11l-1.15,0.6l-0.71,-0.04l-0.41,0.3l-0.96,3.25l-1.47,0.69l-0.81,0.15l-0.3,0.25l-0.42,1.07l0.34,0.55l2.11,0.18l-0.37,2.13l-2.75,1.31l-1.06,1.73l-0.69,-0.02l0.21,-0.84l-0.4,-0.51l-1.65,0.05l-0.5,-1.31l-0.67,-0.13l-0.37,0.4l-0.1,0.34l0.22,1.27l1.04,3.16l-0.39,1.03l-0.47,0.55l-0.03,0.48l0.37,0.56l1.08,0.52l0.15,0.28l-1.01,0.59l-1.41,2.06l-1.38,0.05l-0.32,0.18l-0.85,1.29l-0.63,-0.0l-0.82,-0.87l-1.34,-0.76l-0.58,0.23l-0.43,1.34l-0.09,1.16l0.77,2.82l1.5,2.19l0.93,0.65l-0.58,0.42l-0.75,1.45l-1.84,8.68l0.33,2.57l0.68,2.23l-1.03,-0.12l-1.81,-0.91l-0.58,0.41l0.24,1.83l-1.14,2.41l0.45,3.3l-0.34,2.1l0.57,0.92l0.24,1.06l-0.45,1.11l0.2,0.77l0.45,7.33l-0.12,1.06l1.01,3.81l-0.37,3.04l1.58,1.96l0.31,0.13l2.51,-0.05l0.32,0.26l0.87,2.42l0.42,0.28l1.27,-0.18l1.7,-1.09l0.72,-0.17l0.69,1.92l2.08,2.89l1.36,1.38l1.93,0.64l1.94,2.08l-0.28,2.57l0.11,0.32l1.02,1.01l2.4,1.03l1.89,3.57l0.74,2.96l-0.23,1.64l-3.3,2.62l-1.93,2.48l-2.31,1.96l-0.97,0.46l-0.79,0.99l-0.58,0.33l-0.92,-0.15l-2.55,1.78l-1.53,-0.44l-0.58,-0.7l0.45,-3.7l-0.31,-1.2l-0.39,-0.7l-0.55,-0.15l-1.2,0.69l-0.2,0.41l0.15,0.98l-1.5,0.04l-1.85,-1.14l-0.61,0.3l-0.19,1.82l-3.69,-1.73l-1.31,0.42l-1.68,-0.9l-0.47,0.07l-1.03,1.02l-1.07,-0.32l-0.91,-1.29l-0.68,0.04l-1.29,2.32l-2.81,0.65l-2.8,0.39l-0.34,0.32l0.18,0.42l1.58,0.88l6.25,-0.15l1.92,0.6l2.13,-0.37l1.91,1.8l1.52,0.52l1.68,2.13l0.54,0.08l0.78,-0.53l1.19,0.08l1.41,0.64l4.15,-0.08l1.55,-1.52l2.07,0.28l1.06,-0.41l0.89,-0.96l0.67,-0.17l1.07,0.07l1.26,-0.91l0.4,0.21l0.58,1.34l-1.22,0.7l-1.05,0.04l-0.38,0.32l-0.55,2.87l-1.06,1.68l-2.46,1.2l-1.75,1.61l-1.79,1.14l-0.68,-0.22l-0.4,0.1l-1.26,1.24l-2.84,1.49l-1.57,2.09l-3.24,1.78l-1.65,1.43l-4.43,0.08l-4.37,-0.32l-1.59,0.75l-0.21,0.42l0.33,0.33l1.32,0.2l0.91,0.64l1.43,-0.21l3.95,0.67l1.49,1.95l-0.93,0.59l-2.28,0.64l-0.28,0.49l1.55,5.52l-0.91,1.44l-0.07,5.87l-0.97,0.09l-0.35,0.31l-0.56,2.57l0.41,1.45l-0.03,2.96l0.28,1.92l0.64,1.69l-0.26,1.61l-2.12,4.28l0.05,1.94l0.65,2.95l-1.61,6.37l-0.78,2.4l-1.77,2.9l-0.92,2.25l-2.08,6.78l-0.96,1.25l-1.0,0.82l-1.24,-0.83l-1.46,-0.55l-1.69,0.08l-2.4,0.76l-3.73,-0.51l-3.86,0.33l-0.92,0.68l-0.15,0.41l0.47,2.07l-0.81,0.19l-1.18,-0.63l-0.42,0.03l-2.19,1.8l-1.9,2.16l-0.7,1.42l-0.17,2.83l1.8,4.61l-2.05,2.82l-1.03,0.09l-3.86,-0.85l-6.47,1.93l-5.35,-1.4l0.59,-1.42l-0.02,-1.2l0.53,-3.85l-0.07,-1.47l-0.5,-1.53l-1.43,-1.8l-3.25,-6.15l-1.19,-3.0ZM610.32,427.62l-0.53,1.48l-0.43,-0.78l1.02,-1.42l1.44,0.07l-1.51,0.65ZM608.73,430.1l-0.84,0.57l-0.59,1.61l-0.83,0.29l-1.05,0.9l-0.31,5.65l1.34,1.96l-1.36,0.93l-0.61,1.04l-0.54,1.86l-2.04,1.07l-0.98,0.99l-1.28,2.01l-0.61,2.61l-1.07,1.0l-0.58,0.11l0.56,-1.53l1.05,-1.79l-0.04,-0.46l-0.98,-1.19l-0.6,-1.89l-0.74,-1.42l0.6,-1.7l-0.31,-2.74l0.1,-2.57l0.85,-1.25l1.09,-1.16l1.63,-2.55l1.7,-1.78l2.22,-0.75l0.96,0.66l0.61,-0.22l0.44,-1.54l0.46,-0.22l0.52,0.27l1.21,1.21ZM602.77,387.0l0.15,-0.7l0.39,-0.35l0.38,0.13l-0.92,0.92ZM600.09,398.98l0.18,-0.61l0.36,-0.48l-0.5,1.07l-0.05,0.02ZM574.46,468.61l-0.62,0.94l-0.33,-1.34l-0.1,-4.16l0.24,-2.02l2.88,-7.41l1.38,-0.77l1.86,-4.7l0.51,-2.12l1.47,-3.91l0.49,0.18l-0.73,0.98l0.05,1.68l-2.28,5.51l-0.62,3.56l-0.83,0.96l-3.37,12.62Z", "name": "Sweden"}, "IL": {"path": "M818.81,944.87l2.6,-4.78l1.71,-4.85l1.6,-6.69l2.09,-5.65l0.38,-1.67l1.21,-0.11l2.78,0.2l1.28,-0.95l0.49,-1.95l0.95,0.09l0.28,-0.48l2.28,-1.66l-0.13,1.32l0.91,2.24l-0.49,0.86l0.05,0.8l0.51,1.43l-1.41,2.5l-0.17,0.61l-2.23,0.85l-0.69,0.81l-0.33,3.73l-0.39,-0.04l-0.92,-0.65l-0.18,-0.55l-0.49,-0.44l-2.75,-0.44l-1.89,1.38l-0.74,1.96l-0.75,2.87l0.44,4.06l-0.39,0.91l0.03,0.67l0.54,0.35l1.09,-0.29l1.52,0.74l-1.98,1.12l-1.21,1.19l-1.16,3.42l0.09,0.68l0.8,0.58l2.62,-0.24l2.49,-0.92l1.76,-0.92l-0.61,3.52l0.5,1.63l-0.72,2.24l-1.99,4.88l-1.31,4.01l-0.01,4.45l-0.98,2.55l-1.27,6.5l-0.43,0.55l-3.09,-10.46l-1.74,-4.0l-0.55,-2.38l-3.24,-9.44l1.22,-1.17l0.14,-1.24l2.28,-2.48l0.08,-0.56l-0.53,-0.7Z", "name": "Israel"}}, "height": 1000.9604273175629, "projection": {"type": "merc", "centralMeridian": 11.5}, "width": 900.0});;/**
-*
-* jquery.sparkline.js
-*
-* v2.1.2
-* (c) Splunk, Inc
-* Contact: Gareth Watts (gareth@splunk.com)
-* http://omnipotent.net/jquery.sparkline/
-*
-* Generates inline sparkline charts from data supplied either to the method
-* or inline in HTML
-*
-* Compatible with Internet Explorer 6.0+ and modern browsers equipped with the canvas tag
-* (Firefox 2.0+, Safari, Opera, etc)
-*
-* License: New BSD License
-*
-* Copyright (c) 2012, Splunk Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without modification,
-* are permitted provided that the following conditions are met:
-*
-*     * Redistributions of source code must retain the above copyright notice,
-*       this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright notice,
-*       this list of conditions and the following disclaimer in the documentation
-*       and/or other materials provided with the distribution.
-*     * Neither the name of Splunk Inc nor the names of its contributors may
-*       be used to endorse or promote products derived from this software without
-*       specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
-* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
-* SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
-* OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*
-* Usage:
-*  $(selector).sparkline(values, options)
-*
-* If values is undefined or set to 'html' then the data values are read from the specified tag:
-*   <p>Sparkline: <span class="sparkline">1,4,6,6,8,5,3,5</span></p>
-*   $('.sparkline').sparkline();
-* There must be no spaces in the enclosed data set
-*
-* Otherwise values must be an array of numbers or null values
-*    <p>Sparkline: <span id="sparkline1">This text replaced if the browser is compatible</span></p>
-*    $('#sparkline1').sparkline([1,4,6,6,8,5,3,5])
-*    $('#sparkline2').sparkline([1,4,6,null,null,5,3,5])
-*
-* Values can also be specified in an HTML comment, or as a values attribute:
-*    <p>Sparkline: <span class="sparkline"><!--1,4,6,6,8,5,3,5 --></span></p>
-*    <p>Sparkline: <span class="sparkline" values="1,4,6,6,8,5,3,5"></span></p>
-*    $('.sparkline').sparkline();
-*
-* For line charts, x values can also be specified:
-*   <p>Sparkline: <span class="sparkline">1:1,2.7:4,3.4:6,5:6,6:8,8.7:5,9:3,10:5</span></p>
-*    $('#sparkline1').sparkline([ [1,1], [2.7,4], [3.4,6], [5,6], [6,8], [8.7,5], [9,3], [10,5] ])
-*
-* By default, options should be passed in as teh second argument to the sparkline function:
-*   $('.sparkline').sparkline([1,2,3,4], {type: 'bar'})
-*
-* Options can also be set by passing them on the tag itself.  This feature is disabled by default though
-* as there's a slight performance overhead:
-*   $('.sparkline').sparkline([1,2,3,4], {enableTagOptions: true})
-*   <p>Sparkline: <span class="sparkline" sparkType="bar" sparkBarColor="red">loading</span></p>
-* Prefix all options supplied as tag attribute with "spark" (configurable by setting tagOptionPrefix)
-*
-* Supported options:
-*   lineColor - Color of the line used for the chart
-*   fillColor - Color used to fill in the chart - Set to '' or false for a transparent chart
-*   width - Width of the chart - Defaults to 3 times the number of values in pixels
-*   height - Height of the chart - Defaults to the height of the containing element
-*   chartRangeMin - Specify the minimum value to use for the Y range of the chart - Defaults to the minimum value supplied
-*   chartRangeMax - Specify the maximum value to use for the Y range of the chart - Defaults to the maximum value supplied
-*   chartRangeClip - Clip out of range values to the max/min specified by chartRangeMin and chartRangeMax
-*   chartRangeMinX - Specify the minimum value to use for the X range of the chart - Defaults to the minimum value supplied
-*   chartRangeMaxX - Specify the maximum value to use for the X range of the chart - Defaults to the maximum value supplied
-*   composite - If true then don't erase any existing chart attached to the tag, but draw
-*           another chart over the top - Note that width and height are ignored if an
-*           existing chart is detected.
-*   tagValuesAttribute - Name of tag attribute to check for data values - Defaults to 'values'
-*   enableTagOptions - Whether to check tags for sparkline options
-*   tagOptionPrefix - Prefix used for options supplied as tag attributes - Defaults to 'spark'
-*   disableHiddenCheck - If set to true, then the plugin will assume that charts will never be drawn into a
-*           hidden dom element, avoding a browser reflow
-*   disableInteraction - If set to true then all mouseover/click interaction behaviour will be disabled,
-*       making the plugin perform much like it did in 1.x
-*   disableTooltips - If set to true then tooltips will be disabled - Defaults to false (tooltips enabled)
-*   disableHighlight - If set to true then highlighting of selected chart elements on mouseover will be disabled
-*       defaults to false (highlights enabled)
-*   highlightLighten - Factor to lighten/darken highlighted chart values by - Defaults to 1.4 for a 40% increase
-*   tooltipContainer - Specify which DOM element the tooltip should be rendered into - defaults to document.body
-*   tooltipClassname - Optional CSS classname to apply to tooltips - If not specified then a default style will be applied
-*   tooltipOffsetX - How many pixels away from the mouse pointer to render the tooltip on the X axis
-*   tooltipOffsetY - How many pixels away from the mouse pointer to render the tooltip on the r axis
-*   tooltipFormatter  - Optional callback that allows you to override the HTML displayed in the tooltip
-*       callback is given arguments of (sparkline, options, fields)
-*   tooltipChartTitle - If specified then the tooltip uses the string specified by this setting as a title
-*   tooltipFormat - A format string or SPFormat object  (or an array thereof for multiple entries)
-*       to control the format of the tooltip
-*   tooltipPrefix - A string to prepend to each field displayed in a tooltip
-*   tooltipSuffix - A string to append to each field displayed in a tooltip
-*   tooltipSkipNull - If true then null values will not have a tooltip displayed (defaults to true)
-*   tooltipValueLookups - An object or range map to map field values to tooltip strings
-*       (eg. to map -1 to "Lost", 0 to "Draw", and 1 to "Win")
-*   numberFormatter - Optional callback for formatting numbers in tooltips
-*   numberDigitGroupSep - Character to use for group separator in numbers "1,234" - Defaults to ","
-*   numberDecimalMark - Character to use for the decimal point when formatting numbers - Defaults to "."
-*   numberDigitGroupCount - Number of digits between group separator - Defaults to 3
-*
-* There are 7 types of sparkline, selected by supplying a "type" option of 'line' (default),
-* 'bar', 'tristate', 'bullet', 'discrete', 'pie' or 'box'
-*    line - Line chart.  Options:
-*       spotColor - Set to '' to not end each line in a circular spot
-*       minSpotColor - If set, color of spot at minimum value
-*       maxSpotColor - If set, color of spot at maximum value
-*       spotRadius - Radius in pixels
-*       lineWidth - Width of line in pixels
-*       normalRangeMin
-*       normalRangeMax - If set draws a filled horizontal bar between these two values marking the "normal"
-*                      or expected range of values
-*       normalRangeColor - Color to use for the above bar
-*       drawNormalOnTop - Draw the normal range above the chart fill color if true
-*       defaultPixelsPerValue - Defaults to 3 pixels of width for each value in the chart
-*       highlightSpotColor - The color to use for drawing a highlight spot on mouseover - Set to null to disable
-*       highlightLineColor - The color to use for drawing a highlight line on mouseover - Set to null to disable
-*       valueSpots - Specify which points to draw spots on, and in which color.  Accepts a range map
-*
-*   bar - Bar chart.  Options:
-*       barColor - Color of bars for postive values
-*       negBarColor - Color of bars for negative values
-*       zeroColor - Color of bars with zero values
-*       nullColor - Color of bars with null values - Defaults to omitting the bar entirely
-*       barWidth - Width of bars in pixels
-*       colorMap - Optional mappnig of values to colors to override the *BarColor values above
-*                  can be an Array of values to control the color of individual bars or a range map
-*                  to specify colors for individual ranges of values
-*       barSpacing - Gap between bars in pixels
-*       zeroAxis - Centers the y-axis around zero if true
-*
-*   tristate - Charts values of win (>0), lose (<0) or draw (=0)
-*       posBarColor - Color of win values
-*       negBarColor - Color of lose values
-*       zeroBarColor - Color of draw values
-*       barWidth - Width of bars in pixels
-*       barSpacing - Gap between bars in pixels
-*       colorMap - Optional mappnig of values to colors to override the *BarColor values above
-*                  can be an Array of values to control the color of individual bars or a range map
-*                  to specify colors for individual ranges of values
-*
-*   discrete - Options:
-*       lineHeight - Height of each line in pixels - Defaults to 30% of the graph height
-*       thesholdValue - Values less than this value will be drawn using thresholdColor instead of lineColor
-*       thresholdColor
-*
-*   bullet - Values for bullet graphs msut be in the order: target, performance, range1, range2, range3, ...
-*       options:
-*       targetColor - The color of the vertical target marker
-*       targetWidth - The width of the target marker in pixels
-*       performanceColor - The color of the performance measure horizontal bar
-*       rangeColors - Colors to use for each qualitative range background color
-*
-*   pie - Pie chart. Options:
-*       sliceColors - An array of colors to use for pie slices
-*       offset - Angle in degrees to offset the first slice - Try -90 or +90
-*       borderWidth - Width of border to draw around the pie chart, in pixels - Defaults to 0 (no border)
-*       borderColor - Color to use for the pie chart border - Defaults to #000
-*
-*   box - Box plot. Options:
-*       raw - Set to true to supply pre-computed plot points as values
-*             values should be: low_outlier, low_whisker, q1, median, q3, high_whisker, high_outlier
-*             When set to false you can supply any number of values and the box plot will
-*             be computed for you.  Default is false.
-*       showOutliers - Set to true (default) to display outliers as circles
-*       outlierIQR - Interquartile range used to determine outliers.  Default 1.5
-*       boxLineColor - Outline color of the box
-*       boxFillColor - Fill color for the box
-*       whiskerColor - Line color used for whiskers
-*       outlierLineColor - Outline color of outlier circles
-*       outlierFillColor - Fill color of the outlier circles
-*       spotRadius - Radius of outlier circles
-*       medianColor - Line color of the median line
-*       target - Draw a target cross hair at the supplied value (default undefined)
-*
-*
-*
-*   Examples:
-*   $('#sparkline1').sparkline(myvalues, { lineColor: '#f00', fillColor: false });
-*   $('.barsparks').sparkline('html', { type:'bar', height:'40px', barWidth:5 });
-*   $('#tristate').sparkline([1,1,-1,1,0,0,-1], { type:'tristate' }):
-*   $('#discrete').sparkline([1,3,4,5,5,3,4,5], { type:'discrete' });
-*   $('#bullet').sparkline([10,12,12,9,7], { type:'bullet' });
-*   $('#pie').sparkline([1,1,2], { type:'pie' });
-*/
-
-/*jslint regexp: true, browser: true, jquery: true, white: true, nomen: false, plusplus: false, maxerr: 500, indent: 4 */
-
-(function(document, Math, undefined) { // performance/minified-size optimization
-(function(factory) {
-    if(typeof define === 'function' && define.amd) {
-        define(['jquery'], factory);
-    } else if (jQuery && !jQuery.fn.sparkline) {
-        factory(jQuery);
-    }
-}
-(function($) {
-    'use strict';
-
-    var UNSET_OPTION = {},
-        getDefaults, createClass, SPFormat, clipval, quartile, normalizeValue, normalizeValues,
-        remove, isNumber, all, sum, addCSS, ensureArray, formatNumber, RangeMap,
-        MouseHandler, Tooltip, barHighlightMixin,
-        line, bar, tristate, discrete, bullet, pie, box, defaultStyles, initStyles,
-        VShape, VCanvas_base, VCanvas_canvas, VCanvas_vml, pending, shapeCount = 0;
-
-    /**
-     * Default configuration settings
-     */
-    getDefaults = function () {
-        return {
-            // Settings common to most/all chart types
-            common: {
-                type: 'line',
-                lineColor: '#00f',
-                fillColor: '#cdf',
-                defaultPixelsPerValue: 3,
-                width: 'auto',
-                height: 'auto',
-                composite: false,
-                tagValuesAttribute: 'values',
-                tagOptionsPrefix: 'spark',
-                enableTagOptions: false,
-                enableHighlight: true,
-                highlightLighten: 1.4,
-                tooltipSkipNull: true,
-                tooltipPrefix: '',
-                tooltipSuffix: '',
-                disableHiddenCheck: false,
-                numberFormatter: false,
-                numberDigitGroupCount: 3,
-                numberDigitGroupSep: ',',
-                numberDecimalMark: '.',
-                disableTooltips: false,
-                disableInteraction: false
-            },
-            // Defaults for line charts
-            line: {
-                spotColor: '#f80',
-                highlightSpotColor: '#5f5',
-                highlightLineColor: '#f22',
-                spotRadius: 1.5,
-                minSpotColor: '#f80',
-                maxSpotColor: '#f80',
-                lineWidth: 1,
-                normalRangeMin: undefined,
-                normalRangeMax: undefined,
-                normalRangeColor: '#ccc',
-                drawNormalOnTop: false,
-                chartRangeMin: undefined,
-                chartRangeMax: undefined,
-                chartRangeMinX: undefined,
-                chartRangeMaxX: undefined,
-                tooltipFormat: new SPFormat('<span style="color: {{color}}">&#9679;</span> {{prefix}}{{y}}{{suffix}}')
-            },
-            // Defaults for bar charts
-            bar: {
-                barColor: '#3366cc',
-                negBarColor: '#f44',
-                stackedBarColor: ['#3366cc', '#dc3912', '#ff9900', '#109618', '#66aa00',
-                    '#dd4477', '#0099c6', '#990099'],
-                zeroColor: undefined,
-                nullColor: undefined,
-                zeroAxis: true,
-                barWidth: 4,
-                barSpacing: 1,
-                chartRangeMax: undefined,
-                chartRangeMin: undefined,
-                chartRangeClip: false,
-                colorMap: undefined,
-                tooltipFormat: new SPFormat('<span style="color: {{color}}">&#9679;</span> {{prefix}}{{value}}{{suffix}}')
-            },
-            // Defaults for tristate charts
-            tristate: {
-                barWidth: 4,
-                barSpacing: 1,
-                posBarColor: '#6f6',
-                negBarColor: '#f44',
-                zeroBarColor: '#999',
-                colorMap: {},
-                tooltipFormat: new SPFormat('<span style="color: {{color}}">&#9679;</span> {{value:map}}'),
-                tooltipValueLookups: { map: { '-1': 'Loss', '0': 'Draw', '1': 'Win' } }
-            },
-            // Defaults for discrete charts
-            discrete: {
-                lineHeight: 'auto',
-                thresholdColor: undefined,
-                thresholdValue: 0,
-                chartRangeMax: undefined,
-                chartRangeMin: undefined,
-                chartRangeClip: false,
-                tooltipFormat: new SPFormat('{{prefix}}{{value}}{{suffix}}')
-            },
-            // Defaults for bullet charts
-            bullet: {
-                targetColor: '#f33',
-                targetWidth: 3, // width of the target bar in pixels
-                performanceColor: '#33f',
-                rangeColors: ['#d3dafe', '#a8b6ff', '#7f94ff'],
-                base: undefined, // set this to a number to change the base start number
-                tooltipFormat: new SPFormat('{{fieldkey:fields}} - {{value}}'),
-                tooltipValueLookups: { fields: {r: 'Range', p: 'Performance', t: 'Target'} }
-            },
-            // Defaults for pie charts
-            pie: {
-                offset: 0,
-                sliceColors: ['#3366cc', '#dc3912', '#ff9900', '#109618', '#66aa00',
-                    '#dd4477', '#0099c6', '#990099'],
-                borderWidth: 0,
-                borderColor: '#000',
-                tooltipFormat: new SPFormat('<span style="color: {{color}}">&#9679;</span> {{value}} ({{percent.1}}%)')
-            },
-            // Defaults for box plots
-            box: {
-                raw: false,
-                boxLineColor: '#000',
-                boxFillColor: '#cdf',
-                whiskerColor: '#000',
-                outlierLineColor: '#333',
-                outlierFillColor: '#fff',
-                medianColor: '#f00',
-                showOutliers: true,
-                outlierIQR: 1.5,
-                spotRadius: 1.5,
-                target: undefined,
-                targetColor: '#4a2',
-                chartRangeMax: undefined,
-                chartRangeMin: undefined,
-                tooltipFormat: new SPFormat('{{field:fields}}: {{value}}'),
-                tooltipFormatFieldlistKey: 'field',
-                tooltipValueLookups: { fields: { lq: 'Lower Quartile', med: 'Median',
-                    uq: 'Upper Quartile', lo: 'Left Outlier', ro: 'Right Outlier',
-                    lw: 'Left Whisker', rw: 'Right Whisker'} }
-            }
-        };
-    };
-
-    // You can have tooltips use a css class other than jqstooltip by specifying tooltipClassname
-    defaultStyles = '.jqstooltip { ' +
-            'position: absolute;' +
-            'display: block;' +
-            'left: 0px;' +
-            'top: 0px;' +
-            'visibility: hidden;' +
-            'background: rgb(43, 48, 58) transparent;' +
-            'background-color: rgba(43, 48, 58,0.8);' +
-            'filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);' +
-            '-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";' +
-            'color: white;' +
-            'font: 10px arial, san serif;' +
-            'text-align: left;' +
-            'white-space: nowrap;' +
-            'z-index: 10000;' +
-			'padding: 5px 5px 5px 5px;' +
-			'min-height: 22px;' +
-			'min-width: 30px;' +
-            'border-radius: 3px;' +
-            '}' +
-            '.jqsfield { ' +
-            'color: white;' +
-            'font: 10px arial, san serif;' +
-            'text-align: left;' +
-            '}';
-
-    /**
-     * Utilities
-     */
-
-    createClass = function (/* [baseclass, [mixin, ...]], definition */) {
-        var Class, args;
-        Class = function () {
-            this.init.apply(this, arguments);
-        };
-        if (arguments.length > 1) {
-            if (arguments[0]) {
-                Class.prototype = $.extend(new arguments[0](), arguments[arguments.length - 1]);
-                Class._super = arguments[0].prototype;
-            } else {
-                Class.prototype = arguments[arguments.length - 1];
-            }
-            if (arguments.length > 2) {
-                args = Array.prototype.slice.call(arguments, 1, -1);
-                args.unshift(Class.prototype);
-                $.extend.apply($, args);
-            }
-        } else {
-            Class.prototype = arguments[0];
-        }
-        Class.prototype.cls = Class;
-        return Class;
-    };
-
-    /**
-     * Wraps a format string for tooltips
-     * {{x}}
-     * {{x.2}
-     * {{x:months}}
-     */
-    $.SPFormatClass = SPFormat = createClass({
-        fre: /\{\{([\w.]+?)(:(.+?))?\}\}/g,
-        precre: /(\w+)\.(\d+)/,
-
-        init: function (format, fclass) {
-            this.format = format;
-            this.fclass = fclass;
-        },
-
-        render: function (fieldset, lookups, options) {
-            var self = this,
-                fields = fieldset,
-                match, token, lookupkey, fieldvalue, prec;
-            return this.format.replace(this.fre, function () {
-                var lookup;
-                token = arguments[1];
-                lookupkey = arguments[3];
-                match = self.precre.exec(token);
-                if (match) {
-                    prec = match[2];
-                    token = match[1];
-                } else {
-                    prec = false;
-                }
-                fieldvalue = fields[token];
-                if (fieldvalue === undefined) {
-                    return '';
-                }
-                if (lookupkey && lookups && lookups[lookupkey]) {
-                    lookup = lookups[lookupkey];
-                    if (lookup.get) { // RangeMap
-                        return lookups[lookupkey].get(fieldvalue) || fieldvalue;
-                    } else {
-                        return lookups[lookupkey][fieldvalue] || fieldvalue;
-                    }
-                }
-                if (isNumber(fieldvalue)) {
-                    if (options.get('numberFormatter')) {
-                        fieldvalue = options.get('numberFormatter')(fieldvalue);
-                    } else {
-                        fieldvalue = formatNumber(fieldvalue, prec,
-                            options.get('numberDigitGroupCount'),
-                            options.get('numberDigitGroupSep'),
-                            options.get('numberDecimalMark'));
-                    }
-                }
-                return fieldvalue;
-            });
-        }
-    });
-
-    // convience method to avoid needing the new operator
-    $.spformat = function(format, fclass) {
-        return new SPFormat(format, fclass);
-    };
-
-    clipval = function (val, min, max) {
-        if (val < min) {
-            return min;
-        }
-        if (val > max) {
-            return max;
-        }
-        return val;
-    };
-
-    quartile = function (values, q) {
-        var vl;
-        if (q === 2) {
-            vl = Math.floor(values.length / 2);
-            return values.length % 2 ? values[vl] : (values[vl-1] + values[vl]) / 2;
-        } else {
-            if (values.length % 2 ) { // odd
-                vl = (values.length * q + q) / 4;
-                return vl % 1 ? (values[Math.floor(vl)] + values[Math.floor(vl) - 1]) / 2 : values[vl-1];
-            } else { //even
-                vl = (values.length * q + 2) / 4;
-                return vl % 1 ? (values[Math.floor(vl)] + values[Math.floor(vl) - 1]) / 2 :  values[vl-1];
-
-            }
-        }
-    };
-
-    normalizeValue = function (val) {
-        var nf;
-        switch (val) {
-            case 'undefined':
-                val = undefined;
-                break;
-            case 'null':
-                val = null;
-                break;
-            case 'true':
-                val = true;
-                break;
-            case 'false':
-                val = false;
-                break;
-            default:
-                nf = parseFloat(val);
-                if (val == nf) {
-                    val = nf;
-                }
-        }
-        return val;
-    };
-
-    normalizeValues = function (vals) {
-        var i, result = [];
-        for (i = vals.length; i--;) {
-            result[i] = normalizeValue(vals[i]);
-        }
-        return result;
-    };
-
-    remove = function (vals, filter) {
-        var i, vl, result = [];
-        for (i = 0, vl = vals.length; i < vl; i++) {
-            if (vals[i] !== filter) {
-                result.push(vals[i]);
-            }
-        }
-        return result;
-    };
-
-    isNumber = function (num) {
-        return !isNaN(parseFloat(num)) && isFinite(num);
-    };
-
-    formatNumber = function (num, prec, groupsize, groupsep, decsep) {
-        var p, i;
-        num = (prec === false ? parseFloat(num).toString() : num.toFixed(prec)).split('');
-        p = (p = $.inArray('.', num)) < 0 ? num.length : p;
-        if (p < num.length) {
-            num[p] = decsep;
-        }
-        for (i = p - groupsize; i > 0; i -= groupsize) {
-            num.splice(i, 0, groupsep);
-        }
-        return num.join('');
-    };
-
-    // determine if all values of an array match a value
-    // returns true if the array is empty
-    all = function (val, arr, ignoreNull) {
-        var i;
-        for (i = arr.length; i--; ) {
-            if (ignoreNull && arr[i] === null) continue;
-            if (arr[i] !== val) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    // sums the numeric values in an array, ignoring other values
-    sum = function (vals) {
-        var total = 0, i;
-        for (i = vals.length; i--;) {
-            total += typeof vals[i] === 'number' ? vals[i] : 0;
-        }
-        return total;
-    };
-
-    ensureArray = function (val) {
-        return $.isArray(val) ? val : [val];
-    };
-
-    // http://paulirish.com/2008/bookmarklet-inject-new-css-rules/
-    addCSS = function(css) {
-        var tag;
-        //if ('\v' == 'v') /* ie only */ {
-        if (document.createStyleSheet) {
-            document.createStyleSheet().cssText = css;
-        } else {
-            tag = document.createElement('style');
-            tag.type = 'text/css';
-            document.getElementsByTagName('head')[0].appendChild(tag);
-            tag[(typeof document.body.style.WebkitAppearance == 'string') /* webkit only */ ? 'innerText' : 'innerHTML'] = css;
-        }
-    };
-
-    // Provide a cross-browser interface to a few simple drawing primitives
-    $.fn.simpledraw = function (width, height, useExisting, interact) {
-        var target, mhandler;
-        if (useExisting && (target = this.data('_jqs_vcanvas'))) {
-            return target;
-        }
-
-        if ($.fn.sparkline.canvas === false) {
-            // We've already determined that neither Canvas nor VML are available
-            return false;
-
-        } else if ($.fn.sparkline.canvas === undefined) {
-            // No function defined yet -- need to see if we support Canvas or VML
-            var el = document.createElement('canvas');
-            if (!!(el.getContext && el.getContext('2d'))) {
-                // Canvas is available
-                $.fn.sparkline.canvas = function(width, height, target, interact) {
-                    return new VCanvas_canvas(width, height, target, interact);
-                };
-            } else if (document.namespaces && !document.namespaces.v) {
-                // VML is available
-                document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', '#default#VML');
-                $.fn.sparkline.canvas = function(width, height, target, interact) {
-                    return new VCanvas_vml(width, height, target);
-                };
-            } else {
-                // Neither Canvas nor VML are available
-                $.fn.sparkline.canvas = false;
-                return false;
-            }
-        }
-
-        if (width === undefined) {
-            width = $(this).innerWidth();
-        }
-        if (height === undefined) {
-            height = $(this).innerHeight();
-        }
-
-        target = $.fn.sparkline.canvas(width, height, this, interact);
-
-        mhandler = $(this).data('_jqs_mhandler');
-        if (mhandler) {
-            mhandler.registerCanvas(target);
-        }
-        return target;
-    };
-
-    $.fn.cleardraw = function () {
-        var target = this.data('_jqs_vcanvas');
-        if (target) {
-            target.reset();
-        }
-    };
-
-    $.RangeMapClass = RangeMap = createClass({
-        init: function (map) {
-            var key, range, rangelist = [];
-            for (key in map) {
-                if (map.hasOwnProperty(key) && typeof key === 'string' && key.indexOf(':') > -1) {
-                    range = key.split(':');
-                    range[0] = range[0].length === 0 ? -Infinity : parseFloat(range[0]);
-                    range[1] = range[1].length === 0 ? Infinity : parseFloat(range[1]);
-                    range[2] = map[key];
-                    rangelist.push(range);
-                }
-            }
-            this.map = map;
-            this.rangelist = rangelist || false;
-        },
-
-        get: function (value) {
-            var rangelist = this.rangelist,
-                i, range, result;
-            if ((result = this.map[value]) !== undefined) {
-                return result;
-            }
-            if (rangelist) {
-                for (i = rangelist.length; i--;) {
-                    range = rangelist[i];
-                    if (range[0] <= value && range[1] >= value) {
-                        return range[2];
-                    }
-                }
-            }
-            return undefined;
-        }
-    });
-
-    // Convenience function
-    $.range_map = function(map) {
-        return new RangeMap(map);
-    };
-
-    MouseHandler = createClass({
-        init: function (el, options) {
-            var $el = $(el);
-            this.$el = $el;
-            this.options = options;
-            this.currentPageX = 0;
-            this.currentPageY = 0;
-            this.el = el;
-            this.splist = [];
-            this.tooltip = null;
-            this.over = false;
-            this.displayTooltips = !options.get('disableTooltips');
-            this.highlightEnabled = !options.get('disableHighlight');
-        },
-
-        registerSparkline: function (sp) {
-            this.splist.push(sp);
-            if (this.over) {
-                this.updateDisplay();
-            }
-        },
-
-        registerCanvas: function (canvas) {
-            var $canvas = $(canvas.canvas);
-            this.canvas = canvas;
-            this.$canvas = $canvas;
-            $canvas.mouseenter($.proxy(this.mouseenter, this));
-            $canvas.mouseleave($.proxy(this.mouseleave, this));
-            $canvas.click($.proxy(this.mouseclick, this));
-        },
-
-        reset: function (removeTooltip) {
-            this.splist = [];
-            if (this.tooltip && removeTooltip) {
-                this.tooltip.remove();
-                this.tooltip = undefined;
-            }
-        },
-
-        mouseclick: function (e) {
-            var clickEvent = $.Event('sparklineClick');
-            clickEvent.originalEvent = e;
-            clickEvent.sparklines = this.splist;
-            this.$el.trigger(clickEvent);
-        },
-
-        mouseenter: function (e) {
-            $(document.body).unbind('mousemove.jqs');
-            $(document.body).bind('mousemove.jqs', $.proxy(this.mousemove, this));
-            this.over = true;
-            this.currentPageX = e.pageX;
-            this.currentPageY = e.pageY;
-            this.currentEl = e.target;
-            if (!this.tooltip && this.displayTooltips) {
-                this.tooltip = new Tooltip(this.options);
-                this.tooltip.updatePosition(e.pageX, e.pageY);
-            }
-            this.updateDisplay();
-        },
-
-        mouseleave: function () {
-            $(document.body).unbind('mousemove.jqs');
-            var splist = this.splist,
-                 spcount = splist.length,
-                 needsRefresh = false,
-                 sp, i;
-            this.over = false;
-            this.currentEl = null;
-
-            if (this.tooltip) {
-                this.tooltip.remove();
-                this.tooltip = null;
-            }
-
-            for (i = 0; i < spcount; i++) {
-                sp = splist[i];
-                if (sp.clearRegionHighlight()) {
-                    needsRefresh = true;
-                }
-            }
-
-            if (needsRefresh) {
-                this.canvas.render();
-            }
-        },
-
-        mousemove: function (e) {
-            this.currentPageX = e.pageX;
-            this.currentPageY = e.pageY;
-            this.currentEl = e.target;
-            if (this.tooltip) {
-                this.tooltip.updatePosition(e.pageX, e.pageY);
-            }
-            this.updateDisplay();
-        },
-
-        updateDisplay: function () {
-            var splist = this.splist,
-                 spcount = splist.length,
-                 needsRefresh = false,
-                 offset = this.$canvas.offset(),
-                 localX = this.currentPageX - offset.left,
-                 localY = this.currentPageY - offset.top,
-                 tooltiphtml, sp, i, result, changeEvent;
-            if (!this.over) {
-                return;
-            }
-            for (i = 0; i < spcount; i++) {
-                sp = splist[i];
-                result = sp.setRegionHighlight(this.currentEl, localX, localY);
-                if (result) {
-                    needsRefresh = true;
-                }
-            }
-            if (needsRefresh) {
-                changeEvent = $.Event('sparklineRegionChange');
-                changeEvent.sparklines = this.splist;
-                this.$el.trigger(changeEvent);
-                if (this.tooltip) {
-                    tooltiphtml = '';
-                    for (i = 0; i < spcount; i++) {
-                        sp = splist[i];
-                        tooltiphtml += sp.getCurrentRegionTooltip();
-                    }
-                    this.tooltip.setContent(tooltiphtml);
-                }
-                if (!this.disableHighlight) {
-                    this.canvas.render();
-                }
-            }
-            if (result === null) {
-                this.mouseleave();
-            }
-        }
-    });
-
-
-    Tooltip = createClass({
-        sizeStyle: 'position: static !important;' +
-            'display: block !important;' +
-            'visibility: hidden !important;' +
-            'float: left !important;',
-
-        init: function (options) {
-            var tooltipClassname = options.get('tooltipClassname', 'jqstooltip'),
-                sizetipStyle = this.sizeStyle,
-                offset;
-            this.container = options.get('tooltipContainer') || document.body;
-            this.tooltipOffsetX = options.get('tooltipOffsetX', 10);
-            this.tooltipOffsetY = options.get('tooltipOffsetY', 12);
-            // remove any previous lingering tooltip
-            $('#jqssizetip').remove();
-            $('#jqstooltip').remove();
-            this.sizetip = $('<div/>', {
-                id: 'jqssizetip',
-                style: sizetipStyle,
-                'class': tooltipClassname
-            });
-            this.tooltip = $('<div/>', {
-                id: 'jqstooltip',
-                'class': tooltipClassname
-            }).appendTo(this.container);
-            // account for the container's location
-            offset = this.tooltip.offset();
-            this.offsetLeft = offset.left;
-            this.offsetTop = offset.top;
-            this.hidden = true;
-            $(window).unbind('resize.jqs scroll.jqs');
-            $(window).bind('resize.jqs scroll.jqs', $.proxy(this.updateWindowDims, this));
-            this.updateWindowDims();
-        },
-
-        updateWindowDims: function () {
-            this.scrollTop = $(window).scrollTop();
-            this.scrollLeft = $(window).scrollLeft();
-            this.scrollRight = this.scrollLeft + $(window).width();
-            this.updatePosition();
-        },
-
-        getSize: function (content) {
-            this.sizetip.html(content).appendTo(this.container);
-            this.width = this.sizetip.width() + 2;
-            this.height = this.sizetip.height();
-            this.sizetip.remove();
-        },
-
-        setContent: function (content) {
-            if (!content) {
-                this.tooltip.css('visibility', 'hidden');
-                this.hidden = true;
-                return;
-            }
-            this.getSize(content);
-            this.tooltip.html(content)
-                .css({
-                    'width': this.width,
-                    'height': this.height,
-                    'visibility': 'visible'
-                });
-            if (this.hidden) {
-                this.hidden = false;
-                this.updatePosition();
-            }
-        },
-
-        updatePosition: function (x, y) {
-            if (x === undefined) {
-                if (this.mousex === undefined) {
-                    return;
-                }
-                x = this.mousex - this.offsetLeft;
-                y = this.mousey - this.offsetTop;
-
-            } else {
-                this.mousex = x = x - this.offsetLeft;
-                this.mousey = y = y - this.offsetTop;
-            }
-            if (!this.height || !this.width || this.hidden) {
-                return;
-            }
-
-            y -= this.height + this.tooltipOffsetY;
-            x += this.tooltipOffsetX;
-
-            if (y < this.scrollTop) {
-                y = this.scrollTop;
-            }
-            if (x < this.scrollLeft) {
-                x = this.scrollLeft;
-            } else if (x + this.width > this.scrollRight) {
-                x = this.scrollRight - this.width;
-            }
-
-            this.tooltip.css({
-                'left': x,
-                'top': y
-            });
-        },
-
-        remove: function () {
-            this.tooltip.remove();
-            this.sizetip.remove();
-            this.sizetip = this.tooltip = undefined;
-            $(window).unbind('resize.jqs scroll.jqs');
-        }
-    });
-
-    initStyles = function() {
-        addCSS(defaultStyles);
-    };
-
-    $(initStyles);
-
-    pending = [];
-    $.fn.sparkline = function (userValues, userOptions) {
-        return this.each(function () {
-            var options = new $.fn.sparkline.options(this, userOptions),
-                 $this = $(this),
-                 render, i;
-            render = function () {
-                var values, width, height, tmp, mhandler, sp, vals;
-                if (userValues === 'html' || userValues === undefined) {
-                    vals = this.getAttribute(options.get('tagValuesAttribute'));
-                    if (vals === undefined || vals === null) {
-                        vals = $this.html();
-                    }
-                    values = vals.replace(/(^\s*<!--)|(-->\s*$)|\s+/g, '').split(',');
-                } else {
-                    values = userValues;
-                }
-
-                width = options.get('width') === 'auto' ? values.length * options.get('defaultPixelsPerValue') : options.get('width');
-                if (options.get('height') === 'auto') {
-                    if (!options.get('composite') || !$.data(this, '_jqs_vcanvas')) {
-                        // must be a better way to get the line height
-                        tmp = document.createElement('span');
-                        tmp.innerHTML = 'a';
-                        $this.html(tmp);
-                        height = $(tmp).innerHeight() || $(tmp).height();
-                        $(tmp).remove();
-                        tmp = null;
-                    }
-                } else {
-                    height = options.get('height');
-                }
-
-                if (!options.get('disableInteraction')) {
-                    mhandler = $.data(this, '_jqs_mhandler');
-                    if (!mhandler) {
-                        mhandler = new MouseHandler(this, options);
-                        $.data(this, '_jqs_mhandler', mhandler);
-                    } else if (!options.get('composite')) {
-                        mhandler.reset();
-                    }
-                } else {
-                    mhandler = false;
-                }
-
-                if (options.get('composite') && !$.data(this, '_jqs_vcanvas')) {
-                    if (!$.data(this, '_jqs_errnotify')) {
-                        alert('Attempted to attach a composite sparkline to an element with no existing sparkline');
-                        $.data(this, '_jqs_errnotify', true);
-                    }
-                    return;
-                }
-
-                sp = new $.fn.sparkline[options.get('type')](this, values, options, width, height);
-
-                sp.render();
-
-                if (mhandler) {
-                    mhandler.registerSparkline(sp);
-                }
-            };
-            if (($(this).html() && !options.get('disableHiddenCheck') && $(this).is(':hidden')) || !$(this).parents('body').length) {
-                if (!options.get('composite') && $.data(this, '_jqs_pending')) {
-                    // remove any existing references to the element
-                    for (i = pending.length; i; i--) {
-                        if (pending[i - 1][0] == this) {
-                            pending.splice(i - 1, 1);
-                        }
-                    }
-                }
-                pending.push([this, render]);
-                $.data(this, '_jqs_pending', true);
-            } else {
-                render.call(this);
-            }
-        });
-    };
-
-    $.fn.sparkline.defaults = getDefaults();
-
-
-    $.sparkline_display_visible = function () {
-        var el, i, pl;
-        var done = [];
-        for (i = 0, pl = pending.length; i < pl; i++) {
-            el = pending[i][0];
-            if ($(el).is(':visible') && !$(el).parents().is(':hidden')) {
-                pending[i][1].call(el);
-                $.data(pending[i][0], '_jqs_pending', false);
-                done.push(i);
-            } else if (!$(el).closest('html').length && !$.data(el, '_jqs_pending')) {
-                // element has been inserted and removed from the DOM
-                // If it was not yet inserted into the dom then the .data request
-                // will return true.
-                // removing from the dom causes the data to be removed.
-                $.data(pending[i][0], '_jqs_pending', false);
-                done.push(i);
-            }
-        }
-        for (i = done.length; i; i--) {
-            pending.splice(done[i - 1], 1);
-        }
-    };
-
-
-    /**
-     * User option handler
-     */
-    $.fn.sparkline.options = createClass({
-        init: function (tag, userOptions) {
-            var extendedOptions, defaults, base, tagOptionType;
-            this.userOptions = userOptions = userOptions || {};
-            this.tag = tag;
-            this.tagValCache = {};
-            defaults = $.fn.sparkline.defaults;
-            base = defaults.common;
-            this.tagOptionsPrefix = userOptions.enableTagOptions && (userOptions.tagOptionsPrefix || base.tagOptionsPrefix);
-
-            tagOptionType = this.getTagSetting('type');
-            if (tagOptionType === UNSET_OPTION) {
-                extendedOptions = defaults[userOptions.type || base.type];
-            } else {
-                extendedOptions = defaults[tagOptionType];
-            }
-            this.mergedOptions = $.extend({}, base, extendedOptions, userOptions);
-        },
-
-
-        getTagSetting: function (key) {
-            var prefix = this.tagOptionsPrefix,
-                val, i, pairs, keyval;
-            if (prefix === false || prefix === undefined) {
-                return UNSET_OPTION;
-            }
-            if (this.tagValCache.hasOwnProperty(key)) {
-                val = this.tagValCache.key;
-            } else {
-                val = this.tag.getAttribute(prefix + key);
-                if (val === undefined || val === null) {
-                    val = UNSET_OPTION;
-                } else if (val.substr(0, 1) === '[') {
-                    val = val.substr(1, val.length - 2).split(',');
-                    for (i = val.length; i--;) {
-                        val[i] = normalizeValue(val[i].replace(/(^\s*)|(\s*$)/g, ''));
-                    }
-                } else if (val.substr(0, 1) === '{') {
-                    pairs = val.substr(1, val.length - 2).split(',');
-                    val = {};
-                    for (i = pairs.length; i--;) {
-                        keyval = pairs[i].split(':', 2);
-                        val[keyval[0].replace(/(^\s*)|(\s*$)/g, '')] = normalizeValue(keyval[1].replace(/(^\s*)|(\s*$)/g, ''));
-                    }
-                } else {
-                    val = normalizeValue(val);
-                }
-                this.tagValCache.key = val;
-            }
-            return val;
-        },
-
-        get: function (key, defaultval) {
-            var tagOption = this.getTagSetting(key),
-                result;
-            if (tagOption !== UNSET_OPTION) {
-                return tagOption;
-            }
-            return (result = this.mergedOptions[key]) === undefined ? defaultval : result;
-        }
-    });
-
-
-    $.fn.sparkline._base = createClass({
-        disabled: false,
-
-        init: function (el, values, options, width, height) {
-            this.el = el;
-            this.$el = $(el);
-            this.values = values;
-            this.options = options;
-            this.width = width;
-            this.height = height;
-            this.currentRegion = undefined;
-        },
-
-        /**
-         * Setup the canvas
-         */
-        initTarget: function () {
-            var interactive = !this.options.get('disableInteraction');
-            if (!(this.target = this.$el.simpledraw(this.width, this.height, this.options.get('composite'), interactive))) {
-                this.disabled = true;
-            } else {
-                this.canvasWidth = this.target.pixelWidth;
-                this.canvasHeight = this.target.pixelHeight;
-            }
-        },
-
-        /**
-         * Actually render the chart to the canvas
-         */
-        render: function () {
-            if (this.disabled) {
-                this.el.innerHTML = '';
-                return false;
-            }
-            return true;
-        },
-
-        /**
-         * Return a region id for a given x/y co-ordinate
-         */
-        getRegion: function (x, y) {
-        },
-
-        /**
-         * Highlight an item based on the moused-over x,y co-ordinate
-         */
-        setRegionHighlight: function (el, x, y) {
-            var currentRegion = this.currentRegion,
-                highlightEnabled = !this.options.get('disableHighlight'),
-                newRegion;
-            if (x > this.canvasWidth || y > this.canvasHeight || x < 0 || y < 0) {
-                return null;
-            }
-            newRegion = this.getRegion(el, x, y);
-            if (currentRegion !== newRegion) {
-                if (currentRegion !== undefined && highlightEnabled) {
-                    this.removeHighlight();
-                }
-                this.currentRegion = newRegion;
-                if (newRegion !== undefined && highlightEnabled) {
-                    this.renderHighlight();
-                }
-                return true;
-            }
-            return false;
-        },
-
-        /**
-         * Reset any currently highlighted item
-         */
-        clearRegionHighlight: function () {
-            if (this.currentRegion !== undefined) {
-                this.removeHighlight();
-                this.currentRegion = undefined;
-                return true;
-            }
-            return false;
-        },
-
-        renderHighlight: function () {
-            this.changeHighlight(true);
-        },
-
-        removeHighlight: function () {
-            this.changeHighlight(false);
-        },
-
-        changeHighlight: function (highlight)  {},
-
-        /**
-         * Fetch the HTML to display as a tooltip
-         */
-        getCurrentRegionTooltip: function () {
-            var options = this.options,
-                header = '',
-                entries = [],
-                fields, formats, formatlen, fclass, text, i,
-                showFields, showFieldsKey, newFields, fv,
-                formatter, format, fieldlen, j;
-            if (this.currentRegion === undefined) {
-                return '';
-            }
-            fields = this.getCurrentRegionFields();
-            formatter = options.get('tooltipFormatter');
-            if (formatter) {
-                return formatter(this, options, fields);
-            }
-            if (options.get('tooltipChartTitle')) {
-                header += '<div class="jqs jqstitle">' + options.get('tooltipChartTitle') + '</div>\n';
-            }
-            formats = this.options.get('tooltipFormat');
-            if (!formats) {
-                return '';
-            }
-            if (!$.isArray(formats)) {
-                formats = [formats];
-            }
-            if (!$.isArray(fields)) {
-                fields = [fields];
-            }
-            showFields = this.options.get('tooltipFormatFieldlist');
-            showFieldsKey = this.options.get('tooltipFormatFieldlistKey');
-            if (showFields && showFieldsKey) {
-                // user-selected ordering of fields
-                newFields = [];
-                for (i = fields.length; i--;) {
-                    fv = fields[i][showFieldsKey];
-                    if ((j = $.inArray(fv, showFields)) != -1) {
-                        newFields[j] = fields[i];
-                    }
-                }
-                fields = newFields;
-            }
-            formatlen = formats.length;
-            fieldlen = fields.length;
-            for (i = 0; i < formatlen; i++) {
-                format = formats[i];
-                if (typeof format === 'string') {
-                    format = new SPFormat(format);
-                }
-                fclass = format.fclass || 'jqsfield';
-                for (j = 0; j < fieldlen; j++) {
-                    if (!fields[j].isNull || !options.get('tooltipSkipNull')) {
-                        $.extend(fields[j], {
-                            prefix: options.get('tooltipPrefix'),
-                            suffix: options.get('tooltipSuffix')
-                        });
-                        text = format.render(fields[j], options.get('tooltipValueLookups'), options);
-                        entries.push('<div class="' + fclass + '">' + text + '</div>');
-                    }
-                }
-            }
-            if (entries.length) {
-                return header + entries.join('\n');
-            }
-            return '';
-        },
-
-        getCurrentRegionFields: function () {},
-
-        calcHighlightColor: function (color, options) {
-            var highlightColor = options.get('highlightColor'),
-                lighten = options.get('highlightLighten'),
-                parse, mult, rgbnew, i;
-            if (highlightColor) {
-                return highlightColor;
-            }
-            if (lighten) {
-                // extract RGB values
-                parse = /^#([0-9a-f])([0-9a-f])([0-9a-f])$/i.exec(color) || /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(color);
-                if (parse) {
-                    rgbnew = [];
-                    mult = color.length === 4 ? 16 : 1;
-                    for (i = 0; i < 3; i++) {
-                        rgbnew[i] = clipval(Math.round(parseInt(parse[i + 1], 16) * mult * lighten), 0, 255);
-                    }
-                    return 'rgb(' + rgbnew.join(',') + ')';
-                }
-
-            }
-            return color;
-        }
-
-    });
-
-    barHighlightMixin = {
-        changeHighlight: function (highlight) {
-            var currentRegion = this.currentRegion,
-                target = this.target,
-                shapeids = this.regionShapes[currentRegion],
-                newShapes;
-            // will be null if the region value was null
-            if (shapeids) {
-                newShapes = this.renderRegion(currentRegion, highlight);
-                if ($.isArray(newShapes) || $.isArray(shapeids)) {
-                    target.replaceWithShapes(shapeids, newShapes);
-                    this.regionShapes[currentRegion] = $.map(newShapes, function (newShape) {
-                        return newShape.id;
-                    });
-                } else {
-                    target.replaceWithShape(shapeids, newShapes);
-                    this.regionShapes[currentRegion] = newShapes.id;
-                }
-            }
-        },
-
-        render: function () {
-            var values = this.values,
-                target = this.target,
-                regionShapes = this.regionShapes,
-                shapes, ids, i, j;
-
-            if (!this.cls._super.render.call(this)) {
-                return;
-            }
-            for (i = values.length; i--;) {
-                shapes = this.renderRegion(i);
-                if (shapes) {
-                    if ($.isArray(shapes)) {
-                        ids = [];
-                        for (j = shapes.length; j--;) {
-                            shapes[j].append();
-                            ids.push(shapes[j].id);
-                        }
-                        regionShapes[i] = ids;
-                    } else {
-                        shapes.append();
-                        regionShapes[i] = shapes.id; // store just the shapeid
-                    }
-                } else {
-                    // null value
-                    regionShapes[i] = null;
-                }
-            }
-            target.render();
-        }
-    };
-
-    /**
-     * Line charts
-     */
-    $.fn.sparkline.line = line = createClass($.fn.sparkline._base, {
-        type: 'line',
-
-        init: function (el, values, options, width, height) {
-            line._super.init.call(this, el, values, options, width, height);
-            this.vertices = [];
-            this.regionMap = [];
-            this.xvalues = [];
-            this.yvalues = [];
-            this.yminmax = [];
-            this.hightlightSpotId = null;
-            this.lastShapeId = null;
-            this.initTarget();
-        },
-
-        getRegion: function (el, x, y) {
-            var i,
-                regionMap = this.regionMap; // maps regions to value positions
-            for (i = regionMap.length; i--;) {
-                if (regionMap[i] !== null && x >= regionMap[i][0] && x <= regionMap[i][1]) {
-                    return regionMap[i][2];
-                }
-            }
-            return undefined;
-        },
-
-        getCurrentRegionFields: function () {
-            var currentRegion = this.currentRegion;
-            return {
-                isNull: this.yvalues[currentRegion] === null,
-                x: this.xvalues[currentRegion],
-                y: this.yvalues[currentRegion],
-                color: this.options.get('lineColor'),
-                fillColor: this.options.get('fillColor'),
-                offset: currentRegion
-            };
-        },
-
-        renderHighlight: function () {
-            var currentRegion = this.currentRegion,
-                target = this.target,
-                vertex = this.vertices[currentRegion],
-                options = this.options,
-                spotRadius = options.get('spotRadius'),
-                highlightSpotColor = options.get('highlightSpotColor'),
-                highlightLineColor = options.get('highlightLineColor'),
-                highlightSpot, highlightLine;
-
-            if (!vertex) {
-                return;
-            }
-            if (spotRadius && highlightSpotColor) {
-                highlightSpot = target.drawCircle(vertex[0], vertex[1],
-                    spotRadius, undefined, highlightSpotColor);
-                this.highlightSpotId = highlightSpot.id;
-                target.insertAfterShape(this.lastShapeId, highlightSpot);
-            }
-            if (highlightLineColor) {
-                highlightLine = target.drawLine(vertex[0], this.canvasTop, vertex[0],
-                    this.canvasTop + this.canvasHeight, highlightLineColor);
-                this.highlightLineId = highlightLine.id;
-                target.insertAfterShape(this.lastShapeId, highlightLine);
-            }
-        },
-
-        removeHighlight: function () {
-            var target = this.target;
-            if (this.highlightSpotId) {
-                target.removeShapeId(this.highlightSpotId);
-                this.highlightSpotId = null;
-            }
-            if (this.highlightLineId) {
-                target.removeShapeId(this.highlightLineId);
-                this.highlightLineId = null;
-            }
-        },
-
-        scanValues: function () {
-            var values = this.values,
-                valcount = values.length,
-                xvalues = this.xvalues,
-                yvalues = this.yvalues,
-                yminmax = this.yminmax,
-                i, val, isStr, isArray, sp;
-            for (i = 0; i < valcount; i++) {
-                val = values[i];
-                isStr = typeof(values[i]) === 'string';
-                isArray = typeof(values[i]) === 'object' && values[i] instanceof Array;
-                sp = isStr && values[i].split(':');
-                if (isStr && sp.length === 2) { // x:y
-                    xvalues.push(Number(sp[0]));
-                    yvalues.push(Number(sp[1]));
-                    yminmax.push(Number(sp[1]));
-                } else if (isArray) {
-                    xvalues.push(val[0]);
-                    yvalues.push(val[1]);
-                    yminmax.push(val[1]);
-                } else {
-                    xvalues.push(i);
-                    if (values[i] === null || values[i] === 'null') {
-                        yvalues.push(null);
-                    } else {
-                        yvalues.push(Number(val));
-                        yminmax.push(Number(val));
-                    }
-                }
-            }
-            if (this.options.get('xvalues')) {
-                xvalues = this.options.get('xvalues');
-            }
-
-            this.maxy = this.maxyorg = Math.max.apply(Math, yminmax);
-            this.miny = this.minyorg = Math.min.apply(Math, yminmax);
-
-            this.maxx = Math.max.apply(Math, xvalues);
-            this.minx = Math.min.apply(Math, xvalues);
-
-            this.xvalues = xvalues;
-            this.yvalues = yvalues;
-            this.yminmax = yminmax;
-
-        },
-
-        processRangeOptions: function () {
-            var options = this.options,
-                normalRangeMin = options.get('normalRangeMin'),
-                normalRangeMax = options.get('normalRangeMax');
-
-            if (normalRangeMin !== undefined) {
-                if (normalRangeMin < this.miny) {
-                    this.miny = normalRangeMin;
-                }
-                if (normalRangeMax > this.maxy) {
-                    this.maxy = normalRangeMax;
-                }
-            }
-            if (options.get('chartRangeMin') !== undefined && (options.get('chartRangeClip') || options.get('chartRangeMin') < this.miny)) {
-                this.miny = options.get('chartRangeMin');
-            }
-            if (options.get('chartRangeMax') !== undefined && (options.get('chartRangeClip') || options.get('chartRangeMax') > this.maxy)) {
-                this.maxy = options.get('chartRangeMax');
-            }
-            if (options.get('chartRangeMinX') !== undefined && (options.get('chartRangeClipX') || options.get('chartRangeMinX') < this.minx)) {
-                this.minx = options.get('chartRangeMinX');
-            }
-            if (options.get('chartRangeMaxX') !== undefined && (options.get('chartRangeClipX') || options.get('chartRangeMaxX') > this.maxx)) {
-                this.maxx = options.get('chartRangeMaxX');
-            }
-
-        },
-
-        drawNormalRange: function (canvasLeft, canvasTop, canvasHeight, canvasWidth, rangey) {
-            var normalRangeMin = this.options.get('normalRangeMin'),
-                normalRangeMax = this.options.get('normalRangeMax'),
-                ytop = canvasTop + Math.round(canvasHeight - (canvasHeight * ((normalRangeMax - this.miny) / rangey))),
-                height = Math.round((canvasHeight * (normalRangeMax - normalRangeMin)) / rangey);
-            this.target.drawRect(canvasLeft, ytop, canvasWidth, height, undefined, this.options.get('normalRangeColor')).append();
-        },
-
-        render: function () {
-            var options = this.options,
-                target = this.target,
-                canvasWidth = this.canvasWidth,
-                canvasHeight = this.canvasHeight,
-                vertices = this.vertices,
-                spotRadius = options.get('spotRadius'),
-                regionMap = this.regionMap,
-                rangex, rangey, yvallast,
-                canvasTop, canvasLeft,
-                vertex, path, paths, x, y, xnext, xpos, xposnext,
-                last, next, yvalcount, lineShapes, fillShapes, plen,
-                valueSpots, hlSpotsEnabled, color, xvalues, yvalues, i;
-
-            if (!line._super.render.call(this)) {
-                return;
-            }
-
-            this.scanValues();
-            this.processRangeOptions();
-
-            xvalues = this.xvalues;
-            yvalues = this.yvalues;
-
-            if (!this.yminmax.length || this.yvalues.length < 2) {
-                // empty or all null valuess
-                return;
-            }
-
-            canvasTop = canvasLeft = 0;
-
-            rangex = this.maxx - this.minx === 0 ? 1 : this.maxx - this.minx;
-            rangey = this.maxy - this.miny === 0 ? 1 : this.maxy - this.miny;
-            yvallast = this.yvalues.length - 1;
-
-            if (spotRadius && (canvasWidth < (spotRadius * 4) || canvasHeight < (spotRadius * 4))) {
-                spotRadius = 0;
-            }
-            if (spotRadius) {
-                // adjust the canvas size as required so that spots will fit
-                hlSpotsEnabled = options.get('highlightSpotColor') &&  !options.get('disableInteraction');
-                if (hlSpotsEnabled || options.get('minSpotColor') || (options.get('spotColor') && yvalues[yvallast] === this.miny)) {
-                    canvasHeight -= Math.ceil(spotRadius);
-                }
-                if (hlSpotsEnabled || options.get('maxSpotColor') || (options.get('spotColor') && yvalues[yvallast] === this.maxy)) {
-                    canvasHeight -= Math.ceil(spotRadius);
-                    canvasTop += Math.ceil(spotRadius);
-                }
-                if (hlSpotsEnabled ||
-                     ((options.get('minSpotColor') || options.get('maxSpotColor')) && (yvalues[0] === this.miny || yvalues[0] === this.maxy))) {
-                    canvasLeft += Math.ceil(spotRadius);
-                    canvasWidth -= Math.ceil(spotRadius);
-                }
-                if (hlSpotsEnabled || options.get('spotColor') ||
-                    (options.get('minSpotColor') || options.get('maxSpotColor') &&
-                        (yvalues[yvallast] === this.miny || yvalues[yvallast] === this.maxy))) {
-                    canvasWidth -= Math.ceil(spotRadius);
-                }
-            }
-
-
-            canvasHeight--;
-
-            if (options.get('normalRangeMin') !== undefined && !options.get('drawNormalOnTop')) {
-                this.drawNormalRange(canvasLeft, canvasTop, canvasHeight, canvasWidth, rangey);
-            }
-
-            path = [];
-            paths = [path];
-            last = next = null;
-            yvalcount = yvalues.length;
-            for (i = 0; i < yvalcount; i++) {
-                x = xvalues[i];
-                xnext = xvalues[i + 1];
-                y = yvalues[i];
-                xpos = canvasLeft + Math.round((x - this.minx) * (canvasWidth / rangex));
-                xposnext = i < yvalcount - 1 ? canvasLeft + Math.round((xnext - this.minx) * (canvasWidth / rangex)) : canvasWidth;
-                next = xpos + ((xposnext - xpos) / 2);
-                regionMap[i] = [last || 0, next, i];
-                last = next;
-                if (y === null) {
-                    if (i) {
-                        if (yvalues[i - 1] !== null) {
-                            path = [];
-                            paths.push(path);
-                        }
-                        vertices.push(null);
-                    }
-                } else {
-                    if (y < this.miny) {
-                        y = this.miny;
-                    }
-                    if (y > this.maxy) {
-                        y = this.maxy;
-                    }
-                    if (!path.length) {
-                        // previous value was null
-                        path.push([xpos, canvasTop + canvasHeight]);
-                    }
-                    vertex = [xpos, canvasTop + Math.round(canvasHeight - (canvasHeight * ((y - this.miny) / rangey)))];
-                    path.push(vertex);
-                    vertices.push(vertex);
-                }
-            }
-
-            lineShapes = [];
-            fillShapes = [];
-            plen = paths.length;
-            for (i = 0; i < plen; i++) {
-                path = paths[i];
-                if (path.length) {
-                    if (options.get('fillColor')) {
-                        path.push([path[path.length - 1][0], (canvasTop + canvasHeight)]);
-                        fillShapes.push(path.slice(0));
-                        path.pop();
-                    }
-                    // if there's only a single point in this path, then we want to display it
-                    // as a vertical line which means we keep path[0]  as is
-                    if (path.length > 2) {
-                        // else we want the first value
-                        path[0] = [path[0][0], path[1][1]];
-                    }
-                    lineShapes.push(path);
-                }
-            }
-
-            // draw the fill first, then optionally the normal range, then the line on top of that
-            plen = fillShapes.length;
-            for (i = 0; i < plen; i++) {
-                target.drawShape(fillShapes[i],
-                    options.get('fillColor'), options.get('fillColor')).append();
-            }
-
-            if (options.get('normalRangeMin') !== undefined && options.get('drawNormalOnTop')) {
-                this.drawNormalRange(canvasLeft, canvasTop, canvasHeight, canvasWidth, rangey);
-            }
-
-            plen = lineShapes.length;
-            for (i = 0; i < plen; i++) {
-                target.drawShape(lineShapes[i], options.get('lineColor'), undefined,
-                    options.get('lineWidth')).append();
-            }
-
-            if (spotRadius && options.get('valueSpots')) {
-                valueSpots = options.get('valueSpots');
-                if (valueSpots.get === undefined) {
-                    valueSpots = new RangeMap(valueSpots);
-                }
-                for (i = 0; i < yvalcount; i++) {
-                    color = valueSpots.get(yvalues[i]);
-                    if (color) {
-                        target.drawCircle(canvasLeft + Math.round((xvalues[i] - this.minx) * (canvasWidth / rangex)),
-                            canvasTop + Math.round(canvasHeight - (canvasHeight * ((yvalues[i] - this.miny) / rangey))),
-                            spotRadius, undefined,
-                            color).append();
-                    }
-                }
-
-            }
-            if (spotRadius && options.get('spotColor') && yvalues[yvallast] !== null) {
-                target.drawCircle(canvasLeft + Math.round((xvalues[xvalues.length - 1] - this.minx) * (canvasWidth / rangex)),
-                    canvasTop + Math.round(canvasHeight - (canvasHeight * ((yvalues[yvallast] - this.miny) / rangey))),
-                    spotRadius, undefined,
-                    options.get('spotColor')).append();
-            }
-            if (this.maxy !== this.minyorg) {
-                if (spotRadius && options.get('minSpotColor')) {
-                    x = xvalues[$.inArray(this.minyorg, yvalues)];
-                    target.drawCircle(canvasLeft + Math.round((x - this.minx) * (canvasWidth / rangex)),
-                        canvasTop + Math.round(canvasHeight - (canvasHeight * ((this.minyorg - this.miny) / rangey))),
-                        spotRadius, undefined,
-                        options.get('minSpotColor')).append();
-                }
-                if (spotRadius && options.get('maxSpotColor')) {
-                    x = xvalues[$.inArray(this.maxyorg, yvalues)];
-                    target.drawCircle(canvasLeft + Math.round((x - this.minx) * (canvasWidth / rangex)),
-                        canvasTop + Math.round(canvasHeight - (canvasHeight * ((this.maxyorg - this.miny) / rangey))),
-                        spotRadius, undefined,
-                        options.get('maxSpotColor')).append();
-                }
-            }
-
-            this.lastShapeId = target.getLastShapeId();
-            this.canvasTop = canvasTop;
-            target.render();
-        }
-    });
-
-    /**
-     * Bar charts
-     */
-    $.fn.sparkline.bar = bar = createClass($.fn.sparkline._base, barHighlightMixin, {
-        type: 'bar',
-
-        init: function (el, values, options, width, height) {
-            var barWidth = parseInt(options.get('barWidth'), 10),
-                barSpacing = parseInt(options.get('barSpacing'), 10),
-                chartRangeMin = options.get('chartRangeMin'),
-                chartRangeMax = options.get('chartRangeMax'),
-                chartRangeClip = options.get('chartRangeClip'),
-                stackMin = Infinity,
-                stackMax = -Infinity,
-                isStackString, groupMin, groupMax, stackRanges,
-                numValues, i, vlen, range, zeroAxis, xaxisOffset, min, max, clipMin, clipMax,
-                stacked, vlist, j, slen, svals, val, yoffset, yMaxCalc, canvasHeightEf;
-            bar._super.init.call(this, el, values, options, width, height);
-
-            // scan values to determine whether to stack bars
-            for (i = 0, vlen = values.length; i < vlen; i++) {
-                val = values[i];
-                isStackString = typeof(val) === 'string' && val.indexOf(':') > -1;
-                if (isStackString || $.isArray(val)) {
-                    stacked = true;
-                    if (isStackString) {
-                        val = values[i] = normalizeValues(val.split(':'));
-                    }
-                    val = remove(val, null); // min/max will treat null as zero
-                    groupMin = Math.min.apply(Math, val);
-                    groupMax = Math.max.apply(Math, val);
-                    if (groupMin < stackMin) {
-                        stackMin = groupMin;
-                    }
-                    if (groupMax > stackMax) {
-                        stackMax = groupMax;
-                    }
-                }
-            }
-
-            this.stacked = stacked;
-            this.regionShapes = {};
-            this.barWidth = barWidth;
-            this.barSpacing = barSpacing;
-            this.totalBarWidth = barWidth + barSpacing;
-            this.width = width = (values.length * barWidth) + ((values.length - 1) * barSpacing);
-
-            this.initTarget();
-
-            if (chartRangeClip) {
-                clipMin = chartRangeMin === undefined ? -Infinity : chartRangeMin;
-                clipMax = chartRangeMax === undefined ? Infinity : chartRangeMax;
-            }
-
-            numValues = [];
-            stackRanges = stacked ? [] : numValues;
-            var stackTotals = [];
-            var stackRangesNeg = [];
-            for (i = 0, vlen = values.length; i < vlen; i++) {
-                if (stacked) {
-                    vlist = values[i];
-                    values[i] = svals = [];
-                    stackTotals[i] = 0;
-                    stackRanges[i] = stackRangesNeg[i] = 0;
-                    for (j = 0, slen = vlist.length; j < slen; j++) {
-                        val = svals[j] = chartRangeClip ? clipval(vlist[j], clipMin, clipMax) : vlist[j];
-                        if (val !== null) {
-                            if (val > 0) {
-                                stackTotals[i] += val;
-                            }
-                            if (stackMin < 0 && stackMax > 0) {
-                                if (val < 0) {
-                                    stackRangesNeg[i] += Math.abs(val);
-                                } else {
-                                    stackRanges[i] += val;
-                                }
-                            } else {
-                                stackRanges[i] += Math.abs(val - (val < 0 ? stackMax : stackMin));
-                            }
-                            numValues.push(val);
-                        }
-                    }
-                } else {
-                    val = chartRangeClip ? clipval(values[i], clipMin, clipMax) : values[i];
-                    val = values[i] = normalizeValue(val);
-                    if (val !== null) {
-                        numValues.push(val);
-                    }
-                }
-            }
-            this.max = max = Math.max.apply(Math, numValues);
-            this.min = min = Math.min.apply(Math, numValues);
-            this.stackMax = stackMax = stacked ? Math.max.apply(Math, stackTotals) : max;
-            this.stackMin = stackMin = stacked ? Math.min.apply(Math, numValues) : min;
-
-            if (options.get('chartRangeMin') !== undefined && (options.get('chartRangeClip') || options.get('chartRangeMin') < min)) {
-                min = options.get('chartRangeMin');
-            }
-            if (options.get('chartRangeMax') !== undefined && (options.get('chartRangeClip') || options.get('chartRangeMax') > max)) {
-                max = options.get('chartRangeMax');
-            }
-
-            this.zeroAxis = zeroAxis = options.get('zeroAxis', true);
-            if (min <= 0 && max >= 0 && zeroAxis) {
-                xaxisOffset = 0;
-            } else if (zeroAxis == false) {
-                xaxisOffset = min;
-            } else if (min > 0) {
-                xaxisOffset = min;
-            } else {
-                xaxisOffset = max;
-            }
-            this.xaxisOffset = xaxisOffset;
-
-            range = stacked ? (Math.max.apply(Math, stackRanges) + Math.max.apply(Math, stackRangesNeg)) : max - min;
-
-            // as we plot zero/min values a single pixel line, we add a pixel to all other
-            // values - Reduce the effective canvas size to suit
-            this.canvasHeightEf = (zeroAxis && min < 0) ? this.canvasHeight - 2 : this.canvasHeight - 1;
-
-            if (min < xaxisOffset) {
-                yMaxCalc = (stacked && max >= 0) ? stackMax : max;
-                yoffset = (yMaxCalc - xaxisOffset) / range * this.canvasHeight;
-                if (yoffset !== Math.ceil(yoffset)) {
-                    this.canvasHeightEf -= 2;
-                    yoffset = Math.ceil(yoffset);
-                }
-            } else {
-                yoffset = this.canvasHeight;
-            }
-            this.yoffset = yoffset;
-
-            if ($.isArray(options.get('colorMap'))) {
-                this.colorMapByIndex = options.get('colorMap');
-                this.colorMapByValue = null;
-            } else {
-                this.colorMapByIndex = null;
-                this.colorMapByValue = options.get('colorMap');
-                if (this.colorMapByValue && this.colorMapByValue.get === undefined) {
-                    this.colorMapByValue = new RangeMap(this.colorMapByValue);
-                }
-            }
-
-            this.range = range;
-        },
-
-        getRegion: function (el, x, y) {
-            var result = Math.floor(x / this.totalBarWidth);
-            return (result < 0 || result >= this.values.length) ? undefined : result;
-        },
-
-        getCurrentRegionFields: function () {
-            var currentRegion = this.currentRegion,
-                values = ensureArray(this.values[currentRegion]),
-                result = [],
-                value, i;
-            for (i = values.length; i--;) {
-                value = values[i];
-                result.push({
-                    isNull: value === null,
-                    value: value,
-                    color: this.calcColor(i, value, currentRegion),
-                    offset: currentRegion
-                });
-            }
-            return result;
-        },
-
-        calcColor: function (stacknum, value, valuenum) {
-            var colorMapByIndex = this.colorMapByIndex,
-                colorMapByValue = this.colorMapByValue,
-                options = this.options,
-                color, newColor;
-            if (this.stacked) {
-                color = options.get('stackedBarColor');
-            } else {
-                color = (value < 0) ? options.get('negBarColor') : options.get('barColor');
-            }
-            if (value === 0 && options.get('zeroColor') !== undefined) {
-                color = options.get('zeroColor');
-            }
-            if (colorMapByValue && (newColor = colorMapByValue.get(value))) {
-                color = newColor;
-            } else if (colorMapByIndex && colorMapByIndex.length > valuenum) {
-                color = colorMapByIndex[valuenum];
-            }
-            return $.isArray(color) ? color[stacknum % color.length] : color;
-        },
-
-        /**
-         * Render bar(s) for a region
-         */
-        renderRegion: function (valuenum, highlight) {
-            var vals = this.values[valuenum],
-                options = this.options,
-                xaxisOffset = this.xaxisOffset,
-                result = [],
-                range = this.range,
-                stacked = this.stacked,
-                target = this.target,
-                x = valuenum * this.totalBarWidth,
-                canvasHeightEf = this.canvasHeightEf,
-                yoffset = this.yoffset,
-                y, height, color, isNull, yoffsetNeg, i, valcount, val, minPlotted, allMin;
-
-            vals = $.isArray(vals) ? vals : [vals];
-            valcount = vals.length;
-            val = vals[0];
-            isNull = all(null, vals);
-            allMin = all(xaxisOffset, vals, true);
-
-            if (isNull) {
-                if (options.get('nullColor')) {
-                    color = highlight ? options.get('nullColor') : this.calcHighlightColor(options.get('nullColor'), options);
-                    y = (yoffset > 0) ? yoffset - 1 : yoffset;
-                    return target.drawRect(x, y, this.barWidth - 1, 0, color, color);
-                } else {
-                    return undefined;
-                }
-            }
-            yoffsetNeg = yoffset;
-            for (i = 0; i < valcount; i++) {
-                val = vals[i];
-
-                if (stacked && val === xaxisOffset) {
-                    if (!allMin || minPlotted) {
-                        continue;
-                    }
-                    minPlotted = true;
-                }
-
-                if (range > 0) {
-                    height = Math.floor(canvasHeightEf * ((Math.abs(val - xaxisOffset) / range))) + 1;
-                } else {
-                    height = 1;
-                }
-                if (val < xaxisOffset || (val === xaxisOffset && yoffset === 0)) {
-                    y = yoffsetNeg;
-                    yoffsetNeg += height;
-                } else {
-                    y = yoffset - height;
-                    yoffset -= height;
-                }
-                color = this.calcColor(i, val, valuenum);
-                if (highlight) {
-                    color = this.calcHighlightColor(color, options);
-                }
-                result.push(target.drawRect(x, y, this.barWidth - 1, height - 1, color, color));
-            }
-            if (result.length === 1) {
-                return result[0];
-            }
-            return result;
-        }
-    });
-
-    /**
-     * Tristate charts
-     */
-    $.fn.sparkline.tristate = tristate = createClass($.fn.sparkline._base, barHighlightMixin, {
-        type: 'tristate',
-
-        init: function (el, values, options, width, height) {
-            var barWidth = parseInt(options.get('barWidth'), 10),
-                barSpacing = parseInt(options.get('barSpacing'), 10);
-            tristate._super.init.call(this, el, values, options, width, height);
-
-            this.regionShapes = {};
-            this.barWidth = barWidth;
-            this.barSpacing = barSpacing;
-            this.totalBarWidth = barWidth + barSpacing;
-            this.values = $.map(values, Number);
-            this.width = width = (values.length * barWidth) + ((values.length - 1) * barSpacing);
-
-            if ($.isArray(options.get('colorMap'))) {
-                this.colorMapByIndex = options.get('colorMap');
-                this.colorMapByValue = null;
-            } else {
-                this.colorMapByIndex = null;
-                this.colorMapByValue = options.get('colorMap');
-                if (this.colorMapByValue && this.colorMapByValue.get === undefined) {
-                    this.colorMapByValue = new RangeMap(this.colorMapByValue);
-                }
-            }
-            this.initTarget();
-        },
-
-        getRegion: function (el, x, y) {
-            return Math.floor(x / this.totalBarWidth);
-        },
-
-        getCurrentRegionFields: function () {
-            var currentRegion = this.currentRegion;
-            return {
-                isNull: this.values[currentRegion] === undefined,
-                value: this.values[currentRegion],
-                color: this.calcColor(this.values[currentRegion], currentRegion),
-                offset: currentRegion
-            };
-        },
-
-        calcColor: function (value, valuenum) {
-            var values = this.values,
-                options = this.options,
-                colorMapByIndex = this.colorMapByIndex,
-                colorMapByValue = this.colorMapByValue,
-                color, newColor;
-
-            if (colorMapByValue && (newColor = colorMapByValue.get(value))) {
-                color = newColor;
-            } else if (colorMapByIndex && colorMapByIndex.length > valuenum) {
-                color = colorMapByIndex[valuenum];
-            } else if (values[valuenum] < 0) {
-                color = options.get('negBarColor');
-            } else if (values[valuenum] > 0) {
-                color = options.get('posBarColor');
-            } else {
-                color = options.get('zeroBarColor');
-            }
-            return color;
-        },
-
-        renderRegion: function (valuenum, highlight) {
-            var values = this.values,
-                options = this.options,
-                target = this.target,
-                canvasHeight, height, halfHeight,
-                x, y, color;
-
-            canvasHeight = target.pixelHeight;
-            halfHeight = Math.round(canvasHeight / 2);
-
-            x = valuenum * this.totalBarWidth;
-            if (values[valuenum] < 0) {
-                y = halfHeight;
-                height = halfHeight - 1;
-            } else if (values[valuenum] > 0) {
-                y = 0;
-                height = halfHeight - 1;
-            } else {
-                y = halfHeight - 1;
-                height = 2;
-            }
-            color = this.calcColor(values[valuenum], valuenum);
-            if (color === null) {
-                return;
-            }
-            if (highlight) {
-                color = this.calcHighlightColor(color, options);
-            }
-            return target.drawRect(x, y, this.barWidth - 1, height - 1, color, color);
-        }
-    });
-
-    /**
-     * Discrete charts
-     */
-    $.fn.sparkline.discrete = discrete = createClass($.fn.sparkline._base, barHighlightMixin, {
-        type: 'discrete',
-
-        init: function (el, values, options, width, height) {
-            discrete._super.init.call(this, el, values, options, width, height);
-
-            this.regionShapes = {};
-            this.values = values = $.map(values, Number);
-            this.min = Math.min.apply(Math, values);
-            this.max = Math.max.apply(Math, values);
-            this.range = this.max - this.min;
-            this.width = width = options.get('width') === 'auto' ? values.length * 2 : this.width;
-            this.interval = Math.floor(width / values.length);
-            this.itemWidth = width / values.length;
-            if (options.get('chartRangeMin') !== undefined && (options.get('chartRangeClip') || options.get('chartRangeMin') < this.min)) {
-                this.min = options.get('chartRangeMin');
-            }
-            if (options.get('chartRangeMax') !== undefined && (options.get('chartRangeClip') || options.get('chartRangeMax') > this.max)) {
-                this.max = options.get('chartRangeMax');
-            }
-            this.initTarget();
-            if (this.target) {
-                this.lineHeight = options.get('lineHeight') === 'auto' ? Math.round(this.canvasHeight * 0.3) : options.get('lineHeight');
-            }
-        },
-
-        getRegion: function (el, x, y) {
-            return Math.floor(x / this.itemWidth);
-        },
-
-        getCurrentRegionFields: function () {
-            var currentRegion = this.currentRegion;
-            return {
-                isNull: this.values[currentRegion] === undefined,
-                value: this.values[currentRegion],
-                offset: currentRegion
-            };
-        },
-
-        renderRegion: function (valuenum, highlight) {
-            var values = this.values,
-                options = this.options,
-                min = this.min,
-                max = this.max,
-                range = this.range,
-                interval = this.interval,
-                target = this.target,
-                canvasHeight = this.canvasHeight,
-                lineHeight = this.lineHeight,
-                pheight = canvasHeight - lineHeight,
-                ytop, val, color, x;
-
-            val = clipval(values[valuenum], min, max);
-            x = valuenum * interval;
-            ytop = Math.round(pheight - pheight * ((val - min) / range));
-            color = (options.get('thresholdColor') && val < options.get('thresholdValue')) ? options.get('thresholdColor') : options.get('lineColor');
-            if (highlight) {
-                color = this.calcHighlightColor(color, options);
-            }
-            return target.drawLine(x, ytop, x, ytop + lineHeight, color);
-        }
-    });
-
-    /**
-     * Bullet charts
-     */
-    $.fn.sparkline.bullet = bullet = createClass($.fn.sparkline._base, {
-        type: 'bullet',
-
-        init: function (el, values, options, width, height) {
-            var min, max, vals;
-            bullet._super.init.call(this, el, values, options, width, height);
-
-            // values: target, performance, range1, range2, range3
-            this.values = values = normalizeValues(values);
-            // target or performance could be null
-            vals = values.slice();
-            vals[0] = vals[0] === null ? vals[2] : vals[0];
-            vals[1] = values[1] === null ? vals[2] : vals[1];
-            min = Math.min.apply(Math, values);
-            max = Math.max.apply(Math, values);
-            if (options.get('base') === undefined) {
-                min = min < 0 ? min : 0;
-            } else {
-                min = options.get('base');
-            }
-            this.min = min;
-            this.max = max;
-            this.range = max - min;
-            this.shapes = {};
-            this.valueShapes = {};
-            this.regiondata = {};
-            this.width = width = options.get('width') === 'auto' ? '4.0em' : width;
-            this.target = this.$el.simpledraw(width, height, options.get('composite'));
-            if (!values.length) {
-                this.disabled = true;
-            }
-            this.initTarget();
-        },
-
-        getRegion: function (el, x, y) {
-            var shapeid = this.target.getShapeAt(el, x, y);
-            return (shapeid !== undefined && this.shapes[shapeid] !== undefined) ? this.shapes[shapeid] : undefined;
-        },
-
-        getCurrentRegionFields: function () {
-            var currentRegion = this.currentRegion;
-            return {
-                fieldkey: currentRegion.substr(0, 1),
-                value: this.values[currentRegion.substr(1)],
-                region: currentRegion
-            };
-        },
-
-        changeHighlight: function (highlight) {
-            var currentRegion = this.currentRegion,
-                shapeid = this.valueShapes[currentRegion],
-                shape;
-            delete this.shapes[shapeid];
-            switch (currentRegion.substr(0, 1)) {
-                case 'r':
-                    shape = this.renderRange(currentRegion.substr(1), highlight);
-                    break;
-                case 'p':
-                    shape = this.renderPerformance(highlight);
-                    break;
-                case 't':
-                    shape = this.renderTarget(highlight);
-                    break;
-            }
-            this.valueShapes[currentRegion] = shape.id;
-            this.shapes[shape.id] = currentRegion;
-            this.target.replaceWithShape(shapeid, shape);
-        },
-
-        renderRange: function (rn, highlight) {
-            var rangeval = this.values[rn],
-                rangewidth = Math.round(this.canvasWidth * ((rangeval - this.min) / this.range)),
-                color = this.options.get('rangeColors')[rn - 2];
-            if (highlight) {
-                color = this.calcHighlightColor(color, this.options);
-            }
-            return this.target.drawRect(0, 0, rangewidth - 1, this.canvasHeight - 1, color, color);
-        },
-
-        renderPerformance: function (highlight) {
-            var perfval = this.values[1],
-                perfwidth = Math.round(this.canvasWidth * ((perfval - this.min) / this.range)),
-                color = this.options.get('performanceColor');
-            if (highlight) {
-                color = this.calcHighlightColor(color, this.options);
-            }
-            return this.target.drawRect(0, Math.round(this.canvasHeight * 0.3), perfwidth - 1,
-                Math.round(this.canvasHeight * 0.4) - 1, color, color);
-        },
-
-        renderTarget: function (highlight) {
-            var targetval = this.values[0],
-                x = Math.round(this.canvasWidth * ((targetval - this.min) / this.range) - (this.options.get('targetWidth') / 2)),
-                targettop = Math.round(this.canvasHeight * 0.10),
-                targetheight = this.canvasHeight - (targettop * 2),
-                color = this.options.get('targetColor');
-            if (highlight) {
-                color = this.calcHighlightColor(color, this.options);
-            }
-            return this.target.drawRect(x, targettop, this.options.get('targetWidth') - 1, targetheight - 1, color, color);
-        },
-
-        render: function () {
-            var vlen = this.values.length,
-                target = this.target,
-                i, shape;
-            if (!bullet._super.render.call(this)) {
-                return;
-            }
-            for (i = 2; i < vlen; i++) {
-                shape = this.renderRange(i).append();
-                this.shapes[shape.id] = 'r' + i;
-                this.valueShapes['r' + i] = shape.id;
-            }
-            if (this.values[1] !== null) {
-                shape = this.renderPerformance().append();
-                this.shapes[shape.id] = 'p1';
-                this.valueShapes.p1 = shape.id;
-            }
-            if (this.values[0] !== null) {
-                shape = this.renderTarget().append();
-                this.shapes[shape.id] = 't0';
-                this.valueShapes.t0 = shape.id;
-            }
-            target.render();
-        }
-    });
-
-    /**
-     * Pie charts
-     */
-    $.fn.sparkline.pie = pie = createClass($.fn.sparkline._base, {
-        type: 'pie',
-
-        init: function (el, values, options, width, height) {
-            var total = 0, i;
-
-            pie._super.init.call(this, el, values, options, width, height);
-
-            this.shapes = {}; // map shape ids to value offsets
-            this.valueShapes = {}; // maps value offsets to shape ids
-            this.values = values = $.map(values, Number);
-
-            if (options.get('width') === 'auto') {
-                this.width = this.height;
-            }
-
-            if (values.length > 0) {
-                for (i = values.length; i--;) {
-                    total += values[i];
-                }
-            }
-            this.total = total;
-            this.initTarget();
-            this.radius = Math.floor(Math.min(this.canvasWidth, this.canvasHeight) / 2);
-        },
-
-        getRegion: function (el, x, y) {
-            var shapeid = this.target.getShapeAt(el, x, y);
-            return (shapeid !== undefined && this.shapes[shapeid] !== undefined) ? this.shapes[shapeid] : undefined;
-        },
-
-        getCurrentRegionFields: function () {
-            var currentRegion = this.currentRegion;
-            return {
-                isNull: this.values[currentRegion] === undefined,
-                value: this.values[currentRegion],
-                percent: this.values[currentRegion] / this.total * 100,
-                color: this.options.get('sliceColors')[currentRegion % this.options.get('sliceColors').length],
-                offset: currentRegion
-            };
-        },
-
-        changeHighlight: function (highlight) {
-            var currentRegion = this.currentRegion,
-                 newslice = this.renderSlice(currentRegion, highlight),
-                 shapeid = this.valueShapes[currentRegion];
-            delete this.shapes[shapeid];
-            this.target.replaceWithShape(shapeid, newslice);
-            this.valueShapes[currentRegion] = newslice.id;
-            this.shapes[newslice.id] = currentRegion;
-        },
-
-        renderSlice: function (valuenum, highlight) {
-            var target = this.target,
-                options = this.options,
-                radius = this.radius,
-                borderWidth = options.get('borderWidth'),
-                offset = options.get('offset'),
-                circle = 2 * Math.PI,
-                values = this.values,
-                total = this.total,
-                next = offset ? (2*Math.PI)*(offset/360) : 0,
-                start, end, i, vlen, color;
-
-            vlen = values.length;
-            for (i = 0; i < vlen; i++) {
-                start = next;
-                end = next;
-                if (total > 0) {  // avoid divide by zero
-                    end = next + (circle * (values[i] / total));
-                }
-                if (valuenum === i) {
-                    color = options.get('sliceColors')[i % options.get('sliceColors').length];
-                    if (highlight) {
-                        color = this.calcHighlightColor(color, options);
-                    }
-
-                    return target.drawPieSlice(radius, radius, radius - borderWidth, start, end, undefined, color);
-                }
-                next = end;
-            }
-        },
-
-        render: function () {
-            var target = this.target,
-                values = this.values,
-                options = this.options,
-                radius = this.radius,
-                borderWidth = options.get('borderWidth'),
-                shape, i;
-
-            if (!pie._super.render.call(this)) {
-                return;
-            }
-            if (borderWidth) {
-                target.drawCircle(radius, radius, Math.floor(radius - (borderWidth / 2)),
-                    options.get('borderColor'), undefined, borderWidth).append();
-            }
-            for (i = values.length; i--;) {
-                if (values[i]) { // don't render zero values
-                    shape = this.renderSlice(i).append();
-                    this.valueShapes[i] = shape.id; // store just the shapeid
-                    this.shapes[shape.id] = i;
-                }
-            }
-            target.render();
-        }
-    });
-
-    /**
-     * Box plots
-     */
-    $.fn.sparkline.box = box = createClass($.fn.sparkline._base, {
-        type: 'box',
-
-        init: function (el, values, options, width, height) {
-            box._super.init.call(this, el, values, options, width, height);
-            this.values = $.map(values, Number);
-            this.width = options.get('width') === 'auto' ? '4.0em' : width;
-            this.initTarget();
-            if (!this.values.length) {
-                this.disabled = 1;
-            }
-        },
-
-        /**
-         * Simulate a single region
-         */
-        getRegion: function () {
-            return 1;
-        },
-
-        getCurrentRegionFields: function () {
-            var result = [
-                { field: 'lq', value: this.quartiles[0] },
-                { field: 'med', value: this.quartiles[1] },
-                { field: 'uq', value: this.quartiles[2] }
-            ];
-            if (this.loutlier !== undefined) {
-                result.push({ field: 'lo', value: this.loutlier});
-            }
-            if (this.routlier !== undefined) {
-                result.push({ field: 'ro', value: this.routlier});
-            }
-            if (this.lwhisker !== undefined) {
-                result.push({ field: 'lw', value: this.lwhisker});
-            }
-            if (this.rwhisker !== undefined) {
-                result.push({ field: 'rw', value: this.rwhisker});
-            }
-            return result;
-        },
-
-        render: function () {
-            var target = this.target,
-                values = this.values,
-                vlen = values.length,
-                options = this.options,
-                canvasWidth = this.canvasWidth,
-                canvasHeight = this.canvasHeight,
-                minValue = options.get('chartRangeMin') === undefined ? Math.min.apply(Math, values) : options.get('chartRangeMin'),
-                maxValue = options.get('chartRangeMax') === undefined ? Math.max.apply(Math, values) : options.get('chartRangeMax'),
-                canvasLeft = 0,
-                lwhisker, loutlier, iqr, q1, q2, q3, rwhisker, routlier, i,
-                size, unitSize;
-
-            if (!box._super.render.call(this)) {
-                return;
-            }
-
-            if (options.get('raw')) {
-                if (options.get('showOutliers') && values.length > 5) {
-                    loutlier = values[0];
-                    lwhisker = values[1];
-                    q1 = values[2];
-                    q2 = values[3];
-                    q3 = values[4];
-                    rwhisker = values[5];
-                    routlier = values[6];
-                } else {
-                    lwhisker = values[0];
-                    q1 = values[1];
-                    q2 = values[2];
-                    q3 = values[3];
-                    rwhisker = values[4];
-                }
-            } else {
-                values.sort(function (a, b) { return a - b; });
-                q1 = quartile(values, 1);
-                q2 = quartile(values, 2);
-                q3 = quartile(values, 3);
-                iqr = q3 - q1;
-                if (options.get('showOutliers')) {
-                    lwhisker = rwhisker = undefined;
-                    for (i = 0; i < vlen; i++) {
-                        if (lwhisker === undefined && values[i] > q1 - (iqr * options.get('outlierIQR'))) {
-                            lwhisker = values[i];
-                        }
-                        if (values[i] < q3 + (iqr * options.get('outlierIQR'))) {
-                            rwhisker = values[i];
-                        }
-                    }
-                    loutlier = values[0];
-                    routlier = values[vlen - 1];
-                } else {
-                    lwhisker = values[0];
-                    rwhisker = values[vlen - 1];
-                }
-            }
-            this.quartiles = [q1, q2, q3];
-            this.lwhisker = lwhisker;
-            this.rwhisker = rwhisker;
-            this.loutlier = loutlier;
-            this.routlier = routlier;
-
-            unitSize = canvasWidth / (maxValue - minValue + 1);
-            if (options.get('showOutliers')) {
-                canvasLeft = Math.ceil(options.get('spotRadius'));
-                canvasWidth -= 2 * Math.ceil(options.get('spotRadius'));
-                unitSize = canvasWidth / (maxValue - minValue + 1);
-                if (loutlier < lwhisker) {
-                    target.drawCircle((loutlier - minValue) * unitSize + canvasLeft,
-                        canvasHeight / 2,
-                        options.get('spotRadius'),
-                        options.get('outlierLineColor'),
-                        options.get('outlierFillColor')).append();
-                }
-                if (routlier > rwhisker) {
-                    target.drawCircle((routlier - minValue) * unitSize + canvasLeft,
-                        canvasHeight / 2,
-                        options.get('spotRadius'),
-                        options.get('outlierLineColor'),
-                        options.get('outlierFillColor')).append();
-                }
-            }
-
-            // box
-            target.drawRect(
-                Math.round((q1 - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight * 0.1),
-                Math.round((q3 - q1) * unitSize),
-                Math.round(canvasHeight * 0.8),
-                options.get('boxLineColor'),
-                options.get('boxFillColor')).append();
-            // left whisker
-            target.drawLine(
-                Math.round((lwhisker - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight / 2),
-                Math.round((q1 - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight / 2),
-                options.get('lineColor')).append();
-            target.drawLine(
-                Math.round((lwhisker - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight / 4),
-                Math.round((lwhisker - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight - canvasHeight / 4),
-                options.get('whiskerColor')).append();
-            // right whisker
-            target.drawLine(Math.round((rwhisker - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight / 2),
-                Math.round((q3 - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight / 2),
-                options.get('lineColor')).append();
-            target.drawLine(
-                Math.round((rwhisker - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight / 4),
-                Math.round((rwhisker - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight - canvasHeight / 4),
-                options.get('whiskerColor')).append();
-            // median line
-            target.drawLine(
-                Math.round((q2 - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight * 0.1),
-                Math.round((q2 - minValue) * unitSize + canvasLeft),
-                Math.round(canvasHeight * 0.9),
-                options.get('medianColor')).append();
-            if (options.get('target')) {
-                size = Math.ceil(options.get('spotRadius'));
-                target.drawLine(
-                    Math.round((options.get('target') - minValue) * unitSize + canvasLeft),
-                    Math.round((canvasHeight / 2) - size),
-                    Math.round((options.get('target') - minValue) * unitSize + canvasLeft),
-                    Math.round((canvasHeight / 2) + size),
-                    options.get('targetColor')).append();
-                target.drawLine(
-                    Math.round((options.get('target') - minValue) * unitSize + canvasLeft - size),
-                    Math.round(canvasHeight / 2),
-                    Math.round((options.get('target') - minValue) * unitSize + canvasLeft + size),
-                    Math.round(canvasHeight / 2),
-                    options.get('targetColor')).append();
-            }
-            target.render();
-        }
-    });
-
-    // Setup a very simple "virtual canvas" to make drawing the few shapes we need easier
-    // This is accessible as $(foo).simpledraw()
-
-    VShape = createClass({
-        init: function (target, id, type, args) {
-            this.target = target;
-            this.id = id;
-            this.type = type;
-            this.args = args;
-        },
-        append: function () {
-            this.target.appendShape(this);
-            return this;
-        }
-    });
-
-    VCanvas_base = createClass({
-        _pxregex: /(\d+)(px)?\s*$/i,
-
-        init: function (width, height, target) {
-            if (!width) {
-                return;
-            }
-            this.width = width;
-            this.height = height;
-            this.target = target;
-            this.lastShapeId = null;
-            if (target[0]) {
-                target = target[0];
-            }
-            $.data(target, '_jqs_vcanvas', this);
-        },
-
-        drawLine: function (x1, y1, x2, y2, lineColor, lineWidth) {
-            return this.drawShape([[x1, y1], [x2, y2]], lineColor, lineWidth);
-        },
-
-        drawShape: function (path, lineColor, fillColor, lineWidth) {
-            return this._genShape('Shape', [path, lineColor, fillColor, lineWidth]);
-        },
-
-        drawCircle: function (x, y, radius, lineColor, fillColor, lineWidth) {
-            return this._genShape('Circle', [x, y, radius, lineColor, fillColor, lineWidth]);
-        },
-
-        drawPieSlice: function (x, y, radius, startAngle, endAngle, lineColor, fillColor) {
-            return this._genShape('PieSlice', [x, y, radius, startAngle, endAngle, lineColor, fillColor]);
-        },
-
-        drawRect: function (x, y, width, height, lineColor, fillColor) {
-            return this._genShape('Rect', [x, y, width, height, lineColor, fillColor]);
-        },
-
-        getElement: function () {
-            return this.canvas;
-        },
-
-        /**
-         * Return the most recently inserted shape id
-         */
-        getLastShapeId: function () {
-            return this.lastShapeId;
-        },
-
-        /**
-         * Clear and reset the canvas
-         */
-        reset: function () {
-            alert('reset not implemented');
-        },
-
-        _insert: function (el, target) {
-            $(target).html(el);
-        },
-
-        /**
-         * Calculate the pixel dimensions of the canvas
-         */
-        _calculatePixelDims: function (width, height, canvas) {
-            // XXX This should probably be a configurable option
-            var match;
-            match = this._pxregex.exec(height);
-            if (match) {
-                this.pixelHeight = match[1];
-            } else {
-                this.pixelHeight = $(canvas).height();
-            }
-            match = this._pxregex.exec(width);
-            if (match) {
-                this.pixelWidth = match[1];
-            } else {
-                this.pixelWidth = $(canvas).width();
-            }
-        },
-
-        /**
-         * Generate a shape object and id for later rendering
-         */
-        _genShape: function (shapetype, shapeargs) {
-            var id = shapeCount++;
-            shapeargs.unshift(id);
-            return new VShape(this, id, shapetype, shapeargs);
-        },
-
-        /**
-         * Add a shape to the end of the render queue
-         */
-        appendShape: function (shape) {
-            alert('appendShape not implemented');
-        },
-
-        /**
-         * Replace one shape with another
-         */
-        replaceWithShape: function (shapeid, shape) {
-            alert('replaceWithShape not implemented');
-        },
-
-        /**
-         * Insert one shape after another in the render queue
-         */
-        insertAfterShape: function (shapeid, shape) {
-            alert('insertAfterShape not implemented');
-        },
-
-        /**
-         * Remove a shape from the queue
-         */
-        removeShapeId: function (shapeid) {
-            alert('removeShapeId not implemented');
-        },
-
-        /**
-         * Find a shape at the specified x/y co-ordinates
-         */
-        getShapeAt: function (el, x, y) {
-            alert('getShapeAt not implemented');
-        },
-
-        /**
-         * Render all queued shapes onto the canvas
-         */
-        render: function () {
-            alert('render not implemented');
-        }
-    });
-
-    VCanvas_canvas = createClass(VCanvas_base, {
-        init: function (width, height, target, interact) {
-            VCanvas_canvas._super.init.call(this, width, height, target);
-            this.canvas = document.createElement('canvas');
-            if (target[0]) {
-                target = target[0];
-            }
-            $.data(target, '_jqs_vcanvas', this);
-            $(this.canvas).css({ display: 'inline-block', width: width, height: height, verticalAlign: 'top' });
-            this._insert(this.canvas, target);
-            this._calculatePixelDims(width, height, this.canvas);
-            this.canvas.width = this.pixelWidth;
-            this.canvas.height = this.pixelHeight;
-            this.interact = interact;
-            this.shapes = {};
-            this.shapeseq = [];
-            this.currentTargetShapeId = undefined;
-            $(this.canvas).css({width: this.pixelWidth, height: this.pixelHeight});
-        },
-
-        _getContext: function (lineColor, fillColor, lineWidth) {
-            var context = this.canvas.getContext('2d');
-            if (lineColor !== undefined) {
-                context.strokeStyle = lineColor;
-            }
-            context.lineWidth = lineWidth === undefined ? 1 : lineWidth;
-            if (fillColor !== undefined) {
-                context.fillStyle = fillColor;
-            }
-            return context;
-        },
-
-        reset: function () {
-            var context = this._getContext();
-            context.clearRect(0, 0, this.pixelWidth, this.pixelHeight);
-            this.shapes = {};
-            this.shapeseq = [];
-            this.currentTargetShapeId = undefined;
-        },
-
-        _drawShape: function (shapeid, path, lineColor, fillColor, lineWidth) {
-            var context = this._getContext(lineColor, fillColor, lineWidth),
-                i, plen;
-            context.beginPath();
-            context.moveTo(path[0][0] + 0.5, path[0][1] + 0.5);
-            for (i = 1, plen = path.length; i < plen; i++) {
-                context.lineTo(path[i][0] + 0.5, path[i][1] + 0.5); // the 0.5 offset gives us crisp pixel-width lines
-            }
-            if (lineColor !== undefined) {
-                context.stroke();
-            }
-            if (fillColor !== undefined) {
-                context.fill();
-            }
-            if (this.targetX !== undefined && this.targetY !== undefined &&
-                context.isPointInPath(this.targetX, this.targetY)) {
-                this.currentTargetShapeId = shapeid;
-            }
-        },
-
-        _drawCircle: function (shapeid, x, y, radius, lineColor, fillColor, lineWidth) {
-            var context = this._getContext(lineColor, fillColor, lineWidth);
-            context.beginPath();
-            context.arc(x, y, radius, 0, 2 * Math.PI, false);
-            if (this.targetX !== undefined && this.targetY !== undefined &&
-                context.isPointInPath(this.targetX, this.targetY)) {
-                this.currentTargetShapeId = shapeid;
-            }
-            if (lineColor !== undefined) {
-                context.stroke();
-            }
-            if (fillColor !== undefined) {
-                context.fill();
-            }
-        },
-
-        _drawPieSlice: function (shapeid, x, y, radius, startAngle, endAngle, lineColor, fillColor) {
-            var context = this._getContext(lineColor, fillColor);
-            context.beginPath();
-            context.moveTo(x, y);
-            context.arc(x, y, radius, startAngle, endAngle, false);
-            context.lineTo(x, y);
-            context.closePath();
-            if (lineColor !== undefined) {
-                context.stroke();
-            }
-            if (fillColor) {
-                context.fill();
-            }
-            if (this.targetX !== undefined && this.targetY !== undefined &&
-                context.isPointInPath(this.targetX, this.targetY)) {
-                this.currentTargetShapeId = shapeid;
-            }
-        },
-
-        _drawRect: function (shapeid, x, y, width, height, lineColor, fillColor) {
-            return this._drawShape(shapeid, [[x, y], [x + width, y], [x + width, y + height], [x, y + height], [x, y]], lineColor, fillColor);
-        },
-
-        appendShape: function (shape) {
-            this.shapes[shape.id] = shape;
-            this.shapeseq.push(shape.id);
-            this.lastShapeId = shape.id;
-            return shape.id;
-        },
-
-        replaceWithShape: function (shapeid, shape) {
-            var shapeseq = this.shapeseq,
-                i;
-            this.shapes[shape.id] = shape;
-            for (i = shapeseq.length; i--;) {
-                if (shapeseq[i] == shapeid) {
-                    shapeseq[i] = shape.id;
-                }
-            }
-            delete this.shapes[shapeid];
-        },
-
-        replaceWithShapes: function (shapeids, shapes) {
-            var shapeseq = this.shapeseq,
-                shapemap = {},
-                sid, i, first;
-
-            for (i = shapeids.length; i--;) {
-                shapemap[shapeids[i]] = true;
-            }
-            for (i = shapeseq.length; i--;) {
-                sid = shapeseq[i];
-                if (shapemap[sid]) {
-                    shapeseq.splice(i, 1);
-                    delete this.shapes[sid];
-                    first = i;
-                }
-            }
-            for (i = shapes.length; i--;) {
-                shapeseq.splice(first, 0, shapes[i].id);
-                this.shapes[shapes[i].id] = shapes[i];
-            }
-
-        },
-
-        insertAfterShape: function (shapeid, shape) {
-            var shapeseq = this.shapeseq,
-                i;
-            for (i = shapeseq.length; i--;) {
-                if (shapeseq[i] === shapeid) {
-                    shapeseq.splice(i + 1, 0, shape.id);
-                    this.shapes[shape.id] = shape;
-                    return;
-                }
-            }
-        },
-
-        removeShapeId: function (shapeid) {
-            var shapeseq = this.shapeseq,
-                i;
-            for (i = shapeseq.length; i--;) {
-                if (shapeseq[i] === shapeid) {
-                    shapeseq.splice(i, 1);
-                    break;
-                }
-            }
-            delete this.shapes[shapeid];
-        },
-
-        getShapeAt: function (el, x, y) {
-            this.targetX = x;
-            this.targetY = y;
-            this.render();
-            return this.currentTargetShapeId;
-        },
-
-        render: function () {
-            var shapeseq = this.shapeseq,
-                shapes = this.shapes,
-                shapeCount = shapeseq.length,
-                context = this._getContext(),
-                shapeid, shape, i;
-            context.clearRect(0, 0, this.pixelWidth, this.pixelHeight);
-            for (i = 0; i < shapeCount; i++) {
-                shapeid = shapeseq[i];
-                shape = shapes[shapeid];
-                this['_draw' + shape.type].apply(this, shape.args);
-            }
-            if (!this.interact) {
-                // not interactive so no need to keep the shapes array
-                this.shapes = {};
-                this.shapeseq = [];
-            }
-        }
-
-    });
-
-    VCanvas_vml = createClass(VCanvas_base, {
-        init: function (width, height, target) {
-            var groupel;
-            VCanvas_vml._super.init.call(this, width, height, target);
-            if (target[0]) {
-                target = target[0];
-            }
-            $.data(target, '_jqs_vcanvas', this);
-            this.canvas = document.createElement('span');
-            $(this.canvas).css({ display: 'inline-block', position: 'relative', overflow: 'hidden', width: width, height: height, margin: '0px', padding: '0px', verticalAlign: 'top'});
-            this._insert(this.canvas, target);
-            this._calculatePixelDims(width, height, this.canvas);
-            this.canvas.width = this.pixelWidth;
-            this.canvas.height = this.pixelHeight;
-            groupel = '<v:group coordorigin="0 0" coordsize="' + this.pixelWidth + ' ' + this.pixelHeight + '"' +
-                    ' style="position:absolute;top:0;left:0;width:' + this.pixelWidth + 'px;height=' + this.pixelHeight + 'px;"></v:group>';
-            this.canvas.insertAdjacentHTML('beforeEnd', groupel);
-            this.group = $(this.canvas).children()[0];
-            this.rendered = false;
-            this.prerender = '';
-        },
-
-        _drawShape: function (shapeid, path, lineColor, fillColor, lineWidth) {
-            var vpath = [],
-                initial, stroke, fill, closed, vel, plen, i;
-            for (i = 0, plen = path.length; i < plen; i++) {
-                vpath[i] = '' + (path[i][0]) + ',' + (path[i][1]);
-            }
-            initial = vpath.splice(0, 1);
-            lineWidth = lineWidth === undefined ? 1 : lineWidth;
-            stroke = lineColor === undefined ? ' stroked="false" ' : ' strokeWeight="' + lineWidth + 'px" strokeColor="' + lineColor + '" ';
-            fill = fillColor === undefined ? ' filled="false"' : ' fillColor="' + fillColor + '" filled="true" ';
-            closed = vpath[0] === vpath[vpath.length - 1] ? 'x ' : '';
-            vel = '<v:shape coordorigin="0 0" coordsize="' + this.pixelWidth + ' ' + this.pixelHeight + '" ' +
-                 ' id="jqsshape' + shapeid + '" ' +
-                 stroke +
-                 fill +
-                ' style="position:absolute;left:0px;top:0px;height:' + this.pixelHeight + 'px;width:' + this.pixelWidth + 'px;padding:0px;margin:0px;" ' +
-                ' path="m ' + initial + ' l ' + vpath.join(', ') + ' ' + closed + 'e">' +
-                ' </v:shape>';
-            return vel;
-        },
-
-        _drawCircle: function (shapeid, x, y, radius, lineColor, fillColor, lineWidth) {
-            var stroke, fill, vel;
-            x -= radius;
-            y -= radius;
-            stroke = lineColor === undefined ? ' stroked="false" ' : ' strokeWeight="' + lineWidth + 'px" strokeColor="' + lineColor + '" ';
-            fill = fillColor === undefined ? ' filled="false"' : ' fillColor="' + fillColor + '" filled="true" ';
-            vel = '<v:oval ' +
-                 ' id="jqsshape' + shapeid + '" ' +
-                stroke +
-                fill +
-                ' style="position:absolute;top:' + y + 'px; left:' + x + 'px; width:' + (radius * 2) + 'px; height:' + (radius * 2) + 'px"></v:oval>';
-            return vel;
-
-        },
-
-        _drawPieSlice: function (shapeid, x, y, radius, startAngle, endAngle, lineColor, fillColor) {
-            var vpath, startx, starty, endx, endy, stroke, fill, vel;
-            if (startAngle === endAngle) {
-                return '';  // VML seems to have problem when start angle equals end angle.
-            }
-            if ((endAngle - startAngle) === (2 * Math.PI)) {
-                startAngle = 0.0;  // VML seems to have a problem when drawing a full circle that doesn't start 0
-                endAngle = (2 * Math.PI);
-            }
-
-            startx = x + Math.round(Math.cos(startAngle) * radius);
-            starty = y + Math.round(Math.sin(startAngle) * radius);
-            endx = x + Math.round(Math.cos(endAngle) * radius);
-            endy = y + Math.round(Math.sin(endAngle) * radius);
-
-            if (startx === endx && starty === endy) {
-                if ((endAngle - startAngle) < Math.PI) {
-                    // Prevent very small slices from being mistaken as a whole pie
-                    return '';
-                }
-                // essentially going to be the entire circle, so ignore startAngle
-                startx = endx = x + radius;
-                starty = endy = y;
-            }
-
-            if (startx === endx && starty === endy && (endAngle - startAngle) < Math.PI) {
-                return '';
-            }
-
-            vpath = [x - radius, y - radius, x + radius, y + radius, startx, starty, endx, endy];
-            stroke = lineColor === undefined ? ' stroked="false" ' : ' strokeWeight="1px" strokeColor="' + lineColor + '" ';
-            fill = fillColor === undefined ? ' filled="false"' : ' fillColor="' + fillColor + '" filled="true" ';
-            vel = '<v:shape coordorigin="0 0" coordsize="' + this.pixelWidth + ' ' + this.pixelHeight + '" ' +
-                 ' id="jqsshape' + shapeid + '" ' +
-                 stroke +
-                 fill +
-                ' style="position:absolute;left:0px;top:0px;height:' + this.pixelHeight + 'px;width:' + this.pixelWidth + 'px;padding:0px;margin:0px;" ' +
-                ' path="m ' + x + ',' + y + ' wa ' + vpath.join(', ') + ' x e">' +
-                ' </v:shape>';
-            return vel;
-        },
-
-        _drawRect: function (shapeid, x, y, width, height, lineColor, fillColor) {
-            return this._drawShape(shapeid, [[x, y], [x, y + height], [x + width, y + height], [x + width, y], [x, y]], lineColor, fillColor);
-        },
-
-        reset: function () {
-            this.group.innerHTML = '';
-        },
-
-        appendShape: function (shape) {
-            var vel = this['_draw' + shape.type].apply(this, shape.args);
-            if (this.rendered) {
-                this.group.insertAdjacentHTML('beforeEnd', vel);
-            } else {
-                this.prerender += vel;
-            }
-            this.lastShapeId = shape.id;
-            return shape.id;
-        },
-
-        replaceWithShape: function (shapeid, shape) {
-            var existing = $('#jqsshape' + shapeid),
-                vel = this['_draw' + shape.type].apply(this, shape.args);
-            existing[0].outerHTML = vel;
-        },
-
-        replaceWithShapes: function (shapeids, shapes) {
-            // replace the first shapeid with all the new shapes then toast the remaining old shapes
-            var existing = $('#jqsshape' + shapeids[0]),
-                replace = '',
-                slen = shapes.length,
-                i;
-            for (i = 0; i < slen; i++) {
-                replace += this['_draw' + shapes[i].type].apply(this, shapes[i].args);
-            }
-            existing[0].outerHTML = replace;
-            for (i = 1; i < shapeids.length; i++) {
-                $('#jqsshape' + shapeids[i]).remove();
-            }
-        },
-
-        insertAfterShape: function (shapeid, shape) {
-            var existing = $('#jqsshape' + shapeid),
-                 vel = this['_draw' + shape.type].apply(this, shape.args);
-            existing[0].insertAdjacentHTML('afterEnd', vel);
-        },
-
-        removeShapeId: function (shapeid) {
-            var existing = $('#jqsshape' + shapeid);
-            this.group.removeChild(existing[0]);
-        },
-
-        getShapeAt: function (el, x, y) {
-            var shapeid = el.id.substr(8);
-            return shapeid;
-        },
-
-        render: function () {
-            if (!this.rendered) {
-                // batch the intial render into a single repaint
-                this.group.innerHTML = this.prerender;
-                this.rendered = true;
-            }
-        }
-    });
-
-}))}(document, Math));;// ┌────────────────────────────────────────────────────────────────────┐ \\
-// │ Raphaël 2.1.2 - JavaScript Vector Library                          │ \\
-// ├────────────────────────────────────────────────────────────────────┤ \\
-// │ Copyright © 2008-2012 Dmitry Baranovskiy (http://raphaeljs.com)    │ \\
-// │ Copyright © 2008-2012 Sencha Labs (http://sencha.com)              │ \\
-// ├────────────────────────────────────────────────────────────────────┤ \\
-// │ Licensed under the MIT (http://raphaeljs.com/license.html) license.│ \\
-// └────────────────────────────────────────────────────────────────────┘ \\
-!function(a){var b,c,d="0.4.2",e="hasOwnProperty",f=/[\.\/]/,g="*",h=function(){},i=function(a,b){return a-b},j={n:{}},k=function(a,d){a=String(a);var e,f=c,g=Array.prototype.slice.call(arguments,2),h=k.listeners(a),j=0,l=[],m={},n=[],o=b;b=a,c=0;for(var p=0,q=h.length;q>p;p++)"zIndex"in h[p]&&(l.push(h[p].zIndex),h[p].zIndex<0&&(m[h[p].zIndex]=h[p]));for(l.sort(i);l[j]<0;)if(e=m[l[j++]],n.push(e.apply(d,g)),c)return c=f,n;for(p=0;q>p;p++)if(e=h[p],"zIndex"in e)if(e.zIndex==l[j]){if(n.push(e.apply(d,g)),c)break;do if(j++,e=m[l[j]],e&&n.push(e.apply(d,g)),c)break;while(e)}else m[e.zIndex]=e;else if(n.push(e.apply(d,g)),c)break;return c=f,b=o,n.length?n:null};k._events=j,k.listeners=function(a){var b,c,d,e,h,i,k,l,m=a.split(f),n=j,o=[n],p=[];for(e=0,h=m.length;h>e;e++){for(l=[],i=0,k=o.length;k>i;i++)for(n=o[i].n,c=[n[m[e]],n[g]],d=2;d--;)b=c[d],b&&(l.push(b),p=p.concat(b.f||[]));o=l}return p},k.on=function(a,b){if(a=String(a),"function"!=typeof b)return function(){};for(var c=a.split(f),d=j,e=0,g=c.length;g>e;e++)d=d.n,d=d.hasOwnProperty(c[e])&&d[c[e]]||(d[c[e]]={n:{}});for(d.f=d.f||[],e=0,g=d.f.length;g>e;e++)if(d.f[e]==b)return h;return d.f.push(b),function(a){+a==+a&&(b.zIndex=+a)}},k.f=function(a){var b=[].slice.call(arguments,1);return function(){k.apply(null,[a,null].concat(b).concat([].slice.call(arguments,0)))}},k.stop=function(){c=1},k.nt=function(a){return a?new RegExp("(?:\\.|\\/|^)"+a+"(?:\\.|\\/|$)").test(b):b},k.nts=function(){return b.split(f)},k.off=k.unbind=function(a,b){if(!a)return k._events=j={n:{}},void 0;var c,d,h,i,l,m,n,o=a.split(f),p=[j];for(i=0,l=o.length;l>i;i++)for(m=0;m<p.length;m+=h.length-2){if(h=[m,1],c=p[m].n,o[i]!=g)c[o[i]]&&h.push(c[o[i]]);else for(d in c)c[e](d)&&h.push(c[d]);p.splice.apply(p,h)}for(i=0,l=p.length;l>i;i++)for(c=p[i];c.n;){if(b){if(c.f){for(m=0,n=c.f.length;n>m;m++)if(c.f[m]==b){c.f.splice(m,1);break}!c.f.length&&delete c.f}for(d in c.n)if(c.n[e](d)&&c.n[d].f){var q=c.n[d].f;for(m=0,n=q.length;n>m;m++)if(q[m]==b){q.splice(m,1);break}!q.length&&delete c.n[d].f}}else{delete c.f;for(d in c.n)c.n[e](d)&&c.n[d].f&&delete c.n[d].f}c=c.n}},k.once=function(a,b){var c=function(){return k.unbind(a,c),b.apply(this,arguments)};return k.on(a,c)},k.version=d,k.toString=function(){return"You are running Eve "+d},"undefined"!=typeof module&&module.exports?module.exports=k:"undefined"!=typeof define?define("eve",[],function(){return k}):a.eve=k}(this),function(a,b){"function"==typeof define&&define.amd?define(["eve"],function(c){return b(a,c)}):b(a,a.eve)}(this,function(a,b){function c(a){if(c.is(a,"function"))return u?a():b.on("raphael.DOMload",a);if(c.is(a,V))return c._engine.create[D](c,a.splice(0,3+c.is(a[0],T))).add(a);var d=Array.prototype.slice.call(arguments,0);if(c.is(d[d.length-1],"function")){var e=d.pop();return u?e.call(c._engine.create[D](c,d)):b.on("raphael.DOMload",function(){e.call(c._engine.create[D](c,d))})}return c._engine.create[D](c,arguments)}function d(a){if("function"==typeof a||Object(a)!==a)return a;var b=new a.constructor;for(var c in a)a[z](c)&&(b[c]=d(a[c]));return b}function e(a,b){for(var c=0,d=a.length;d>c;c++)if(a[c]===b)return a.push(a.splice(c,1)[0])}function f(a,b,c){function d(){var f=Array.prototype.slice.call(arguments,0),g=f.join("␀"),h=d.cache=d.cache||{},i=d.count=d.count||[];return h[z](g)?(e(i,g),c?c(h[g]):h[g]):(i.length>=1e3&&delete h[i.shift()],i.push(g),h[g]=a[D](b,f),c?c(h[g]):h[g])}return d}function g(){return this.hex}function h(a,b){for(var c=[],d=0,e=a.length;e-2*!b>d;d+=2){var f=[{x:+a[d-2],y:+a[d-1]},{x:+a[d],y:+a[d+1]},{x:+a[d+2],y:+a[d+3]},{x:+a[d+4],y:+a[d+5]}];b?d?e-4==d?f[3]={x:+a[0],y:+a[1]}:e-2==d&&(f[2]={x:+a[0],y:+a[1]},f[3]={x:+a[2],y:+a[3]}):f[0]={x:+a[e-2],y:+a[e-1]}:e-4==d?f[3]=f[2]:d||(f[0]={x:+a[d],y:+a[d+1]}),c.push(["C",(-f[0].x+6*f[1].x+f[2].x)/6,(-f[0].y+6*f[1].y+f[2].y)/6,(f[1].x+6*f[2].x-f[3].x)/6,(f[1].y+6*f[2].y-f[3].y)/6,f[2].x,f[2].y])}return c}function i(a,b,c,d,e){var f=-3*b+9*c-9*d+3*e,g=a*f+6*b-12*c+6*d;return a*g-3*b+3*c}function j(a,b,c,d,e,f,g,h,j){null==j&&(j=1),j=j>1?1:0>j?0:j;for(var k=j/2,l=12,m=[-.1252,.1252,-.3678,.3678,-.5873,.5873,-.7699,.7699,-.9041,.9041,-.9816,.9816],n=[.2491,.2491,.2335,.2335,.2032,.2032,.1601,.1601,.1069,.1069,.0472,.0472],o=0,p=0;l>p;p++){var q=k*m[p]+k,r=i(q,a,c,e,g),s=i(q,b,d,f,h),t=r*r+s*s;o+=n[p]*N.sqrt(t)}return k*o}function k(a,b,c,d,e,f,g,h,i){if(!(0>i||j(a,b,c,d,e,f,g,h)<i)){var k,l=1,m=l/2,n=l-m,o=.01;for(k=j(a,b,c,d,e,f,g,h,n);Q(k-i)>o;)m/=2,n+=(i>k?1:-1)*m,k=j(a,b,c,d,e,f,g,h,n);return n}}function l(a,b,c,d,e,f,g,h){if(!(O(a,c)<P(e,g)||P(a,c)>O(e,g)||O(b,d)<P(f,h)||P(b,d)>O(f,h))){var i=(a*d-b*c)*(e-g)-(a-c)*(e*h-f*g),j=(a*d-b*c)*(f-h)-(b-d)*(e*h-f*g),k=(a-c)*(f-h)-(b-d)*(e-g);if(k){var l=i/k,m=j/k,n=+l.toFixed(2),o=+m.toFixed(2);if(!(n<+P(a,c).toFixed(2)||n>+O(a,c).toFixed(2)||n<+P(e,g).toFixed(2)||n>+O(e,g).toFixed(2)||o<+P(b,d).toFixed(2)||o>+O(b,d).toFixed(2)||o<+P(f,h).toFixed(2)||o>+O(f,h).toFixed(2)))return{x:l,y:m}}}}function m(a,b,d){var e=c.bezierBBox(a),f=c.bezierBBox(b);if(!c.isBBoxIntersect(e,f))return d?0:[];for(var g=j.apply(0,a),h=j.apply(0,b),i=O(~~(g/5),1),k=O(~~(h/5),1),m=[],n=[],o={},p=d?0:[],q=0;i+1>q;q++){var r=c.findDotsAtSegment.apply(c,a.concat(q/i));m.push({x:r.x,y:r.y,t:q/i})}for(q=0;k+1>q;q++)r=c.findDotsAtSegment.apply(c,b.concat(q/k)),n.push({x:r.x,y:r.y,t:q/k});for(q=0;i>q;q++)for(var s=0;k>s;s++){var t=m[q],u=m[q+1],v=n[s],w=n[s+1],x=Q(u.x-t.x)<.001?"y":"x",y=Q(w.x-v.x)<.001?"y":"x",z=l(t.x,t.y,u.x,u.y,v.x,v.y,w.x,w.y);if(z){if(o[z.x.toFixed(4)]==z.y.toFixed(4))continue;o[z.x.toFixed(4)]=z.y.toFixed(4);var A=t.t+Q((z[x]-t[x])/(u[x]-t[x]))*(u.t-t.t),B=v.t+Q((z[y]-v[y])/(w[y]-v[y]))*(w.t-v.t);A>=0&&1.001>=A&&B>=0&&1.001>=B&&(d?p++:p.push({x:z.x,y:z.y,t1:P(A,1),t2:P(B,1)}))}}return p}function n(a,b,d){a=c._path2curve(a),b=c._path2curve(b);for(var e,f,g,h,i,j,k,l,n,o,p=d?0:[],q=0,r=a.length;r>q;q++){var s=a[q];if("M"==s[0])e=i=s[1],f=j=s[2];else{"C"==s[0]?(n=[e,f].concat(s.slice(1)),e=n[6],f=n[7]):(n=[e,f,e,f,i,j,i,j],e=i,f=j);for(var t=0,u=b.length;u>t;t++){var v=b[t];if("M"==v[0])g=k=v[1],h=l=v[2];else{"C"==v[0]?(o=[g,h].concat(v.slice(1)),g=o[6],h=o[7]):(o=[g,h,g,h,k,l,k,l],g=k,h=l);var w=m(n,o,d);if(d)p+=w;else{for(var x=0,y=w.length;y>x;x++)w[x].segment1=q,w[x].segment2=t,w[x].bez1=n,w[x].bez2=o;p=p.concat(w)}}}}}return p}function o(a,b,c,d,e,f){null!=a?(this.a=+a,this.b=+b,this.c=+c,this.d=+d,this.e=+e,this.f=+f):(this.a=1,this.b=0,this.c=0,this.d=1,this.e=0,this.f=0)}function p(){return this.x+H+this.y+H+this.width+" × "+this.height}function q(a,b,c,d,e,f){function g(a){return((l*a+k)*a+j)*a}function h(a,b){var c=i(a,b);return((o*c+n)*c+m)*c}function i(a,b){var c,d,e,f,h,i;for(e=a,i=0;8>i;i++){if(f=g(e)-a,Q(f)<b)return e;if(h=(3*l*e+2*k)*e+j,Q(h)<1e-6)break;e-=f/h}if(c=0,d=1,e=a,c>e)return c;if(e>d)return d;for(;d>c;){if(f=g(e),Q(f-a)<b)return e;a>f?c=e:d=e,e=(d-c)/2+c}return e}var j=3*b,k=3*(d-b)-j,l=1-j-k,m=3*c,n=3*(e-c)-m,o=1-m-n;return h(a,1/(200*f))}function r(a,b){var c=[],d={};if(this.ms=b,this.times=1,a){for(var e in a)a[z](e)&&(d[_(e)]=a[e],c.push(_(e)));c.sort(lb)}this.anim=d,this.top=c[c.length-1],this.percents=c}function s(a,d,e,f,g,h){e=_(e);var i,j,k,l,m,n,p=a.ms,r={},s={},t={};if(f)for(v=0,x=ic.length;x>v;v++){var u=ic[v];if(u.el.id==d.id&&u.anim==a){u.percent!=e?(ic.splice(v,1),k=1):j=u,d.attr(u.totalOrigin);break}}else f=+s;for(var v=0,x=a.percents.length;x>v;v++){if(a.percents[v]==e||a.percents[v]>f*a.top){e=a.percents[v],m=a.percents[v-1]||0,p=p/a.top*(e-m),l=a.percents[v+1],i=a.anim[e];break}f&&d.attr(a.anim[a.percents[v]])}if(i){if(j)j.initstatus=f,j.start=new Date-j.ms*f;else{for(var y in i)if(i[z](y)&&(db[z](y)||d.paper.customAttributes[z](y)))switch(r[y]=d.attr(y),null==r[y]&&(r[y]=cb[y]),s[y]=i[y],db[y]){case T:t[y]=(s[y]-r[y])/p;break;case"colour":r[y]=c.getRGB(r[y]);var A=c.getRGB(s[y]);t[y]={r:(A.r-r[y].r)/p,g:(A.g-r[y].g)/p,b:(A.b-r[y].b)/p};break;case"path":var B=Kb(r[y],s[y]),C=B[1];for(r[y]=B[0],t[y]=[],v=0,x=r[y].length;x>v;v++){t[y][v]=[0];for(var D=1,F=r[y][v].length;F>D;D++)t[y][v][D]=(C[v][D]-r[y][v][D])/p}break;case"transform":var G=d._,H=Pb(G[y],s[y]);if(H)for(r[y]=H.from,s[y]=H.to,t[y]=[],t[y].real=!0,v=0,x=r[y].length;x>v;v++)for(t[y][v]=[r[y][v][0]],D=1,F=r[y][v].length;F>D;D++)t[y][v][D]=(s[y][v][D]-r[y][v][D])/p;else{var K=d.matrix||new o,L={_:{transform:G.transform},getBBox:function(){return d.getBBox(1)}};r[y]=[K.a,K.b,K.c,K.d,K.e,K.f],Nb(L,s[y]),s[y]=L._.transform,t[y]=[(L.matrix.a-K.a)/p,(L.matrix.b-K.b)/p,(L.matrix.c-K.c)/p,(L.matrix.d-K.d)/p,(L.matrix.e-K.e)/p,(L.matrix.f-K.f)/p]}break;case"csv":var M=I(i[y])[J](w),N=I(r[y])[J](w);if("clip-rect"==y)for(r[y]=N,t[y]=[],v=N.length;v--;)t[y][v]=(M[v]-r[y][v])/p;s[y]=M;break;default:for(M=[][E](i[y]),N=[][E](r[y]),t[y]=[],v=d.paper.customAttributes[y].length;v--;)t[y][v]=((M[v]||0)-(N[v]||0))/p}var O=i.easing,P=c.easing_formulas[O];if(!P)if(P=I(O).match(Z),P&&5==P.length){var Q=P;P=function(a){return q(a,+Q[1],+Q[2],+Q[3],+Q[4],p)}}else P=nb;if(n=i.start||a.start||+new Date,u={anim:a,percent:e,timestamp:n,start:n+(a.del||0),status:0,initstatus:f||0,stop:!1,ms:p,easing:P,from:r,diff:t,to:s,el:d,callback:i.callback,prev:m,next:l,repeat:h||a.times,origin:d.attr(),totalOrigin:g},ic.push(u),f&&!j&&!k&&(u.stop=!0,u.start=new Date-p*f,1==ic.length))return kc();k&&(u.start=new Date-u.ms*f),1==ic.length&&jc(kc)}b("raphael.anim.start."+d.id,d,a)}}function t(a){for(var b=0;b<ic.length;b++)ic[b].el.paper==a&&ic.splice(b--,1)}c.version="2.1.2",c.eve=b;var u,v,w=/[, ]+/,x={circle:1,rect:1,path:1,ellipse:1,text:1,image:1},y=/\{(\d+)\}/g,z="hasOwnProperty",A={doc:document,win:a},B={was:Object.prototype[z].call(A.win,"Raphael"),is:A.win.Raphael},C=function(){this.ca=this.customAttributes={}},D="apply",E="concat",F="ontouchstart"in A.win||A.win.DocumentTouch&&A.doc instanceof DocumentTouch,G="",H=" ",I=String,J="split",K="click dblclick mousedown mousemove mouseout mouseover mouseup touchstart touchmove touchend touchcancel"[J](H),L={mousedown:"touchstart",mousemove:"touchmove",mouseup:"touchend"},M=I.prototype.toLowerCase,N=Math,O=N.max,P=N.min,Q=N.abs,R=N.pow,S=N.PI,T="number",U="string",V="array",W=Object.prototype.toString,X=(c._ISURL=/^url\(['"]?([^\)]+?)['"]?\)$/i,/^\s*((#[a-f\d]{6})|(#[a-f\d]{3})|rgba?\(\s*([\d\.]+%?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+%?(?:\s*,\s*[\d\.]+%?)?)\s*\)|hsba?\(\s*([\d\.]+(?:deg|\xb0|%)?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+(?:%?\s*,\s*[\d\.]+)?)%?\s*\)|hsla?\(\s*([\d\.]+(?:deg|\xb0|%)?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+(?:%?\s*,\s*[\d\.]+)?)%?\s*\))\s*$/i),Y={NaN:1,Infinity:1,"-Infinity":1},Z=/^(?:cubic-)?bezier\(([^,]+),([^,]+),([^,]+),([^\)]+)\)/,$=N.round,_=parseFloat,ab=parseInt,bb=I.prototype.toUpperCase,cb=c._availableAttrs={"arrow-end":"none","arrow-start":"none",blur:0,"clip-rect":"0 0 1e9 1e9",cursor:"default",cx:0,cy:0,fill:"#fff","fill-opacity":1,font:'10px "Arial"',"font-family":'"Arial"',"font-size":"10","font-style":"normal","font-weight":400,gradient:0,height:0,href:"http://raphaeljs.com/","letter-spacing":0,opacity:1,path:"M0,0",r:0,rx:0,ry:0,src:"",stroke:"#000","stroke-dasharray":"","stroke-linecap":"butt","stroke-linejoin":"butt","stroke-miterlimit":0,"stroke-opacity":1,"stroke-width":1,target:"_blank","text-anchor":"middle",title:"Raphael",transform:"",width:0,x:0,y:0},db=c._availableAnimAttrs={blur:T,"clip-rect":"csv",cx:T,cy:T,fill:"colour","fill-opacity":T,"font-size":T,height:T,opacity:T,path:"path",r:T,rx:T,ry:T,stroke:"colour","stroke-opacity":T,"stroke-width":T,transform:"transform",width:T,x:T,y:T},eb=/[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*,[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*/,fb={hs:1,rg:1},gb=/,?([achlmqrstvxz]),?/gi,hb=/([achlmrqstvz])[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029,]*((-?\d*\.?\d*(?:e[\-+]?\d+)?[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*,?[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*)+)/gi,ib=/([rstm])[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029,]*((-?\d*\.?\d*(?:e[\-+]?\d+)?[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*,?[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*)+)/gi,jb=/(-?\d*\.?\d*(?:e[\-+]?\d+)?)[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*,?[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*/gi,kb=(c._radial_gradient=/^r(?:\(([^,]+?)[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*,[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029]*([^\)]+?)\))?/,{}),lb=function(a,b){return _(a)-_(b)},mb=function(){},nb=function(a){return a},ob=c._rectPath=function(a,b,c,d,e){return e?[["M",a+e,b],["l",c-2*e,0],["a",e,e,0,0,1,e,e],["l",0,d-2*e],["a",e,e,0,0,1,-e,e],["l",2*e-c,0],["a",e,e,0,0,1,-e,-e],["l",0,2*e-d],["a",e,e,0,0,1,e,-e],["z"]]:[["M",a,b],["l",c,0],["l",0,d],["l",-c,0],["z"]]},pb=function(a,b,c,d){return null==d&&(d=c),[["M",a,b],["m",0,-d],["a",c,d,0,1,1,0,2*d],["a",c,d,0,1,1,0,-2*d],["z"]]},qb=c._getPath={path:function(a){return a.attr("path")},circle:function(a){var b=a.attrs;return pb(b.cx,b.cy,b.r)},ellipse:function(a){var b=a.attrs;return pb(b.cx,b.cy,b.rx,b.ry)},rect:function(a){var b=a.attrs;return ob(b.x,b.y,b.width,b.height,b.r)},image:function(a){var b=a.attrs;return ob(b.x,b.y,b.width,b.height)},text:function(a){var b=a._getBBox();return ob(b.x,b.y,b.width,b.height)},set:function(a){var b=a._getBBox();return ob(b.x,b.y,b.width,b.height)}},rb=c.mapPath=function(a,b){if(!b)return a;var c,d,e,f,g,h,i;for(a=Kb(a),e=0,g=a.length;g>e;e++)for(i=a[e],f=1,h=i.length;h>f;f+=2)c=b.x(i[f],i[f+1]),d=b.y(i[f],i[f+1]),i[f]=c,i[f+1]=d;return a};if(c._g=A,c.type=A.win.SVGAngle||A.doc.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure","1.1")?"SVG":"VML","VML"==c.type){var sb,tb=A.doc.createElement("div");if(tb.innerHTML='<v:shape adj="1"/>',sb=tb.firstChild,sb.style.behavior="url(#default#VML)",!sb||"object"!=typeof sb.adj)return c.type=G;tb=null}c.svg=!(c.vml="VML"==c.type),c._Paper=C,c.fn=v=C.prototype=c.prototype,c._id=0,c._oid=0,c.is=function(a,b){return b=M.call(b),"finite"==b?!Y[z](+a):"array"==b?a instanceof Array:"null"==b&&null===a||b==typeof a&&null!==a||"object"==b&&a===Object(a)||"array"==b&&Array.isArray&&Array.isArray(a)||W.call(a).slice(8,-1).toLowerCase()==b},c.angle=function(a,b,d,e,f,g){if(null==f){var h=a-d,i=b-e;return h||i?(180+180*N.atan2(-i,-h)/S+360)%360:0}return c.angle(a,b,f,g)-c.angle(d,e,f,g)},c.rad=function(a){return a%360*S/180},c.deg=function(a){return 180*a/S%360},c.snapTo=function(a,b,d){if(d=c.is(d,"finite")?d:10,c.is(a,V)){for(var e=a.length;e--;)if(Q(a[e]-b)<=d)return a[e]}else{a=+a;var f=b%a;if(d>f)return b-f;if(f>a-d)return b-f+a}return b},c.createUUID=function(a,b){return function(){return"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(a,b).toUpperCase()}}(/[xy]/g,function(a){var b=0|16*N.random(),c="x"==a?b:8|3&b;return c.toString(16)}),c.setWindow=function(a){b("raphael.setWindow",c,A.win,a),A.win=a,A.doc=A.win.document,c._engine.initWin&&c._engine.initWin(A.win)};var ub=function(a){if(c.vml){var b,d=/^\s+|\s+$/g;try{var e=new ActiveXObject("htmlfile");e.write("<body>"),e.close(),b=e.body}catch(g){b=createPopup().document.body}var h=b.createTextRange();ub=f(function(a){try{b.style.color=I(a).replace(d,G);var c=h.queryCommandValue("ForeColor");return c=(255&c)<<16|65280&c|(16711680&c)>>>16,"#"+("000000"+c.toString(16)).slice(-6)}catch(e){return"none"}})}else{var i=A.doc.createElement("i");i.title="Raphaël Colour Picker",i.style.display="none",A.doc.body.appendChild(i),ub=f(function(a){return i.style.color=a,A.doc.defaultView.getComputedStyle(i,G).getPropertyValue("color")})}return ub(a)},vb=function(){return"hsb("+[this.h,this.s,this.b]+")"},wb=function(){return"hsl("+[this.h,this.s,this.l]+")"},xb=function(){return this.hex},yb=function(a,b,d){if(null==b&&c.is(a,"object")&&"r"in a&&"g"in a&&"b"in a&&(d=a.b,b=a.g,a=a.r),null==b&&c.is(a,U)){var e=c.getRGB(a);a=e.r,b=e.g,d=e.b}return(a>1||b>1||d>1)&&(a/=255,b/=255,d/=255),[a,b,d]},zb=function(a,b,d,e){a*=255,b*=255,d*=255;var f={r:a,g:b,b:d,hex:c.rgb(a,b,d),toString:xb};return c.is(e,"finite")&&(f.opacity=e),f};c.color=function(a){var b;return c.is(a,"object")&&"h"in a&&"s"in a&&"b"in a?(b=c.hsb2rgb(a),a.r=b.r,a.g=b.g,a.b=b.b,a.hex=b.hex):c.is(a,"object")&&"h"in a&&"s"in a&&"l"in a?(b=c.hsl2rgb(a),a.r=b.r,a.g=b.g,a.b=b.b,a.hex=b.hex):(c.is(a,"string")&&(a=c.getRGB(a)),c.is(a,"object")&&"r"in a&&"g"in a&&"b"in a?(b=c.rgb2hsl(a),a.h=b.h,a.s=b.s,a.l=b.l,b=c.rgb2hsb(a),a.v=b.b):(a={hex:"none"},a.r=a.g=a.b=a.h=a.s=a.v=a.l=-1)),a.toString=xb,a},c.hsb2rgb=function(a,b,c,d){this.is(a,"object")&&"h"in a&&"s"in a&&"b"in a&&(c=a.b,b=a.s,a=a.h,d=a.o),a*=360;var e,f,g,h,i;return a=a%360/60,i=c*b,h=i*(1-Q(a%2-1)),e=f=g=c-i,a=~~a,e+=[i,h,0,0,h,i][a],f+=[h,i,i,h,0,0][a],g+=[0,0,h,i,i,h][a],zb(e,f,g,d)},c.hsl2rgb=function(a,b,c,d){this.is(a,"object")&&"h"in a&&"s"in a&&"l"in a&&(c=a.l,b=a.s,a=a.h),(a>1||b>1||c>1)&&(a/=360,b/=100,c/=100),a*=360;var e,f,g,h,i;return a=a%360/60,i=2*b*(.5>c?c:1-c),h=i*(1-Q(a%2-1)),e=f=g=c-i/2,a=~~a,e+=[i,h,0,0,h,i][a],f+=[h,i,i,h,0,0][a],g+=[0,0,h,i,i,h][a],zb(e,f,g,d)},c.rgb2hsb=function(a,b,c){c=yb(a,b,c),a=c[0],b=c[1],c=c[2];var d,e,f,g;return f=O(a,b,c),g=f-P(a,b,c),d=0==g?null:f==a?(b-c)/g:f==b?(c-a)/g+2:(a-b)/g+4,d=60*((d+360)%6)/360,e=0==g?0:g/f,{h:d,s:e,b:f,toString:vb}},c.rgb2hsl=function(a,b,c){c=yb(a,b,c),a=c[0],b=c[1],c=c[2];var d,e,f,g,h,i;return g=O(a,b,c),h=P(a,b,c),i=g-h,d=0==i?null:g==a?(b-c)/i:g==b?(c-a)/i+2:(a-b)/i+4,d=60*((d+360)%6)/360,f=(g+h)/2,e=0==i?0:.5>f?i/(2*f):i/(2-2*f),{h:d,s:e,l:f,toString:wb}},c._path2string=function(){return this.join(",").replace(gb,"$1")},c._preload=function(a,b){var c=A.doc.createElement("img");c.style.cssText="position:absolute;left:-9999em;top:-9999em",c.onload=function(){b.call(this),this.onload=null,A.doc.body.removeChild(this)},c.onerror=function(){A.doc.body.removeChild(this)},A.doc.body.appendChild(c),c.src=a},c.getRGB=f(function(a){if(!a||(a=I(a)).indexOf("-")+1)return{r:-1,g:-1,b:-1,hex:"none",error:1,toString:g};if("none"==a)return{r:-1,g:-1,b:-1,hex:"none",toString:g};!(fb[z](a.toLowerCase().substring(0,2))||"#"==a.charAt())&&(a=ub(a));var b,d,e,f,h,i,j=a.match(X);return j?(j[2]&&(e=ab(j[2].substring(5),16),d=ab(j[2].substring(3,5),16),b=ab(j[2].substring(1,3),16)),j[3]&&(e=ab((h=j[3].charAt(3))+h,16),d=ab((h=j[3].charAt(2))+h,16),b=ab((h=j[3].charAt(1))+h,16)),j[4]&&(i=j[4][J](eb),b=_(i[0]),"%"==i[0].slice(-1)&&(b*=2.55),d=_(i[1]),"%"==i[1].slice(-1)&&(d*=2.55),e=_(i[2]),"%"==i[2].slice(-1)&&(e*=2.55),"rgba"==j[1].toLowerCase().slice(0,4)&&(f=_(i[3])),i[3]&&"%"==i[3].slice(-1)&&(f/=100)),j[5]?(i=j[5][J](eb),b=_(i[0]),"%"==i[0].slice(-1)&&(b*=2.55),d=_(i[1]),"%"==i[1].slice(-1)&&(d*=2.55),e=_(i[2]),"%"==i[2].slice(-1)&&(e*=2.55),("deg"==i[0].slice(-3)||"°"==i[0].slice(-1))&&(b/=360),"hsba"==j[1].toLowerCase().slice(0,4)&&(f=_(i[3])),i[3]&&"%"==i[3].slice(-1)&&(f/=100),c.hsb2rgb(b,d,e,f)):j[6]?(i=j[6][J](eb),b=_(i[0]),"%"==i[0].slice(-1)&&(b*=2.55),d=_(i[1]),"%"==i[1].slice(-1)&&(d*=2.55),e=_(i[2]),"%"==i[2].slice(-1)&&(e*=2.55),("deg"==i[0].slice(-3)||"°"==i[0].slice(-1))&&(b/=360),"hsla"==j[1].toLowerCase().slice(0,4)&&(f=_(i[3])),i[3]&&"%"==i[3].slice(-1)&&(f/=100),c.hsl2rgb(b,d,e,f)):(j={r:b,g:d,b:e,toString:g},j.hex="#"+(16777216|e|d<<8|b<<16).toString(16).slice(1),c.is(f,"finite")&&(j.opacity=f),j)):{r:-1,g:-1,b:-1,hex:"none",error:1,toString:g}},c),c.hsb=f(function(a,b,d){return c.hsb2rgb(a,b,d).hex}),c.hsl=f(function(a,b,d){return c.hsl2rgb(a,b,d).hex}),c.rgb=f(function(a,b,c){return"#"+(16777216|c|b<<8|a<<16).toString(16).slice(1)}),c.getColor=function(a){var b=this.getColor.start=this.getColor.start||{h:0,s:1,b:a||.75},c=this.hsb2rgb(b.h,b.s,b.b);return b.h+=.075,b.h>1&&(b.h=0,b.s-=.2,b.s<=0&&(this.getColor.start={h:0,s:1,b:b.b})),c.hex},c.getColor.reset=function(){delete this.start},c.parsePathString=function(a){if(!a)return null;var b=Ab(a);if(b.arr)return Cb(b.arr);var d={a:7,c:6,h:1,l:2,m:2,r:4,q:4,s:4,t:2,v:1,z:0},e=[];return c.is(a,V)&&c.is(a[0],V)&&(e=Cb(a)),e.length||I(a).replace(hb,function(a,b,c){var f=[],g=b.toLowerCase();if(c.replace(jb,function(a,b){b&&f.push(+b)}),"m"==g&&f.length>2&&(e.push([b][E](f.splice(0,2))),g="l",b="m"==b?"l":"L"),"r"==g)e.push([b][E](f));else for(;f.length>=d[g]&&(e.push([b][E](f.splice(0,d[g]))),d[g]););}),e.toString=c._path2string,b.arr=Cb(e),e},c.parseTransformString=f(function(a){if(!a)return null;var b=[];return c.is(a,V)&&c.is(a[0],V)&&(b=Cb(a)),b.length||I(a).replace(ib,function(a,c,d){var e=[];M.call(c),d.replace(jb,function(a,b){b&&e.push(+b)}),b.push([c][E](e))}),b.toString=c._path2string,b});var Ab=function(a){var b=Ab.ps=Ab.ps||{};return b[a]?b[a].sleep=100:b[a]={sleep:100},setTimeout(function(){for(var c in b)b[z](c)&&c!=a&&(b[c].sleep--,!b[c].sleep&&delete b[c])}),b[a]};c.findDotsAtSegment=function(a,b,c,d,e,f,g,h,i){var j=1-i,k=R(j,3),l=R(j,2),m=i*i,n=m*i,o=k*a+3*l*i*c+3*j*i*i*e+n*g,p=k*b+3*l*i*d+3*j*i*i*f+n*h,q=a+2*i*(c-a)+m*(e-2*c+a),r=b+2*i*(d-b)+m*(f-2*d+b),s=c+2*i*(e-c)+m*(g-2*e+c),t=d+2*i*(f-d)+m*(h-2*f+d),u=j*a+i*c,v=j*b+i*d,w=j*e+i*g,x=j*f+i*h,y=90-180*N.atan2(q-s,r-t)/S;return(q>s||t>r)&&(y+=180),{x:o,y:p,m:{x:q,y:r},n:{x:s,y:t},start:{x:u,y:v},end:{x:w,y:x},alpha:y}},c.bezierBBox=function(a,b,d,e,f,g,h,i){c.is(a,"array")||(a=[a,b,d,e,f,g,h,i]);var j=Jb.apply(null,a);return{x:j.min.x,y:j.min.y,x2:j.max.x,y2:j.max.y,width:j.max.x-j.min.x,height:j.max.y-j.min.y}},c.isPointInsideBBox=function(a,b,c){return b>=a.x&&b<=a.x2&&c>=a.y&&c<=a.y2},c.isBBoxIntersect=function(a,b){var d=c.isPointInsideBBox;return d(b,a.x,a.y)||d(b,a.x2,a.y)||d(b,a.x,a.y2)||d(b,a.x2,a.y2)||d(a,b.x,b.y)||d(a,b.x2,b.y)||d(a,b.x,b.y2)||d(a,b.x2,b.y2)||(a.x<b.x2&&a.x>b.x||b.x<a.x2&&b.x>a.x)&&(a.y<b.y2&&a.y>b.y||b.y<a.y2&&b.y>a.y)},c.pathIntersection=function(a,b){return n(a,b)},c.pathIntersectionNumber=function(a,b){return n(a,b,1)},c.isPointInsidePath=function(a,b,d){var e=c.pathBBox(a);return c.isPointInsideBBox(e,b,d)&&1==n(a,[["M",b,d],["H",e.x2+10]],1)%2},c._removedFactory=function(a){return function(){b("raphael.log",null,"Raphaël: you are calling to method “"+a+"” of removed object",a)}};var Bb=c.pathBBox=function(a){var b=Ab(a);if(b.bbox)return d(b.bbox);if(!a)return{x:0,y:0,width:0,height:0,x2:0,y2:0};a=Kb(a);for(var c,e=0,f=0,g=[],h=[],i=0,j=a.length;j>i;i++)if(c=a[i],"M"==c[0])e=c[1],f=c[2],g.push(e),h.push(f);else{var k=Jb(e,f,c[1],c[2],c[3],c[4],c[5],c[6]);g=g[E](k.min.x,k.max.x),h=h[E](k.min.y,k.max.y),e=c[5],f=c[6]}var l=P[D](0,g),m=P[D](0,h),n=O[D](0,g),o=O[D](0,h),p=n-l,q=o-m,r={x:l,y:m,x2:n,y2:o,width:p,height:q,cx:l+p/2,cy:m+q/2};return b.bbox=d(r),r},Cb=function(a){var b=d(a);return b.toString=c._path2string,b},Db=c._pathToRelative=function(a){var b=Ab(a);if(b.rel)return Cb(b.rel);c.is(a,V)&&c.is(a&&a[0],V)||(a=c.parsePathString(a));var d=[],e=0,f=0,g=0,h=0,i=0;"M"==a[0][0]&&(e=a[0][1],f=a[0][2],g=e,h=f,i++,d.push(["M",e,f]));for(var j=i,k=a.length;k>j;j++){var l=d[j]=[],m=a[j];if(m[0]!=M.call(m[0]))switch(l[0]=M.call(m[0]),l[0]){case"a":l[1]=m[1],l[2]=m[2],l[3]=m[3],l[4]=m[4],l[5]=m[5],l[6]=+(m[6]-e).toFixed(3),l[7]=+(m[7]-f).toFixed(3);break;case"v":l[1]=+(m[1]-f).toFixed(3);break;case"m":g=m[1],h=m[2];default:for(var n=1,o=m.length;o>n;n++)l[n]=+(m[n]-(n%2?e:f)).toFixed(3)}else{l=d[j]=[],"m"==m[0]&&(g=m[1]+e,h=m[2]+f);for(var p=0,q=m.length;q>p;p++)d[j][p]=m[p]}var r=d[j].length;switch(d[j][0]){case"z":e=g,f=h;break;case"h":e+=+d[j][r-1];break;case"v":f+=+d[j][r-1];break;default:e+=+d[j][r-2],f+=+d[j][r-1]}}return d.toString=c._path2string,b.rel=Cb(d),d},Eb=c._pathToAbsolute=function(a){var b=Ab(a);if(b.abs)return Cb(b.abs);if(c.is(a,V)&&c.is(a&&a[0],V)||(a=c.parsePathString(a)),!a||!a.length)return[["M",0,0]];var d=[],e=0,f=0,g=0,i=0,j=0;"M"==a[0][0]&&(e=+a[0][1],f=+a[0][2],g=e,i=f,j++,d[0]=["M",e,f]);for(var k,l,m=3==a.length&&"M"==a[0][0]&&"R"==a[1][0].toUpperCase()&&"Z"==a[2][0].toUpperCase(),n=j,o=a.length;o>n;n++){if(d.push(k=[]),l=a[n],l[0]!=bb.call(l[0]))switch(k[0]=bb.call(l[0]),k[0]){case"A":k[1]=l[1],k[2]=l[2],k[3]=l[3],k[4]=l[4],k[5]=l[5],k[6]=+(l[6]+e),k[7]=+(l[7]+f);break;case"V":k[1]=+l[1]+f;break;case"H":k[1]=+l[1]+e;break;case"R":for(var p=[e,f][E](l.slice(1)),q=2,r=p.length;r>q;q++)p[q]=+p[q]+e,p[++q]=+p[q]+f;d.pop(),d=d[E](h(p,m));break;case"M":g=+l[1]+e,i=+l[2]+f;default:for(q=1,r=l.length;r>q;q++)k[q]=+l[q]+(q%2?e:f)}else if("R"==l[0])p=[e,f][E](l.slice(1)),d.pop(),d=d[E](h(p,m)),k=["R"][E](l.slice(-2));else for(var s=0,t=l.length;t>s;s++)k[s]=l[s];switch(k[0]){case"Z":e=g,f=i;break;case"H":e=k[1];break;case"V":f=k[1];break;case"M":g=k[k.length-2],i=k[k.length-1];default:e=k[k.length-2],f=k[k.length-1]}}return d.toString=c._path2string,b.abs=Cb(d),d},Fb=function(a,b,c,d){return[a,b,c,d,c,d]},Gb=function(a,b,c,d,e,f){var g=1/3,h=2/3;return[g*a+h*c,g*b+h*d,g*e+h*c,g*f+h*d,e,f]},Hb=function(a,b,c,d,e,g,h,i,j,k){var l,m=120*S/180,n=S/180*(+e||0),o=[],p=f(function(a,b,c){var d=a*N.cos(c)-b*N.sin(c),e=a*N.sin(c)+b*N.cos(c);return{x:d,y:e}});if(k)y=k[0],z=k[1],w=k[2],x=k[3];else{l=p(a,b,-n),a=l.x,b=l.y,l=p(i,j,-n),i=l.x,j=l.y;var q=(N.cos(S/180*e),N.sin(S/180*e),(a-i)/2),r=(b-j)/2,s=q*q/(c*c)+r*r/(d*d);s>1&&(s=N.sqrt(s),c=s*c,d=s*d);var t=c*c,u=d*d,v=(g==h?-1:1)*N.sqrt(Q((t*u-t*r*r-u*q*q)/(t*r*r+u*q*q))),w=v*c*r/d+(a+i)/2,x=v*-d*q/c+(b+j)/2,y=N.asin(((b-x)/d).toFixed(9)),z=N.asin(((j-x)/d).toFixed(9));y=w>a?S-y:y,z=w>i?S-z:z,0>y&&(y=2*S+y),0>z&&(z=2*S+z),h&&y>z&&(y-=2*S),!h&&z>y&&(z-=2*S)}var A=z-y;if(Q(A)>m){var B=z,C=i,D=j;z=y+m*(h&&z>y?1:-1),i=w+c*N.cos(z),j=x+d*N.sin(z),o=Hb(i,j,c,d,e,0,h,C,D,[z,B,w,x])}A=z-y;var F=N.cos(y),G=N.sin(y),H=N.cos(z),I=N.sin(z),K=N.tan(A/4),L=4/3*c*K,M=4/3*d*K,O=[a,b],P=[a+L*G,b-M*F],R=[i+L*I,j-M*H],T=[i,j];if(P[0]=2*O[0]-P[0],P[1]=2*O[1]-P[1],k)return[P,R,T][E](o);o=[P,R,T][E](o).join()[J](",");for(var U=[],V=0,W=o.length;W>V;V++)U[V]=V%2?p(o[V-1],o[V],n).y:p(o[V],o[V+1],n).x;return U},Ib=function(a,b,c,d,e,f,g,h,i){var j=1-i;return{x:R(j,3)*a+3*R(j,2)*i*c+3*j*i*i*e+R(i,3)*g,y:R(j,3)*b+3*R(j,2)*i*d+3*j*i*i*f+R(i,3)*h}},Jb=f(function(a,b,c,d,e,f,g,h){var i,j=e-2*c+a-(g-2*e+c),k=2*(c-a)-2*(e-c),l=a-c,m=(-k+N.sqrt(k*k-4*j*l))/2/j,n=(-k-N.sqrt(k*k-4*j*l))/2/j,o=[b,h],p=[a,g];return Q(m)>"1e12"&&(m=.5),Q(n)>"1e12"&&(n=.5),m>0&&1>m&&(i=Ib(a,b,c,d,e,f,g,h,m),p.push(i.x),o.push(i.y)),n>0&&1>n&&(i=Ib(a,b,c,d,e,f,g,h,n),p.push(i.x),o.push(i.y)),j=f-2*d+b-(h-2*f+d),k=2*(d-b)-2*(f-d),l=b-d,m=(-k+N.sqrt(k*k-4*j*l))/2/j,n=(-k-N.sqrt(k*k-4*j*l))/2/j,Q(m)>"1e12"&&(m=.5),Q(n)>"1e12"&&(n=.5),m>0&&1>m&&(i=Ib(a,b,c,d,e,f,g,h,m),p.push(i.x),o.push(i.y)),n>0&&1>n&&(i=Ib(a,b,c,d,e,f,g,h,n),p.push(i.x),o.push(i.y)),{min:{x:P[D](0,p),y:P[D](0,o)},max:{x:O[D](0,p),y:O[D](0,o)}}}),Kb=c._path2curve=f(function(a,b){var c=!b&&Ab(a);if(!b&&c.curve)return Cb(c.curve);for(var d=Eb(a),e=b&&Eb(b),f={x:0,y:0,bx:0,by:0,X:0,Y:0,qx:null,qy:null},g={x:0,y:0,bx:0,by:0,X:0,Y:0,qx:null,qy:null},h=(function(a,b,c){var d,e;if(!a)return["C",b.x,b.y,b.x,b.y,b.x,b.y];switch(!(a[0]in{T:1,Q:1})&&(b.qx=b.qy=null),a[0]){case"M":b.X=a[1],b.Y=a[2];break;case"A":a=["C"][E](Hb[D](0,[b.x,b.y][E](a.slice(1))));break;case"S":"C"==c||"S"==c?(d=2*b.x-b.bx,e=2*b.y-b.by):(d=b.x,e=b.y),a=["C",d,e][E](a.slice(1));break;case"T":"Q"==c||"T"==c?(b.qx=2*b.x-b.qx,b.qy=2*b.y-b.qy):(b.qx=b.x,b.qy=b.y),a=["C"][E](Gb(b.x,b.y,b.qx,b.qy,a[1],a[2]));break;case"Q":b.qx=a[1],b.qy=a[2],a=["C"][E](Gb(b.x,b.y,a[1],a[2],a[3],a[4]));break;case"L":a=["C"][E](Fb(b.x,b.y,a[1],a[2]));break;case"H":a=["C"][E](Fb(b.x,b.y,a[1],b.y));break;case"V":a=["C"][E](Fb(b.x,b.y,b.x,a[1]));break;case"Z":a=["C"][E](Fb(b.x,b.y,b.X,b.Y))}return a}),i=function(a,b){if(a[b].length>7){a[b].shift();for(var c=a[b];c.length;)a.splice(b++,0,["C"][E](c.splice(0,6)));a.splice(b,1),l=O(d.length,e&&e.length||0)}},j=function(a,b,c,f,g){a&&b&&"M"==a[g][0]&&"M"!=b[g][0]&&(b.splice(g,0,["M",f.x,f.y]),c.bx=0,c.by=0,c.x=a[g][1],c.y=a[g][2],l=O(d.length,e&&e.length||0))},k=0,l=O(d.length,e&&e.length||0);l>k;k++){d[k]=h(d[k],f),i(d,k),e&&(e[k]=h(e[k],g)),e&&i(e,k),j(d,e,f,g,k),j(e,d,g,f,k);var m=d[k],n=e&&e[k],o=m.length,p=e&&n.length;f.x=m[o-2],f.y=m[o-1],f.bx=_(m[o-4])||f.x,f.by=_(m[o-3])||f.y,g.bx=e&&(_(n[p-4])||g.x),g.by=e&&(_(n[p-3])||g.y),g.x=e&&n[p-2],g.y=e&&n[p-1]}return e||(c.curve=Cb(d)),e?[d,e]:d},null,Cb),Lb=(c._parseDots=f(function(a){for(var b=[],d=0,e=a.length;e>d;d++){var f={},g=a[d].match(/^([^:]*):?([\d\.]*)/);if(f.color=c.getRGB(g[1]),f.color.error)return null;f.color=f.color.hex,g[2]&&(f.offset=g[2]+"%"),b.push(f)}for(d=1,e=b.length-1;e>d;d++)if(!b[d].offset){for(var h=_(b[d-1].offset||0),i=0,j=d+1;e>j;j++)if(b[j].offset){i=b[j].offset;break}i||(i=100,j=e),i=_(i);for(var k=(i-h)/(j-d+1);j>d;d++)h+=k,b[d].offset=h+"%"}return b}),c._tear=function(a,b){a==b.top&&(b.top=a.prev),a==b.bottom&&(b.bottom=a.next),a.next&&(a.next.prev=a.prev),a.prev&&(a.prev.next=a.next)}),Mb=(c._tofront=function(a,b){b.top!==a&&(Lb(a,b),a.next=null,a.prev=b.top,b.top.next=a,b.top=a)},c._toback=function(a,b){b.bottom!==a&&(Lb(a,b),a.next=b.bottom,a.prev=null,b.bottom.prev=a,b.bottom=a)},c._insertafter=function(a,b,c){Lb(a,c),b==c.top&&(c.top=a),b.next&&(b.next.prev=a),a.next=b.next,a.prev=b,b.next=a},c._insertbefore=function(a,b,c){Lb(a,c),b==c.bottom&&(c.bottom=a),b.prev&&(b.prev.next=a),a.prev=b.prev,b.prev=a,a.next=b},c.toMatrix=function(a,b){var c=Bb(a),d={_:{transform:G},getBBox:function(){return c}};return Nb(d,b),d.matrix}),Nb=(c.transformPath=function(a,b){return rb(a,Mb(a,b))},c._extractTransform=function(a,b){if(null==b)return a._.transform;b=I(b).replace(/\.{3}|\u2026/g,a._.transform||G);var d=c.parseTransformString(b),e=0,f=0,g=0,h=1,i=1,j=a._,k=new o;if(j.transform=d||[],d)for(var l=0,m=d.length;m>l;l++){var n,p,q,r,s,t=d[l],u=t.length,v=I(t[0]).toLowerCase(),w=t[0]!=v,x=w?k.invert():0;"t"==v&&3==u?w?(n=x.x(0,0),p=x.y(0,0),q=x.x(t[1],t[2]),r=x.y(t[1],t[2]),k.translate(q-n,r-p)):k.translate(t[1],t[2]):"r"==v?2==u?(s=s||a.getBBox(1),k.rotate(t[1],s.x+s.width/2,s.y+s.height/2),e+=t[1]):4==u&&(w?(q=x.x(t[2],t[3]),r=x.y(t[2],t[3]),k.rotate(t[1],q,r)):k.rotate(t[1],t[2],t[3]),e+=t[1]):"s"==v?2==u||3==u?(s=s||a.getBBox(1),k.scale(t[1],t[u-1],s.x+s.width/2,s.y+s.height/2),h*=t[1],i*=t[u-1]):5==u&&(w?(q=x.x(t[3],t[4]),r=x.y(t[3],t[4]),k.scale(t[1],t[2],q,r)):k.scale(t[1],t[2],t[3],t[4]),h*=t[1],i*=t[2]):"m"==v&&7==u&&k.add(t[1],t[2],t[3],t[4],t[5],t[6]),j.dirtyT=1,a.matrix=k}a.matrix=k,j.sx=h,j.sy=i,j.deg=e,j.dx=f=k.e,j.dy=g=k.f,1==h&&1==i&&!e&&j.bbox?(j.bbox.x+=+f,j.bbox.y+=+g):j.dirtyT=1}),Ob=function(a){var b=a[0];switch(b.toLowerCase()){case"t":return[b,0,0];case"m":return[b,1,0,0,1,0,0];case"r":return 4==a.length?[b,0,a[2],a[3]]:[b,0];case"s":return 5==a.length?[b,1,1,a[3],a[4]]:3==a.length?[b,1,1]:[b,1]}},Pb=c._equaliseTransform=function(a,b){b=I(b).replace(/\.{3}|\u2026/g,a),a=c.parseTransformString(a)||[],b=c.parseTransformString(b)||[];for(var d,e,f,g,h=O(a.length,b.length),i=[],j=[],k=0;h>k;k++){if(f=a[k]||Ob(b[k]),g=b[k]||Ob(f),f[0]!=g[0]||"r"==f[0].toLowerCase()&&(f[2]!=g[2]||f[3]!=g[3])||"s"==f[0].toLowerCase()&&(f[3]!=g[3]||f[4]!=g[4]))return;for(i[k]=[],j[k]=[],d=0,e=O(f.length,g.length);e>d;d++)d in f&&(i[k][d]=f[d]),d in g&&(j[k][d]=g[d])
-}return{from:i,to:j}};c._getContainer=function(a,b,d,e){var f;return f=null!=e||c.is(a,"object")?a:A.doc.getElementById(a),null!=f?f.tagName?null==b?{container:f,width:f.style.pixelWidth||f.offsetWidth,height:f.style.pixelHeight||f.offsetHeight}:{container:f,width:b,height:d}:{container:1,x:a,y:b,width:d,height:e}:void 0},c.pathToRelative=Db,c._engine={},c.path2curve=Kb,c.matrix=function(a,b,c,d,e,f){return new o(a,b,c,d,e,f)},function(a){function b(a){return a[0]*a[0]+a[1]*a[1]}function d(a){var c=N.sqrt(b(a));a[0]&&(a[0]/=c),a[1]&&(a[1]/=c)}a.add=function(a,b,c,d,e,f){var g,h,i,j,k=[[],[],[]],l=[[this.a,this.c,this.e],[this.b,this.d,this.f],[0,0,1]],m=[[a,c,e],[b,d,f],[0,0,1]];for(a&&a instanceof o&&(m=[[a.a,a.c,a.e],[a.b,a.d,a.f],[0,0,1]]),g=0;3>g;g++)for(h=0;3>h;h++){for(j=0,i=0;3>i;i++)j+=l[g][i]*m[i][h];k[g][h]=j}this.a=k[0][0],this.b=k[1][0],this.c=k[0][1],this.d=k[1][1],this.e=k[0][2],this.f=k[1][2]},a.invert=function(){var a=this,b=a.a*a.d-a.b*a.c;return new o(a.d/b,-a.b/b,-a.c/b,a.a/b,(a.c*a.f-a.d*a.e)/b,(a.b*a.e-a.a*a.f)/b)},a.clone=function(){return new o(this.a,this.b,this.c,this.d,this.e,this.f)},a.translate=function(a,b){this.add(1,0,0,1,a,b)},a.scale=function(a,b,c,d){null==b&&(b=a),(c||d)&&this.add(1,0,0,1,c,d),this.add(a,0,0,b,0,0),(c||d)&&this.add(1,0,0,1,-c,-d)},a.rotate=function(a,b,d){a=c.rad(a),b=b||0,d=d||0;var e=+N.cos(a).toFixed(9),f=+N.sin(a).toFixed(9);this.add(e,f,-f,e,b,d),this.add(1,0,0,1,-b,-d)},a.x=function(a,b){return a*this.a+b*this.c+this.e},a.y=function(a,b){return a*this.b+b*this.d+this.f},a.get=function(a){return+this[I.fromCharCode(97+a)].toFixed(4)},a.toString=function(){return c.svg?"matrix("+[this.get(0),this.get(1),this.get(2),this.get(3),this.get(4),this.get(5)].join()+")":[this.get(0),this.get(2),this.get(1),this.get(3),0,0].join()},a.toFilter=function(){return"progid:DXImageTransform.Microsoft.Matrix(M11="+this.get(0)+", M12="+this.get(2)+", M21="+this.get(1)+", M22="+this.get(3)+", Dx="+this.get(4)+", Dy="+this.get(5)+", sizingmethod='auto expand')"},a.offset=function(){return[this.e.toFixed(4),this.f.toFixed(4)]},a.split=function(){var a={};a.dx=this.e,a.dy=this.f;var e=[[this.a,this.c],[this.b,this.d]];a.scalex=N.sqrt(b(e[0])),d(e[0]),a.shear=e[0][0]*e[1][0]+e[0][1]*e[1][1],e[1]=[e[1][0]-e[0][0]*a.shear,e[1][1]-e[0][1]*a.shear],a.scaley=N.sqrt(b(e[1])),d(e[1]),a.shear/=a.scaley;var f=-e[0][1],g=e[1][1];return 0>g?(a.rotate=c.deg(N.acos(g)),0>f&&(a.rotate=360-a.rotate)):a.rotate=c.deg(N.asin(f)),a.isSimple=!(+a.shear.toFixed(9)||a.scalex.toFixed(9)!=a.scaley.toFixed(9)&&a.rotate),a.isSuperSimple=!+a.shear.toFixed(9)&&a.scalex.toFixed(9)==a.scaley.toFixed(9)&&!a.rotate,a.noRotation=!+a.shear.toFixed(9)&&!a.rotate,a},a.toTransformString=function(a){var b=a||this[J]();return b.isSimple?(b.scalex=+b.scalex.toFixed(4),b.scaley=+b.scaley.toFixed(4),b.rotate=+b.rotate.toFixed(4),(b.dx||b.dy?"t"+[b.dx,b.dy]:G)+(1!=b.scalex||1!=b.scaley?"s"+[b.scalex,b.scaley,0,0]:G)+(b.rotate?"r"+[b.rotate,0,0]:G)):"m"+[this.get(0),this.get(1),this.get(2),this.get(3),this.get(4),this.get(5)]}}(o.prototype);var Qb=navigator.userAgent.match(/Version\/(.*?)\s/)||navigator.userAgent.match(/Chrome\/(\d+)/);v.safari="Apple Computer, Inc."==navigator.vendor&&(Qb&&Qb[1]<4||"iP"==navigator.platform.slice(0,2))||"Google Inc."==navigator.vendor&&Qb&&Qb[1]<8?function(){var a=this.rect(-99,-99,this.width+99,this.height+99).attr({stroke:"none"});setTimeout(function(){a.remove()})}:mb;for(var Rb=function(){this.returnValue=!1},Sb=function(){return this.originalEvent.preventDefault()},Tb=function(){this.cancelBubble=!0},Ub=function(){return this.originalEvent.stopPropagation()},Vb=function(a){var b=A.doc.documentElement.scrollTop||A.doc.body.scrollTop,c=A.doc.documentElement.scrollLeft||A.doc.body.scrollLeft;return{x:a.clientX+c,y:a.clientY+b}},Wb=function(){return A.doc.addEventListener?function(a,b,c,d){var e=function(a){var b=Vb(a);return c.call(d,a,b.x,b.y)};if(a.addEventListener(b,e,!1),F&&L[b]){var f=function(b){for(var e=Vb(b),f=b,g=0,h=b.targetTouches&&b.targetTouches.length;h>g;g++)if(b.targetTouches[g].target==a){b=b.targetTouches[g],b.originalEvent=f,b.preventDefault=Sb,b.stopPropagation=Ub;break}return c.call(d,b,e.x,e.y)};a.addEventListener(L[b],f,!1)}return function(){return a.removeEventListener(b,e,!1),F&&L[b]&&a.removeEventListener(L[b],e,!1),!0}}:A.doc.attachEvent?function(a,b,c,d){var e=function(a){a=a||A.win.event;var b=A.doc.documentElement.scrollTop||A.doc.body.scrollTop,e=A.doc.documentElement.scrollLeft||A.doc.body.scrollLeft,f=a.clientX+e,g=a.clientY+b;return a.preventDefault=a.preventDefault||Rb,a.stopPropagation=a.stopPropagation||Tb,c.call(d,a,f,g)};a.attachEvent("on"+b,e);var f=function(){return a.detachEvent("on"+b,e),!0};return f}:void 0}(),Xb=[],Yb=function(a){for(var c,d=a.clientX,e=a.clientY,f=A.doc.documentElement.scrollTop||A.doc.body.scrollTop,g=A.doc.documentElement.scrollLeft||A.doc.body.scrollLeft,h=Xb.length;h--;){if(c=Xb[h],F&&a.touches){for(var i,j=a.touches.length;j--;)if(i=a.touches[j],i.identifier==c.el._drag.id){d=i.clientX,e=i.clientY,(a.originalEvent?a.originalEvent:a).preventDefault();break}}else a.preventDefault();var k,l=c.el.node,m=l.nextSibling,n=l.parentNode,o=l.style.display;A.win.opera&&n.removeChild(l),l.style.display="none",k=c.el.paper.getElementByPoint(d,e),l.style.display=o,A.win.opera&&(m?n.insertBefore(l,m):n.appendChild(l)),k&&b("raphael.drag.over."+c.el.id,c.el,k),d+=g,e+=f,b("raphael.drag.move."+c.el.id,c.move_scope||c.el,d-c.el._drag.x,e-c.el._drag.y,d,e,a)}},Zb=function(a){c.unmousemove(Yb).unmouseup(Zb);for(var d,e=Xb.length;e--;)d=Xb[e],d.el._drag={},b("raphael.drag.end."+d.el.id,d.end_scope||d.start_scope||d.move_scope||d.el,a);Xb=[]},$b=c.el={},_b=K.length;_b--;)!function(a){c[a]=$b[a]=function(b,d){return c.is(b,"function")&&(this.events=this.events||[],this.events.push({name:a,f:b,unbind:Wb(this.shape||this.node||A.doc,a,b,d||this)})),this},c["un"+a]=$b["un"+a]=function(b){for(var d=this.events||[],e=d.length;e--;)d[e].name!=a||!c.is(b,"undefined")&&d[e].f!=b||(d[e].unbind(),d.splice(e,1),!d.length&&delete this.events);return this}}(K[_b]);$b.data=function(a,d){var e=kb[this.id]=kb[this.id]||{};if(0==arguments.length)return e;if(1==arguments.length){if(c.is(a,"object")){for(var f in a)a[z](f)&&this.data(f,a[f]);return this}return b("raphael.data.get."+this.id,this,e[a],a),e[a]}return e[a]=d,b("raphael.data.set."+this.id,this,d,a),this},$b.removeData=function(a){return null==a?kb[this.id]={}:kb[this.id]&&delete kb[this.id][a],this},$b.getData=function(){return d(kb[this.id]||{})},$b.hover=function(a,b,c,d){return this.mouseover(a,c).mouseout(b,d||c)},$b.unhover=function(a,b){return this.unmouseover(a).unmouseout(b)};var ac=[];$b.drag=function(a,d,e,f,g,h){function i(i){(i.originalEvent||i).preventDefault();var j=i.clientX,k=i.clientY,l=A.doc.documentElement.scrollTop||A.doc.body.scrollTop,m=A.doc.documentElement.scrollLeft||A.doc.body.scrollLeft;if(this._drag.id=i.identifier,F&&i.touches)for(var n,o=i.touches.length;o--;)if(n=i.touches[o],this._drag.id=n.identifier,n.identifier==this._drag.id){j=n.clientX,k=n.clientY;break}this._drag.x=j+m,this._drag.y=k+l,!Xb.length&&c.mousemove(Yb).mouseup(Zb),Xb.push({el:this,move_scope:f,start_scope:g,end_scope:h}),d&&b.on("raphael.drag.start."+this.id,d),a&&b.on("raphael.drag.move."+this.id,a),e&&b.on("raphael.drag.end."+this.id,e),b("raphael.drag.start."+this.id,g||f||this,i.clientX+m,i.clientY+l,i)}return this._drag={},ac.push({el:this,start:i}),this.mousedown(i),this},$b.onDragOver=function(a){a?b.on("raphael.drag.over."+this.id,a):b.unbind("raphael.drag.over."+this.id)},$b.undrag=function(){for(var a=ac.length;a--;)ac[a].el==this&&(this.unmousedown(ac[a].start),ac.splice(a,1),b.unbind("raphael.drag.*."+this.id));!ac.length&&c.unmousemove(Yb).unmouseup(Zb),Xb=[]},v.circle=function(a,b,d){var e=c._engine.circle(this,a||0,b||0,d||0);return this.__set__&&this.__set__.push(e),e},v.rect=function(a,b,d,e,f){var g=c._engine.rect(this,a||0,b||0,d||0,e||0,f||0);return this.__set__&&this.__set__.push(g),g},v.ellipse=function(a,b,d,e){var f=c._engine.ellipse(this,a||0,b||0,d||0,e||0);return this.__set__&&this.__set__.push(f),f},v.path=function(a){a&&!c.is(a,U)&&!c.is(a[0],V)&&(a+=G);var b=c._engine.path(c.format[D](c,arguments),this);return this.__set__&&this.__set__.push(b),b},v.image=function(a,b,d,e,f){var g=c._engine.image(this,a||"about:blank",b||0,d||0,e||0,f||0);return this.__set__&&this.__set__.push(g),g},v.text=function(a,b,d){var e=c._engine.text(this,a||0,b||0,I(d));return this.__set__&&this.__set__.push(e),e},v.set=function(a){!c.is(a,"array")&&(a=Array.prototype.splice.call(arguments,0,arguments.length));var b=new mc(a);return this.__set__&&this.__set__.push(b),b.paper=this,b.type="set",b},v.setStart=function(a){this.__set__=a||this.set()},v.setFinish=function(){var a=this.__set__;return delete this.__set__,a},v.setSize=function(a,b){return c._engine.setSize.call(this,a,b)},v.setViewBox=function(a,b,d,e,f){return c._engine.setViewBox.call(this,a,b,d,e,f)},v.top=v.bottom=null,v.raphael=c;var bc=function(a){var b=a.getBoundingClientRect(),c=a.ownerDocument,d=c.body,e=c.documentElement,f=e.clientTop||d.clientTop||0,g=e.clientLeft||d.clientLeft||0,h=b.top+(A.win.pageYOffset||e.scrollTop||d.scrollTop)-f,i=b.left+(A.win.pageXOffset||e.scrollLeft||d.scrollLeft)-g;return{y:h,x:i}};v.getElementByPoint=function(a,b){var c=this,d=c.canvas,e=A.doc.elementFromPoint(a,b);if(A.win.opera&&"svg"==e.tagName){var f=bc(d),g=d.createSVGRect();g.x=a-f.x,g.y=b-f.y,g.width=g.height=1;var h=d.getIntersectionList(g,null);h.length&&(e=h[h.length-1])}if(!e)return null;for(;e.parentNode&&e!=d.parentNode&&!e.raphael;)e=e.parentNode;return e==c.canvas.parentNode&&(e=d),e=e&&e.raphael?c.getById(e.raphaelid):null},v.getElementsByBBox=function(a){var b=this.set();return this.forEach(function(d){c.isBBoxIntersect(d.getBBox(),a)&&b.push(d)}),b},v.getById=function(a){for(var b=this.bottom;b;){if(b.id==a)return b;b=b.next}return null},v.forEach=function(a,b){for(var c=this.bottom;c;){if(a.call(b,c)===!1)return this;c=c.next}return this},v.getElementsByPoint=function(a,b){var c=this.set();return this.forEach(function(d){d.isPointInside(a,b)&&c.push(d)}),c},$b.isPointInside=function(a,b){var d=this.realPath=qb[this.type](this);return this.attr("transform")&&this.attr("transform").length&&(d=c.transformPath(d,this.attr("transform"))),c.isPointInsidePath(d,a,b)},$b.getBBox=function(a){if(this.removed)return{};var b=this._;return a?((b.dirty||!b.bboxwt)&&(this.realPath=qb[this.type](this),b.bboxwt=Bb(this.realPath),b.bboxwt.toString=p,b.dirty=0),b.bboxwt):((b.dirty||b.dirtyT||!b.bbox)&&((b.dirty||!this.realPath)&&(b.bboxwt=0,this.realPath=qb[this.type](this)),b.bbox=Bb(rb(this.realPath,this.matrix)),b.bbox.toString=p,b.dirty=b.dirtyT=0),b.bbox)},$b.clone=function(){if(this.removed)return null;var a=this.paper[this.type]().attr(this.attr());return this.__set__&&this.__set__.push(a),a},$b.glow=function(a){if("text"==this.type)return null;a=a||{};var b={width:(a.width||10)+(+this.attr("stroke-width")||1),fill:a.fill||!1,opacity:a.opacity||.5,offsetx:a.offsetx||0,offsety:a.offsety||0,color:a.color||"#000"},c=b.width/2,d=this.paper,e=d.set(),f=this.realPath||qb[this.type](this);f=this.matrix?rb(f,this.matrix):f;for(var g=1;c+1>g;g++)e.push(d.path(f).attr({stroke:b.color,fill:b.fill?b.color:"none","stroke-linejoin":"round","stroke-linecap":"round","stroke-width":+(b.width/c*g).toFixed(3),opacity:+(b.opacity/c).toFixed(3)}));return e.insertBefore(this).translate(b.offsetx,b.offsety)};var cc=function(a,b,d,e,f,g,h,i,l){return null==l?j(a,b,d,e,f,g,h,i):c.findDotsAtSegment(a,b,d,e,f,g,h,i,k(a,b,d,e,f,g,h,i,l))},dc=function(a,b){return function(d,e,f){d=Kb(d);for(var g,h,i,j,k,l="",m={},n=0,o=0,p=d.length;p>o;o++){if(i=d[o],"M"==i[0])g=+i[1],h=+i[2];else{if(j=cc(g,h,i[1],i[2],i[3],i[4],i[5],i[6]),n+j>e){if(b&&!m.start){if(k=cc(g,h,i[1],i[2],i[3],i[4],i[5],i[6],e-n),l+=["C"+k.start.x,k.start.y,k.m.x,k.m.y,k.x,k.y],f)return l;m.start=l,l=["M"+k.x,k.y+"C"+k.n.x,k.n.y,k.end.x,k.end.y,i[5],i[6]].join(),n+=j,g=+i[5],h=+i[6];continue}if(!a&&!b)return k=cc(g,h,i[1],i[2],i[3],i[4],i[5],i[6],e-n),{x:k.x,y:k.y,alpha:k.alpha}}n+=j,g=+i[5],h=+i[6]}l+=i.shift()+i}return m.end=l,k=a?n:b?m:c.findDotsAtSegment(g,h,i[0],i[1],i[2],i[3],i[4],i[5],1),k.alpha&&(k={x:k.x,y:k.y,alpha:k.alpha}),k}},ec=dc(1),fc=dc(),gc=dc(0,1);c.getTotalLength=ec,c.getPointAtLength=fc,c.getSubpath=function(a,b,c){if(this.getTotalLength(a)-c<1e-6)return gc(a,b).end;var d=gc(a,c,1);return b?gc(d,b).end:d},$b.getTotalLength=function(){var a=this.getPath();if(a)return this.node.getTotalLength?this.node.getTotalLength():ec(a)},$b.getPointAtLength=function(a){var b=this.getPath();if(b)return fc(b,a)},$b.getPath=function(){var a,b=c._getPath[this.type];if("text"!=this.type&&"set"!=this.type)return b&&(a=b(this)),a},$b.getSubpath=function(a,b){var d=this.getPath();if(d)return c.getSubpath(d,a,b)};var hc=c.easing_formulas={linear:function(a){return a},"<":function(a){return R(a,1.7)},">":function(a){return R(a,.48)},"<>":function(a){var b=.48-a/1.04,c=N.sqrt(.1734+b*b),d=c-b,e=R(Q(d),1/3)*(0>d?-1:1),f=-c-b,g=R(Q(f),1/3)*(0>f?-1:1),h=e+g+.5;return 3*(1-h)*h*h+h*h*h},backIn:function(a){var b=1.70158;return a*a*((b+1)*a-b)},backOut:function(a){a-=1;var b=1.70158;return a*a*((b+1)*a+b)+1},elastic:function(a){return a==!!a?a:R(2,-10*a)*N.sin((a-.075)*2*S/.3)+1},bounce:function(a){var b,c=7.5625,d=2.75;return 1/d>a?b=c*a*a:2/d>a?(a-=1.5/d,b=c*a*a+.75):2.5/d>a?(a-=2.25/d,b=c*a*a+.9375):(a-=2.625/d,b=c*a*a+.984375),b}};hc.easeIn=hc["ease-in"]=hc["<"],hc.easeOut=hc["ease-out"]=hc[">"],hc.easeInOut=hc["ease-in-out"]=hc["<>"],hc["back-in"]=hc.backIn,hc["back-out"]=hc.backOut;var ic=[],jc=a.requestAnimationFrame||a.webkitRequestAnimationFrame||a.mozRequestAnimationFrame||a.oRequestAnimationFrame||a.msRequestAnimationFrame||function(a){setTimeout(a,16)},kc=function(){for(var a=+new Date,d=0;d<ic.length;d++){var e=ic[d];if(!e.el.removed&&!e.paused){var f,g,h=a-e.start,i=e.ms,j=e.easing,k=e.from,l=e.diff,m=e.to,n=(e.t,e.el),o={},p={};if(e.initstatus?(h=(e.initstatus*e.anim.top-e.prev)/(e.percent-e.prev)*i,e.status=e.initstatus,delete e.initstatus,e.stop&&ic.splice(d--,1)):e.status=(e.prev+(e.percent-e.prev)*(h/i))/e.anim.top,!(0>h))if(i>h){var q=j(h/i);for(var r in k)if(k[z](r)){switch(db[r]){case T:f=+k[r]+q*i*l[r];break;case"colour":f="rgb("+[lc($(k[r].r+q*i*l[r].r)),lc($(k[r].g+q*i*l[r].g)),lc($(k[r].b+q*i*l[r].b))].join(",")+")";break;case"path":f=[];for(var t=0,u=k[r].length;u>t;t++){f[t]=[k[r][t][0]];for(var v=1,w=k[r][t].length;w>v;v++)f[t][v]=+k[r][t][v]+q*i*l[r][t][v];f[t]=f[t].join(H)}f=f.join(H);break;case"transform":if(l[r].real)for(f=[],t=0,u=k[r].length;u>t;t++)for(f[t]=[k[r][t][0]],v=1,w=k[r][t].length;w>v;v++)f[t][v]=k[r][t][v]+q*i*l[r][t][v];else{var x=function(a){return+k[r][a]+q*i*l[r][a]};f=[["m",x(0),x(1),x(2),x(3),x(4),x(5)]]}break;case"csv":if("clip-rect"==r)for(f=[],t=4;t--;)f[t]=+k[r][t]+q*i*l[r][t];break;default:var y=[][E](k[r]);for(f=[],t=n.paper.customAttributes[r].length;t--;)f[t]=+y[t]+q*i*l[r][t]}o[r]=f}n.attr(o),function(a,c,d){setTimeout(function(){b("raphael.anim.frame."+a,c,d)})}(n.id,n,e.anim)}else{if(function(a,d,e){setTimeout(function(){b("raphael.anim.frame."+d.id,d,e),b("raphael.anim.finish."+d.id,d,e),c.is(a,"function")&&a.call(d)})}(e.callback,n,e.anim),n.attr(m),ic.splice(d--,1),e.repeat>1&&!e.next){for(g in m)m[z](g)&&(p[g]=e.totalOrigin[g]);e.el.attr(p),s(e.anim,e.el,e.anim.percents[0],null,e.totalOrigin,e.repeat-1)}e.next&&!e.stop&&s(e.anim,e.el,e.next,null,e.totalOrigin,e.repeat)}}}c.svg&&n&&n.paper&&n.paper.safari(),ic.length&&jc(kc)},lc=function(a){return a>255?255:0>a?0:a};$b.animateWith=function(a,b,d,e,f,g){var h=this;if(h.removed)return g&&g.call(h),h;var i=d instanceof r?d:c.animation(d,e,f,g);s(i,h,i.percents[0],null,h.attr());for(var j=0,k=ic.length;k>j;j++)if(ic[j].anim==b&&ic[j].el==a){ic[k-1].start=ic[j].start;break}return h},$b.onAnimation=function(a){return a?b.on("raphael.anim.frame."+this.id,a):b.unbind("raphael.anim.frame."+this.id),this},r.prototype.delay=function(a){var b=new r(this.anim,this.ms);return b.times=this.times,b.del=+a||0,b},r.prototype.repeat=function(a){var b=new r(this.anim,this.ms);return b.del=this.del,b.times=N.floor(O(a,0))||1,b},c.animation=function(a,b,d,e){if(a instanceof r)return a;(c.is(d,"function")||!d)&&(e=e||d||null,d=null),a=Object(a),b=+b||0;var f,g,h={};for(g in a)a[z](g)&&_(g)!=g&&_(g)+"%"!=g&&(f=!0,h[g]=a[g]);return f?(d&&(h.easing=d),e&&(h.callback=e),new r({100:h},b)):new r(a,b)},$b.animate=function(a,b,d,e){var f=this;if(f.removed)return e&&e.call(f),f;var g=a instanceof r?a:c.animation(a,b,d,e);return s(g,f,g.percents[0],null,f.attr()),f},$b.setTime=function(a,b){return a&&null!=b&&this.status(a,P(b,a.ms)/a.ms),this},$b.status=function(a,b){var c,d,e=[],f=0;if(null!=b)return s(a,this,-1,P(b,1)),this;for(c=ic.length;c>f;f++)if(d=ic[f],d.el.id==this.id&&(!a||d.anim==a)){if(a)return d.status;e.push({anim:d.anim,status:d.status})}return a?0:e},$b.pause=function(a){for(var c=0;c<ic.length;c++)ic[c].el.id!=this.id||a&&ic[c].anim!=a||b("raphael.anim.pause."+this.id,this,ic[c].anim)!==!1&&(ic[c].paused=!0);return this},$b.resume=function(a){for(var c=0;c<ic.length;c++)if(ic[c].el.id==this.id&&(!a||ic[c].anim==a)){var d=ic[c];b("raphael.anim.resume."+this.id,this,d.anim)!==!1&&(delete d.paused,this.status(d.anim,d.status))}return this},$b.stop=function(a){for(var c=0;c<ic.length;c++)ic[c].el.id!=this.id||a&&ic[c].anim!=a||b("raphael.anim.stop."+this.id,this,ic[c].anim)!==!1&&ic.splice(c--,1);return this},b.on("raphael.remove",t),b.on("raphael.clear",t),$b.toString=function(){return"Raphaël’s object"};var mc=function(a){if(this.items=[],this.length=0,this.type="set",a)for(var b=0,c=a.length;c>b;b++)!a[b]||a[b].constructor!=$b.constructor&&a[b].constructor!=mc||(this[this.items.length]=this.items[this.items.length]=a[b],this.length++)},nc=mc.prototype;nc.push=function(){for(var a,b,c=0,d=arguments.length;d>c;c++)a=arguments[c],!a||a.constructor!=$b.constructor&&a.constructor!=mc||(b=this.items.length,this[b]=this.items[b]=a,this.length++);return this},nc.pop=function(){return this.length&&delete this[this.length--],this.items.pop()},nc.forEach=function(a,b){for(var c=0,d=this.items.length;d>c;c++)if(a.call(b,this.items[c],c)===!1)return this;return this};for(var oc in $b)$b[z](oc)&&(nc[oc]=function(a){return function(){var b=arguments;return this.forEach(function(c){c[a][D](c,b)})}}(oc));return nc.attr=function(a,b){if(a&&c.is(a,V)&&c.is(a[0],"object"))for(var d=0,e=a.length;e>d;d++)this.items[d].attr(a[d]);else for(var f=0,g=this.items.length;g>f;f++)this.items[f].attr(a,b);return this},nc.clear=function(){for(;this.length;)this.pop()},nc.splice=function(a,b){a=0>a?O(this.length+a,0):a,b=O(0,P(this.length-a,b));var c,d=[],e=[],f=[];for(c=2;c<arguments.length;c++)f.push(arguments[c]);for(c=0;b>c;c++)e.push(this[a+c]);for(;c<this.length-a;c++)d.push(this[a+c]);var g=f.length;for(c=0;c<g+d.length;c++)this.items[a+c]=this[a+c]=g>c?f[c]:d[c-g];for(c=this.items.length=this.length-=b-g;this[c];)delete this[c++];return new mc(e)},nc.exclude=function(a){for(var b=0,c=this.length;c>b;b++)if(this[b]==a)return this.splice(b,1),!0},nc.animate=function(a,b,d,e){(c.is(d,"function")||!d)&&(e=d||null);var f,g,h=this.items.length,i=h,j=this;if(!h)return this;e&&(g=function(){!--h&&e.call(j)}),d=c.is(d,U)?d:g;var k=c.animation(a,b,d,g);for(f=this.items[--i].animate(k);i--;)this.items[i]&&!this.items[i].removed&&this.items[i].animateWith(f,k,k),this.items[i]&&!this.items[i].removed||h--;return this},nc.insertAfter=function(a){for(var b=this.items.length;b--;)this.items[b].insertAfter(a);return this},nc.getBBox=function(){for(var a=[],b=[],c=[],d=[],e=this.items.length;e--;)if(!this.items[e].removed){var f=this.items[e].getBBox();a.push(f.x),b.push(f.y),c.push(f.x+f.width),d.push(f.y+f.height)}return a=P[D](0,a),b=P[D](0,b),c=O[D](0,c),d=O[D](0,d),{x:a,y:b,x2:c,y2:d,width:c-a,height:d-b}},nc.clone=function(a){a=this.paper.set();for(var b=0,c=this.items.length;c>b;b++)a.push(this.items[b].clone());return a},nc.toString=function(){return"Raphaël‘s set"},nc.glow=function(a){var b=this.paper.set();return this.forEach(function(c){var d=c.glow(a);null!=d&&d.forEach(function(a){b.push(a)})}),b},nc.isPointInside=function(a,b){var c=!1;return this.forEach(function(d){return d.isPointInside(a,b)?(console.log("runned"),c=!0,!1):void 0}),c},c.registerFont=function(a){if(!a.face)return a;this.fonts=this.fonts||{};var b={w:a.w,face:{},glyphs:{}},c=a.face["font-family"];for(var d in a.face)a.face[z](d)&&(b.face[d]=a.face[d]);if(this.fonts[c]?this.fonts[c].push(b):this.fonts[c]=[b],!a.svg){b.face["units-per-em"]=ab(a.face["units-per-em"],10);for(var e in a.glyphs)if(a.glyphs[z](e)){var f=a.glyphs[e];if(b.glyphs[e]={w:f.w,k:{},d:f.d&&"M"+f.d.replace(/[mlcxtrv]/g,function(a){return{l:"L",c:"C",x:"z",t:"m",r:"l",v:"c"}[a]||"M"})+"z"},f.k)for(var g in f.k)f[z](g)&&(b.glyphs[e].k[g]=f.k[g])}}return a},v.getFont=function(a,b,d,e){if(e=e||"normal",d=d||"normal",b=+b||{normal:400,bold:700,lighter:300,bolder:800}[b]||400,c.fonts){var f=c.fonts[a];if(!f){var g=new RegExp("(^|\\s)"+a.replace(/[^\w\d\s+!~.:_-]/g,G)+"(\\s|$)","i");for(var h in c.fonts)if(c.fonts[z](h)&&g.test(h)){f=c.fonts[h];break}}var i;if(f)for(var j=0,k=f.length;k>j&&(i=f[j],i.face["font-weight"]!=b||i.face["font-style"]!=d&&i.face["font-style"]||i.face["font-stretch"]!=e);j++);return i}},v.print=function(a,b,d,e,f,g,h,i){g=g||"middle",h=O(P(h||0,1),-1),i=O(P(i||1,3),1);var j,k=I(d)[J](G),l=0,m=0,n=G;if(c.is(e,"string")&&(e=this.getFont(e)),e){j=(f||16)/e.face["units-per-em"];for(var o=e.face.bbox[J](w),p=+o[0],q=o[3]-o[1],r=0,s=+o[1]+("baseline"==g?q+ +e.face.descent:q/2),t=0,u=k.length;u>t;t++){if("\n"==k[t])l=0,x=0,m=0,r+=q*i;else{var v=m&&e.glyphs[k[t-1]]||{},x=e.glyphs[k[t]];l+=m?(v.w||e.w)+(v.k&&v.k[k[t]]||0)+e.w*h:0,m=1}x&&x.d&&(n+=c.transformPath(x.d,["t",l*j,r*j,"s",j,j,p,s,"t",(a-p)/j,(b-s)/j]))}}return this.path(n).attr({fill:"#000",stroke:"none"})},v.add=function(a){if(c.is(a,"array"))for(var b,d=this.set(),e=0,f=a.length;f>e;e++)b=a[e]||{},x[z](b.type)&&d.push(this[b.type]().attr(b));return d},c.format=function(a,b){var d=c.is(b,V)?[0][E](b):arguments;return a&&c.is(a,U)&&d.length-1&&(a=a.replace(y,function(a,b){return null==d[++b]?G:d[b]})),a||G},c.fullfill=function(){var a=/\{([^\}]+)\}/g,b=/(?:(?:^|\.)(.+?)(?=\[|\.|$|\()|\[('|")(.+?)\2\])(\(\))?/g,c=function(a,c,d){var e=d;return c.replace(b,function(a,b,c,d,f){b=b||d,e&&(b in e&&(e=e[b]),"function"==typeof e&&f&&(e=e()))}),e=(null==e||e==d?a:e)+""};return function(b,d){return String(b).replace(a,function(a,b){return c(a,b,d)})}}(),c.ninja=function(){return B.was?A.win.Raphael=B.is:delete Raphael,c},c.st=nc,function(a,b,d){function e(){/in/.test(a.readyState)?setTimeout(e,9):c.eve("raphael.DOMload")}null==a.readyState&&a.addEventListener&&(a.addEventListener(b,d=function(){a.removeEventListener(b,d,!1),a.readyState="complete"},!1),a.readyState="loading"),e()}(document,"DOMContentLoaded"),b.on("raphael.DOMload",function(){u=!0}),function(){if(c.svg){var a="hasOwnProperty",b=String,d=parseFloat,e=parseInt,f=Math,g=f.max,h=f.abs,i=f.pow,j=/[, ]+/,k=c.eve,l="",m=" ",n="http://www.w3.org/1999/xlink",o={block:"M5,0 0,2.5 5,5z",classic:"M5,0 0,2.5 5,5 3.5,3 3.5,2z",diamond:"M2.5,0 5,2.5 2.5,5 0,2.5z",open:"M6,1 1,3.5 6,6",oval:"M2.5,0A2.5,2.5,0,0,1,2.5,5 2.5,2.5,0,0,1,2.5,0z"},p={};c.toString=function(){return"Your browser supports SVG.\nYou are running Raphaël "+this.version};var q=function(d,e){if(e){"string"==typeof d&&(d=q(d));for(var f in e)e[a](f)&&("xlink:"==f.substring(0,6)?d.setAttributeNS(n,f.substring(6),b(e[f])):d.setAttribute(f,b(e[f])))}else d=c._g.doc.createElementNS("http://www.w3.org/2000/svg",d),d.style&&(d.style.webkitTapHighlightColor="rgba(0,0,0,0)");return d},r=function(a,e){var j="linear",k=a.id+e,m=.5,n=.5,o=a.node,p=a.paper,r=o.style,s=c._g.doc.getElementById(k);if(!s){if(e=b(e).replace(c._radial_gradient,function(a,b,c){if(j="radial",b&&c){m=d(b),n=d(c);var e=2*(n>.5)-1;i(m-.5,2)+i(n-.5,2)>.25&&(n=f.sqrt(.25-i(m-.5,2))*e+.5)&&.5!=n&&(n=n.toFixed(5)-1e-5*e)}return l}),e=e.split(/\s*\-\s*/),"linear"==j){var t=e.shift();if(t=-d(t),isNaN(t))return null;var u=[0,0,f.cos(c.rad(t)),f.sin(c.rad(t))],v=1/(g(h(u[2]),h(u[3]))||1);u[2]*=v,u[3]*=v,u[2]<0&&(u[0]=-u[2],u[2]=0),u[3]<0&&(u[1]=-u[3],u[3]=0)}var w=c._parseDots(e);if(!w)return null;if(k=k.replace(/[\(\)\s,\xb0#]/g,"_"),a.gradient&&k!=a.gradient.id&&(p.defs.removeChild(a.gradient),delete a.gradient),!a.gradient){s=q(j+"Gradient",{id:k}),a.gradient=s,q(s,"radial"==j?{fx:m,fy:n}:{x1:u[0],y1:u[1],x2:u[2],y2:u[3],gradientTransform:a.matrix.invert()}),p.defs.appendChild(s);for(var x=0,y=w.length;y>x;x++)s.appendChild(q("stop",{offset:w[x].offset?w[x].offset:x?"100%":"0%","stop-color":w[x].color||"#fff"}))}}return q(o,{fill:"url(#"+k+")",opacity:1,"fill-opacity":1}),r.fill=l,r.opacity=1,r.fillOpacity=1,1},s=function(a){var b=a.getBBox(1);q(a.pattern,{patternTransform:a.matrix.invert()+" translate("+b.x+","+b.y+")"})},t=function(d,e,f){if("path"==d.type){for(var g,h,i,j,k,m=b(e).toLowerCase().split("-"),n=d.paper,r=f?"end":"start",s=d.node,t=d.attrs,u=t["stroke-width"],v=m.length,w="classic",x=3,y=3,z=5;v--;)switch(m[v]){case"block":case"classic":case"oval":case"diamond":case"open":case"none":w=m[v];break;case"wide":y=5;break;case"narrow":y=2;break;case"long":x=5;break;case"short":x=2}if("open"==w?(x+=2,y+=2,z+=2,i=1,j=f?4:1,k={fill:"none",stroke:t.stroke}):(j=i=x/2,k={fill:t.stroke,stroke:"none"}),d._.arrows?f?(d._.arrows.endPath&&p[d._.arrows.endPath]--,d._.arrows.endMarker&&p[d._.arrows.endMarker]--):(d._.arrows.startPath&&p[d._.arrows.startPath]--,d._.arrows.startMarker&&p[d._.arrows.startMarker]--):d._.arrows={},"none"!=w){var A="raphael-marker-"+w,B="raphael-marker-"+r+w+x+y;c._g.doc.getElementById(A)?p[A]++:(n.defs.appendChild(q(q("path"),{"stroke-linecap":"round",d:o[w],id:A})),p[A]=1);var C,D=c._g.doc.getElementById(B);D?(p[B]++,C=D.getElementsByTagName("use")[0]):(D=q(q("marker"),{id:B,markerHeight:y,markerWidth:x,orient:"auto",refX:j,refY:y/2}),C=q(q("use"),{"xlink:href":"#"+A,transform:(f?"rotate(180 "+x/2+" "+y/2+") ":l)+"scale("+x/z+","+y/z+")","stroke-width":(1/((x/z+y/z)/2)).toFixed(4)}),D.appendChild(C),n.defs.appendChild(D),p[B]=1),q(C,k);var E=i*("diamond"!=w&&"oval"!=w);f?(g=d._.arrows.startdx*u||0,h=c.getTotalLength(t.path)-E*u):(g=E*u,h=c.getTotalLength(t.path)-(d._.arrows.enddx*u||0)),k={},k["marker-"+r]="url(#"+B+")",(h||g)&&(k.d=c.getSubpath(t.path,g,h)),q(s,k),d._.arrows[r+"Path"]=A,d._.arrows[r+"Marker"]=B,d._.arrows[r+"dx"]=E,d._.arrows[r+"Type"]=w,d._.arrows[r+"String"]=e}else f?(g=d._.arrows.startdx*u||0,h=c.getTotalLength(t.path)-g):(g=0,h=c.getTotalLength(t.path)-(d._.arrows.enddx*u||0)),d._.arrows[r+"Path"]&&q(s,{d:c.getSubpath(t.path,g,h)}),delete d._.arrows[r+"Path"],delete d._.arrows[r+"Marker"],delete d._.arrows[r+"dx"],delete d._.arrows[r+"Type"],delete d._.arrows[r+"String"];for(k in p)if(p[a](k)&&!p[k]){var F=c._g.doc.getElementById(k);F&&F.parentNode.removeChild(F)}}},u={"":[0],none:[0],"-":[3,1],".":[1,1],"-.":[3,1,1,1],"-..":[3,1,1,1,1,1],". ":[1,3],"- ":[4,3],"--":[8,3],"- .":[4,3,1,3],"--.":[8,3,1,3],"--..":[8,3,1,3,1,3]},v=function(a,c,d){if(c=u[b(c).toLowerCase()]){for(var e=a.attrs["stroke-width"]||"1",f={round:e,square:e,butt:0}[a.attrs["stroke-linecap"]||d["stroke-linecap"]]||0,g=[],h=c.length;h--;)g[h]=c[h]*e+(h%2?1:-1)*f;q(a.node,{"stroke-dasharray":g.join(",")})}},w=function(d,f){var i=d.node,k=d.attrs,m=i.style.visibility;i.style.visibility="hidden";for(var o in f)if(f[a](o)){if(!c._availableAttrs[a](o))continue;var p=f[o];switch(k[o]=p,o){case"blur":d.blur(p);break;case"href":case"title":var u=q("title"),w=c._g.doc.createTextNode(p);u.appendChild(w),i.appendChild(u);break;case"target":var x=i.parentNode;if("a"!=x.tagName.toLowerCase()){var u=q("a");x.insertBefore(u,i),u.appendChild(i),x=u}"target"==o?x.setAttributeNS(n,"show","blank"==p?"new":p):x.setAttributeNS(n,o,p);break;case"cursor":i.style.cursor=p;break;case"transform":d.transform(p);break;case"arrow-start":t(d,p);break;case"arrow-end":t(d,p,1);break;case"clip-rect":var z=b(p).split(j);if(4==z.length){d.clip&&d.clip.parentNode.parentNode.removeChild(d.clip.parentNode);var A=q("clipPath"),B=q("rect");A.id=c.createUUID(),q(B,{x:z[0],y:z[1],width:z[2],height:z[3]}),A.appendChild(B),d.paper.defs.appendChild(A),q(i,{"clip-path":"url(#"+A.id+")"}),d.clip=B}if(!p){var C=i.getAttribute("clip-path");if(C){var D=c._g.doc.getElementById(C.replace(/(^url\(#|\)$)/g,l));D&&D.parentNode.removeChild(D),q(i,{"clip-path":l}),delete d.clip}}break;case"path":"path"==d.type&&(q(i,{d:p?k.path=c._pathToAbsolute(p):"M0,0"}),d._.dirty=1,d._.arrows&&("startString"in d._.arrows&&t(d,d._.arrows.startString),"endString"in d._.arrows&&t(d,d._.arrows.endString,1)));break;case"width":if(i.setAttribute(o,p),d._.dirty=1,!k.fx)break;o="x",p=k.x;case"x":k.fx&&(p=-k.x-(k.width||0));case"rx":if("rx"==o&&"rect"==d.type)break;case"cx":i.setAttribute(o,p),d.pattern&&s(d),d._.dirty=1;break;case"height":if(i.setAttribute(o,p),d._.dirty=1,!k.fy)break;o="y",p=k.y;case"y":k.fy&&(p=-k.y-(k.height||0));case"ry":if("ry"==o&&"rect"==d.type)break;case"cy":i.setAttribute(o,p),d.pattern&&s(d),d._.dirty=1;break;case"r":"rect"==d.type?q(i,{rx:p,ry:p}):i.setAttribute(o,p),d._.dirty=1;break;case"src":"image"==d.type&&i.setAttributeNS(n,"href",p);break;case"stroke-width":(1!=d._.sx||1!=d._.sy)&&(p/=g(h(d._.sx),h(d._.sy))||1),d.paper._vbSize&&(p*=d.paper._vbSize),i.setAttribute(o,p),k["stroke-dasharray"]&&v(d,k["stroke-dasharray"],f),d._.arrows&&("startString"in d._.arrows&&t(d,d._.arrows.startString),"endString"in d._.arrows&&t(d,d._.arrows.endString,1));break;case"stroke-dasharray":v(d,p,f);break;case"fill":var E=b(p).match(c._ISURL);if(E){A=q("pattern");var F=q("image");A.id=c.createUUID(),q(A,{x:0,y:0,patternUnits:"userSpaceOnUse",height:1,width:1}),q(F,{x:0,y:0,"xlink:href":E[1]}),A.appendChild(F),function(a){c._preload(E[1],function(){var b=this.offsetWidth,c=this.offsetHeight;q(a,{width:b,height:c}),q(F,{width:b,height:c}),d.paper.safari()})}(A),d.paper.defs.appendChild(A),q(i,{fill:"url(#"+A.id+")"}),d.pattern=A,d.pattern&&s(d);break}var G=c.getRGB(p);if(G.error){if(("circle"==d.type||"ellipse"==d.type||"r"!=b(p).charAt())&&r(d,p)){if("opacity"in k||"fill-opacity"in k){var H=c._g.doc.getElementById(i.getAttribute("fill").replace(/^url\(#|\)$/g,l));if(H){var I=H.getElementsByTagName("stop");q(I[I.length-1],{"stop-opacity":("opacity"in k?k.opacity:1)*("fill-opacity"in k?k["fill-opacity"]:1)})}}k.gradient=p,k.fill="none";break}}else delete f.gradient,delete k.gradient,!c.is(k.opacity,"undefined")&&c.is(f.opacity,"undefined")&&q(i,{opacity:k.opacity}),!c.is(k["fill-opacity"],"undefined")&&c.is(f["fill-opacity"],"undefined")&&q(i,{"fill-opacity":k["fill-opacity"]});G[a]("opacity")&&q(i,{"fill-opacity":G.opacity>1?G.opacity/100:G.opacity});case"stroke":G=c.getRGB(p),i.setAttribute(o,G.hex),"stroke"==o&&G[a]("opacity")&&q(i,{"stroke-opacity":G.opacity>1?G.opacity/100:G.opacity}),"stroke"==o&&d._.arrows&&("startString"in d._.arrows&&t(d,d._.arrows.startString),"endString"in d._.arrows&&t(d,d._.arrows.endString,1));break;case"gradient":("circle"==d.type||"ellipse"==d.type||"r"!=b(p).charAt())&&r(d,p);break;case"opacity":k.gradient&&!k[a]("stroke-opacity")&&q(i,{"stroke-opacity":p>1?p/100:p});case"fill-opacity":if(k.gradient){H=c._g.doc.getElementById(i.getAttribute("fill").replace(/^url\(#|\)$/g,l)),H&&(I=H.getElementsByTagName("stop"),q(I[I.length-1],{"stop-opacity":p}));break}default:"font-size"==o&&(p=e(p,10)+"px");var J=o.replace(/(\-.)/g,function(a){return a.substring(1).toUpperCase()});i.style[J]=p,d._.dirty=1,i.setAttribute(o,p)}}y(d,f),i.style.visibility=m},x=1.2,y=function(d,f){if("text"==d.type&&(f[a]("text")||f[a]("font")||f[a]("font-size")||f[a]("x")||f[a]("y"))){var g=d.attrs,h=d.node,i=h.firstChild?e(c._g.doc.defaultView.getComputedStyle(h.firstChild,l).getPropertyValue("font-size"),10):10;
-if(f[a]("text")){for(g.text=f.text;h.firstChild;)h.removeChild(h.firstChild);for(var j,k=b(f.text).split("\n"),m=[],n=0,o=k.length;o>n;n++)j=q("tspan"),n&&q(j,{dy:i*x,x:g.x}),j.appendChild(c._g.doc.createTextNode(k[n])),h.appendChild(j),m[n]=j}else for(m=h.getElementsByTagName("tspan"),n=0,o=m.length;o>n;n++)n?q(m[n],{dy:i*x,x:g.x}):q(m[0],{dy:0});q(h,{x:g.x,y:g.y}),d._.dirty=1;var p=d._getBBox(),r=g.y-(p.y+p.height/2);r&&c.is(r,"finite")&&q(m[0],{dy:r})}},z=function(a,b){this[0]=this.node=a,a.raphael=!0,this.id=c._oid++,a.raphaelid=this.id,this.matrix=c.matrix(),this.realPath=null,this.paper=b,this.attrs=this.attrs||{},this._={transform:[],sx:1,sy:1,deg:0,dx:0,dy:0,dirty:1},!b.bottom&&(b.bottom=this),this.prev=b.top,b.top&&(b.top.next=this),b.top=this,this.next=null},A=c.el;z.prototype=A,A.constructor=z,c._engine.path=function(a,b){var c=q("path");b.canvas&&b.canvas.appendChild(c);var d=new z(c,b);return d.type="path",w(d,{fill:"none",stroke:"#000",path:a}),d},A.rotate=function(a,c,e){if(this.removed)return this;if(a=b(a).split(j),a.length-1&&(c=d(a[1]),e=d(a[2])),a=d(a[0]),null==e&&(c=e),null==c||null==e){var f=this.getBBox(1);c=f.x+f.width/2,e=f.y+f.height/2}return this.transform(this._.transform.concat([["r",a,c,e]])),this},A.scale=function(a,c,e,f){if(this.removed)return this;if(a=b(a).split(j),a.length-1&&(c=d(a[1]),e=d(a[2]),f=d(a[3])),a=d(a[0]),null==c&&(c=a),null==f&&(e=f),null==e||null==f)var g=this.getBBox(1);return e=null==e?g.x+g.width/2:e,f=null==f?g.y+g.height/2:f,this.transform(this._.transform.concat([["s",a,c,e,f]])),this},A.translate=function(a,c){return this.removed?this:(a=b(a).split(j),a.length-1&&(c=d(a[1])),a=d(a[0])||0,c=+c||0,this.transform(this._.transform.concat([["t",a,c]])),this)},A.transform=function(b){var d=this._;if(null==b)return d.transform;if(c._extractTransform(this,b),this.clip&&q(this.clip,{transform:this.matrix.invert()}),this.pattern&&s(this),this.node&&q(this.node,{transform:this.matrix}),1!=d.sx||1!=d.sy){var e=this.attrs[a]("stroke-width")?this.attrs["stroke-width"]:1;this.attr({"stroke-width":e})}return this},A.hide=function(){return!this.removed&&this.paper.safari(this.node.style.display="none"),this},A.show=function(){return!this.removed&&this.paper.safari(this.node.style.display=""),this},A.remove=function(){if(!this.removed&&this.node.parentNode){var a=this.paper;a.__set__&&a.__set__.exclude(this),k.unbind("raphael.*.*."+this.id),this.gradient&&a.defs.removeChild(this.gradient),c._tear(this,a),"a"==this.node.parentNode.tagName.toLowerCase()?this.node.parentNode.parentNode.removeChild(this.node.parentNode):this.node.parentNode.removeChild(this.node);for(var b in this)this[b]="function"==typeof this[b]?c._removedFactory(b):null;this.removed=!0}},A._getBBox=function(){if("none"==this.node.style.display){this.show();var a=!0}var b={};try{b=this.node.getBBox()}catch(c){}finally{b=b||{}}return a&&this.hide(),b},A.attr=function(b,d){if(this.removed)return this;if(null==b){var e={};for(var f in this.attrs)this.attrs[a](f)&&(e[f]=this.attrs[f]);return e.gradient&&"none"==e.fill&&(e.fill=e.gradient)&&delete e.gradient,e.transform=this._.transform,e}if(null==d&&c.is(b,"string")){if("fill"==b&&"none"==this.attrs.fill&&this.attrs.gradient)return this.attrs.gradient;if("transform"==b)return this._.transform;for(var g=b.split(j),h={},i=0,l=g.length;l>i;i++)b=g[i],h[b]=b in this.attrs?this.attrs[b]:c.is(this.paper.customAttributes[b],"function")?this.paper.customAttributes[b].def:c._availableAttrs[b];return l-1?h:h[g[0]]}if(null==d&&c.is(b,"array")){for(h={},i=0,l=b.length;l>i;i++)h[b[i]]=this.attr(b[i]);return h}if(null!=d){var m={};m[b]=d}else null!=b&&c.is(b,"object")&&(m=b);for(var n in m)k("raphael.attr."+n+"."+this.id,this,m[n]);for(n in this.paper.customAttributes)if(this.paper.customAttributes[a](n)&&m[a](n)&&c.is(this.paper.customAttributes[n],"function")){var o=this.paper.customAttributes[n].apply(this,[].concat(m[n]));this.attrs[n]=m[n];for(var p in o)o[a](p)&&(m[p]=o[p])}return w(this,m),this},A.toFront=function(){if(this.removed)return this;"a"==this.node.parentNode.tagName.toLowerCase()?this.node.parentNode.parentNode.appendChild(this.node.parentNode):this.node.parentNode.appendChild(this.node);var a=this.paper;return a.top!=this&&c._tofront(this,a),this},A.toBack=function(){if(this.removed)return this;var a=this.node.parentNode;return"a"==a.tagName.toLowerCase()?a.parentNode.insertBefore(this.node.parentNode,this.node.parentNode.parentNode.firstChild):a.firstChild!=this.node&&a.insertBefore(this.node,this.node.parentNode.firstChild),c._toback(this,this.paper),this.paper,this},A.insertAfter=function(a){if(this.removed)return this;var b=a.node||a[a.length-1].node;return b.nextSibling?b.parentNode.insertBefore(this.node,b.nextSibling):b.parentNode.appendChild(this.node),c._insertafter(this,a,this.paper),this},A.insertBefore=function(a){if(this.removed)return this;var b=a.node||a[0].node;return b.parentNode.insertBefore(this.node,b),c._insertbefore(this,a,this.paper),this},A.blur=function(a){var b=this;if(0!==+a){var d=q("filter"),e=q("feGaussianBlur");b.attrs.blur=a,d.id=c.createUUID(),q(e,{stdDeviation:+a||1.5}),d.appendChild(e),b.paper.defs.appendChild(d),b._blur=d,q(b.node,{filter:"url(#"+d.id+")"})}else b._blur&&(b._blur.parentNode.removeChild(b._blur),delete b._blur,delete b.attrs.blur),b.node.removeAttribute("filter");return b},c._engine.circle=function(a,b,c,d){var e=q("circle");a.canvas&&a.canvas.appendChild(e);var f=new z(e,a);return f.attrs={cx:b,cy:c,r:d,fill:"none",stroke:"#000"},f.type="circle",q(e,f.attrs),f},c._engine.rect=function(a,b,c,d,e,f){var g=q("rect");a.canvas&&a.canvas.appendChild(g);var h=new z(g,a);return h.attrs={x:b,y:c,width:d,height:e,r:f||0,rx:f||0,ry:f||0,fill:"none",stroke:"#000"},h.type="rect",q(g,h.attrs),h},c._engine.ellipse=function(a,b,c,d,e){var f=q("ellipse");a.canvas&&a.canvas.appendChild(f);var g=new z(f,a);return g.attrs={cx:b,cy:c,rx:d,ry:e,fill:"none",stroke:"#000"},g.type="ellipse",q(f,g.attrs),g},c._engine.image=function(a,b,c,d,e,f){var g=q("image");q(g,{x:c,y:d,width:e,height:f,preserveAspectRatio:"none"}),g.setAttributeNS(n,"href",b),a.canvas&&a.canvas.appendChild(g);var h=new z(g,a);return h.attrs={x:c,y:d,width:e,height:f,src:b},h.type="image",h},c._engine.text=function(a,b,d,e){var f=q("text");a.canvas&&a.canvas.appendChild(f);var g=new z(f,a);return g.attrs={x:b,y:d,"text-anchor":"middle",text:e,font:c._availableAttrs.font,stroke:"none",fill:"#000"},g.type="text",w(g,g.attrs),g},c._engine.setSize=function(a,b){return this.width=a||this.width,this.height=b||this.height,this.canvas.setAttribute("width",this.width),this.canvas.setAttribute("height",this.height),this._viewBox&&this.setViewBox.apply(this,this._viewBox),this},c._engine.create=function(){var a=c._getContainer.apply(0,arguments),b=a&&a.container,d=a.x,e=a.y,f=a.width,g=a.height;if(!b)throw new Error("SVG container not found.");var h,i=q("svg"),j="overflow:hidden;";return d=d||0,e=e||0,f=f||512,g=g||342,q(i,{height:g,version:1.1,width:f,xmlns:"http://www.w3.org/2000/svg"}),1==b?(i.style.cssText=j+"position:absolute;left:"+d+"px;top:"+e+"px",c._g.doc.body.appendChild(i),h=1):(i.style.cssText=j+"position:relative",b.firstChild?b.insertBefore(i,b.firstChild):b.appendChild(i)),b=new c._Paper,b.width=f,b.height=g,b.canvas=i,b.clear(),b._left=b._top=0,h&&(b.renderfix=function(){}),b.renderfix(),b},c._engine.setViewBox=function(a,b,c,d,e){k("raphael.setViewBox",this,this._viewBox,[a,b,c,d,e]);var f,h,i=g(c/this.width,d/this.height),j=this.top,l=e?"meet":"xMinYMin";for(null==a?(this._vbSize&&(i=1),delete this._vbSize,f="0 0 "+this.width+m+this.height):(this._vbSize=i,f=a+m+b+m+c+m+d),q(this.canvas,{viewBox:f,preserveAspectRatio:l});i&&j;)h="stroke-width"in j.attrs?j.attrs["stroke-width"]:1,j.attr({"stroke-width":h}),j._.dirty=1,j._.dirtyT=1,j=j.prev;return this._viewBox=[a,b,c,d,!!e],this},c.prototype.renderfix=function(){var a,b=this.canvas,c=b.style;try{a=b.getScreenCTM()||b.createSVGMatrix()}catch(d){a=b.createSVGMatrix()}var e=-a.e%1,f=-a.f%1;(e||f)&&(e&&(this._left=(this._left+e)%1,c.left=this._left+"px"),f&&(this._top=(this._top+f)%1,c.top=this._top+"px"))},c.prototype.clear=function(){c.eve("raphael.clear",this);for(var a=this.canvas;a.firstChild;)a.removeChild(a.firstChild);this.bottom=this.top=null,(this.desc=q("desc")).appendChild(c._g.doc.createTextNode("Created with Raphaël "+c.version)),a.appendChild(this.desc),a.appendChild(this.defs=q("defs"))},c.prototype.remove=function(){k("raphael.remove",this),this.canvas.parentNode&&this.canvas.parentNode.removeChild(this.canvas);for(var a in this)this[a]="function"==typeof this[a]?c._removedFactory(a):null};var B=c.st;for(var C in A)A[a](C)&&!B[a](C)&&(B[C]=function(a){return function(){var b=arguments;return this.forEach(function(c){c[a].apply(c,b)})}}(C))}}(),function(){if(c.vml){var a="hasOwnProperty",b=String,d=parseFloat,e=Math,f=e.round,g=e.max,h=e.min,i=e.abs,j="fill",k=/[, ]+/,l=c.eve,m=" progid:DXImageTransform.Microsoft",n=" ",o="",p={M:"m",L:"l",C:"c",Z:"x",m:"t",l:"r",c:"v",z:"x"},q=/([clmz]),?([^clmz]*)/gi,r=/ progid:\S+Blur\([^\)]+\)/g,s=/-?[^,\s-]+/g,t="position:absolute;left:0;top:0;width:1px;height:1px",u=21600,v={path:1,rect:1,image:1},w={circle:1,ellipse:1},x=function(a){var d=/[ahqstv]/gi,e=c._pathToAbsolute;if(b(a).match(d)&&(e=c._path2curve),d=/[clmz]/g,e==c._pathToAbsolute&&!b(a).match(d)){var g=b(a).replace(q,function(a,b,c){var d=[],e="m"==b.toLowerCase(),g=p[b];return c.replace(s,function(a){e&&2==d.length&&(g+=d+p["m"==b?"l":"L"],d=[]),d.push(f(a*u))}),g+d});return g}var h,i,j=e(a);g=[];for(var k=0,l=j.length;l>k;k++){h=j[k],i=j[k][0].toLowerCase(),"z"==i&&(i="x");for(var m=1,r=h.length;r>m;m++)i+=f(h[m]*u)+(m!=r-1?",":o);g.push(i)}return g.join(n)},y=function(a,b,d){var e=c.matrix();return e.rotate(-a,.5,.5),{dx:e.x(b,d),dy:e.y(b,d)}},z=function(a,b,c,d,e,f){var g=a._,h=a.matrix,k=g.fillpos,l=a.node,m=l.style,o=1,p="",q=u/b,r=u/c;if(m.visibility="hidden",b&&c){if(l.coordsize=i(q)+n+i(r),m.rotation=f*(0>b*c?-1:1),f){var s=y(f,d,e);d=s.dx,e=s.dy}if(0>b&&(p+="x"),0>c&&(p+=" y")&&(o=-1),m.flip=p,l.coordorigin=d*-q+n+e*-r,k||g.fillsize){var t=l.getElementsByTagName(j);t=t&&t[0],l.removeChild(t),k&&(s=y(f,h.x(k[0],k[1]),h.y(k[0],k[1])),t.position=s.dx*o+n+s.dy*o),g.fillsize&&(t.size=g.fillsize[0]*i(b)+n+g.fillsize[1]*i(c)),l.appendChild(t)}m.visibility="visible"}};c.toString=function(){return"Your browser doesn’t support SVG. Falling down to VML.\nYou are running Raphaël "+this.version};var A=function(a,c,d){for(var e=b(c).toLowerCase().split("-"),f=d?"end":"start",g=e.length,h="classic",i="medium",j="medium";g--;)switch(e[g]){case"block":case"classic":case"oval":case"diamond":case"open":case"none":h=e[g];break;case"wide":case"narrow":j=e[g];break;case"long":case"short":i=e[g]}var k=a.node.getElementsByTagName("stroke")[0];k[f+"arrow"]=h,k[f+"arrowlength"]=i,k[f+"arrowwidth"]=j},B=function(e,i){e.attrs=e.attrs||{};var l=e.node,m=e.attrs,p=l.style,q=v[e.type]&&(i.x!=m.x||i.y!=m.y||i.width!=m.width||i.height!=m.height||i.cx!=m.cx||i.cy!=m.cy||i.rx!=m.rx||i.ry!=m.ry||i.r!=m.r),r=w[e.type]&&(m.cx!=i.cx||m.cy!=i.cy||m.r!=i.r||m.rx!=i.rx||m.ry!=i.ry),s=e;for(var t in i)i[a](t)&&(m[t]=i[t]);if(q&&(m.path=c._getPath[e.type](e),e._.dirty=1),i.href&&(l.href=i.href),i.title&&(l.title=i.title),i.target&&(l.target=i.target),i.cursor&&(p.cursor=i.cursor),"blur"in i&&e.blur(i.blur),(i.path&&"path"==e.type||q)&&(l.path=x(~b(m.path).toLowerCase().indexOf("r")?c._pathToAbsolute(m.path):m.path),"image"==e.type&&(e._.fillpos=[m.x,m.y],e._.fillsize=[m.width,m.height],z(e,1,1,0,0,0))),"transform"in i&&e.transform(i.transform),r){var y=+m.cx,B=+m.cy,D=+m.rx||+m.r||0,E=+m.ry||+m.r||0;l.path=c.format("ar{0},{1},{2},{3},{4},{1},{4},{1}x",f((y-D)*u),f((B-E)*u),f((y+D)*u),f((B+E)*u),f(y*u)),e._.dirty=1}if("clip-rect"in i){var G=b(i["clip-rect"]).split(k);if(4==G.length){G[2]=+G[2]+ +G[0],G[3]=+G[3]+ +G[1];var H=l.clipRect||c._g.doc.createElement("div"),I=H.style;I.clip=c.format("rect({1}px {2}px {3}px {0}px)",G),l.clipRect||(I.position="absolute",I.top=0,I.left=0,I.width=e.paper.width+"px",I.height=e.paper.height+"px",l.parentNode.insertBefore(H,l),H.appendChild(l),l.clipRect=H)}i["clip-rect"]||l.clipRect&&(l.clipRect.style.clip="auto")}if(e.textpath){var J=e.textpath.style;i.font&&(J.font=i.font),i["font-family"]&&(J.fontFamily='"'+i["font-family"].split(",")[0].replace(/^['"]+|['"]+$/g,o)+'"'),i["font-size"]&&(J.fontSize=i["font-size"]),i["font-weight"]&&(J.fontWeight=i["font-weight"]),i["font-style"]&&(J.fontStyle=i["font-style"])}if("arrow-start"in i&&A(s,i["arrow-start"]),"arrow-end"in i&&A(s,i["arrow-end"],1),null!=i.opacity||null!=i["stroke-width"]||null!=i.fill||null!=i.src||null!=i.stroke||null!=i["stroke-width"]||null!=i["stroke-opacity"]||null!=i["fill-opacity"]||null!=i["stroke-dasharray"]||null!=i["stroke-miterlimit"]||null!=i["stroke-linejoin"]||null!=i["stroke-linecap"]){var K=l.getElementsByTagName(j),L=!1;if(K=K&&K[0],!K&&(L=K=F(j)),"image"==e.type&&i.src&&(K.src=i.src),i.fill&&(K.on=!0),(null==K.on||"none"==i.fill||null===i.fill)&&(K.on=!1),K.on&&i.fill){var M=b(i.fill).match(c._ISURL);if(M){K.parentNode==l&&l.removeChild(K),K.rotate=!0,K.src=M[1],K.type="tile";var N=e.getBBox(1);K.position=N.x+n+N.y,e._.fillpos=[N.x,N.y],c._preload(M[1],function(){e._.fillsize=[this.offsetWidth,this.offsetHeight]})}else K.color=c.getRGB(i.fill).hex,K.src=o,K.type="solid",c.getRGB(i.fill).error&&(s.type in{circle:1,ellipse:1}||"r"!=b(i.fill).charAt())&&C(s,i.fill,K)&&(m.fill="none",m.gradient=i.fill,K.rotate=!1)}if("fill-opacity"in i||"opacity"in i){var O=((+m["fill-opacity"]+1||2)-1)*((+m.opacity+1||2)-1)*((+c.getRGB(i.fill).o+1||2)-1);O=h(g(O,0),1),K.opacity=O,K.src&&(K.color="none")}l.appendChild(K);var P=l.getElementsByTagName("stroke")&&l.getElementsByTagName("stroke")[0],Q=!1;!P&&(Q=P=F("stroke")),(i.stroke&&"none"!=i.stroke||i["stroke-width"]||null!=i["stroke-opacity"]||i["stroke-dasharray"]||i["stroke-miterlimit"]||i["stroke-linejoin"]||i["stroke-linecap"])&&(P.on=!0),("none"==i.stroke||null===i.stroke||null==P.on||0==i.stroke||0==i["stroke-width"])&&(P.on=!1);var R=c.getRGB(i.stroke);P.on&&i.stroke&&(P.color=R.hex),O=((+m["stroke-opacity"]+1||2)-1)*((+m.opacity+1||2)-1)*((+R.o+1||2)-1);var S=.75*(d(i["stroke-width"])||1);if(O=h(g(O,0),1),null==i["stroke-width"]&&(S=m["stroke-width"]),i["stroke-width"]&&(P.weight=S),S&&1>S&&(O*=S)&&(P.weight=1),P.opacity=O,i["stroke-linejoin"]&&(P.joinstyle=i["stroke-linejoin"]||"miter"),P.miterlimit=i["stroke-miterlimit"]||8,i["stroke-linecap"]&&(P.endcap="butt"==i["stroke-linecap"]?"flat":"square"==i["stroke-linecap"]?"square":"round"),i["stroke-dasharray"]){var T={"-":"shortdash",".":"shortdot","-.":"shortdashdot","-..":"shortdashdotdot",". ":"dot","- ":"dash","--":"longdash","- .":"dashdot","--.":"longdashdot","--..":"longdashdotdot"};P.dashstyle=T[a](i["stroke-dasharray"])?T[i["stroke-dasharray"]]:o}Q&&l.appendChild(P)}if("text"==s.type){s.paper.canvas.style.display=o;var U=s.paper.span,V=100,W=m.font&&m.font.match(/\d+(?:\.\d*)?(?=px)/);p=U.style,m.font&&(p.font=m.font),m["font-family"]&&(p.fontFamily=m["font-family"]),m["font-weight"]&&(p.fontWeight=m["font-weight"]),m["font-style"]&&(p.fontStyle=m["font-style"]),W=d(m["font-size"]||W&&W[0])||10,p.fontSize=W*V+"px",s.textpath.string&&(U.innerHTML=b(s.textpath.string).replace(/</g,"&#60;").replace(/&/g,"&#38;").replace(/\n/g,"<br>"));var X=U.getBoundingClientRect();s.W=m.w=(X.right-X.left)/V,s.H=m.h=(X.bottom-X.top)/V,s.X=m.x,s.Y=m.y+s.H/2,("x"in i||"y"in i)&&(s.path.v=c.format("m{0},{1}l{2},{1}",f(m.x*u),f(m.y*u),f(m.x*u)+1));for(var Y=["x","y","text","font","font-family","font-weight","font-style","font-size"],Z=0,$=Y.length;$>Z;Z++)if(Y[Z]in i){s._.dirty=1;break}switch(m["text-anchor"]){case"start":s.textpath.style["v-text-align"]="left",s.bbx=s.W/2;break;case"end":s.textpath.style["v-text-align"]="right",s.bbx=-s.W/2;break;default:s.textpath.style["v-text-align"]="center",s.bbx=0}s.textpath.style["v-text-kern"]=!0}},C=function(a,f,g){a.attrs=a.attrs||{};var h=(a.attrs,Math.pow),i="linear",j=".5 .5";if(a.attrs.gradient=f,f=b(f).replace(c._radial_gradient,function(a,b,c){return i="radial",b&&c&&(b=d(b),c=d(c),h(b-.5,2)+h(c-.5,2)>.25&&(c=e.sqrt(.25-h(b-.5,2))*(2*(c>.5)-1)+.5),j=b+n+c),o}),f=f.split(/\s*\-\s*/),"linear"==i){var k=f.shift();if(k=-d(k),isNaN(k))return null}var l=c._parseDots(f);if(!l)return null;if(a=a.shape||a.node,l.length){a.removeChild(g),g.on=!0,g.method="none",g.color=l[0].color,g.color2=l[l.length-1].color;for(var m=[],p=0,q=l.length;q>p;p++)l[p].offset&&m.push(l[p].offset+n+l[p].color);g.colors=m.length?m.join():"0% "+g.color,"radial"==i?(g.type="gradientTitle",g.focus="100%",g.focussize="0 0",g.focusposition=j,g.angle=0):(g.type="gradient",g.angle=(270-k)%360),a.appendChild(g)}return 1},D=function(a,b){this[0]=this.node=a,a.raphael=!0,this.id=c._oid++,a.raphaelid=this.id,this.X=0,this.Y=0,this.attrs={},this.paper=b,this.matrix=c.matrix(),this._={transform:[],sx:1,sy:1,dx:0,dy:0,deg:0,dirty:1,dirtyT:1},!b.bottom&&(b.bottom=this),this.prev=b.top,b.top&&(b.top.next=this),b.top=this,this.next=null},E=c.el;D.prototype=E,E.constructor=D,E.transform=function(a){if(null==a)return this._.transform;var d,e=this.paper._viewBoxShift,f=e?"s"+[e.scale,e.scale]+"-1-1t"+[e.dx,e.dy]:o;e&&(d=a=b(a).replace(/\.{3}|\u2026/g,this._.transform||o)),c._extractTransform(this,f+a);var g,h=this.matrix.clone(),i=this.skew,j=this.node,k=~b(this.attrs.fill).indexOf("-"),l=!b(this.attrs.fill).indexOf("url(");if(h.translate(1,1),l||k||"image"==this.type)if(i.matrix="1 0 0 1",i.offset="0 0",g=h.split(),k&&g.noRotation||!g.isSimple){j.style.filter=h.toFilter();var m=this.getBBox(),p=this.getBBox(1),q=m.x-p.x,r=m.y-p.y;j.coordorigin=q*-u+n+r*-u,z(this,1,1,q,r,0)}else j.style.filter=o,z(this,g.scalex,g.scaley,g.dx,g.dy,g.rotate);else j.style.filter=o,i.matrix=b(h),i.offset=h.offset();return d&&(this._.transform=d),this},E.rotate=function(a,c,e){if(this.removed)return this;if(null!=a){if(a=b(a).split(k),a.length-1&&(c=d(a[1]),e=d(a[2])),a=d(a[0]),null==e&&(c=e),null==c||null==e){var f=this.getBBox(1);c=f.x+f.width/2,e=f.y+f.height/2}return this._.dirtyT=1,this.transform(this._.transform.concat([["r",a,c,e]])),this}},E.translate=function(a,c){return this.removed?this:(a=b(a).split(k),a.length-1&&(c=d(a[1])),a=d(a[0])||0,c=+c||0,this._.bbox&&(this._.bbox.x+=a,this._.bbox.y+=c),this.transform(this._.transform.concat([["t",a,c]])),this)},E.scale=function(a,c,e,f){if(this.removed)return this;if(a=b(a).split(k),a.length-1&&(c=d(a[1]),e=d(a[2]),f=d(a[3]),isNaN(e)&&(e=null),isNaN(f)&&(f=null)),a=d(a[0]),null==c&&(c=a),null==f&&(e=f),null==e||null==f)var g=this.getBBox(1);return e=null==e?g.x+g.width/2:e,f=null==f?g.y+g.height/2:f,this.transform(this._.transform.concat([["s",a,c,e,f]])),this._.dirtyT=1,this},E.hide=function(){return!this.removed&&(this.node.style.display="none"),this},E.show=function(){return!this.removed&&(this.node.style.display=o),this},E._getBBox=function(){return this.removed?{}:{x:this.X+(this.bbx||0)-this.W/2,y:this.Y-this.H,width:this.W,height:this.H}},E.remove=function(){if(!this.removed&&this.node.parentNode){this.paper.__set__&&this.paper.__set__.exclude(this),c.eve.unbind("raphael.*.*."+this.id),c._tear(this,this.paper),this.node.parentNode.removeChild(this.node),this.shape&&this.shape.parentNode.removeChild(this.shape);for(var a in this)this[a]="function"==typeof this[a]?c._removedFactory(a):null;this.removed=!0}},E.attr=function(b,d){if(this.removed)return this;if(null==b){var e={};for(var f in this.attrs)this.attrs[a](f)&&(e[f]=this.attrs[f]);return e.gradient&&"none"==e.fill&&(e.fill=e.gradient)&&delete e.gradient,e.transform=this._.transform,e}if(null==d&&c.is(b,"string")){if(b==j&&"none"==this.attrs.fill&&this.attrs.gradient)return this.attrs.gradient;for(var g=b.split(k),h={},i=0,m=g.length;m>i;i++)b=g[i],h[b]=b in this.attrs?this.attrs[b]:c.is(this.paper.customAttributes[b],"function")?this.paper.customAttributes[b].def:c._availableAttrs[b];return m-1?h:h[g[0]]}if(this.attrs&&null==d&&c.is(b,"array")){for(h={},i=0,m=b.length;m>i;i++)h[b[i]]=this.attr(b[i]);return h}var n;null!=d&&(n={},n[b]=d),null==d&&c.is(b,"object")&&(n=b);for(var o in n)l("raphael.attr."+o+"."+this.id,this,n[o]);if(n){for(o in this.paper.customAttributes)if(this.paper.customAttributes[a](o)&&n[a](o)&&c.is(this.paper.customAttributes[o],"function")){var p=this.paper.customAttributes[o].apply(this,[].concat(n[o]));this.attrs[o]=n[o];for(var q in p)p[a](q)&&(n[q]=p[q])}n.text&&"text"==this.type&&(this.textpath.string=n.text),B(this,n)}return this},E.toFront=function(){return!this.removed&&this.node.parentNode.appendChild(this.node),this.paper&&this.paper.top!=this&&c._tofront(this,this.paper),this},E.toBack=function(){return this.removed?this:(this.node.parentNode.firstChild!=this.node&&(this.node.parentNode.insertBefore(this.node,this.node.parentNode.firstChild),c._toback(this,this.paper)),this)},E.insertAfter=function(a){return this.removed?this:(a.constructor==c.st.constructor&&(a=a[a.length-1]),a.node.nextSibling?a.node.parentNode.insertBefore(this.node,a.node.nextSibling):a.node.parentNode.appendChild(this.node),c._insertafter(this,a,this.paper),this)},E.insertBefore=function(a){return this.removed?this:(a.constructor==c.st.constructor&&(a=a[0]),a.node.parentNode.insertBefore(this.node,a.node),c._insertbefore(this,a,this.paper),this)},E.blur=function(a){var b=this.node.runtimeStyle,d=b.filter;return d=d.replace(r,o),0!==+a?(this.attrs.blur=a,b.filter=d+n+m+".Blur(pixelradius="+(+a||1.5)+")",b.margin=c.format("-{0}px 0 0 -{0}px",f(+a||1.5))):(b.filter=d,b.margin=0,delete this.attrs.blur),this},c._engine.path=function(a,b){var c=F("shape");c.style.cssText=t,c.coordsize=u+n+u,c.coordorigin=b.coordorigin;var d=new D(c,b),e={fill:"none",stroke:"#000"};a&&(e.path=a),d.type="path",d.path=[],d.Path=o,B(d,e),b.canvas.appendChild(c);var f=F("skew");return f.on=!0,c.appendChild(f),d.skew=f,d.transform(o),d},c._engine.rect=function(a,b,d,e,f,g){var h=c._rectPath(b,d,e,f,g),i=a.path(h),j=i.attrs;return i.X=j.x=b,i.Y=j.y=d,i.W=j.width=e,i.H=j.height=f,j.r=g,j.path=h,i.type="rect",i},c._engine.ellipse=function(a,b,c,d,e){var f=a.path();return f.attrs,f.X=b-d,f.Y=c-e,f.W=2*d,f.H=2*e,f.type="ellipse",B(f,{cx:b,cy:c,rx:d,ry:e}),f},c._engine.circle=function(a,b,c,d){var e=a.path();return e.attrs,e.X=b-d,e.Y=c-d,e.W=e.H=2*d,e.type="circle",B(e,{cx:b,cy:c,r:d}),e},c._engine.image=function(a,b,d,e,f,g){var h=c._rectPath(d,e,f,g),i=a.path(h).attr({stroke:"none"}),k=i.attrs,l=i.node,m=l.getElementsByTagName(j)[0];return k.src=b,i.X=k.x=d,i.Y=k.y=e,i.W=k.width=f,i.H=k.height=g,k.path=h,i.type="image",m.parentNode==l&&l.removeChild(m),m.rotate=!0,m.src=b,m.type="tile",i._.fillpos=[d,e],i._.fillsize=[f,g],l.appendChild(m),z(i,1,1,0,0,0),i},c._engine.text=function(a,d,e,g){var h=F("shape"),i=F("path"),j=F("textpath");d=d||0,e=e||0,g=g||"",i.v=c.format("m{0},{1}l{2},{1}",f(d*u),f(e*u),f(d*u)+1),i.textpathok=!0,j.string=b(g),j.on=!0,h.style.cssText=t,h.coordsize=u+n+u,h.coordorigin="0 0";var k=new D(h,a),l={fill:"#000",stroke:"none",font:c._availableAttrs.font,text:g};k.shape=h,k.path=i,k.textpath=j,k.type="text",k.attrs.text=b(g),k.attrs.x=d,k.attrs.y=e,k.attrs.w=1,k.attrs.h=1,B(k,l),h.appendChild(j),h.appendChild(i),a.canvas.appendChild(h);var m=F("skew");return m.on=!0,h.appendChild(m),k.skew=m,k.transform(o),k},c._engine.setSize=function(a,b){var d=this.canvas.style;return this.width=a,this.height=b,a==+a&&(a+="px"),b==+b&&(b+="px"),d.width=a,d.height=b,d.clip="rect(0 "+a+" "+b+" 0)",this._viewBox&&c._engine.setViewBox.apply(this,this._viewBox),this},c._engine.setViewBox=function(a,b,d,e,f){c.eve("raphael.setViewBox",this,this._viewBox,[a,b,d,e,f]);var h,i,j=this.width,k=this.height,l=1/g(d/j,e/k);return f&&(h=k/e,i=j/d,j>d*h&&(a-=(j-d*h)/2/h),k>e*i&&(b-=(k-e*i)/2/i)),this._viewBox=[a,b,d,e,!!f],this._viewBoxShift={dx:-a,dy:-b,scale:l},this.forEach(function(a){a.transform("...")}),this};var F;c._engine.initWin=function(a){var b=a.document;b.createStyleSheet().addRule(".rvml","behavior:url(#default#VML)");try{!b.namespaces.rvml&&b.namespaces.add("rvml","urn:schemas-microsoft-com:vml"),F=function(a){return b.createElement("<rvml:"+a+' class="rvml">')}}catch(c){F=function(a){return b.createElement("<"+a+' xmlns="urn:schemas-microsoft.com:vml" class="rvml">')}}},c._engine.initWin(c._g.win),c._engine.create=function(){var a=c._getContainer.apply(0,arguments),b=a.container,d=a.height,e=a.width,f=a.x,g=a.y;if(!b)throw new Error("VML container not found.");var h=new c._Paper,i=h.canvas=c._g.doc.createElement("div"),j=i.style;return f=f||0,g=g||0,e=e||512,d=d||342,h.width=e,h.height=d,e==+e&&(e+="px"),d==+d&&(d+="px"),h.coordsize=1e3*u+n+1e3*u,h.coordorigin="0 0",h.span=c._g.doc.createElement("span"),h.span.style.cssText="position:absolute;left:-9999em;top:-9999em;padding:0;margin:0;line-height:1;",i.appendChild(h.span),j.cssText=c.format("top:0;left:0;width:{0};height:{1};display:inline-block;position:relative;clip:rect(0 {0} {1} 0);overflow:hidden",e,d),1==b?(c._g.doc.body.appendChild(i),j.left=f+"px",j.top=g+"px",j.position="absolute"):b.firstChild?b.insertBefore(i,b.firstChild):b.appendChild(i),h.renderfix=function(){},h},c.prototype.clear=function(){c.eve("raphael.clear",this),this.canvas.innerHTML=o,this.span=c._g.doc.createElement("span"),this.span.style.cssText="position:absolute;left:-9999em;top:-9999em;padding:0;margin:0;line-height:1;display:inline;",this.canvas.appendChild(this.span),this.bottom=this.top=null},c.prototype.remove=function(){c.eve("raphael.remove",this),this.canvas.parentNode.removeChild(this.canvas);for(var a in this)this[a]="function"==typeof this[a]?c._removedFactory(a):null;return!0};var G=c.st;for(var H in E)E[a](H)&&!G[a](H)&&(G[H]=function(a){return function(){var b=arguments;return this.forEach(function(c){c[a].apply(c,b)})}}(H))}}(),B.was?A.win.Raphael=c:Raphael=c,c});;(function() {
+};/*
+ * bootstrap-tagsinput v0.3.9 by Tim Schlechter
+ * 
+ */
+!function(a){"use strict";function b(b,c){this.itemsArray=[],this.$element=a(b),this.$element.hide(),this.isSelect="SELECT"===b.tagName,this.multiple=this.isSelect&&b.hasAttribute("multiple"),this.objectItems=c&&c.itemValue,this.placeholderText=b.hasAttribute("placeholder")?this.$element.attr("placeholder"):"",this.inputSize=Math.max(1,this.placeholderText.length),this.$container=a('<div class="bootstrap-tagsinput"></div>'),this.$input=a('<input size="'+this.inputSize+'" type="text" placeholder="'+this.placeholderText+'"/>').appendTo(this.$container),this.$element.after(this.$container),this.build(c)}function c(a,b){if("function"!=typeof a[b]){var c=a[b];a[b]=function(a){return a[c]}}}function d(a,b){if("function"!=typeof a[b]){var c=a[b];a[b]=function(){return c}}}function e(a){return a?h.text(a).html():""}function f(a){var b=0;if(document.selection){a.focus();var c=document.selection.createRange();c.moveStart("character",-a.value.length),b=c.text.length}else(a.selectionStart||"0"==a.selectionStart)&&(b=a.selectionStart);return b}var g={tagClass:function(){return"label label-info"},itemValue:function(a){return a?a.toString():a},itemText:function(a){return this.itemValue(a)},freeInput:!0,maxTags:void 0,confirmKeys:[13],onTagExists:function(a,b){b.hide().fadeIn()}};b.prototype={constructor:b,add:function(b,c){var d=this;if(!(d.options.maxTags&&d.itemsArray.length>=d.options.maxTags||b!==!1&&!b)){if("object"==typeof b&&!d.objectItems)throw"Can't add objects when itemValue option is not set";if(!b.toString().match(/^\s*$/)){if(d.isSelect&&!d.multiple&&d.itemsArray.length>0&&d.remove(d.itemsArray[0]),"string"==typeof b&&"INPUT"===this.$element[0].tagName){var f=b.split(",");if(f.length>1){for(var g=0;g<f.length;g++)this.add(f[g],!0);return c||d.pushVal(),void 0}}var h=d.options.itemValue(b),i=d.options.itemText(b),j=d.options.tagClass(b),k=a.grep(d.itemsArray,function(a){return d.options.itemValue(a)===h})[0];if(k){if(d.options.onTagExists){var l=a(".tag",d.$container).filter(function(){return a(this).data("item")===k});d.options.onTagExists(b,l)}}else{d.itemsArray.push(b);var m=a('<span class="tag '+e(j)+'">'+e(i)+'<span data-role="remove"></span></span>');if(m.data("item",b),d.findInputWrapper().before(m),m.after(" "),d.isSelect&&!a('option[value="'+escape(h)+'"]',d.$element)[0]){var n=a("<option selected>"+e(i)+"</option>");n.data("item",b),n.attr("value",h),d.$element.append(n)}c||d.pushVal(),d.options.maxTags===d.itemsArray.length&&d.$container.addClass("bootstrap-tagsinput-max"),d.$element.trigger(a.Event("itemAdded",{item:b}))}}}},remove:function(b,c){var d=this;d.objectItems&&(b="object"==typeof b?a.grep(d.itemsArray,function(a){return d.options.itemValue(a)==d.options.itemValue(b)})[0]:a.grep(d.itemsArray,function(a){return d.options.itemValue(a)==b})[0]),b&&(a(".tag",d.$container).filter(function(){return a(this).data("item")===b}).remove(),a("option",d.$element).filter(function(){return a(this).data("item")===b}).remove(),d.itemsArray.splice(a.inArray(b,d.itemsArray),1)),c||d.pushVal(),d.options.maxTags>d.itemsArray.length&&d.$container.removeClass("bootstrap-tagsinput-max"),d.$element.trigger(a.Event("itemRemoved",{item:b}))},removeAll:function(){var b=this;for(a(".tag",b.$container).remove(),a("option",b.$element).remove();b.itemsArray.length>0;)b.itemsArray.pop();b.pushVal(),b.options.maxTags&&!this.isEnabled()&&this.enable()},refresh:function(){var b=this;a(".tag",b.$container).each(function(){var c=a(this),d=c.data("item"),f=b.options.itemValue(d),g=b.options.itemText(d),h=b.options.tagClass(d);if(c.attr("class",null),c.addClass("tag "+e(h)),c.contents().filter(function(){return 3==this.nodeType})[0].nodeValue=e(g),b.isSelect){var i=a("option",b.$element).filter(function(){return a(this).data("item")===d});i.attr("value",f)}})},items:function(){return this.itemsArray},pushVal:function(){var b=this,c=a.map(b.items(),function(a){return b.options.itemValue(a).toString()});b.$element.val(c,!0).trigger("change")},build:function(b){var e=this;e.options=a.extend({},g,b);var h=e.options.typeahead||{};e.objectItems&&(e.options.freeInput=!1),c(e.options,"itemValue"),c(e.options,"itemText"),c(e.options,"tagClass"),e.options.source&&(h.source=e.options.source),h.source&&a.fn.typeahead&&(d(h,"source"),e.$input.typeahead({source:function(b,c){function d(a){for(var b=[],d=0;d<a.length;d++){var g=e.options.itemText(a[d]);f[g]=a[d],b.push(g)}c(b)}this.map={};var f=this.map,g=h.source(b);a.isFunction(g.success)?g.success(d):a.when(g).then(d)},updater:function(a){e.add(this.map[a])},matcher:function(a){return-1!==a.toLowerCase().indexOf(this.query.trim().toLowerCase())},sorter:function(a){return a.sort()},highlighter:function(a){var b=new RegExp("("+this.query+")","gi");return a.replace(b,"<strong>$1</strong>")}})),e.$container.on("click",a.proxy(function(){e.$input.focus()},e)),e.$container.on("keydown","input",a.proxy(function(b){var c=a(b.target),d=e.findInputWrapper();switch(b.which){case 8:if(0===f(c[0])){var g=d.prev();g&&e.remove(g.data("item"))}break;case 46:if(0===f(c[0])){var h=d.next();h&&e.remove(h.data("item"))}break;case 37:var i=d.prev();0===c.val().length&&i[0]&&(i.before(d),c.focus());break;case 39:var j=d.next();0===c.val().length&&j[0]&&(j.after(d),c.focus());break;default:e.options.freeInput&&a.inArray(b.which,e.options.confirmKeys)>=0&&(e.add(c.val()),c.val(""),b.preventDefault())}c.attr("size",Math.max(this.inputSize,c.val().length))},e)),e.$container.on("click","[data-role=remove]",a.proxy(function(b){e.remove(a(b.target).closest(".tag").data("item"))},e)),e.options.itemValue===g.itemValue&&("INPUT"===e.$element[0].tagName?e.add(e.$element.val()):a("option",e.$element).each(function(){e.add(a(this).attr("value"),!0)}))},destroy:function(){var a=this;a.$container.off("keypress","input"),a.$container.off("click","[role=remove]"),a.$container.remove(),a.$element.removeData("tagsinput"),a.$element.show()},focus:function(){this.$input.focus()},input:function(){return this.$input},findInputWrapper:function(){for(var b=this.$input[0],c=this.$container[0];b&&b.parentNode!==c;)b=b.parentNode;return a(b)}},a.fn.tagsinput=function(c,d){var e=[];return this.each(function(){var f=a(this).data("tagsinput");if(f){var g=f[c](d);void 0!==g&&e.push(g)}else f=new b(this,c),a(this).data("tagsinput",f),e.push(f),"SELECT"===this.tagName&&a("option",a(this)).attr("selected","selected"),a(this).val(a(this).val())}),"string"==typeof c?e.length>1?e:e[0]:e},a.fn.tagsinput.Constructor=b;var h=a("<div />");a(function(){a("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput()})}(window.jQuery);
+/*
+//@ sourceMappingURL=bootstrap-tagsinput.min.js.map
+*/;(function() {
   var $, Morris, minutesSpecHelper, secondsSpecHelper,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -18537,7 +15471,1818 @@ if(f[a]("text")){for(g.text=f.text;h.firstChild;)h.removeChild(h.firstChild);for
   })(Morris.EventEmitter);
 
 }).call(this);;/*! jQuery Validation Plugin - v1.11.1 - 3/22/2013\n* https://github.com/jzaefferer/jquery-validation
-* Copyright (c) 2013 Jörn Zaefferer; Licensed MIT */(function(t){t.extend(t.fn,{validate:function(e){if(!this.length)return e&&e.debug&&window.console&&console.warn("Nothing selected, can't validate, returning nothing."),void 0;var i=t.data(this[0],"validator");return i?i:(this.attr("novalidate","novalidate"),i=new t.validator(e,this[0]),t.data(this[0],"validator",i),i.settings.onsubmit&&(this.validateDelegate(":submit","click",function(e){i.settings.submitHandler&&(i.submitButton=e.target),t(e.target).hasClass("cancel")&&(i.cancelSubmit=!0),void 0!==t(e.target).attr("formnovalidate")&&(i.cancelSubmit=!0)}),this.submit(function(e){function s(){var s;return i.settings.submitHandler?(i.submitButton&&(s=t("<input type='hidden'/>").attr("name",i.submitButton.name).val(t(i.submitButton).val()).appendTo(i.currentForm)),i.settings.submitHandler.call(i,i.currentForm,e),i.submitButton&&s.remove(),!1):!0}return i.settings.debug&&e.preventDefault(),i.cancelSubmit?(i.cancelSubmit=!1,s()):i.form()?i.pendingRequest?(i.formSubmitted=!0,!1):s():(i.focusInvalid(),!1)})),i)},valid:function(){if(t(this[0]).is("form"))return this.validate().form();var e=!0,i=t(this[0].form).validate();return this.each(function(){e=e&&i.element(this)}),e},removeAttrs:function(e){var i={},s=this;return t.each(e.split(/\s/),function(t,e){i[e]=s.attr(e),s.removeAttr(e)}),i},rules:function(e,i){var s=this[0];if(e){var r=t.data(s.form,"validator").settings,n=r.rules,a=t.validator.staticRules(s);switch(e){case"add":t.extend(a,t.validator.normalizeRule(i)),delete a.messages,n[s.name]=a,i.messages&&(r.messages[s.name]=t.extend(r.messages[s.name],i.messages));break;case"remove":if(!i)return delete n[s.name],a;var u={};return t.each(i.split(/\s/),function(t,e){u[e]=a[e],delete a[e]}),u}}var o=t.validator.normalizeRules(t.extend({},t.validator.classRules(s),t.validator.attributeRules(s),t.validator.dataRules(s),t.validator.staticRules(s)),s);if(o.required){var l=o.required;delete o.required,o=t.extend({required:l},o)}return o}}),t.extend(t.expr[":"],{blank:function(e){return!t.trim(""+t(e).val())},filled:function(e){return!!t.trim(""+t(e).val())},unchecked:function(e){return!t(e).prop("checked")}}),t.validator=function(e,i){this.settings=t.extend(!0,{},t.validator.defaults,e),this.currentForm=i,this.init()},t.validator.format=function(e,i){return 1===arguments.length?function(){var i=t.makeArray(arguments);return i.unshift(e),t.validator.format.apply(this,i)}:(arguments.length>2&&i.constructor!==Array&&(i=t.makeArray(arguments).slice(1)),i.constructor!==Array&&(i=[i]),t.each(i,function(t,i){e=e.replace(RegExp("\\{"+t+"\\}","g"),function(){return i})}),e)},t.extend(t.validator,{defaults:{messages:{},groups:{},rules:{},errorClass:"error",validClass:"valid",errorElement:"label",focusInvalid:!0,errorContainer:t([]),errorLabelContainer:t([]),onsubmit:!0,ignore:":hidden",ignoreTitle:!1,onfocusin:function(t){this.lastActive=t,this.settings.focusCleanup&&!this.blockFocusCleanup&&(this.settings.unhighlight&&this.settings.unhighlight.call(this,t,this.settings.errorClass,this.settings.validClass),this.addWrapper(this.errorsFor(t)).hide())},onfocusout:function(t){this.checkable(t)||!(t.name in this.submitted)&&this.optional(t)||this.element(t)},onkeyup:function(t,e){(9!==e.which||""!==this.elementValue(t))&&(t.name in this.submitted||t===this.lastElement)&&this.element(t)},onclick:function(t){t.name in this.submitted?this.element(t):t.parentNode.name in this.submitted&&this.element(t.parentNode)},highlight:function(e,i,s){"radio"===e.type?this.findByName(e.name).addClass(i).removeClass(s):t(e).addClass(i).removeClass(s)},unhighlight:function(e,i,s){"radio"===e.type?this.findByName(e.name).removeClass(i).addClass(s):t(e).removeClass(i).addClass(s)}},setDefaults:function(e){t.extend(t.validator.defaults,e)},messages:{required:"This field is required.",remote:"Please fix this field.",email:"Please enter a valid email address.",url:"Please enter a valid URL.",date:"Please enter a valid date.",dateISO:"Please enter a valid date (ISO).",number:"Please enter a valid number.",digits:"Please enter only digits.",creditcard:"Please enter a valid credit card number.",equalTo:"Please enter the same value again.",maxlength:t.validator.format("Please enter no more than {0} characters."),minlength:t.validator.format("Please enter at least {0} characters."),rangelength:t.validator.format("Please enter a value between {0} and {1} characters long."),range:t.validator.format("Please enter a value between {0} and {1}."),max:t.validator.format("Please enter a value less than or equal to {0}."),min:t.validator.format("Please enter a value greater than or equal to {0}.")},autoCreateRanges:!1,prototype:{init:function(){function e(e){var i=t.data(this[0].form,"validator"),s="on"+e.type.replace(/^validate/,"");i.settings[s]&&i.settings[s].call(i,this[0],e)}this.labelContainer=t(this.settings.errorLabelContainer),this.errorContext=this.labelContainer.length&&this.labelContainer||t(this.currentForm),this.containers=t(this.settings.errorContainer).add(this.settings.errorLabelContainer),this.submitted={},this.valueCache={},this.pendingRequest=0,this.pending={},this.invalid={},this.reset();var i=this.groups={};t.each(this.settings.groups,function(e,s){"string"==typeof s&&(s=s.split(/\s/)),t.each(s,function(t,s){i[s]=e})});var s=this.settings.rules;t.each(s,function(e,i){s[e]=t.validator.normalizeRule(i)}),t(this.currentForm).validateDelegate(":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'] ,[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], [type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'] ","focusin focusout keyup",e).validateDelegate("[type='radio'], [type='checkbox'], select, option","click",e),this.settings.invalidHandler&&t(this.currentForm).bind("invalid-form.validate",this.settings.invalidHandler)},form:function(){return this.checkForm(),t.extend(this.submitted,this.errorMap),this.invalid=t.extend({},this.errorMap),this.valid()||t(this.currentForm).triggerHandler("invalid-form",[this]),this.showErrors(),this.valid()},checkForm:function(){this.prepareForm();for(var t=0,e=this.currentElements=this.elements();e[t];t++)this.check(e[t]);return this.valid()},element:function(e){e=this.validationTargetFor(this.clean(e)),this.lastElement=e,this.prepareElement(e),this.currentElements=t(e);var i=this.check(e)!==!1;return i?delete this.invalid[e.name]:this.invalid[e.name]=!0,this.numberOfInvalids()||(this.toHide=this.toHide.add(this.containers)),this.showErrors(),i},showErrors:function(e){if(e){t.extend(this.errorMap,e),this.errorList=[];for(var i in e)this.errorList.push({message:e[i],element:this.findByName(i)[0]});this.successList=t.grep(this.successList,function(t){return!(t.name in e)})}this.settings.showErrors?this.settings.showErrors.call(this,this.errorMap,this.errorList):this.defaultShowErrors()},resetForm:function(){t.fn.resetForm&&t(this.currentForm).resetForm(),this.submitted={},this.lastElement=null,this.prepareForm(),this.hideErrors(),this.elements().removeClass(this.settings.errorClass).removeData("previousValue")},numberOfInvalids:function(){return this.objectLength(this.invalid)},objectLength:function(t){var e=0;for(var i in t)e++;return e},hideErrors:function(){this.addWrapper(this.toHide).hide()},valid:function(){return 0===this.size()},size:function(){return this.errorList.length},focusInvalid:function(){if(this.settings.focusInvalid)try{t(this.findLastActive()||this.errorList.length&&this.errorList[0].element||[]).filter(":visible").focus().trigger("focusin")}catch(e){}},findLastActive:function(){var e=this.lastActive;return e&&1===t.grep(this.errorList,function(t){return t.element.name===e.name}).length&&e},elements:function(){var e=this,i={};return t(this.currentForm).find("input, select, textarea").not(":submit, :reset, :image, [disabled]").not(this.settings.ignore).filter(function(){return!this.name&&e.settings.debug&&window.console&&console.error("%o has no name assigned",this),this.name in i||!e.objectLength(t(this).rules())?!1:(i[this.name]=!0,!0)})},clean:function(e){return t(e)[0]},errors:function(){var e=this.settings.errorClass.replace(" ",".");return t(this.settings.errorElement+"."+e,this.errorContext)},reset:function(){this.successList=[],this.errorList=[],this.errorMap={},this.toShow=t([]),this.toHide=t([]),this.currentElements=t([])},prepareForm:function(){this.reset(),this.toHide=this.errors().add(this.containers)},prepareElement:function(t){this.reset(),this.toHide=this.errorsFor(t)},elementValue:function(e){var i=t(e).attr("type"),s=t(e).val();return"radio"===i||"checkbox"===i?t("input[name='"+t(e).attr("name")+"']:checked").val():"string"==typeof s?s.replace(/\r/g,""):s},check:function(e){e=this.validationTargetFor(this.clean(e));var i,s=t(e).rules(),r=!1,n=this.elementValue(e);for(var a in s){var u={method:a,parameters:s[a]};try{if(i=t.validator.methods[a].call(this,n,e,u.parameters),"dependency-mismatch"===i){r=!0;continue}if(r=!1,"pending"===i)return this.toHide=this.toHide.not(this.errorsFor(e)),void 0;if(!i)return this.formatAndAdd(e,u),!1}catch(o){throw this.settings.debug&&window.console&&console.log("Exception occurred when checking element "+e.id+", check the '"+u.method+"' method.",o),o}}return r?void 0:(this.objectLength(s)&&this.successList.push(e),!0)},customDataMessage:function(e,i){return t(e).data("msg-"+i.toLowerCase())||e.attributes&&t(e).attr("data-msg-"+i.toLowerCase())},customMessage:function(t,e){var i=this.settings.messages[t];return i&&(i.constructor===String?i:i[e])},findDefined:function(){for(var t=0;arguments.length>t;t++)if(void 0!==arguments[t])return arguments[t];return void 0},defaultMessage:function(e,i){return this.findDefined(this.customMessage(e.name,i),this.customDataMessage(e,i),!this.settings.ignoreTitle&&e.title||void 0,t.validator.messages[i],"<strong>Warning: No message defined for "+e.name+"</strong>")},formatAndAdd:function(e,i){var s=this.defaultMessage(e,i.method),r=/\$?\{(\d+)\}/g;"function"==typeof s?s=s.call(this,i.parameters,e):r.test(s)&&(s=t.validator.format(s.replace(r,"{$1}"),i.parameters)),this.errorList.push({message:s,element:e}),this.errorMap[e.name]=s,this.submitted[e.name]=s},addWrapper:function(t){return this.settings.wrapper&&(t=t.add(t.parent(this.settings.wrapper))),t},defaultShowErrors:function(){var t,e;for(t=0;this.errorList[t];t++){var i=this.errorList[t];this.settings.highlight&&this.settings.highlight.call(this,i.element,this.settings.errorClass,this.settings.validClass),this.showLabel(i.element,i.message)}if(this.errorList.length&&(this.toShow=this.toShow.add(this.containers)),this.settings.success)for(t=0;this.successList[t];t++)this.showLabel(this.successList[t]);if(this.settings.unhighlight)for(t=0,e=this.validElements();e[t];t++)this.settings.unhighlight.call(this,e[t],this.settings.errorClass,this.settings.validClass);this.toHide=this.toHide.not(this.toShow),this.hideErrors(),this.addWrapper(this.toShow).show()},validElements:function(){return this.currentElements.not(this.invalidElements())},invalidElements:function(){return t(this.errorList).map(function(){return this.element})},showLabel:function(e,i){var s=this.errorsFor(e);s.length?(s.removeClass(this.settings.validClass).addClass(this.settings.errorClass),s.html(i)):(s=t("<"+this.settings.errorElement+">").attr("for",this.idOrName(e)).addClass(this.settings.errorClass).html(i||""),this.settings.wrapper&&(s=s.hide().show().wrap("<"+this.settings.wrapper+"/>").parent()),this.labelContainer.append(s).length||(this.settings.errorPlacement?this.settings.errorPlacement(s,t(e)):s.insertAfter(e))),!i&&this.settings.success&&(s.text(""),"string"==typeof this.settings.success?s.addClass(this.settings.success):this.settings.success(s,e)),this.toShow=this.toShow.add(s)},errorsFor:function(e){var i=this.idOrName(e);return this.errors().filter(function(){return t(this).attr("for")===i})},idOrName:function(t){return this.groups[t.name]||(this.checkable(t)?t.name:t.id||t.name)},validationTargetFor:function(t){return this.checkable(t)&&(t=this.findByName(t.name).not(this.settings.ignore)[0]),t},checkable:function(t){return/radio|checkbox/i.test(t.type)},findByName:function(e){return t(this.currentForm).find("[name='"+e+"']")},getLength:function(e,i){switch(i.nodeName.toLowerCase()){case"select":return t("option:selected",i).length;case"input":if(this.checkable(i))return this.findByName(i.name).filter(":checked").length}return e.length},depend:function(t,e){return this.dependTypes[typeof t]?this.dependTypes[typeof t](t,e):!0},dependTypes:{"boolean":function(t){return t},string:function(e,i){return!!t(e,i.form).length},"function":function(t,e){return t(e)}},optional:function(e){var i=this.elementValue(e);return!t.validator.methods.required.call(this,i,e)&&"dependency-mismatch"},startRequest:function(t){this.pending[t.name]||(this.pendingRequest++,this.pending[t.name]=!0)},stopRequest:function(e,i){this.pendingRequest--,0>this.pendingRequest&&(this.pendingRequest=0),delete this.pending[e.name],i&&0===this.pendingRequest&&this.formSubmitted&&this.form()?(t(this.currentForm).submit(),this.formSubmitted=!1):!i&&0===this.pendingRequest&&this.formSubmitted&&(t(this.currentForm).triggerHandler("invalid-form",[this]),this.formSubmitted=!1)},previousValue:function(e){return t.data(e,"previousValue")||t.data(e,"previousValue",{old:null,valid:!0,message:this.defaultMessage(e,"remote")})}},classRuleSettings:{required:{required:!0},email:{email:!0},url:{url:!0},date:{date:!0},dateISO:{dateISO:!0},number:{number:!0},digits:{digits:!0},creditcard:{creditcard:!0}},addClassRules:function(e,i){e.constructor===String?this.classRuleSettings[e]=i:t.extend(this.classRuleSettings,e)},classRules:function(e){var i={},s=t(e).attr("class");return s&&t.each(s.split(" "),function(){this in t.validator.classRuleSettings&&t.extend(i,t.validator.classRuleSettings[this])}),i},attributeRules:function(e){var i={},s=t(e),r=s[0].getAttribute("type");for(var n in t.validator.methods){var a;"required"===n?(a=s.get(0).getAttribute(n),""===a&&(a=!0),a=!!a):a=s.attr(n),/min|max/.test(n)&&(null===r||/number|range|text/.test(r))&&(a=Number(a)),a?i[n]=a:r===n&&"range"!==r&&(i[n]=!0)}return i.maxlength&&/-1|2147483647|524288/.test(i.maxlength)&&delete i.maxlength,i},dataRules:function(e){var i,s,r={},n=t(e);for(i in t.validator.methods)s=n.data("rule-"+i.toLowerCase()),void 0!==s&&(r[i]=s);return r},staticRules:function(e){var i={},s=t.data(e.form,"validator");return s.settings.rules&&(i=t.validator.normalizeRule(s.settings.rules[e.name])||{}),i},normalizeRules:function(e,i){return t.each(e,function(s,r){if(r===!1)return delete e[s],void 0;if(r.param||r.depends){var n=!0;switch(typeof r.depends){case"string":n=!!t(r.depends,i.form).length;break;case"function":n=r.depends.call(i,i)}n?e[s]=void 0!==r.param?r.param:!0:delete e[s]}}),t.each(e,function(s,r){e[s]=t.isFunction(r)?r(i):r}),t.each(["minlength","maxlength"],function(){e[this]&&(e[this]=Number(e[this]))}),t.each(["rangelength","range"],function(){var i;e[this]&&(t.isArray(e[this])?e[this]=[Number(e[this][0]),Number(e[this][1])]:"string"==typeof e[this]&&(i=e[this].split(/[\s,]+/),e[this]=[Number(i[0]),Number(i[1])]))}),t.validator.autoCreateRanges&&(e.min&&e.max&&(e.range=[e.min,e.max],delete e.min,delete e.max),e.minlength&&e.maxlength&&(e.rangelength=[e.minlength,e.maxlength],delete e.minlength,delete e.maxlength)),e},normalizeRule:function(e){if("string"==typeof e){var i={};t.each(e.split(/\s/),function(){i[this]=!0}),e=i}return e},addMethod:function(e,i,s){t.validator.methods[e]=i,t.validator.messages[e]=void 0!==s?s:t.validator.messages[e],3>i.length&&t.validator.addClassRules(e,t.validator.normalizeRule(e))},methods:{required:function(e,i,s){if(!this.depend(s,i))return"dependency-mismatch";if("select"===i.nodeName.toLowerCase()){var r=t(i).val();return r&&r.length>0}return this.checkable(i)?this.getLength(e,i)>0:t.trim(e).length>0},email:function(t,e){return this.optional(e)||/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(t)},url:function(t,e){return this.optional(e)||/^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(t)},date:function(t,e){return this.optional(e)||!/Invalid|NaN/.test(""+new Date(t))},dateISO:function(t,e){return this.optional(e)||/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/.test(t)},number:function(t,e){return this.optional(e)||/^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(t)},digits:function(t,e){return this.optional(e)||/^\d+$/.test(t)},creditcard:function(t,e){if(this.optional(e))return"dependency-mismatch";if(/[^0-9 \-]+/.test(t))return!1;var i=0,s=0,r=!1;t=t.replace(/\D/g,"");for(var n=t.length-1;n>=0;n--){var a=t.charAt(n);s=parseInt(a,10),r&&(s*=2)>9&&(s-=9),i+=s,r=!r}return 0===i%10},minlength:function(e,i,s){var r=t.isArray(e)?e.length:this.getLength(t.trim(e),i);return this.optional(i)||r>=s},maxlength:function(e,i,s){var r=t.isArray(e)?e.length:this.getLength(t.trim(e),i);return this.optional(i)||s>=r},rangelength:function(e,i,s){var r=t.isArray(e)?e.length:this.getLength(t.trim(e),i);return this.optional(i)||r>=s[0]&&s[1]>=r},min:function(t,e,i){return this.optional(e)||t>=i},max:function(t,e,i){return this.optional(e)||i>=t},range:function(t,e,i){return this.optional(e)||t>=i[0]&&i[1]>=t},equalTo:function(e,i,s){var r=t(s);return this.settings.onfocusout&&r.unbind(".validate-equalTo").bind("blur.validate-equalTo",function(){t(i).valid()}),e===r.val()},remote:function(e,i,s){if(this.optional(i))return"dependency-mismatch";var r=this.previousValue(i);if(this.settings.messages[i.name]||(this.settings.messages[i.name]={}),r.originalMessage=this.settings.messages[i.name].remote,this.settings.messages[i.name].remote=r.message,s="string"==typeof s&&{url:s}||s,r.old===e)return r.valid;r.old=e;var n=this;this.startRequest(i);var a={};return a[i.name]=e,t.ajax(t.extend(!0,{url:s,mode:"abort",port:"validate"+i.name,dataType:"json",data:a,success:function(s){n.settings.messages[i.name].remote=r.originalMessage;var a=s===!0||"true"===s;if(a){var u=n.formSubmitted;n.prepareElement(i),n.formSubmitted=u,n.successList.push(i),delete n.invalid[i.name],n.showErrors()}else{var o={},l=s||n.defaultMessage(i,"remote");o[i.name]=r.message=t.isFunction(l)?l(e):l,n.invalid[i.name]=!0,n.showErrors(o)}r.valid=a,n.stopRequest(i,a)}},s)),"pending"}}}),t.format=t.validator.format})(jQuery),function(t){var e={};if(t.ajaxPrefilter)t.ajaxPrefilter(function(t,i,s){var r=t.port;"abort"===t.mode&&(e[r]&&e[r].abort(),e[r]=s)});else{var i=t.ajax;t.ajax=function(s){var r=("mode"in s?s:t.ajaxSettings).mode,n=("port"in s?s:t.ajaxSettings).port;return"abort"===r?(e[n]&&e[n].abort(),e[n]=i.apply(this,arguments),e[n]):i.apply(this,arguments)}}}(jQuery),function(t){t.extend(t.fn,{validateDelegate:function(e,i,s){return this.bind(i,function(i){var r=t(i.target);return r.is(e)?s.apply(r,arguments):void 0})}})}(jQuery);;/**
+* Copyright (c) 2013 Jörn Zaefferer; Licensed MIT */(function(t){t.extend(t.fn,{validate:function(e){if(!this.length)return e&&e.debug&&window.console&&console.warn("Nothing selected, can't validate, returning nothing."),void 0;var i=t.data(this[0],"validator");return i?i:(this.attr("novalidate","novalidate"),i=new t.validator(e,this[0]),t.data(this[0],"validator",i),i.settings.onsubmit&&(this.validateDelegate(":submit","click",function(e){i.settings.submitHandler&&(i.submitButton=e.target),t(e.target).hasClass("cancel")&&(i.cancelSubmit=!0),void 0!==t(e.target).attr("formnovalidate")&&(i.cancelSubmit=!0)}),this.submit(function(e){function s(){var s;return i.settings.submitHandler?(i.submitButton&&(s=t("<input type='hidden'/>").attr("name",i.submitButton.name).val(t(i.submitButton).val()).appendTo(i.currentForm)),i.settings.submitHandler.call(i,i.currentForm,e),i.submitButton&&s.remove(),!1):!0}return i.settings.debug&&e.preventDefault(),i.cancelSubmit?(i.cancelSubmit=!1,s()):i.form()?i.pendingRequest?(i.formSubmitted=!0,!1):s():(i.focusInvalid(),!1)})),i)},valid:function(){if(t(this[0]).is("form"))return this.validate().form();var e=!0,i=t(this[0].form).validate();return this.each(function(){e=e&&i.element(this)}),e},removeAttrs:function(e){var i={},s=this;return t.each(e.split(/\s/),function(t,e){i[e]=s.attr(e),s.removeAttr(e)}),i},rules:function(e,i){var s=this[0];if(e){var r=t.data(s.form,"validator").settings,n=r.rules,a=t.validator.staticRules(s);switch(e){case"add":t.extend(a,t.validator.normalizeRule(i)),delete a.messages,n[s.name]=a,i.messages&&(r.messages[s.name]=t.extend(r.messages[s.name],i.messages));break;case"remove":if(!i)return delete n[s.name],a;var u={};return t.each(i.split(/\s/),function(t,e){u[e]=a[e],delete a[e]}),u}}var o=t.validator.normalizeRules(t.extend({},t.validator.classRules(s),t.validator.attributeRules(s),t.validator.dataRules(s),t.validator.staticRules(s)),s);if(o.required){var l=o.required;delete o.required,o=t.extend({required:l},o)}return o}}),t.extend(t.expr[":"],{blank:function(e){return!t.trim(""+t(e).val())},filled:function(e){return!!t.trim(""+t(e).val())},unchecked:function(e){return!t(e).prop("checked")}}),t.validator=function(e,i){this.settings=t.extend(!0,{},t.validator.defaults,e),this.currentForm=i,this.init()},t.validator.format=function(e,i){return 1===arguments.length?function(){var i=t.makeArray(arguments);return i.unshift(e),t.validator.format.apply(this,i)}:(arguments.length>2&&i.constructor!==Array&&(i=t.makeArray(arguments).slice(1)),i.constructor!==Array&&(i=[i]),t.each(i,function(t,i){e=e.replace(RegExp("\\{"+t+"\\}","g"),function(){return i})}),e)},t.extend(t.validator,{defaults:{messages:{},groups:{},rules:{},errorClass:"error",validClass:"valid",errorElement:"label",focusInvalid:!0,errorContainer:t([]),errorLabelContainer:t([]),onsubmit:!0,ignore:":hidden",ignoreTitle:!1,onfocusin:function(t){this.lastActive=t,this.settings.focusCleanup&&!this.blockFocusCleanup&&(this.settings.unhighlight&&this.settings.unhighlight.call(this,t,this.settings.errorClass,this.settings.validClass),this.addWrapper(this.errorsFor(t)).hide())},onfocusout:function(t){this.checkable(t)||!(t.name in this.submitted)&&this.optional(t)||this.element(t)},onkeyup:function(t,e){(9!==e.which||""!==this.elementValue(t))&&(t.name in this.submitted||t===this.lastElement)&&this.element(t)},onclick:function(t){t.name in this.submitted?this.element(t):t.parentNode.name in this.submitted&&this.element(t.parentNode)},highlight:function(e,i,s){"radio"===e.type?this.findByName(e.name).addClass(i).removeClass(s):t(e).addClass(i).removeClass(s)},unhighlight:function(e,i,s){"radio"===e.type?this.findByName(e.name).removeClass(i).addClass(s):t(e).removeClass(i).addClass(s)}},setDefaults:function(e){t.extend(t.validator.defaults,e)},messages:{required:"This field is required.",remote:"Please fix this field.",email:"Please enter a valid email address.",url:"Please enter a valid URL.",date:"Please enter a valid date.",dateISO:"Please enter a valid date (ISO).",number:"Please enter a valid number.",digits:"Please enter only digits.",creditcard:"Please enter a valid credit card number.",equalTo:"Please enter the same value again.",maxlength:t.validator.format("Please enter no more than {0} characters."),minlength:t.validator.format("Please enter at least {0} characters."),rangelength:t.validator.format("Please enter a value between {0} and {1} characters long."),range:t.validator.format("Please enter a value between {0} and {1}."),max:t.validator.format("Please enter a value less than or equal to {0}."),min:t.validator.format("Please enter a value greater than or equal to {0}.")},autoCreateRanges:!1,prototype:{init:function(){function e(e){var i=t.data(this[0].form,"validator"),s="on"+e.type.replace(/^validate/,"");i.settings[s]&&i.settings[s].call(i,this[0],e)}this.labelContainer=t(this.settings.errorLabelContainer),this.errorContext=this.labelContainer.length&&this.labelContainer||t(this.currentForm),this.containers=t(this.settings.errorContainer).add(this.settings.errorLabelContainer),this.submitted={},this.valueCache={},this.pendingRequest=0,this.pending={},this.invalid={},this.reset();var i=this.groups={};t.each(this.settings.groups,function(e,s){"string"==typeof s&&(s=s.split(/\s/)),t.each(s,function(t,s){i[s]=e})});var s=this.settings.rules;t.each(s,function(e,i){s[e]=t.validator.normalizeRule(i)}),t(this.currentForm).validateDelegate(":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'] ,[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], [type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'] ","focusin focusout keyup",e).validateDelegate("[type='radio'], [type='checkbox'], select, option","click",e),this.settings.invalidHandler&&t(this.currentForm).bind("invalid-form.validate",this.settings.invalidHandler)},form:function(){return this.checkForm(),t.extend(this.submitted,this.errorMap),this.invalid=t.extend({},this.errorMap),this.valid()||t(this.currentForm).triggerHandler("invalid-form",[this]),this.showErrors(),this.valid()},checkForm:function(){this.prepareForm();for(var t=0,e=this.currentElements=this.elements();e[t];t++)this.check(e[t]);return this.valid()},element:function(e){e=this.validationTargetFor(this.clean(e)),this.lastElement=e,this.prepareElement(e),this.currentElements=t(e);var i=this.check(e)!==!1;return i?delete this.invalid[e.name]:this.invalid[e.name]=!0,this.numberOfInvalids()||(this.toHide=this.toHide.add(this.containers)),this.showErrors(),i},showErrors:function(e){if(e){t.extend(this.errorMap,e),this.errorList=[];for(var i in e)this.errorList.push({message:e[i],element:this.findByName(i)[0]});this.successList=t.grep(this.successList,function(t){return!(t.name in e)})}this.settings.showErrors?this.settings.showErrors.call(this,this.errorMap,this.errorList):this.defaultShowErrors()},resetForm:function(){t.fn.resetForm&&t(this.currentForm).resetForm(),this.submitted={},this.lastElement=null,this.prepareForm(),this.hideErrors(),this.elements().removeClass(this.settings.errorClass).removeData("previousValue")},numberOfInvalids:function(){return this.objectLength(this.invalid)},objectLength:function(t){var e=0;for(var i in t)e++;return e},hideErrors:function(){this.addWrapper(this.toHide).hide()},valid:function(){return 0===this.size()},size:function(){return this.errorList.length},focusInvalid:function(){if(this.settings.focusInvalid)try{t(this.findLastActive()||this.errorList.length&&this.errorList[0].element||[]).filter(":visible").focus().trigger("focusin")}catch(e){}},findLastActive:function(){var e=this.lastActive;return e&&1===t.grep(this.errorList,function(t){return t.element.name===e.name}).length&&e},elements:function(){var e=this,i={};return t(this.currentForm).find("input, select, textarea").not(":submit, :reset, :image, [disabled]").not(this.settings.ignore).filter(function(){return!this.name&&e.settings.debug&&window.console&&console.error("%o has no name assigned",this),this.name in i||!e.objectLength(t(this).rules())?!1:(i[this.name]=!0,!0)})},clean:function(e){return t(e)[0]},errors:function(){var e=this.settings.errorClass.replace(" ",".");return t(this.settings.errorElement+"."+e,this.errorContext)},reset:function(){this.successList=[],this.errorList=[],this.errorMap={},this.toShow=t([]),this.toHide=t([]),this.currentElements=t([])},prepareForm:function(){this.reset(),this.toHide=this.errors().add(this.containers)},prepareElement:function(t){this.reset(),this.toHide=this.errorsFor(t)},elementValue:function(e){var i=t(e).attr("type"),s=t(e).val();return"radio"===i||"checkbox"===i?t("input[name='"+t(e).attr("name")+"']:checked").val():"string"==typeof s?s.replace(/\r/g,""):s},check:function(e){e=this.validationTargetFor(this.clean(e));var i,s=t(e).rules(),r=!1,n=this.elementValue(e);for(var a in s){var u={method:a,parameters:s[a]};try{if(i=t.validator.methods[a].call(this,n,e,u.parameters),"dependency-mismatch"===i){r=!0;continue}if(r=!1,"pending"===i)return this.toHide=this.toHide.not(this.errorsFor(e)),void 0;if(!i)return this.formatAndAdd(e,u),!1}catch(o){throw this.settings.debug&&window.console&&console.log("Exception occurred when checking element "+e.id+", check the '"+u.method+"' method.",o),o}}return r?void 0:(this.objectLength(s)&&this.successList.push(e),!0)},customDataMessage:function(e,i){return t(e).data("msg-"+i.toLowerCase())||e.attributes&&t(e).attr("data-msg-"+i.toLowerCase())},customMessage:function(t,e){var i=this.settings.messages[t];return i&&(i.constructor===String?i:i[e])},findDefined:function(){for(var t=0;arguments.length>t;t++)if(void 0!==arguments[t])return arguments[t];return void 0},defaultMessage:function(e,i){return this.findDefined(this.customMessage(e.name,i),this.customDataMessage(e,i),!this.settings.ignoreTitle&&e.title||void 0,t.validator.messages[i],"<strong>Warning: No message defined for "+e.name+"</strong>")},formatAndAdd:function(e,i){var s=this.defaultMessage(e,i.method),r=/\$?\{(\d+)\}/g;"function"==typeof s?s=s.call(this,i.parameters,e):r.test(s)&&(s=t.validator.format(s.replace(r,"{$1}"),i.parameters)),this.errorList.push({message:s,element:e}),this.errorMap[e.name]=s,this.submitted[e.name]=s},addWrapper:function(t){return this.settings.wrapper&&(t=t.add(t.parent(this.settings.wrapper))),t},defaultShowErrors:function(){var t,e;for(t=0;this.errorList[t];t++){var i=this.errorList[t];this.settings.highlight&&this.settings.highlight.call(this,i.element,this.settings.errorClass,this.settings.validClass),this.showLabel(i.element,i.message)}if(this.errorList.length&&(this.toShow=this.toShow.add(this.containers)),this.settings.success)for(t=0;this.successList[t];t++)this.showLabel(this.successList[t]);if(this.settings.unhighlight)for(t=0,e=this.validElements();e[t];t++)this.settings.unhighlight.call(this,e[t],this.settings.errorClass,this.settings.validClass);this.toHide=this.toHide.not(this.toShow),this.hideErrors(),this.addWrapper(this.toShow).show()},validElements:function(){return this.currentElements.not(this.invalidElements())},invalidElements:function(){return t(this.errorList).map(function(){return this.element})},showLabel:function(e,i){var s=this.errorsFor(e);s.length?(s.removeClass(this.settings.validClass).addClass(this.settings.errorClass),s.html(i)):(s=t("<"+this.settings.errorElement+">").attr("for",this.idOrName(e)).addClass(this.settings.errorClass).html(i||""),this.settings.wrapper&&(s=s.hide().show().wrap("<"+this.settings.wrapper+"/>").parent()),this.labelContainer.append(s).length||(this.settings.errorPlacement?this.settings.errorPlacement(s,t(e)):s.insertAfter(e))),!i&&this.settings.success&&(s.text(""),"string"==typeof this.settings.success?s.addClass(this.settings.success):this.settings.success(s,e)),this.toShow=this.toShow.add(s)},errorsFor:function(e){var i=this.idOrName(e);return this.errors().filter(function(){return t(this).attr("for")===i})},idOrName:function(t){return this.groups[t.name]||(this.checkable(t)?t.name:t.id||t.name)},validationTargetFor:function(t){return this.checkable(t)&&(t=this.findByName(t.name).not(this.settings.ignore)[0]),t},checkable:function(t){return/radio|checkbox/i.test(t.type)},findByName:function(e){return t(this.currentForm).find("[name='"+e+"']")},getLength:function(e,i){switch(i.nodeName.toLowerCase()){case"select":return t("option:selected",i).length;case"input":if(this.checkable(i))return this.findByName(i.name).filter(":checked").length}return e.length},depend:function(t,e){return this.dependTypes[typeof t]?this.dependTypes[typeof t](t,e):!0},dependTypes:{"boolean":function(t){return t},string:function(e,i){return!!t(e,i.form).length},"function":function(t,e){return t(e)}},optional:function(e){var i=this.elementValue(e);return!t.validator.methods.required.call(this,i,e)&&"dependency-mismatch"},startRequest:function(t){this.pending[t.name]||(this.pendingRequest++,this.pending[t.name]=!0)},stopRequest:function(e,i){this.pendingRequest--,0>this.pendingRequest&&(this.pendingRequest=0),delete this.pending[e.name],i&&0===this.pendingRequest&&this.formSubmitted&&this.form()?(t(this.currentForm).submit(),this.formSubmitted=!1):!i&&0===this.pendingRequest&&this.formSubmitted&&(t(this.currentForm).triggerHandler("invalid-form",[this]),this.formSubmitted=!1)},previousValue:function(e){return t.data(e,"previousValue")||t.data(e,"previousValue",{old:null,valid:!0,message:this.defaultMessage(e,"remote")})}},classRuleSettings:{required:{required:!0},email:{email:!0},url:{url:!0},date:{date:!0},dateISO:{dateISO:!0},number:{number:!0},digits:{digits:!0},creditcard:{creditcard:!0}},addClassRules:function(e,i){e.constructor===String?this.classRuleSettings[e]=i:t.extend(this.classRuleSettings,e)},classRules:function(e){var i={},s=t(e).attr("class");return s&&t.each(s.split(" "),function(){this in t.validator.classRuleSettings&&t.extend(i,t.validator.classRuleSettings[this])}),i},attributeRules:function(e){var i={},s=t(e),r=s[0].getAttribute("type");for(var n in t.validator.methods){var a;"required"===n?(a=s.get(0).getAttribute(n),""===a&&(a=!0),a=!!a):a=s.attr(n),/min|max/.test(n)&&(null===r||/number|range|text/.test(r))&&(a=Number(a)),a?i[n]=a:r===n&&"range"!==r&&(i[n]=!0)}return i.maxlength&&/-1|2147483647|524288/.test(i.maxlength)&&delete i.maxlength,i},dataRules:function(e){var i,s,r={},n=t(e);for(i in t.validator.methods)s=n.data("rule-"+i.toLowerCase()),void 0!==s&&(r[i]=s);return r},staticRules:function(e){var i={},s=t.data(e.form,"validator");return s.settings.rules&&(i=t.validator.normalizeRule(s.settings.rules[e.name])||{}),i},normalizeRules:function(e,i){return t.each(e,function(s,r){if(r===!1)return delete e[s],void 0;if(r.param||r.depends){var n=!0;switch(typeof r.depends){case"string":n=!!t(r.depends,i.form).length;break;case"function":n=r.depends.call(i,i)}n?e[s]=void 0!==r.param?r.param:!0:delete e[s]}}),t.each(e,function(s,r){e[s]=t.isFunction(r)?r(i):r}),t.each(["minlength","maxlength"],function(){e[this]&&(e[this]=Number(e[this]))}),t.each(["rangelength","range"],function(){var i;e[this]&&(t.isArray(e[this])?e[this]=[Number(e[this][0]),Number(e[this][1])]:"string"==typeof e[this]&&(i=e[this].split(/[\s,]+/),e[this]=[Number(i[0]),Number(i[1])]))}),t.validator.autoCreateRanges&&(e.min&&e.max&&(e.range=[e.min,e.max],delete e.min,delete e.max),e.minlength&&e.maxlength&&(e.rangelength=[e.minlength,e.maxlength],delete e.minlength,delete e.maxlength)),e},normalizeRule:function(e){if("string"==typeof e){var i={};t.each(e.split(/\s/),function(){i[this]=!0}),e=i}return e},addMethod:function(e,i,s){t.validator.methods[e]=i,t.validator.messages[e]=void 0!==s?s:t.validator.messages[e],3>i.length&&t.validator.addClassRules(e,t.validator.normalizeRule(e))},methods:{required:function(e,i,s){if(!this.depend(s,i))return"dependency-mismatch";if("select"===i.nodeName.toLowerCase()){var r=t(i).val();return r&&r.length>0}return this.checkable(i)?this.getLength(e,i)>0:t.trim(e).length>0},email:function(t,e){return this.optional(e)||/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(t)},url:function(t,e){return this.optional(e)||/^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(t)},date:function(t,e){return this.optional(e)||!/Invalid|NaN/.test(""+new Date(t))},dateISO:function(t,e){return this.optional(e)||/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/.test(t)},number:function(t,e){return this.optional(e)||/^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(t)},digits:function(t,e){return this.optional(e)||/^\d+$/.test(t)},creditcard:function(t,e){if(this.optional(e))return"dependency-mismatch";if(/[^0-9 \-]+/.test(t))return!1;var i=0,s=0,r=!1;t=t.replace(/\D/g,"");for(var n=t.length-1;n>=0;n--){var a=t.charAt(n);s=parseInt(a,10),r&&(s*=2)>9&&(s-=9),i+=s,r=!r}return 0===i%10},minlength:function(e,i,s){var r=t.isArray(e)?e.length:this.getLength(t.trim(e),i);return this.optional(i)||r>=s},maxlength:function(e,i,s){var r=t.isArray(e)?e.length:this.getLength(t.trim(e),i);return this.optional(i)||s>=r},rangelength:function(e,i,s){var r=t.isArray(e)?e.length:this.getLength(t.trim(e),i);return this.optional(i)||r>=s[0]&&s[1]>=r},min:function(t,e,i){return this.optional(e)||t>=i},max:function(t,e,i){return this.optional(e)||i>=t},range:function(t,e,i){return this.optional(e)||t>=i[0]&&i[1]>=t},equalTo:function(e,i,s){var r=t(s);return this.settings.onfocusout&&r.unbind(".validate-equalTo").bind("blur.validate-equalTo",function(){t(i).valid()}),e===r.val()},remote:function(e,i,s){if(this.optional(i))return"dependency-mismatch";var r=this.previousValue(i);if(this.settings.messages[i.name]||(this.settings.messages[i.name]={}),r.originalMessage=this.settings.messages[i.name].remote,this.settings.messages[i.name].remote=r.message,s="string"==typeof s&&{url:s}||s,r.old===e)return r.valid;r.old=e;var n=this;this.startRequest(i);var a={};return a[i.name]=e,t.ajax(t.extend(!0,{url:s,mode:"abort",port:"validate"+i.name,dataType:"json",data:a,success:function(s){n.settings.messages[i.name].remote=r.originalMessage;var a=s===!0||"true"===s;if(a){var u=n.formSubmitted;n.prepareElement(i),n.formSubmitted=u,n.successList.push(i),delete n.invalid[i.name],n.showErrors()}else{var o={},l=s||n.defaultMessage(i,"remote");o[i.name]=r.message=t.isFunction(l)?l(e):l,n.invalid[i.name]=!0,n.showErrors(o)}r.valid=a,n.stopRequest(i,a)}},s)),"pending"}}}),t.format=t.validator.format})(jQuery),function(t){var e={};if(t.ajaxPrefilter)t.ajaxPrefilter(function(t,i,s){var r=t.port;"abort"===t.mode&&(e[r]&&e[r].abort(),e[r]=s)});else{var i=t.ajax;t.ajax=function(s){var r=("mode"in s?s:t.ajaxSettings).mode,n=("port"in s?s:t.ajaxSettings).port;return"abort"===r?(e[n]&&e[n].abort(),e[n]=i.apply(this,arguments),e[n]):i.apply(this,arguments)}}}(jQuery),function(t){t.extend(t.fn,{validateDelegate:function(e,i,s){return this.bind(i,function(i){var r=t(i.target);return r.is(e)?s.apply(r,arguments):void 0})}})}(jQuery);;;(function(){
+
+/**
+ * Require the given path.
+ *
+ * @param {String} path
+ * @return {Object} exports
+ * @api public
+ */
+
+function require(path, parent, orig) {
+  var resolved = require.resolve(path);
+
+  // lookup failed
+  if (null == resolved) {
+    orig = orig || path;
+    parent = parent || 'root';
+    var err = new Error('Failed to require "' + orig + '" from "' + parent + '"');
+    err.path = orig;
+    err.parent = parent;
+    err.require = true;
+    throw err;
+  }
+
+  var module = require.modules[resolved];
+
+  // perform real require()
+  // by invoking the module's
+  // registered function
+  if (!module._resolving && !module.exports) {
+    var mod = {};
+    mod.exports = {};
+    mod.client = mod.component = true;
+    module._resolving = true;
+    module.call(this, mod.exports, require.relative(resolved), mod);
+    delete module._resolving;
+    module.exports = mod.exports;
+  }
+
+  return module.exports;
+}
+
+/**
+ * Registered modules.
+ */
+
+require.modules = {};
+
+/**
+ * Registered aliases.
+ */
+
+require.aliases = {};
+
+/**
+ * Resolve `path`.
+ *
+ * Lookup:
+ *
+ *   - PATH/index.js
+ *   - PATH.js
+ *   - PATH
+ *
+ * @param {String} path
+ * @return {String} path or null
+ * @api private
+ */
+
+require.resolve = function(path) {
+  if (path.charAt(0) === '/') path = path.slice(1);
+
+  var paths = [
+    path,
+    path + '.js',
+    path + '.json',
+    path + '/index.js',
+    path + '/index.json'
+  ];
+
+  for (var i = 0; i < paths.length; i++) {
+    var path = paths[i];
+    if (require.modules.hasOwnProperty(path)) return path;
+    if (require.aliases.hasOwnProperty(path)) return require.aliases[path];
+  }
+};
+
+/**
+ * Normalize `path` relative to the current path.
+ *
+ * @param {String} curr
+ * @param {String} path
+ * @return {String}
+ * @api private
+ */
+
+require.normalize = function(curr, path) {
+  var segs = [];
+
+  if ('.' != path.charAt(0)) return path;
+
+  curr = curr.split('/');
+  path = path.split('/');
+
+  for (var i = 0; i < path.length; ++i) {
+    if ('..' == path[i]) {
+      curr.pop();
+    } else if ('.' != path[i] && '' != path[i]) {
+      segs.push(path[i]);
+    }
+  }
+
+  return curr.concat(segs).join('/');
+};
+
+/**
+ * Register module at `path` with callback `definition`.
+ *
+ * @param {String} path
+ * @param {Function} definition
+ * @api private
+ */
+
+require.register = function(path, definition) {
+  require.modules[path] = definition;
+};
+
+/**
+ * Alias a module definition.
+ *
+ * @param {String} from
+ * @param {String} to
+ * @api private
+ */
+
+require.alias = function(from, to) {
+  if (!require.modules.hasOwnProperty(from)) {
+    throw new Error('Failed to alias "' + from + '", it does not exist');
+  }
+  require.aliases[to] = from;
+};
+
+/**
+ * Return a require function relative to the `parent` path.
+ *
+ * @param {String} parent
+ * @return {Function}
+ * @api private
+ */
+
+require.relative = function(parent) {
+  var p = require.normalize(parent, '..');
+
+  /**
+   * lastIndexOf helper.
+   */
+
+  function lastIndexOf(arr, obj) {
+    var i = arr.length;
+    while (i--) {
+      if (arr[i] === obj) return i;
+    }
+    return -1;
+  }
+
+  /**
+   * The relative require() itself.
+   */
+
+  function localRequire(path) {
+    var resolved = localRequire.resolve(path);
+    return require(resolved, parent, path);
+  }
+
+  /**
+   * Resolve relative to the parent.
+   */
+
+  localRequire.resolve = function(path) {
+    var c = path.charAt(0);
+    if ('/' == c) return path.slice(1);
+    if ('.' == c) return require.normalize(p, path);
+
+    // resolve deps by returning
+    // the dep in the nearest "deps"
+    // directory
+    var segs = parent.split('/');
+    var i = lastIndexOf(segs, 'deps') + 1;
+    if (!i) i = 0;
+    path = segs.slice(0, i + 1).join('/') + '/deps/' + path;
+    return path;
+  };
+
+  /**
+   * Check if module is defined at `path`.
+   */
+
+  localRequire.exists = function(path) {
+    return require.modules.hasOwnProperty(localRequire.resolve(path));
+  };
+
+  return localRequire;
+};
+require.register("component-emitter/index.js", function(exports, require, module){
+
+/**
+ * Expose `Emitter`.
+ */
+
+module.exports = Emitter;
+
+/**
+ * Initialize a new `Emitter`.
+ *
+ * @api public
+ */
+
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+};
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on = function(event, fn){
+  this._callbacks = this._callbacks || {};
+  (this._callbacks[event] = this._callbacks[event] || [])
+    .push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function(event, fn){
+  var self = this;
+  this._callbacks = this._callbacks || {};
+
+  function on() {
+    self.off(event, on);
+    fn.apply(this, arguments);
+  }
+
+  fn._off = on;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off =
+Emitter.prototype.removeListener =
+Emitter.prototype.removeAllListeners = function(event, fn){
+  this._callbacks = this._callbacks || {};
+  var callbacks = this._callbacks[event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks[event];
+    return this;
+  }
+
+  // remove specific handler
+  var i = callbacks.indexOf(fn._off || fn);
+  if (~i) callbacks.splice(i, 1);
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function(event){
+  this._callbacks = this._callbacks || {};
+  var args = [].slice.call(arguments, 1)
+    , callbacks = this._callbacks[event];
+
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function(event){
+  this._callbacks = this._callbacks || {};
+  return this._callbacks[event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function(event){
+  return !! this.listeners(event).length;
+};
+
+});
+require.register("dropzone/index.js", function(exports, require, module){
+
+
+/**
+ * Exposing dropzone
+ */
+module.exports = require("./lib/dropzone.js");
+
+});
+require.register("dropzone/lib/dropzone.js", function(exports, require, module){
+/*
+#
+# More info at [www.dropzonejs.com](http://www.dropzonejs.com)
+# 
+# Copyright (c) 2012, Matias Meno  
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+#
+*/
+
+
+(function() {
+  var Dropzone, Em, camelize, contentLoaded, noop, without,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __slice = [].slice;
+
+  Em = typeof Emitter !== "undefined" && Emitter !== null ? Emitter : require("emitter");
+
+  noop = function() {};
+
+  Dropzone = (function(_super) {
+    var extend;
+
+    __extends(Dropzone, _super);
+
+    /*
+    This is a list of all available events you can register on a dropzone object.
+    
+    You can register an event handler like this:
+    
+        dropzone.on("dragEnter", function() { });
+    */
+
+
+    Dropzone.prototype.events = ["drop", "dragstart", "dragend", "dragenter", "dragover", "dragleave", "selectedfiles", "addedfile", "removedfile", "thumbnail", "error", "errormultiple", "processing", "processingmultiple", "uploadprogress", "totaluploadprogress", "sending", "sendingmultiple", "success", "successmultiple", "canceled", "canceledmultiple", "complete", "completemultiple", "reset", "maxfilesexceeded", "maxfilesreached"];
+
+    Dropzone.prototype.defaultOptions = {
+      url: null,
+      method: "post",
+      withCredentials: false,
+      parallelUploads: 2,
+      uploadMultiple: false,
+      maxFilesize: 256,
+      paramName: "file",
+      createImageThumbnails: true,
+      maxThumbnailFilesize: 10,
+      thumbnailWidth: 100,
+      thumbnailHeight: 100,
+      maxFiles: null,
+      params: {},
+      clickable: true,
+      ignoreHiddenFiles: true,
+      acceptedFiles: ".jpeg,.jpg,.png,.gif",
+      acceptedMimeTypes: null,
+      autoProcessQueue: true,
+      addRemoveLinks: false,
+      previewsContainer: null,
+      dictDefaultMessage: "Drop files here to upload",
+      dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
+      dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+      dictFileTooBig: "File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB.",
+      dictInvalidFileType: "You can't upload files of this type.",
+      dictResponseError: "Server responded with {{statusCode}} code.",
+      dictCancelUpload: "Cancel upload",
+      dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
+      dictRemoveFile: "Remove file",
+      dictRemoveFileConfirmation: null,
+      dictMaxFilesExceeded: "You can not upload any more files.",
+      accept: function(file, done) {
+        return done();
+      },
+      init: function() {
+        return noop;
+      },
+      forceFallback: false,
+      fallback: function() {
+        var child, messageElement, span, _i, _len, _ref;
+        this.element.className = "" + this.element.className + " dz-browser-not-supported";
+        _ref = this.element.getElementsByTagName("div");
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          child = _ref[_i];
+          if (/(^| )dz-message($| )/.test(child.className)) {
+            messageElement = child;
+            child.className = "dz-message";
+            continue;
+          }
+        }
+        if (!messageElement) {
+          messageElement = Dropzone.createElement("<div class=\"dz-message\"><span></span></div>");
+          this.element.appendChild(messageElement);
+        }
+        span = messageElement.getElementsByTagName("span")[0];
+        if (span) {
+          span.textContent = this.options.dictFallbackMessage;
+        }
+        return this.element.appendChild(this.getFallbackForm());
+      },
+      resize: function(file) {
+        var info, srcRatio, trgRatio;
+        info = {
+          srcX: 0,
+          srcY: 0,
+          srcWidth: file.width,
+          srcHeight: file.height
+        };
+        srcRatio = file.width / file.height;
+        trgRatio = this.options.thumbnailWidth / this.options.thumbnailHeight;
+        if (file.height < this.options.thumbnailHeight || file.width < this.options.thumbnailWidth) {
+          info.trgHeight = info.srcHeight;
+          info.trgWidth = info.srcWidth;
+        } else {
+          if (srcRatio > trgRatio) {
+            info.srcHeight = file.height;
+            info.srcWidth = info.srcHeight * trgRatio;
+          } else {
+            info.srcWidth = file.width;
+            info.srcHeight = info.srcWidth / trgRatio;
+          }
+        }
+        info.srcX = (file.width - info.srcWidth) / 2;
+        info.srcY = (file.height - info.srcHeight) / 2;
+        return info;
+      },
+      /*
+      Those functions register themselves to the events on init and handle all
+      the user interface specific stuff. Overwriting them won't break the upload
+      but can break the way it's displayed.
+      You can overwrite them if you don't like the default behavior. If you just
+      want to add an additional event handler, register it on the dropzone object
+      and don't overwrite those options.
+      */
+
+      drop: function(e) {
+        return this.element.classList.remove("dz-drag-hover");
+      },
+      dragstart: noop,
+      dragend: function(e) {
+        return this.element.classList.remove("dz-drag-hover");
+      },
+      dragenter: function(e) {
+        return this.element.classList.add("dz-drag-hover");
+      },
+      dragover: function(e) {
+        return this.element.classList.add("dz-drag-hover");
+      },
+      dragleave: function(e) {
+        return this.element.classList.remove("dz-drag-hover");
+      },
+      selectedfiles: function(files) {
+        if (this.element === this.previewsContainer) {
+          return this.element.classList.add("dz-started");
+        }
+      },
+      reset: function() {
+        return this.element.classList.remove("dz-started");
+      },
+      addedfile: function(file) {
+        var node, _i, _j, _len, _len1, _ref, _ref1,
+          _this = this;
+        file.previewElement = Dropzone.createElement(this.options.previewTemplate.trim());
+        file.previewTemplate = file.previewElement;
+        this.previewsContainer.appendChild(file.previewElement);
+        _ref = file.previewElement.querySelectorAll("[data-dz-name]");
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          node = _ref[_i];
+          node.textContent = file.name;
+        }
+        _ref1 = file.previewElement.querySelectorAll("[data-dz-size]");
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          node = _ref1[_j];
+          node.innerHTML = this.filesize(file.size);
+        }
+        if (this.options.addRemoveLinks) {
+          file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\">" + this.options.dictRemoveFile + "</a>");
+          file._removeLink.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (file.status === Dropzone.UPLOADING) {
+              return Dropzone.confirm(_this.options.dictCancelUploadConfirmation, function() {
+                return _this.removeFile(file);
+              });
+            } else {
+              if (_this.options.dictRemoveFileConfirmation) {
+                return Dropzone.confirm(_this.options.dictRemoveFileConfirmation, function() {
+                  return _this.removeFile(file);
+                });
+              } else {
+                return _this.removeFile(file);
+              }
+            }
+          });
+          return file.previewElement.appendChild(file._removeLink);
+        }
+      },
+      removedfile: function(file) {
+        var _ref;
+        if ((_ref = file.previewElement) != null) {
+          _ref.parentNode.removeChild(file.previewElement);
+        }
+        return this._updateMaxFilesReachedClass();
+      },
+      thumbnail: function(file, dataUrl) {
+        var thumbnailElement, _i, _len, _ref, _results;
+        file.previewElement.classList.remove("dz-file-preview");
+        file.previewElement.classList.add("dz-image-preview");
+        _ref = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          thumbnailElement = _ref[_i];
+          thumbnailElement.alt = file.name;
+          _results.push(thumbnailElement.src = dataUrl);
+        }
+        return _results;
+      },
+      error: function(file, message) {
+        var node, _i, _len, _ref, _results;
+        file.previewElement.classList.add("dz-error");
+        if (typeof message !== "String" && message.error) {
+          message = message.error;
+        }
+        _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          node = _ref[_i];
+          _results.push(node.textContent = message);
+        }
+        return _results;
+      },
+      errormultiple: noop,
+      processing: function(file) {
+        file.previewElement.classList.add("dz-processing");
+        if (file._removeLink) {
+          return file._removeLink.textContent = this.options.dictCancelUpload;
+        }
+      },
+      processingmultiple: noop,
+      uploadprogress: function(file, progress, bytesSent) {
+        var node, _i, _len, _ref, _results;
+        _ref = file.previewElement.querySelectorAll("[data-dz-uploadprogress]");
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          node = _ref[_i];
+          _results.push(node.style.width = "" + progress + "%");
+        }
+        return _results;
+      },
+      totaluploadprogress: noop,
+      sending: noop,
+      sendingmultiple: noop,
+      success: function(file) {
+        return file.previewElement.classList.add("dz-success");
+      },
+      successmultiple: noop,
+      canceled: function(file) {
+        return this.emit("error", file, "Upload canceled.");
+      },
+      canceledmultiple: noop,
+      complete: function(file) {
+        if (file._removeLink) {
+          return file._removeLink.textContent = this.options.dictRemoveFile;
+        }
+      },
+      completemultiple: noop,
+      maxfilesexceeded: noop,
+      maxfilesreached: noop,
+      previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
+    };
+
+    extend = function() {
+      var key, object, objects, target, val, _i, _len;
+      target = arguments[0], objects = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      for (_i = 0, _len = objects.length; _i < _len; _i++) {
+        object = objects[_i];
+        for (key in object) {
+          val = object[key];
+          target[key] = val;
+        }
+      }
+      return target;
+    };
+
+    function Dropzone(element, options) {
+      var elementOptions, fallback, _ref;
+      this.element = element;
+      this.version = Dropzone.version;
+      this.defaultOptions.previewTemplate = this.defaultOptions.previewTemplate.replace(/\n*/g, "");
+      this.clickableElements = [];
+      this.listeners = [];
+      this.files = [];
+      if (typeof this.element === "string") {
+        this.element = document.querySelector(this.element);
+      }
+      if (!(this.element && (this.element.nodeType != null))) {
+        throw new Error("Invalid dropzone element.");
+      }
+      if (this.element.dropzone) {
+        throw new Error("Dropzone already attached.");
+      }
+      Dropzone.instances.push(this);
+      this.element.dropzone = this;
+      elementOptions = (_ref = Dropzone.optionsForElement(this.element)) != null ? _ref : {};
+      this.options = extend({}, this.defaultOptions, elementOptions, options != null ? options : {});
+      if (this.options.forceFallback || !Dropzone.isBrowserSupported()) {
+        return this.options.fallback.call(this);
+      }
+      if (this.options.url == null) {
+        this.options.url = this.element.getAttribute("action");
+      }
+      if (!this.options.url) {
+        throw new Error("No URL provided.");
+      }
+      if (this.options.acceptedFiles && this.options.acceptedMimeTypes) {
+        throw new Error("You can't provide both 'acceptedFiles' and 'acceptedMimeTypes'. 'acceptedMimeTypes' is deprecated.");
+      }
+      if (this.options.acceptedMimeTypes) {
+        this.options.acceptedFiles = this.options.acceptedMimeTypes;
+        delete this.options.acceptedMimeTypes;
+      }
+      this.options.method = this.options.method.toUpperCase();
+      if ((fallback = this.getExistingFallback()) && fallback.parentNode) {
+        fallback.parentNode.removeChild(fallback);
+      }
+      if (this.options.previewsContainer) {
+        this.previewsContainer = Dropzone.getElement(this.options.previewsContainer, "previewsContainer");
+      } else {
+        this.previewsContainer = this.element;
+      }
+      if (this.options.clickable) {
+        if (this.options.clickable === true) {
+          this.clickableElements = [this.element];
+        } else {
+          this.clickableElements = Dropzone.getElements(this.options.clickable, "clickable");
+        }
+      }
+      this.init();
+    }
+
+    Dropzone.prototype.getAcceptedFiles = function() {
+      var file, _i, _len, _ref, _results;
+      _ref = this.files;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        file = _ref[_i];
+        if (file.accepted) {
+          _results.push(file);
+        }
+      }
+      return _results;
+    };
+
+    Dropzone.prototype.getRejectedFiles = function() {
+      var file, _i, _len, _ref, _results;
+      _ref = this.files;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        file = _ref[_i];
+        if (!file.accepted) {
+          _results.push(file);
+        }
+      }
+      return _results;
+    };
+
+    Dropzone.prototype.getQueuedFiles = function() {
+      var file, _i, _len, _ref, _results;
+      _ref = this.files;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        file = _ref[_i];
+        if (file.status === Dropzone.QUEUED) {
+          _results.push(file);
+        }
+      }
+      return _results;
+    };
+
+    Dropzone.prototype.getUploadingFiles = function() {
+      var file, _i, _len, _ref, _results;
+      _ref = this.files;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        file = _ref[_i];
+        if (file.status === Dropzone.UPLOADING) {
+          _results.push(file);
+        }
+      }
+      return _results;
+    };
+
+    Dropzone.prototype.init = function() {
+      var eventName, noPropagation, setupHiddenFileInput, _i, _len, _ref, _ref1,
+        _this = this;
+      if (this.element.tagName === "form") {
+        this.element.setAttribute("enctype", "multipart/form-data");
+      }
+      if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
+        this.element.appendChild(Dropzone.createElement("<div class=\"dz-default dz-message\"><span>" + this.options.dictDefaultMessage + "</span></div>"));
+      }
+      if (this.clickableElements.length) {
+        setupHiddenFileInput = function() {
+          if (_this.hiddenFileInput) {
+            document.body.removeChild(_this.hiddenFileInput);
+          }
+          _this.hiddenFileInput = document.createElement("input");
+          _this.hiddenFileInput.setAttribute("type", "file");
+          if ((_this.options.maxFiles == null) || _this.options.maxFiles > 1) {
+            _this.hiddenFileInput.setAttribute("multiple", "multiple");
+          }
+          if (_this.options.acceptedFiles != null) {
+            _this.hiddenFileInput.setAttribute("accept", _this.options.acceptedFiles);
+          }
+          _this.hiddenFileInput.style.visibility = "hidden";
+          _this.hiddenFileInput.style.position = "absolute";
+          _this.hiddenFileInput.style.top = "0";
+          _this.hiddenFileInput.style.left = "0";
+          _this.hiddenFileInput.style.height = "0";
+          _this.hiddenFileInput.style.width = "0";
+          document.body.appendChild(_this.hiddenFileInput);
+          return _this.hiddenFileInput.addEventListener("change", function() {
+            var files;
+            files = _this.hiddenFileInput.files;
+            if (files.length) {
+              _this.emit("selectedfiles", files);
+              _this.handleFiles(files);
+            }
+            return setupHiddenFileInput();
+          });
+        };
+        setupHiddenFileInput();
+      }
+      this.URL = (_ref = window.URL) != null ? _ref : window.webkitURL;
+      _ref1 = this.events;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        eventName = _ref1[_i];
+        this.on(eventName, this.options[eventName]);
+      }
+      this.on("uploadprogress", function() {
+        return _this.updateTotalUploadProgress();
+      });
+      this.on("removedfile", function() {
+        return _this.updateTotalUploadProgress();
+      });
+      this.on("canceled", function(file) {
+        return _this.emit("complete", file);
+      });
+      noPropagation = function(e) {
+        e.stopPropagation();
+        if (e.preventDefault) {
+          return e.preventDefault();
+        } else {
+          return e.returnValue = false;
+        }
+      };
+      this.listeners = [
+        {
+          element: this.element,
+          events: {
+            "dragstart": function(e) {
+              return _this.emit("dragstart", e);
+            },
+            "dragenter": function(e) {
+              noPropagation(e);
+              return _this.emit("dragenter", e);
+            },
+            "dragover": function(e) {
+              var efct;
+              efct = e.dataTransfer.effectAllowed;
+              e.dataTransfer.dropEffect = 'move' === efct || 'linkMove' === efct ? 'move' : 'copy';
+              noPropagation(e);
+              return _this.emit("dragover", e);
+            },
+            "dragleave": function(e) {
+              return _this.emit("dragleave", e);
+            },
+            "drop": function(e) {
+              noPropagation(e);
+              return _this.drop(e);
+            },
+            "dragend": function(e) {
+              return _this.emit("dragend", e);
+            }
+          }
+        }
+      ];
+      this.clickableElements.forEach(function(clickableElement) {
+        return _this.listeners.push({
+          element: clickableElement,
+          events: {
+            "click": function(evt) {
+              if ((clickableElement !== _this.element) || (evt.target === _this.element || Dropzone.elementInside(evt.target, _this.element.querySelector(".dz-message")))) {
+                return _this.hiddenFileInput.click();
+              }
+            }
+          }
+        });
+      });
+      this.enable();
+      return this.options.init.call(this);
+    };
+
+    Dropzone.prototype.destroy = function() {
+      var _ref;
+      this.disable();
+      this.removeAllFiles(true);
+      if ((_ref = this.hiddenFileInput) != null ? _ref.parentNode : void 0) {
+        this.hiddenFileInput.parentNode.removeChild(this.hiddenFileInput);
+        this.hiddenFileInput = null;
+      }
+      delete this.element.dropzone;
+      return Dropzone.instances.splice(Dropzone.instances.indexOf(this), 1);
+    };
+
+    Dropzone.prototype.updateTotalUploadProgress = function() {
+      var acceptedFiles, file, totalBytes, totalBytesSent, totalUploadProgress, _i, _len, _ref;
+      totalBytesSent = 0;
+      totalBytes = 0;
+      acceptedFiles = this.getAcceptedFiles();
+      if (acceptedFiles.length) {
+        _ref = this.getAcceptedFiles();
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          file = _ref[_i];
+          totalBytesSent += file.upload.bytesSent;
+          totalBytes += file.upload.total;
+        }
+        totalUploadProgress = 100 * totalBytesSent / totalBytes;
+      } else {
+        totalUploadProgress = 100;
+      }
+      return this.emit("totaluploadprogress", totalUploadProgress, totalBytes, totalBytesSent);
+    };
+
+    Dropzone.prototype.getFallbackForm = function() {
+      var existingFallback, fields, fieldsString, form;
+      if (existingFallback = this.getExistingFallback()) {
+        return existingFallback;
+      }
+      fieldsString = "<div class=\"dz-fallback\">";
+      if (this.options.dictFallbackText) {
+        fieldsString += "<p>" + this.options.dictFallbackText + "</p>";
+      }
+      fieldsString += "<input type=\"file\" name=\"" + this.options.paramName + (this.options.uploadMultiple ? "[]" : "") + "\" " + (this.options.uploadMultiple ? 'multiple="multiple"' : void 0) + " /><input type=\"submit\" value=\"Upload!\"></div>";
+      fields = Dropzone.createElement(fieldsString);
+      if (this.element.tagName !== "FORM") {
+        form = Dropzone.createElement("<form action=\"" + this.options.url + "\" enctype=\"multipart/form-data\" method=\"" + this.options.method + "\"></form>");
+        form.appendChild(fields);
+      } else {
+        this.element.setAttribute("enctype", "multipart/form-data");
+        this.element.setAttribute("method", this.options.method);
+      }
+      return form != null ? form : fields;
+    };
+
+    Dropzone.prototype.getExistingFallback = function() {
+      var fallback, getFallback, tagName, _i, _len, _ref;
+      getFallback = function(elements) {
+        var el, _i, _len;
+        for (_i = 0, _len = elements.length; _i < _len; _i++) {
+          el = elements[_i];
+          if (/(^| )fallback($| )/.test(el.className)) {
+            return el;
+          }
+        }
+      };
+      _ref = ["div", "form"];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        tagName = _ref[_i];
+        if (fallback = getFallback(this.element.getElementsByTagName(tagName))) {
+          return fallback;
+        }
+      }
+    };
+
+    Dropzone.prototype.setupEventListeners = function() {
+      var elementListeners, event, listener, _i, _len, _ref, _results;
+      _ref = this.listeners;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        elementListeners = _ref[_i];
+        _results.push((function() {
+          var _ref1, _results1;
+          _ref1 = elementListeners.events;
+          _results1 = [];
+          for (event in _ref1) {
+            listener = _ref1[event];
+            _results1.push(elementListeners.element.addEventListener(event, listener, false));
+          }
+          return _results1;
+        })());
+      }
+      return _results;
+    };
+
+    Dropzone.prototype.removeEventListeners = function() {
+      var elementListeners, event, listener, _i, _len, _ref, _results;
+      _ref = this.listeners;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        elementListeners = _ref[_i];
+        _results.push((function() {
+          var _ref1, _results1;
+          _ref1 = elementListeners.events;
+          _results1 = [];
+          for (event in _ref1) {
+            listener = _ref1[event];
+            _results1.push(elementListeners.element.removeEventListener(event, listener, false));
+          }
+          return _results1;
+        })());
+      }
+      return _results;
+    };
+
+    Dropzone.prototype.disable = function() {
+      var file, _i, _len, _ref, _results;
+      this.clickableElements.forEach(function(element) {
+        return element.classList.remove("dz-clickable");
+      });
+      this.removeEventListeners();
+      _ref = this.files;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        file = _ref[_i];
+        _results.push(this.cancelUpload(file));
+      }
+      return _results;
+    };
+
+    Dropzone.prototype.enable = function() {
+      this.clickableElements.forEach(function(element) {
+        return element.classList.add("dz-clickable");
+      });
+      return this.setupEventListeners();
+    };
+
+    Dropzone.prototype.filesize = function(size) {
+      var string;
+      if (size >= 1024 * 1024 * 1024 * 1024 / 10) {
+        size = size / (1024 * 1024 * 1024 * 1024 / 10);
+        string = "TiB";
+      } else if (size >= 1024 * 1024 * 1024 / 10) {
+        size = size / (1024 * 1024 * 1024 / 10);
+        string = "GiB";
+      } else if (size >= 1024 * 1024 / 10) {
+        size = size / (1024 * 1024 / 10);
+        string = "MiB";
+      } else if (size >= 1024 / 10) {
+        size = size / (1024 / 10);
+        string = "KiB";
+      } else {
+        size = size * 10;
+        string = "b";
+      }
+      return "<strong>" + (Math.round(size) / 10) + "</strong> " + string;
+    };
+
+    Dropzone.prototype._updateMaxFilesReachedClass = function() {
+      if ((this.options.maxFiles != null) && this.getAcceptedFiles().length >= this.options.maxFiles) {
+        if (this.getAcceptedFiles().length === this.options.maxFiles) {
+          this.emit('maxfilesreached', this.files);
+        }
+        return this.element.classList.add("dz-max-files-reached");
+      } else {
+        return this.element.classList.remove("dz-max-files-reached");
+      }
+    };
+
+    Dropzone.prototype.drop = function(e) {
+      var files, items;
+      if (!e.dataTransfer) {
+        return;
+      }
+      this.emit("drop", e);
+      files = e.dataTransfer.files;
+      this.emit("selectedfiles", files);
+      if (files.length) {
+        items = e.dataTransfer.items;
+        if (items && items.length && ((items[0].webkitGetAsEntry != null) || (items[0].getAsEntry != null))) {
+          this.handleItems(items);
+        } else {
+          this.handleFiles(files);
+        }
+      }
+    };
+
+    Dropzone.prototype.handleFiles = function(files) {
+      var file, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        _results.push(this.addFile(file));
+      }
+      return _results;
+    };
+
+    Dropzone.prototype.handleItems = function(items) {
+      var entry, item, _i, _len;
+      for (_i = 0, _len = items.length; _i < _len; _i++) {
+        item = items[_i];
+        if (item.webkitGetAsEntry != null) {
+          entry = item.webkitGetAsEntry();
+          if (entry.isFile) {
+            this.addFile(item.getAsFile());
+          } else if (entry.isDirectory) {
+            this.addDirectory(entry, entry.name);
+          }
+        } else {
+          this.addFile(item.getAsFile());
+        }
+      }
+    };
+
+    Dropzone.prototype.accept = function(file, done) {
+      if (file.size > this.options.maxFilesize * 1024 * 1024) {
+        return done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
+      } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
+        return done(this.options.dictInvalidFileType);
+      } else if ((this.options.maxFiles != null) && this.getAcceptedFiles().length >= this.options.maxFiles) {
+        done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
+        return this.emit("maxfilesexceeded", file);
+      } else {
+        return this.options.accept.call(this, file, done);
+      }
+    };
+
+    Dropzone.prototype.addFile = function(file) {
+      var _this = this;
+      file.upload = {
+        progress: 0,
+        total: file.size,
+        bytesSent: 0
+      };
+      this.files.push(file);
+      file.status = Dropzone.ADDED;
+      this.emit("addedfile", file);
+      if (this.options.createImageThumbnails && file.type.match(/image.*/) && file.size <= this.options.maxThumbnailFilesize * 1024 * 1024) {
+        this.createThumbnail(file);
+      }
+      return this.accept(file, function(error) {
+        if (error) {
+          file.accepted = false;
+          _this._errorProcessing([file], error);
+        } else {
+          _this.enqueueFile(file);
+        }
+        return _this._updateMaxFilesReachedClass();
+      });
+    };
+
+    Dropzone.prototype.enqueueFiles = function(files) {
+      var file, _i, _len;
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        this.enqueueFile(file);
+      }
+      return null;
+    };
+
+    Dropzone.prototype.enqueueFile = function(file) {
+      var _this = this;
+      file.accepted = true;
+      if (file.status === Dropzone.ADDED) {
+        file.status = Dropzone.QUEUED;
+        if (this.options.autoProcessQueue) {
+          return setTimeout((function() {
+            return _this.processQueue();
+          }), 1);
+        }
+      } else {
+        throw new Error("This file can't be queued because it has already been processed or was rejected.");
+      }
+    };
+
+    Dropzone.prototype.addDirectory = function(entry, path) {
+      var dirReader, entriesReader,
+        _this = this;
+      dirReader = entry.createReader();
+      entriesReader = function(entries) {
+        var _i, _len;
+        for (_i = 0, _len = entries.length; _i < _len; _i++) {
+          entry = entries[_i];
+          if (entry.isFile) {
+            entry.file(function(file) {
+              if (_this.options.ignoreHiddenFiles && file.name.substring(0, 1) === '.') {
+                return;
+              }
+              file.fullPath = "" + path + "/" + file.name;
+              return _this.addFile(file);
+            });
+          } else if (entry.isDirectory) {
+            _this.addDirectory(entry, "" + path + "/" + entry.name);
+          }
+        }
+      };
+      return dirReader.readEntries(entriesReader, function(error) {
+        return typeof console !== "undefined" && console !== null ? typeof console.log === "function" ? console.log(error) : void 0 : void 0;
+      });
+    };
+
+    Dropzone.prototype.removeFile = function(file) {
+      if (file.status === Dropzone.UPLOADING) {
+        this.cancelUpload(file);
+      }
+      this.files = without(this.files, file);
+      this.emit("removedfile", file);
+      if (this.files.length === 0) {
+        return this.emit("reset");
+      }
+    };
+
+    Dropzone.prototype.removeAllFiles = function(cancelIfNecessary) {
+      var file, _i, _len, _ref;
+      if (cancelIfNecessary == null) {
+        cancelIfNecessary = false;
+      }
+      _ref = this.files.slice();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        file = _ref[_i];
+        if (file.status !== Dropzone.UPLOADING || cancelIfNecessary) {
+          this.removeFile(file);
+        }
+      }
+      return null;
+    };
+
+    Dropzone.prototype.createThumbnail = function(file) {
+      var fileReader,
+        _this = this;
+      fileReader = new FileReader;
+      fileReader.onload = function() {
+        var img;
+        img = document.createElement("img");
+        img.onload = function() {
+          var canvas, ctx, resizeInfo, thumbnail, _ref, _ref1, _ref2, _ref3;
+          file.width = img.width;
+          file.height = img.height;
+          resizeInfo = _this.options.resize.call(_this, file);
+          if (resizeInfo.trgWidth == null) {
+            resizeInfo.trgWidth = _this.options.thumbnailWidth;
+          }
+          if (resizeInfo.trgHeight == null) {
+            resizeInfo.trgHeight = _this.options.thumbnailHeight;
+          }
+          canvas = document.createElement("canvas");
+          ctx = canvas.getContext("2d");
+          canvas.width = resizeInfo.trgWidth;
+          canvas.height = resizeInfo.trgHeight;
+          ctx.drawImage(img, (_ref = resizeInfo.srcX) != null ? _ref : 0, (_ref1 = resizeInfo.srcY) != null ? _ref1 : 0, resizeInfo.srcWidth, resizeInfo.srcHeight, (_ref2 = resizeInfo.trgX) != null ? _ref2 : 0, (_ref3 = resizeInfo.trgY) != null ? _ref3 : 0, resizeInfo.trgWidth, resizeInfo.trgHeight);
+          thumbnail = canvas.toDataURL("image/png");
+          return _this.emit("thumbnail", file, thumbnail);
+        };
+        return img.src = fileReader.result;
+      };
+      return fileReader.readAsDataURL(file);
+    };
+
+    Dropzone.prototype.processQueue = function() {
+      var i, parallelUploads, processingLength, queuedFiles;
+      parallelUploads = this.options.parallelUploads;
+      processingLength = this.getUploadingFiles().length;
+      i = processingLength;
+      if (processingLength >= parallelUploads) {
+        return;
+      }
+      queuedFiles = this.getQueuedFiles();
+      if (!(queuedFiles.length > 0)) {
+        return;
+      }
+      if (this.options.uploadMultiple) {
+        return this.processFiles(queuedFiles.slice(0, parallelUploads - processingLength));
+      } else {
+        while (i < parallelUploads) {
+          if (!queuedFiles.length) {
+            return;
+          }
+          this.processFile(queuedFiles.shift());
+          i++;
+        }
+      }
+    };
+
+    Dropzone.prototype.processFile = function(file) {
+      return this.processFiles([file]);
+    };
+
+    Dropzone.prototype.processFiles = function(files) {
+      var file, _i, _len;
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        file.processing = true;
+        file.status = Dropzone.UPLOADING;
+        this.emit("processing", file);
+      }
+      if (this.options.uploadMultiple) {
+        this.emit("processingmultiple", files);
+      }
+      return this.uploadFiles(files);
+    };
+
+    Dropzone.prototype._getFilesWithXhr = function(xhr) {
+      var file, files;
+      return files = (function() {
+        var _i, _len, _ref, _results;
+        _ref = this.files;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          file = _ref[_i];
+          if (file.xhr === xhr) {
+            _results.push(file);
+          }
+        }
+        return _results;
+      }).call(this);
+    };
+
+    Dropzone.prototype.cancelUpload = function(file) {
+      var groupedFile, groupedFiles, _i, _j, _len, _len1, _ref;
+      if (file.status === Dropzone.UPLOADING) {
+        groupedFiles = this._getFilesWithXhr(file.xhr);
+        for (_i = 0, _len = groupedFiles.length; _i < _len; _i++) {
+          groupedFile = groupedFiles[_i];
+          groupedFile.status = Dropzone.CANCELED;
+        }
+        file.xhr.abort();
+        for (_j = 0, _len1 = groupedFiles.length; _j < _len1; _j++) {
+          groupedFile = groupedFiles[_j];
+          this.emit("canceled", groupedFile);
+        }
+        if (this.options.uploadMultiple) {
+          this.emit("canceledmultiple", groupedFiles);
+        }
+      } else if ((_ref = file.status) === Dropzone.ADDED || _ref === Dropzone.QUEUED) {
+        file.status = Dropzone.CANCELED;
+        this.emit("canceled", file);
+        if (this.options.uploadMultiple) {
+          this.emit("canceledmultiple", [file]);
+        }
+      }
+      if (this.options.autoProcessQueue) {
+        return this.processQueue();
+      }
+    };
+
+    Dropzone.prototype.uploadFile = function(file) {
+      return this.uploadFiles([file]);
+    };
+
+    Dropzone.prototype.uploadFiles = function(files) {
+      var file, formData, handleError, headerName, headerValue, headers, input, inputName, inputType, key, option, progressObj, response, updateProgress, value, xhr, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref, _ref1, _ref2, _ref3, _ref4,
+        _this = this;
+      xhr = new XMLHttpRequest();
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        file.xhr = xhr;
+      }
+      xhr.open(this.options.method, this.options.url, true);
+      xhr.withCredentials = !!this.options.withCredentials;
+      response = null;
+      handleError = function() {
+        var _j, _len1, _results;
+        _results = [];
+        for (_j = 0, _len1 = files.length; _j < _len1; _j++) {
+          file = files[_j];
+          _results.push(_this._errorProcessing(files, response || _this.options.dictResponseError.replace("{{statusCode}}", xhr.status), xhr));
+        }
+        return _results;
+      };
+      updateProgress = function(e) {
+        var allFilesFinished, progress, _j, _k, _l, _len1, _len2, _len3, _results;
+        if (e != null) {
+          progress = 100 * e.loaded / e.total;
+          for (_j = 0, _len1 = files.length; _j < _len1; _j++) {
+            file = files[_j];
+            file.upload = {
+              progress: progress,
+              total: e.total,
+              bytesSent: e.loaded
+            };
+          }
+        } else {
+          allFilesFinished = true;
+          progress = 100;
+          for (_k = 0, _len2 = files.length; _k < _len2; _k++) {
+            file = files[_k];
+            if (!(file.upload.progress === 100 && file.upload.bytesSent === file.upload.total)) {
+              allFilesFinished = false;
+            }
+            file.upload.progress = progress;
+            file.upload.bytesSent = file.upload.total;
+          }
+          if (allFilesFinished) {
+            return;
+          }
+        }
+        _results = [];
+        for (_l = 0, _len3 = files.length; _l < _len3; _l++) {
+          file = files[_l];
+          _results.push(_this.emit("uploadprogress", file, progress, file.upload.bytesSent));
+        }
+        return _results;
+      };
+      xhr.onload = function(e) {
+        var _ref;
+        if (files[0].status === Dropzone.CANCELED) {
+          return;
+        }
+        if (xhr.readyState !== 4) {
+          return;
+        }
+        response = xhr.responseText;
+        if (xhr.getResponseHeader("content-type") && ~xhr.getResponseHeader("content-type").indexOf("application/json")) {
+          try {
+            response = JSON.parse(response);
+          } catch (_error) {
+            e = _error;
+            response = "Invalid JSON response from server.";
+          }
+        }
+        updateProgress();
+        console.log(xhr.status);
+        if (!((200 <= (_ref = xhr.status) && _ref < 300))) {
+          return handleError();
+        } else {
+          return _this._finished(files, response, e);
+        }
+      };
+      xhr.onerror = function() {
+        if (files[0].status === Dropzone.CANCELED) {
+          return;
+        }
+        return handleError();
+      };
+      progressObj = (_ref = xhr.upload) != null ? _ref : xhr;
+      progressObj.onprogress = updateProgress;
+      headers = {
+        "Accept": "application/json",
+        "Cache-Control": "no-cache",
+        "X-Requested-With": "XMLHttpRequest"
+      };
+      if (this.options.headers) {
+        extend(headers, this.options.headers);
+      }
+      for (headerName in headers) {
+        headerValue = headers[headerName];
+        xhr.setRequestHeader(headerName, headerValue);
+      }
+      formData = new FormData();
+      if (this.options.params) {
+        _ref1 = this.options.params;
+        for (key in _ref1) {
+          value = _ref1[key];
+          formData.append(key, value);
+        }
+      }
+      for (_j = 0, _len1 = files.length; _j < _len1; _j++) {
+        file = files[_j];
+        this.emit("sending", file, xhr, formData);
+      }
+      if (this.options.uploadMultiple) {
+        this.emit("sendingmultiple", files, xhr, formData);
+      }
+      if (this.element.tagName === "FORM") {
+        _ref2 = this.element.querySelectorAll("input, textarea, select, button");
+        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+          input = _ref2[_k];
+          inputName = input.getAttribute("name");
+          inputType = input.getAttribute("type");
+          if (input.tagName === "SELECT" && input.hasAttribute("multiple")) {
+            _ref3 = input.options;
+            for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
+              option = _ref3[_l];
+              if (option.selected) {
+                formData.append(inputName, option.value);
+              }
+            }
+          } else if (!inputType || ((_ref4 = inputType.toLowerCase()) !== "checkbox" && _ref4 !== "radio") || input.checked) {
+            formData.append(inputName, input.value);
+          }
+        }
+      }
+      for (_m = 0, _len4 = files.length; _m < _len4; _m++) {
+        file = files[_m];
+        formData.append("" + this.options.paramName + (this.options.uploadMultiple ? "[]" : ""), file, file.name);
+      }
+      return xhr.send(formData);
+    };
+
+    Dropzone.prototype._finished = function(files, responseText, e) {
+      var file, _i, _len;
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        file.status = Dropzone.SUCCESS;
+        this.emit("success", file, responseText, e);
+        this.emit("complete", file);
+      }
+      if (this.options.uploadMultiple) {
+        this.emit("successmultiple", files, responseText, e);
+        this.emit("completemultiple", files);
+      }
+      if (this.options.autoProcessQueue) {
+        return this.processQueue();
+      }
+    };
+
+    Dropzone.prototype._errorProcessing = function(files, message, xhr) {
+      var file, _i, _len;
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        file.status = Dropzone.ERROR;
+        this.emit("error", file, message, xhr);
+        this.emit("complete", file);
+      }
+      if (this.options.uploadMultiple) {
+        this.emit("errormultiple", files, message, xhr);
+        this.emit("completemultiple", files);
+      }
+      if (this.options.autoProcessQueue) {
+        return this.processQueue();
+      }
+    };
+
+    return Dropzone;
+
+  })(Em);
+
+  Dropzone.version = "3.7.5-dev";
+
+  Dropzone.options = {};
+
+  Dropzone.optionsForElement = function(element) {
+    if (element.getAttribute("id")) {
+      return Dropzone.options[camelize(element.getAttribute("id"))];
+    } else {
+      return void 0;
+    }
+  };
+
+  Dropzone.instances = [];
+
+  Dropzone.forElement = function(element) {
+    if (typeof element === "string") {
+      element = document.querySelector(element);
+    }
+    if ((element != null ? element.dropzone : void 0) == null) {
+      throw new Error("No Dropzone found for given element. This is probably because you're trying to access it before Dropzone had the time to initialize. Use the `init` option to setup any additional observers on your Dropzone.");
+    }
+    return element.dropzone;
+  };
+
+  Dropzone.autoDiscover = true;
+
+  Dropzone.discover = function() {
+    var checkElements, dropzone, dropzones, _i, _len, _results;
+    if (document.querySelectorAll) {
+      dropzones = document.querySelectorAll(".dropzone");
+    } else {
+      dropzones = [];
+      checkElements = function(elements) {
+        var el, _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = elements.length; _i < _len; _i++) {
+          el = elements[_i];
+          if (/(^| )dropzone($| )/.test(el.className)) {
+            _results.push(dropzones.push(el));
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      };
+      checkElements(document.getElementsByTagName("div"));
+      checkElements(document.getElementsByTagName("form"));
+    }
+    _results = [];
+    for (_i = 0, _len = dropzones.length; _i < _len; _i++) {
+      dropzone = dropzones[_i];
+      if (Dropzone.optionsForElement(dropzone) !== false) {
+        _results.push(new Dropzone(dropzone));
+      } else {
+        _results.push(void 0);
+      }
+    }
+    return _results;
+  };
+
+  Dropzone.blacklistedBrowsers = [/opera.*Macintosh.*version\/12/i];
+
+  Dropzone.isBrowserSupported = function() {
+    var capableBrowser, regex, _i, _len, _ref;
+    capableBrowser = true;
+    if (window.File && window.FileReader && window.FileList && window.Blob && window.FormData && document.querySelector) {
+      if (!("classList" in document.createElement("a"))) {
+        capableBrowser = false;
+      } else {
+        _ref = Dropzone.blacklistedBrowsers;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          regex = _ref[_i];
+          if (regex.test(navigator.userAgent)) {
+            capableBrowser = false;
+            continue;
+          }
+        }
+      }
+    } else {
+      capableBrowser = false;
+    }
+    return capableBrowser;
+  };
+
+  without = function(list, rejectedItem) {
+    var item, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = list.length; _i < _len; _i++) {
+      item = list[_i];
+      if (item !== rejectedItem) {
+        _results.push(item);
+      }
+    }
+    return _results;
+  };
+
+  camelize = function(str) {
+    return str.replace(/[\-_](\w)/g, function(match) {
+      return match[1].toUpperCase();
+    });
+  };
+
+  Dropzone.createElement = function(string) {
+    var div;
+    div = document.createElement("div");
+    div.innerHTML = string;
+    return div.childNodes[0];
+  };
+
+  Dropzone.elementInside = function(element, container) {
+    if (element === container) {
+      return true;
+    }
+    while (element = element.parentNode) {
+      if (element === container) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  Dropzone.getElement = function(el, name) {
+    var element;
+    if (typeof el === "string") {
+      element = document.querySelector(el);
+    } else if (el.nodeType != null) {
+      element = el;
+    }
+    if (element == null) {
+      throw new Error("Invalid `" + name + "` option provided. Please provide a CSS selector or a plain HTML element.");
+    }
+    return element;
+  };
+
+  Dropzone.getElements = function(els, name) {
+    var e, el, elements, _i, _j, _len, _len1, _ref;
+    if (els instanceof Array) {
+      elements = [];
+      try {
+        for (_i = 0, _len = els.length; _i < _len; _i++) {
+          el = els[_i];
+          elements.push(this.getElement(el, name));
+        }
+      } catch (_error) {
+        e = _error;
+        elements = null;
+      }
+    } else if (typeof els === "string") {
+      elements = [];
+      _ref = document.querySelectorAll(els);
+      for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+        el = _ref[_j];
+        elements.push(el);
+      }
+    } else if (els.nodeType != null) {
+      elements = [els];
+    }
+    if (!((elements != null) && elements.length)) {
+      throw new Error("Invalid `" + name + "` option provided. Please provide a CSS selector, a plain HTML element or a list of those.");
+    }
+    return elements;
+  };
+
+  Dropzone.confirm = function(question, accepted, rejected) {
+    if (window.confirm(question)) {
+      return accepted();
+    } else if (rejected != null) {
+      return rejected();
+    }
+  };
+
+  Dropzone.isValidFile = function(file, acceptedFiles) {
+    var baseMimeType, mimeType, validType, _i, _len;
+    if (!acceptedFiles) {
+      return true;
+    }
+    acceptedFiles = acceptedFiles.split(",");
+    mimeType = file.type;
+    baseMimeType = mimeType.replace(/\/.*$/, "");
+    for (_i = 0, _len = acceptedFiles.length; _i < _len; _i++) {
+      validType = acceptedFiles[_i];
+      validType = validType.trim();
+      if (validType.charAt(0) === ".") {
+        if (file.name.toLowerCase().indexOf(validType.toLowerCase(), file.name.length - validType.length) !== -1) {
+          return true;
+        }
+      } else if (/\/\*$/.test(validType)) {
+        if (baseMimeType === validType.replace(/\/.*$/, "")) {
+          return true;
+        }
+      } else {
+        if (mimeType === validType) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  if (typeof jQuery !== "undefined" && jQuery !== null) {
+    jQuery.fn.dropzone = function(options) {
+      return this.each(function() {
+        return new Dropzone(this, options);
+      });
+    };
+  }
+
+  if (typeof module !== "undefined" && module !== null) {
+    module.exports = Dropzone;
+  } else {
+    window.Dropzone = Dropzone;
+  }
+
+  Dropzone.ADDED = "added";
+
+  Dropzone.QUEUED = "queued";
+
+  Dropzone.ACCEPTED = Dropzone.QUEUED;
+
+  Dropzone.UPLOADING = "uploading";
+
+  Dropzone.PROCESSING = Dropzone.UPLOADING;
+
+  Dropzone.CANCELED = "canceled";
+
+  Dropzone.ERROR = "error";
+
+  Dropzone.SUCCESS = "success";
+
+  /*
+  # contentloaded.js
+  #
+  # Author: Diego Perini (diego.perini at gmail.com)
+  # Summary: cross-browser wrapper for DOMContentLoaded
+  # Updated: 20101020
+  # License: MIT
+  # Version: 1.2
+  #
+  # URL:
+  # http://javascript.nwbox.com/ContentLoaded/
+  # http://javascript.nwbox.com/ContentLoaded/MIT-LICENSE
+  */
+
+
+  contentLoaded = function(win, fn) {
+    var add, doc, done, init, poll, pre, rem, root, top;
+    done = false;
+    top = true;
+    doc = win.document;
+    root = doc.documentElement;
+    add = (doc.addEventListener ? "addEventListener" : "attachEvent");
+    rem = (doc.addEventListener ? "removeEventListener" : "detachEvent");
+    pre = (doc.addEventListener ? "" : "on");
+    init = function(e) {
+      if (e.type === "readystatechange" && doc.readyState !== "complete") {
+        return;
+      }
+      (e.type === "load" ? win : doc)[rem](pre + e.type, init, false);
+      if (!done && (done = true)) {
+        return fn.call(win, e.type || e);
+      }
+    };
+    poll = function() {
+      var e;
+      try {
+        root.doScroll("left");
+      } catch (_error) {
+        e = _error;
+        setTimeout(poll, 50);
+        return;
+      }
+      return init("poll");
+    };
+    if (doc.readyState !== "complete") {
+      if (doc.createEventObject && root.doScroll) {
+        try {
+          top = !win.frameElement;
+        } catch (_error) {}
+        if (top) {
+          poll();
+        }
+      }
+      doc[add](pre + "DOMContentLoaded", init, false);
+      doc[add](pre + "readystatechange", init, false);
+      return win[add](pre + "load", init, false);
+    }
+  };
+
+  Dropzone._autoDiscoverFunction = function() {
+    if (Dropzone.autoDiscover) {
+      return Dropzone.discover();
+    }
+  };
+
+  contentLoaded(window, Dropzone._autoDiscoverFunction);
+
+}).call(this);
+
+});
+require.alias("component-emitter/index.js", "dropzone/deps/emitter/index.js");
+require.alias("component-emitter/index.js", "emitter/index.js");
+if (typeof exports == "object") {
+  module.exports = require("dropzone");
+} else if (typeof define == "function" && define.amd) {
+  define(function(){ return require("dropzone"); });
+} else {
+  this["Dropzone"] = require("dropzone");
+}})();;/**
  *	Neon Mail Script
  *
  *	Developed by Arlind Nushi - www.laborator.co
@@ -18795,7 +17540,7 @@ var neonLogin = neonLogin || {};
 									// Do some other stuff...
 									
 									// Redirect to the page
-									setTimeout("window.location.href = '/disperindag/admin/'", 600);
+									setTimeout("window.location.href = '/disperindag-design/admin/'", 600);
 								}, 2);
 								
 							}, 820);
@@ -21267,133 +20012,3 @@ if(typeof Dropzone != 'undefined')
 	
 })(jQuery, window);
 ;
-
-// Chart
-	jQuery(document).ready(function($) 
-	{
-		// Sample Toastr Notification
-		setTimeout(function()
-		{			
-			var opts = {
-				"closeButton": true,
-				"debug": false,
-				"positionClass": rtl() || public_vars.$pageContainer.hasClass('right-sidebar') ? "toast-top-left" : "toast-top-right",
-				"toastClass": "black",
-				"onclick": null,
-				"showDuration": "300",
-				"hideDuration": "1000",
-				"timeOut": "5000",
-				"extendedTimeOut": "1000",
-				"showEasing": "swing",
-				"hideEasing": "linear",
-				"showMethod": "fadeIn",
-				"hideMethod": "fadeOut"
-			};
-
-			toastr.success("You have been awarded with 1 year free subscription. Enjoy it!", "Account Subcription Updated", opts);
-		}, 3000);
-		
-		
-		// Sparkline Charts
-		$('.inlinebar').sparkline('html', {type: 'bar', barColor: '#ff6264'} );
-		$('.inlinebar-2').sparkline('html', {type: 'bar', barColor: '#445982'} );
-		$('.inlinebar-3').sparkline('html', {type: 'bar', barColor: '#00b19d'} );
-		$('.bar').sparkline([ [1,4], [2, 3], [3, 2], [4, 1] ], { type: 'bar' });
-		$('.pie').sparkline('html', {type: 'pie',borderWidth: 0, sliceColors: ['#3d4554', '#ee4749','#00b19d']});
-		$('.linechart').sparkline();
-		$('.pageviews').sparkline('html', {type: 'bar', height: '30px', barColor: '#ff6264'} );
-		$('.uniquevisitors').sparkline('html', {type: 'bar', height: '30px', barColor: '#00b19d'} );
-		
-		
-		$(".monthly-sales").sparkline([1,2,3,5,6,7,2,3,3,4,3,5,7,2,4,3,5,4,5,6,3,2], {
-			type: 'bar',
-			barColor: '#485671',
-			height: '80px',
-			barWidth: 10,
-			barSpacing: 2
-		});	
-		
-		
-		// JVector Maps
-		var map = $("#map");
-		
-		map.vectorMap({
-			map: 'europe_merc_en',
-			zoomMin: '3',
-			backgroundColor: '#383f47',
-			focusOn: { x: 0.5, y: 0.8, scale: 3 }
-		});		
-		
-				
-		
-		// Line Charts
-		var line_chart_demo = $("#line-chart-demo");
-		
-		var line_chart = Morris.Line({
-			element: 'line-chart-demo',
-			data: [
-				{ y: '2006', a: 100, b: 90 },
-				{ y: '2007', a: 75,  b: 65 },
-				{ y: '2008', a: 50,  b: 40 },
-				{ y: '2009', a: 75,  b: 65 },
-				{ y: '2010', a: 50,  b: 40 },
-				{ y: '2011', a: 75,  b: 65 },
-				{ y: '2012', a: 100, b: 90 }
-			],
-			xkey: 'y',
-			ykeys: ['a', 'b'],
-			labels: ['October 2013', 'November 2013'],
-			redraw: true
-		});
-		
-		line_chart_demo.parent().attr('style', '');
-		
-		
-		// Donut Chart
-		var donut_chart_demo = $("#donut-chart-demo");
-		
-		donut_chart_demo.parent().show();
-		
-		var donut_chart = Morris.Donut({
-			element: 'donut-chart-demo',
-			data: [
-				{label: "Download Sales", value: getRandomInt(10,50)},
-				{label: "In-Store Sales", value: getRandomInt(10,50)},
-				{label: "Mail-Order Sales", value: getRandomInt(10,50)}
-			],
-			colors: ['#707f9b', '#455064', '#242d3c']
-		});
-		
-		donut_chart_demo.parent().attr('style', '');
-		
-		
-		// Area Chart
-		var area_chart_demo = $("#area-chart-demo");
-		
-		area_chart_demo.parent().show();
-		
-		var area_chart = Morris.Area({
-			element: 'area-chart-demo',
-			data: [
-				{ y: '2006', a: 100, b: 90 },
-				{ y: '2007', a: 75,  b: 65 },
-				{ y: '2008', a: 50,  b: 40 },
-				{ y: '2009', a: 75,  b: 65 },
-				{ y: '2010', a: 50,  b: 40 },
-				{ y: '2011', a: 75,  b: 65 },
-				{ y: '2012', a: 100, b: 90 }
-			],
-			xkey: 'y',
-			ykeys: ['a', 'b'],
-			labels: ['Series A', 'Series B'],
-			lineColors: ['#303641', '#576277']
-		});
-		
-		area_chart_demo.parent().attr('style', '');
-	});
-
-
-	function getRandomInt(min, max) 
-	{
-		return Math.floor(Math.random() * (max - min + 1)) + min;
-	}

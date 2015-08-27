@@ -27,6 +27,24 @@ class BeritaController extends Controller{
         $this->render("create", array(
             
         ));
+    }
+    
+    public function actionUpdate(){
+        $this->render("edit", array(
+            
+        ));
+    }
+    
+    public function actionDraft(){
+        $this->render("draft", array(
+            
+        ));
+    }  
+    
+    public function actionArchive(){
+        $this->render("archive", array(
+            
+        ));
     }  
     
 }

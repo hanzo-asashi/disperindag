@@ -175,7 +175,7 @@ var neonLogin = neonLogin || {};
 									// Do some other stuff...
 									
 									// Redirect to the page
-									setTimeout("window.location.href = '/disperindag/admin/'", 600);
+									setTimeout("window.location.href = '/disperindag-design/admin/'", 600);
 								}, 2);
 								
 							}, 820);

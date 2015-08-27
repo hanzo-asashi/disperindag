@@ -4,11 +4,13 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-		$this->render('index');
+            $this->render('index');
 	}
-
-	public function actionUser()
+       
+        public function actionLogout()
 	{
-		$this->render('user');
+            Yii::app()->user->logout();
+            Yii::app()->session->clear();
+            $this->redirect("/");
 	}
 }

@@ -56,6 +56,7 @@ return array(
             'rules' => array(
                 '' => 'site/index',
                 'login' => 'site/login',
+                'logout' => 'admin/logout',
                 
                 // Admin ROute
                 'admin/berita/tambah-berita' => 'admin/berita/create',
