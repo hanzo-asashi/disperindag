@@ -1,6 +1,6 @@
 <ol class="breadcrumb bc-3">
     <li>
-        <a href="index.php">Beranda</a>
+        <a href="/admin">Beranda</a>
     </li>
 
     <li class="active">
@@ -16,7 +16,7 @@
         <div class="panel-title">Daftar Pengguna</div>
 
         <div class="panel-options">
-            <a href="user-new.php" class="bg"><i class="entypo-plus"></i>Tambah Baru</a>
+            <a href="/admin/users/create" class="bg"><i class="entypo-plus"></i>Tambah Baru</a>
         </div>
     </div>
 
