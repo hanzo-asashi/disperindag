@@ -1,6 +1,6 @@
 <ol class="breadcrumb bc-3">
     <li>
-        <a href="index.php">Beranda</a>
+        <a href="/admin">Beranda</a>
     </li>
 
     <li class="active">
