@@ -15,5 +15,10 @@ class UsersController extends Controller{
     public function actionView(){
         
     }
+    public function actionCreate(){
+        $this->render("create", array(
+            
+        ));
+    }
 }
 
