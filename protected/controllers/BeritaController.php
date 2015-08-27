@@ -21,4 +21,8 @@ class BeritaController extends Controller{
             $this->render("index", $params);
         }
     }
+    
+    public function actionDetail(){
+        $this->render('detail');
+    }
 }
