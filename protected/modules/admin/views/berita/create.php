@@ -1,6 +1,4 @@
 <div class="mail-env">
-
-
     <!-- Mail Body -->
     <div class="mail-body">
 
@@ -9,63 +7,42 @@
             <h3 class="col-md-5 no-margin">
                 Berita Baru
             </h3>
-
             <!-- links -->
             <div class="col-md-7">
-
                 <div class="pull-right">
-
                     <a href="#" class="btn btn-default btn-icon">
                         Simpan di Draf
                         <i class="entypo-tag"></i>
                     </a>
-
                 </div>
-
             </div>
         </div>
 
-
         <div class="mail-compose">
-
             <form method="post" role="form">
-
                 <div class="form-group">
                     <label for="to">Judul Berita:</label>
                     <input type="text" class="form-control post-title" id="to" tabindex="1"/>
                 </div>
 
-
                 <div class="compose-message-editor">
-                    <textarea name="post_content" id="editor">
-
-                    </textarea>
+                    <textarea name="post_content" id="editor"></textarea>
                 </div>
-
-                <br>
-                <br>
-
+                <br><br>
                 <div class="row">
                     <label class="col-sm-12 control-label">Kata Kunci Pencarian</label>
-
                     <div class="col-sm-12">
-
                         <input type="text" value="Disperindag,Sewa Gedung,Ball Room CCC, CCC, Makassar, Dinas, Sulawesi Selatan," class="form-control tagsinput" />
                         <p><i>Kata kunci akan membantu pengunjung menemukan berita ini di Google.</i></p>
-
                     </div>
                 </div>
-
             </form>
-
         </div>
     </div>
 
     <!-- Sidebar -->
     <div class="mail-sidebar">
-
         <form action="">
-
             <!-- compose new email button -->
             <div class="mail-sidebar-row hidden-xs">
                 <button class="btn btn-success btn-icon btn-block">
@@ -73,7 +50,6 @@
                     <i class="entypo-megaphone"></i>
                 </button>
             </div>
-
             <!-- menu -->
             <ul class="mail-menu">
                 <li class="custom">
@@ -143,39 +119,36 @@
 </div>
 <hr>
 
+<!-- Modal 1 (Basic)-->
+<div class='modal fade' id='modal-kategori'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <form action=''>
+                <div class='modal-header'>
+                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                    <h4 class='modal-title'>Tambah Kategori</h4>
+                </div>
 
-<?php $registerscript = "
-	<!-- Modal 1 (Basic)-->
-	<div class='modal fade' id='modal-kategori'>
-		<div class='modal-dialog'>
-			<div class='modal-content'>
-				<form action=''>
-					<div class='modal-header'>
-						<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-						<h4 class='modal-title'>Tambah Kategori</h4>
-					</div>
-					
-					<div class='modal-body'>
-						<input type='text' class='form-control' placeholder='Tulis Kategori Baru disini'>
-					</div>
-					
-					<div class='modal-footer no-margin'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Kembali</button>
-						<button type='button' class='btn btn-success'>Tambah</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                <div class='modal-body'>
+                    <input type='text' class='form-control' placeholder='Tulis Kategori Baru disini'>
+                </div>
 
-	<script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/ckeditor-full/ckeditor.js'></script>
-	<script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/js/fileinput.js'></script>
+                <div class='modal-footer no-margin'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Kembali</button>
+                    <button type='button' class='btn btn-success'>Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-	<script>
-		CKEDITOR.replace( 'editor' );
-	</script>
-	<script>
-		$('.nav-blog').addClass('opened');
-		$('.nav-blog ul li:nth-child(2)').addClass('active');
-	</script>
-" ?>
+<script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/ckeditor-full/ckeditor.js'></script>
+<script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/js/fileinput.js'></script>
+
+<script>
+        CKEDITOR.replace( 'editor' );
+</script>
+<script>
+        $('.nav-blog').addClass('opened');
+        $('.nav-blog ul li:nth-child(2)').addClass('active');
+</script>

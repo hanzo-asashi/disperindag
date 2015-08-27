@@ -5,7 +5,7 @@
         <div class="mail-header">
             <!-- title -->
             <h3 class="mail-title">
-                Draf
+                Draft
                 <span class="count">(6)</span>
             </h3>
 
@@ -116,15 +116,11 @@
 
 </div>
 <hr>
-
-<?php $registerscript = "
-	<script>
-		$('.nav-blog').addClass('opened');
-		$('.nav-blog ul li:nth-child(1)').addClass('active');
-
-		var content = $('.table tbody tr td .checkbox').length;
-		if (content == 0) {
-			$('.alert-empty').show();
-		};
-	</script>
-" ?>
+<script>
+    $('.nav-blog').addClass('opened');
+    $('.nav-blog ul li:nth-child(1)').addClass('active');
+    var content = $('.table tbody tr td .checkbox').length;
+    if (content == 0) {
+            $('.alert-empty').show();
+    };
+</script>

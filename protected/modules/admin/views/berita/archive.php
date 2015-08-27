@@ -118,15 +118,12 @@
 
 </div>
 <hr>
+<script>
+    $('.nav-blog').addClass('opened');
+    $('.nav-blog ul li:nth-child(1)').addClass('active');
 
-<?php $registerscript = "
-	<script>
-		$('.nav-blog').addClass('opened');
-		$('.nav-blog ul li:nth-child(1)').addClass('active');
-
-		var content = $('.table tbody tr td .checkbox').length;
-		if (content == 0) {
-			$('.alert-empty').show();
-		};
-	</script>
-" ?>
+    var content = $('.table tbody tr td .checkbox').length;
+    if (content == 0) {
+            $('.alert-empty').show();
+    };
+</script>
