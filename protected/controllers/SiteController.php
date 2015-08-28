@@ -45,6 +45,13 @@ class SiteController extends Controller
             }
         }
     }
+    
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
 
     /**
      * Displays the contact page.
@@ -76,23 +83,53 @@ class SiteController extends Controller
     public function actionLogin()
     {
         $model = new LoginForm();
-
         // if it is ajax validation request
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'form_login') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+        # Response Data Array
+        $resp = array();
 
+
+        // Fields Submitted
+        $username = !empty($_POST["username"]) ? $_POST["username"] : "";
+        $password = !empty($_POST["password"]) ? $_POST["password"] : "";
+
+        // This array of data is returned for demo purpose, see assets/js/neon-forgotpassword.js
+        $resp['LoginForm'] = !empty($_POST) ? $_POST : "";
+
+        // Login success or invalid login data [success|invalid]
+        // Your code will decide if username and password are correct
+        $login_status = 'invalid';
+        
         // collect user input data
-        if (isset($_POST['LoginForm'])) {
+        if (!empty($resp['LoginForm'])) {
             $model->attributes = $_POST['LoginForm'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
+                $login_status = 'success';                
+            }
+            
+            $resp['login_status'] = $login_status;
+            // Login Success URL
+            if($login_status == 'success')
+            {
+                // If you validate the user you may set the user cookies/sessions here
+                        setcookie("logged_in", "user_id");
+                        $_SESSION["logged_user"] = "user_id";
+
+                // Set the redirect url after successful login
+                //$resp['redirect_url'] = '';
                 $this->redirect(Yii::app()->user->returnUrl);
             }
         }
+        echo json_encode($resp);
+        
         // display the login form
-        $this->renderPartial('login', array('model' => $model));
+        $this->renderPartial('login', array(
+            //'model' => $model
+        ));
     }
 
     /**
