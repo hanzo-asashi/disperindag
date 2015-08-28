@@ -85,7 +85,7 @@
                         <div class="panel-body">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new thumbnail" style="width: 100%; height: auto;" data-trigger="fileinput">
-                                    <img src="<?php echo yii::app()->request->baseUrl ?>/static/assets/img/gallery/post-1.jpg" alt="...">
+                                    <img src="<?php $this->baseUrl ?>/static/img/gallery/post-1.jpg" alt="...">
                                 </div>
                                 <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 100%; max-height: auto"></div>
                                 <div>
@@ -141,11 +141,7 @@
 
 </div>
 <hr>
-
-
-<?php $registerscript = "
-	<!-- Modal 1 (Basic)-->
-	<div class='modal fade' id='modal-kategori'>
+<div class='modal fade' id='modal-kategori'>
 		<div class='modal-dialog'>
 			<div class='modal-content'>
 				<form action=''>
@@ -177,4 +173,3 @@
 		$('.nav-blog').addClass('opened');
 		$('.nav-blog ul li:nth-child(2)').addClass('active');
 	</script>
-" ?>
