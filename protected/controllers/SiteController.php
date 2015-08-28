@@ -97,15 +97,15 @@ class SiteController extends Controller
         $password = !empty($_POST["password"]) ? $_POST["password"] : "";
 
         // This array of data is returned for demo purpose, see assets/js/neon-forgotpassword.js
-        $resp['LoginForm'] = !empty($_POST) ? $_POST : "";
+        $resp['submitted_data'] = !empty($_POST) ? $_POST : "";
 
         // Login success or invalid login data [success|invalid]
         // Your code will decide if username and password are correct
         $login_status = 'invalid';
         
         // collect user input data
-        if (!empty($resp['LoginForm'])) {
-            $model->attributes = $_POST['LoginForm'];
+        if (!empty($resp['submitted_data'])) {
+            $model->attributes = $resp['submitted_data'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
                 $login_status = 'success';                

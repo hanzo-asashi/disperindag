@@ -23,14 +23,23 @@ class UserIdentity extends CUserIdentity
             'demo' => 'demo',
             'admin' => 'admin',
         );
+        $users = User::model()->findByAttributes(array('username'=>$this->username));
         if (!isset($users[$this->username])) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
-        } elseif ($users[$this->username] !== $this->password) {
+        //} elseif ($users[$this->username] !== $this->password) {
+        } elseif (!CPasswordHelper::verifyPassword($this->password,$users->password)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         } else {
+            $this->_id=$record->id;
+            $this->setState('namalengkap', $record->namalengkap);
             $this->errorCode = self::ERROR_NONE;
         }
 
-        return !$this->errorCode;
+        return !$this->errorCode;        
+    }
+    
+    public function getId()
+    {
+        return $this->_id;
     }
 }

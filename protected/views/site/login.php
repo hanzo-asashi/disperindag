@@ -11,7 +11,7 @@
         <title>Neon | Login</title>
 
 
-        <link rel="stylesheet" href="<?php $this->baseUrl;?>/static/assets/css/app.css">
+        <link rel="stylesheet" href="<?php $this->baseUrl; ?>/static/assets/css/app.css">
 
         <!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -24,31 +24,24 @@
 
     </head>
     <body class="page-body login-page login-form-fall">
-
-
-        <!-- This is needed when you send requests via Ajax --><script type="text/javascript">
+        <!-- This is needed when you send requests via Ajax -->
+        <script type="text/javascript">
             var baseurl = '/admin/';
         </script>
 
         <div class="login-container">
-
             <div class="login-header login-caret">
-
                 <div class="login-content">
-
-                    <a href="index.php" class="logo">
-                        <img src="<?php $this->baseUrl;?>/static/assets/images/logo@2x.png" width="120" alt="" />
+                    <a href="/" class="logo">
+                        <img src="<?php $this->baseUrl; ?>/static/assets/images/logo@2x.png" width="120" alt="" />
                     </a>
-
                     <p class="description">Selamat datang, masuk untuk mengakses area admin!</p>
-
                     <!-- progress bar indicator -->
                     <div class="login-progressbar-indicator">
                         <h3>43%</h3>
                         <span>Proses...</span>
                     </div>
                 </div>
-
             </div>
 
             <div class="login-progressbar">
@@ -64,30 +57,22 @@
                         <p>Masukkan Kata Sandi yang benar.</p>
                     </div>
 
-                    <form method="post" role="form" id="form_login">
-
+                    <form method="post" role="form" name="form_login" id="form_login">
                         <div class="form-group">
-
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="entypo-user"></i>
                                 </div>
-
                                 <input type="text" class="form-control" name="username" id="username" placeholder="Nama Pengguna" autocomplete="off" />
                             </div>
-
                         </div>
-
                         <div class="form-group">
-
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="entypo-key"></i>
                                 </div>
-
                                 <input type="password" class="form-control" name="password" id="password" placeholder="Kata Sandi" autocomplete="off" />
                             </div>
-
                         </div>
 
                         <div class="form-group">
@@ -137,7 +122,7 @@
         </div>
 
         <!-- Bottom Scripts -->
-        <script src="<?php $this->baseUrl;?>/static/assets/js/vendor.js"></script>
+        <script src="<?php $this->baseUrl; ?>/static/assets/js/vendor.js"></script>
 
     </body>
 </html>

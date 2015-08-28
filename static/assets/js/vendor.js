@@ -17426,7 +17426,7 @@ var neonLogin = neonLogin || {};
 											
 					// Send data to the server
 					$.ajax({
-						url: baseurl + 'data/sample-login-form.php',
+						url: 'site/login',
 						method: 'POST',
 						dataType: 'json',
 						data: {
@@ -17540,7 +17540,7 @@ var neonLogin = neonLogin || {};
 									// Do some other stuff...
 									
 									// Redirect to the page
-									setTimeout("window.location.href = '/disperindag-design/admin/'", 600);
+									setTimeout("window.location.href = " + baseurl + "'admin/'", 600);
 								}, 2);
 								
 							}, 820);
