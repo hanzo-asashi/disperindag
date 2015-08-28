@@ -40,13 +40,12 @@ return array(
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
+        ),        
+        'request' => array(
+            'class' => 'application.components.DHttpRequest',
+            'csrfTokenName' => 'd!5p3r!nd@g',
+            'enableCsrfValidation' => true,
         ),
-        
-//        'request' => array(
-//            'class' => 'application.components.DHttpRequest',
-//            'csrfTokenName' => 'd!5p3r!nd@g',
-//            'enableCsrfValidation' => true,
-//        ),
 
         // uncomment the following to enable URLs in path-format
 
