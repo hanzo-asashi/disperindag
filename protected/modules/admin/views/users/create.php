@@ -10,8 +10,6 @@
 
 <h2>Tambah Pengguna</h2>
 <br />
-
-<form role="form" method="post" class="form-horizontal form-groups-bordered validate" action="">
     <div class="row">
         <div class="col-md-12">
 
@@ -19,13 +17,13 @@
 
                 <div class="panel-body">
 
-                    <form role="form" class="form-horizontal form-groups-bordered validate">
+                    <form method="post" name="form-login" role="form" class="form-horizontal form-groups-bordered validate" action="/admin/users/create">
 
                         <div class="form-group">
                             <label for="field-1" class="col-sm-3 control-label">Nama Lengkap</label>
 
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" name="name" value="" data-validate="required" data-message-required="Wajib diisi">
+                                <input type="text" class="form-control" name="namalengkap" value="" data-validate="required" data-message-required="Wajib diisi">
                             </div>
                         </div>
 
@@ -67,12 +65,11 @@
         </div>
     </div>
 
-</form>
-
-
-<?php $registerscript = "
-	<script>
-		$('.nav-user').addClass('opened');
-		$('.nav-user ul li:nth-child(2)').addClass('active');
-	</script>
-" ?>
+<?php
+Yii::app()->clientScript->registerScript ('test','
+    $(document).ready(function(){
+        $(".nav-user").addClass("opened");
+        $(".nav-user ul li:nth-child(2)").addClass("active");
+    });
+',CClientScript::POS_END)
+?>
