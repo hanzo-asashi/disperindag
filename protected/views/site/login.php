@@ -82,26 +82,26 @@
                             </button>
                         </div>
 
-                        <!-- 
-                        
+                        <!--
+
                         You can also use other social network buttons
                         <div class="form-group">
-                        
+
                                 <button type="button" class="btn btn-default btn-lg btn-block btn-icon icon-left twitter-button">
                                         Login with Twitter
                                         <i class="entypo-twitter"></i>
                                 </button>
-                                
+
                         </div>
-                        
+
                         <div class="form-group">
-                        
+
                                 <button type="button" class="btn btn-default btn-lg btn-block btn-icon icon-left google-button">
                                         Login with Google+
                                         <i class="entypo-gplus"></i>
                                 </button>
-                                
-                        </div> -->				
+
+                        </div> -->
                     </form>
 
 
