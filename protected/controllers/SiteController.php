@@ -45,7 +45,7 @@ class SiteController extends Controller
             }
         }
     }
-    
+
     public function filters()
     {
         return array(
@@ -84,48 +84,45 @@ class SiteController extends Controller
     {
         $model = new LoginForm();
         // if it is ajax validation request
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'form_login') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+//        if (isset($_POST['ajax']) && $_POST['ajax'] === 'form_login') {
+//            echo CActiveForm::validate($model);
+//            Yii::app()->end();
+//        }
         # Response Data Array
         $resp = array();
 
-
-        // Fields Submitted
-        $username = !empty($_POST["username"]) ? $_POST["username"] : "";
-        $password = !empty($_POST["password"]) ? $_POST["password"] : "";
-
+        //var_dump($username,$password);exit;
         // This array of data is returned for demo purpose, see assets/js/neon-forgotpassword.js
-        $resp['submitted_data'] = !empty($_POST) ? $_POST : "";
+        $resp['submitted_data'] = !empty($_POST) ? $_POST : array();
 
         // Login success or invalid login data [success|invalid]
         // Your code will decide if username and password are correct
         $login_status = 'invalid';
-        
+        //var_dump($username,$password);exit;
         // collect user input data
         if (!empty($resp['submitted_data'])) {
+            // Fields Submitted
+            $username = $_POST["username"];
+            $password = $_POST["password"];
             $model->attributes = $resp['submitted_data'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
-                $login_status = 'success';                
+                $login_status = 'success';
             }
-            
+
             $resp['login_status'] = $login_status;
             // Login Success URL
             if($login_status == 'success')
             {
                 // If you validate the user you may set the user cookies/sessions here
-                        setcookie("logged_in", "user_id");
-                        $_SESSION["logged_user"] = "user_id";
-
+                    setcookie("logged_in", $username);
+                    $_SESSION["logged_user"] = $username;
                 // Set the redirect url after successful login
-                //$resp['redirect_url'] = '';
-                $this->redirect(Yii::app()->user->returnUrl);
+                $resp['redirect_url'] = $this->redirect(Yii::app()->user->returnUrl);
+                //$this->redirect(Yii::app()->user->returnUrl);
             }
         }
-        echo json_encode($resp);
-        
+        //echo json_encode($resp);
         // display the login form
         $this->renderPartial('login', array(
             //'model' => $model
