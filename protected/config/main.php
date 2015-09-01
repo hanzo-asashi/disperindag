@@ -7,15 +7,17 @@
 // CWebApplication properties can be configured here.
 return array(
     'basePath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-    'name' => 'Disperindag',   
+    'name' => 'Disperindag',
 
     // preloading 'log' component
-    'preload' => array('log','session'),
+    'preload' => array('log','session','admin'),
 
     // autoloading model and component classes
     'import' => array(
         'application.models.*',
         'application.components.*',
+        //'application.modules.admin.models.*',
+        //'application.modules.admin.components.*',        
     ),
 
     'modules' => array(
@@ -31,16 +33,51 @@ return array(
         'admin'=>array(
 
         ), //Daftar module admin dalam config
+         
+//        #...
+//        'user'=>array(
+//            # encrypting method (php hash function)
+//            'hash' => 'md5',
+// 
+//            # send activation email
+//            'sendActivationMail' => true,
+// 
+//            # allow access for non-activated users
+//            'loginNotActiv' => false,
+// 
+//            # activate user on registration (only sendActivationMail = false)
+//            'activeAfterRegister' => false,
+// 
+//            # automatically login from registration
+//            'autoLogin' => true,
+// 
+//            # registration path
+//            'registrationUrl' => array('/user/registration'),
+// 
+//            # recovery password path
+//            'recoveryUrl' => array('/user/recovery'),
+// 
+//            # login form path
+//            'loginUrl' => array('/user/login'),
+// 
+//            # page after login
+//            'returnUrl' => array('/user/profile'),
+// 
+//            # page after logout
+//            'returnLogoutUrl' => array('/user/login'),
+//        ),
+//        #...
 
     ),
 
     // application components
     'components' => array(
-
-        'user' => array(
+        'user'=>array(
             // enable cookie-based authentication
-            'allowAutoLogin' => true,
-        ),        
+            //'class' => 'WebUser',
+            'allowAutoLogin'=>true,
+            //'loginUrl' => array('/admin/users/login'),
+        ),
         'request' => array(
             'class' => 'application.components.DHttpRequest',
             'csrfTokenName' => 'd!5p3r!nd@g',
@@ -54,12 +91,13 @@ return array(
             'showScriptName' => false,
             'rules' => array(
                 '' => 'site/index',
-                'login' => 'site/login',
-                'logout' => 'admin/logout',
-                
+                //'login' => 'admin/users/login',
+                'logout' => 'admin/users/logout',
+
                 // Admin ROute
                 'admin/berita/tambah-berita' => 'admin/berita/create',
-                                
+                'users/login' => 'admin/users/login',
+
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -73,7 +111,7 @@ return array(
         // database settings are configured in database.php
         'db' => require(dirname(__FILE__).'/database.php'),
 //        'cache' => array(
-//            'class' => 'system.caching.CApcCache',            
+//            'class' => 'system.caching.CApcCache',
 //            'keyPrefix' => 'd!5p3r!nd@g',
 //        ),
 //        'sessionCache' => array(
@@ -85,7 +123,7 @@ return array(
             'class' => 'CHttpSession',
             //'autoStart' => false,
             'sessionName' => 'DISPSESSID',
-//            'connectionID' => 'db',            
+//            'connectionID' => 'db',
 //            'sessionTableName' => 'sys_session',
 //            'autoCreateSessionTable' => false,
 //            'useTransparentSessionID' => true,
@@ -109,11 +147,11 @@ return array(
                     'levels' => 'error, warning',
                 ),
                 // uncomment the following to show log messages on web pages
-                
+
                 array(
                     'class'=>'CWebLogRoute',
                 ),
-                
+
             ),
         ),
 
