@@ -93,18 +93,19 @@ class SiteController extends Controller
 
         //var_dump($username,$password);exit;
         // This array of data is returned for demo purpose, see assets/js/neon-forgotpassword.js
-        $resp['submitted_data'] = !empty($_POST) ? $_POST : array();
+        $resp = !empty($_POST['User']) ? $_POST['User'] : array();
 
         // Login success or invalid login data [success|invalid]
         // Your code will decide if username and password are correct
         $login_status = 'invalid';
         //var_dump($username,$password);exit;
         // collect user input data
-        if (!empty($resp['submitted_data'])) {
+        if (!empty($resp)) {
+            var_dump($resp);exit;
             // Fields Submitted
-            $username = $_POST["username"];
-            $password = $_POST["password"];
-            $model->attributes = $resp['submitted_data'];
+            $username = $resp["username"];
+            $password = $resp["password"];
+            $model->attributes = $resp;
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
                 $login_status = 'success';
@@ -118,8 +119,8 @@ class SiteController extends Controller
                     setcookie("logged_in", $username);
                     $_SESSION["logged_user"] = $username;
                 // Set the redirect url after successful login
-                $resp['redirect_url'] = $this->redirect(Yii::app()->user->returnUrl);
-                //$this->redirect(Yii::app()->user->returnUrl);
+                //$resp['redirect_url'] = $this->redirect(Yii::app()->user->returnUrl);
+                $this->redirect("/admin");
             }
         }
         //echo json_encode($resp);

@@ -91,7 +91,7 @@ return array(
             'showScriptName' => false,
             'rules' => array(
                 '' => 'site/index',
-                //'login' => 'admin/users/login',
+                'login' => 'site/login',
                 'logout' => 'admin/users/logout',
 
                 // Admin ROute
