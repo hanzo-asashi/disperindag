@@ -84,7 +84,26 @@ class UsersController extends Controller
                 if ($model->save()) {
                     //var_dump($model);exit;
                     //$this->redirect(array('view', 'id' => $model->id));
-                    $this->redirect('/admin/users');
+                    //$this->redirect('/admin/users');
+                    $pesan = "Sukses";
+                    $mail = new YiiMailer();
+                    $mail->SetFrom('info@disperindag.com', 'Disperindag');
+                    $mail->Subject = "Registrasi Akun";
+                    $msg = $this->renderPartial('//mailtemplate/registrasi', array(
+                        'name'=>$_POST['User']['username'],
+                        'token'=>$token,
+                    ), true, true);
+                    $mail->MsgHTML($msg);
+                    $mail->AddAddress($model->email);
+
+                    if ($mail->send()) {
+                        $pesan = "Permintaan pendaftaran anda telah kami terima. Silahkan cek email anda untuk melanjutkan proses pendaftaran.";
+                        $model->unsetAttributes();
+                        $this->redirect('/');
+                    }else{
+                        //$this->redirect('maintenance/smtperror');
+                        echo $mail->ErrorInfo;
+                    }
                 }
             }else{
                 $pesan = "Tidak dapat menambahkan pengguna";

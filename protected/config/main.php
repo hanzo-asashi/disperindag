@@ -76,7 +76,7 @@ return array(
             // enable cookie-based authentication
             //'class' => 'WebUser',
             'allowAutoLogin'=>true,
-            //'loginUrl' => array('/admin/users/login'),
+            'loginUrl' => array('/login'),
         ),
         'request' => array(
             'class' => 'application.components.DHttpRequest',
