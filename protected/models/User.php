@@ -116,9 +116,27 @@ class User extends CActiveRecord
 	public function getName($user_id)
 	{
 		if ($user_id) {
-			$nama = User::model()->findByAttributes(array('user_id'=>$user_id));
+			$nama = User::model()->findByAttributes(array('userid'=>$user_id));
 			return $nama['username'];
 		}
+	}
+
+	public function beforeSave(){
+		if($this->isNewRecord){
+			$this->created_date = Date('Y-m-d H:i:s');
+			// $this->username = $this->email;
+		}
+		else{
+			$this->updated_date = Date('Y-m-d H:i:s');
+		}
+
+		$salt = openssl_random_pseudo_bytes(22);
+		$salt = '$2a$%13$' . strtr(base64_encode($salt), array('_' => '.', '~' => '/'));
+		$this->password = crypt($this->password, $salt);
+
+		// $this->password = crypt($this->password);
+
+		return parent::beforeSave();
 	}
 
 	public function validatePassword($password){
@@ -129,7 +147,7 @@ class User extends CActiveRecord
 	public function getEmail($user_id)
 	{
 		if ($user_id) {
-			$email = User::model()->findByAttributes(array('user_id'=>$user_id));
+			$email = User::model()->findByAttributes(array('userid'=>$user_id));
 			return $email['email'];
 		}
 	}

@@ -46,29 +46,6 @@ class UsersController extends Controller
 //        );
 //    }
 
-    public function beforeSave(){
-        if($this->isNewRecord){
-            $this->created_date = Date('Y-m-d H:i:s');
-            // $this->username = $this->email;
-        }
-        else{
-            $this->updated_date = Date('Y-m-d H:i:s');
-        }
-
-        $salt = openssl_random_pseudo_bytes(22);
-        $salt = '$2a$%13$' . strtr(base64_encode($salt), array('_' => '.', '~' => '/'));
-        $this->password = crypt($this->password, $salt);
-
-        // $this->password = crypt($this->password);
-
-        return parent::beforeSave();
-    }
-
-    public function validatePassword($password){
-        // var_dump($this->password);
-        return  crypt($password, $this->password) == $this->password;
-    }
-
     public function actionIndex()
     {
         $this->render("index", array(
@@ -93,11 +70,8 @@ class UsersController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
-        //var_dump($_POST);exit;
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
+        $model = new User;
+        $pesan = "";
         if (isset($_POST['User'])) {
             if($_POST['User']['password'] === $_POST['User']['password']){
                 $model->attributes = $_POST['User'];
@@ -108,17 +82,18 @@ class UsersController extends Controller
                 $model->token = $token;
 
                 if ($model->save()) {
-                    var_dump($model);exit;
+                    //var_dump($model);exit;
                     //$this->redirect(array('view', 'id' => $model->id));
                     $this->redirect('/admin/users');
                 }
             }else{
-                $pesan = "Tidak dapat menambahkan penggun";
+                $pesan = "Tidak dapat menambahkan pengguna";
             }
         }
 
         $this->render('create', array(
             'model' => $model,
+            'pesan' => $pesan,
         ));
     }
     

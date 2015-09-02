@@ -1,13 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "corp_user".
+ * This is the model class for table "{{user}}".
  *
- * The followings are the available columns in table 'corp_user':
- * @property integer $id
+ * The followings are the available columns in table '{{user}}':
+ * @property string $userid
  * @property string $username
  * @property string $password
+ * @property string $namalengkap
  * @property string $email
+ * @property string $token
+ * @property string $salt
+ * @property integer $is_register
+ * @property integer $is_aktif
+ * @property string $created_date
+ * @property string $updated_date
  */
 class User extends CActiveRecord
 {
@@ -27,11 +34,16 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, email', 'required'),
-			array('username, password, email', 'length', 'max'=>128),
+			array('username, password, email, updated_date', 'required'),
+			array('is_register, is_aktif', 'numerical', 'integerOnly'=>true),
+			array('username', 'length', 'max'=>100),
+			array('password, namalengkap', 'length', 'max'=>150),
+			array('email', 'length', 'max'=>30),
+			array('token, salt', 'length', 'max'=>255),
+			array('created_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('userid, username, password, email,nama_lengkap,is_aktif,created_date,updated_date', 'safe', 'on'=>'search'),
+			array('userid, username, password, namalengkap, email, token, salt, is_register, is_aktif, created_date, updated_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,14 +64,17 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'userid' => 'User ID',
+			'userid' => 'Userid',
 			'username' => 'Username',
 			'password' => 'Password',
-			'nama_lengkap' => 'Nama Lengkap',
+			'namalengkap' => 'Namalengkap',
 			'email' => 'Email',
-			'is_aktif' => 'Aktif',
-			'created_date' => 'Tanggal Login',
-			'updated_date' => 'Tanggal Update',
+			'token' => 'Token',
+			'salt' => 'Salt',
+			'is_register' => 'Is Register',
+			'is_aktif' => 'Is Aktif',
+			'created_date' => 'Created Date',
+			'updated_date' => 'Updated Date',
 		);
 	}
 
@@ -81,18 +96,78 @@ class User extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('userid',$this->id);
+		$criteria->compare('userid',$this->userid,true);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('password',$this->password,true);
-		$criteria->compare('nama_lengkap',$this->nama_lengkap,true);
+		$criteria->compare('namalengkap',$this->namalengkap,true);
 		$criteria->compare('email',$this->email,true);
-		$criteria->compare('is_aktif',$this->is_aktif,true);
+		$criteria->compare('token',$this->token,true);
+		$criteria->compare('salt',$this->salt,true);
+		$criteria->compare('is_register',$this->is_register);
+		$criteria->compare('is_aktif',$this->is_aktif);
 		$criteria->compare('created_date',$this->created_date,true);
 		$criteria->compare('updated_date',$this->updated_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	public function getName($user_id)
+	{
+		if ($user_id) {
+			$nama = User::model()->findByAttributes(array('userid'=>$user_id));
+			return $nama['username'];
+		}
+	}
+
+	public function beforeSave(){
+		if($this->isNewRecord){
+			$this->created_date = Date('Y-m-d H:i:s');
+			// $this->username = $this->email;
+		}
+		else{
+			$this->updated_date = Date('Y-m-d H:i:s');
+		}
+
+		$salt = openssl_random_pseudo_bytes(22);
+		$salt = '$2a$%13$' . strtr(base64_encode($salt), array('_' => '.', '~' => '/'));
+		$this->password = crypt($this->password, $salt);
+
+		// $this->password = crypt($this->password);
+
+		return parent::beforeSave();
+	}
+
+	public function validatePassword($password){
+		// var_dump($this->password);
+		return  crypt($password, $this->password) == $this->password;
+	}
+
+	public function getEmail($user_id)
+	{
+		if ($user_id) {
+			$email = User::model()->findByAttributes(array('userid'=>$user_id));
+			return $email['email'];
+		}
+	}
+
+	public function getStatus($status)
+	{
+		switch ($status) {
+			case '1':
+				$st = "<span class='label label-primary'>Aktif</span>";
+				break;
+
+			case '0':
+				$st = "<span class='label label-danger'>Tidak Aktif</span>";
+				break;
+
+			default:
+				$st = "";
+				break;
+		}
+		return $st;
 	}
 
 	/**
