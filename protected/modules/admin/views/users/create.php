@@ -23,7 +23,7 @@
                             <label for="field-1" class="col-sm-3 control-label">Nama Lengkap</label>
 
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" name="namalengkap" value="" data-validate="required" data-message-required="Wajib diisi">
+                                <input type="text" class="form-control" name="User[namalengkap]" value="" data-validate="required" data-message-required="Wajib diisi">
                             </div>
                         </div>
 
@@ -31,7 +31,7 @@
                             <label for="field-1" class="col-sm-3 control-label">Nama Pengguna</label>
 
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" name="username" value="" data-validate="required" data-message-required="Wajib diisi">
+                                <input type="text" class="form-control" name="User[username]" value="" data-validate="required" data-message-required="Wajib diisi">
                             </div>
                         </div>
 
@@ -39,7 +39,7 @@
                             <label for="field-1" class="col-sm-3 control-label">Kata Sandi</label>
 
                             <div class="col-sm-5">
-                                <input type="password" class="form-control" name="password" value="" data-validate="required" data-message-required="Wajib diisi">
+                                <input type="password" class="form-control" name="User[password]" value="" data-validate="required" data-message-required="Wajib diisi">
                             </div>
                         </div>
 
@@ -47,7 +47,7 @@
                             <label for="field-1" class="col-sm-3 control-label">Ulangi Kata Sandi</label>
 
                             <div class="col-sm-5">
-                                <input type="password" class="form-control" name="repassword" value="" data-validate="required" data-message-required="Wajib diisi">
+                                <input type="password" class="form-control" name="User[repassword]" value="" data-validate="required" data-message-required="Wajib diisi">
                             </div>
                         </div>
 

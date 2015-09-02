@@ -46,6 +46,29 @@ class UserController extends Controller
         );
     }
 
+    public function beforeSave(){
+        if($this->isNewRecord){
+            $this->created_date = Date('Y-m-d H:i:s');
+            // $this->username = $this->email;
+        }
+        else{
+            $this->updated_date = Date('Y-m-d H:i:s');
+        }
+
+        $salt = openssl_random_pseudo_bytes(22);
+        $salt = '$2a$%13$' . strtr(base64_encode($salt), array('_' => '.', '~' => '/'));
+        $this->password = crypt($this->password, $salt);
+
+        // $this->password = crypt($this->password);
+
+        return parent::beforeSave();
+    }
+
+    public function validatePassword($password){
+        // var_dump($this->password);
+        return  crypt($password, $this->password) == $this->password;
+    }
+
     /**
      * Displays a particular model.
      *

@@ -105,8 +105,6 @@ class SiteController extends Controller
             if ($model->validate() && $model->login()) {
                 $login_status = 'success';
             }
-
-            $resp['login_status'] = $login_status;
             // Login Success URL
             if($login_status == 'success')
             {

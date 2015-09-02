@@ -12,7 +12,7 @@ class AdminModule extends CWebModule {
         
         $this->setImport(array(
             'admin.models.*',
-            'application.models.user',
+            'application.models.*',
             'admin.components.*',
         ));
     }

@@ -94,14 +94,26 @@ class UsersController extends Controller
     public function actionCreate()
     {
         $model = new User();
-
+        //var_dump($_POST);exit;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
-            if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+            if($_POST['User']['password'] === $_POST['User']['password']){
+                $model->attributes = $_POST['User'];
+                $model->username = $_POST['User']['username'];
+                $model->password = $_POST['User']['password'];
+                $model->namalengkap = $_POST['User']['namalengkap'];
+                $token = md5(($_POST['User']['username']));
+                $model->token = $token;
+
+                if ($model->save()) {
+                    var_dump($model);exit;
+                    //$this->redirect(array('view', 'id' => $model->id));
+                    $this->redirect('/admin/users');
+                }
+            }else{
+                $pesan = "Tidak dapat menambahkan penggun";
             }
         }
 
