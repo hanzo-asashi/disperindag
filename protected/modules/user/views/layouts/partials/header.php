@@ -1,6 +1,6 @@
 <!-- logo -->
 <div class="sidebar-menu">
-    <header class="logo-env">  
+    <header class="logo-env">
         <div class="logo">
             <a href="/admin">
                 <img src="<?php echo yii::app()->request->baseUrl ?>/static/assets/images/logo@2x.png" width="120" alt="" />
@@ -161,7 +161,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/users/new-user">
+                    <a href="/admin/users/create">
                         <span>Tambah Baru</span>
                     </a>
                 </li>
