@@ -17377,8 +17377,7 @@ var neonLogin = neonLogin || {};
 	
 	$(document).ready(function()
 	{
-		neonLogin.$container = $("#form_login");
-		
+		neonLogin.$container = $("#form_login");		
 		
 		// Login Form & Validation
 		neonLogin.$container.validate({
@@ -17426,7 +17425,7 @@ var neonLogin = neonLogin || {};
 											
 					// Send data to the server
 					$.ajax({
-						url: 'site/login',
+						url: '/login',
 						method: 'POST',
 						dataType: 'json',
 						data: {
