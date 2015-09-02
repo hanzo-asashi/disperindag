@@ -113,6 +113,45 @@ class User extends CActiveRecord
 		));
 	}
 
+	public function getName($user_id)
+	{
+		if ($user_id) {
+			$nama = User::model()->findByAttributes(array('user_id'=>$user_id));
+			return $nama['username'];
+		}
+	}
+
+	public function validatePassword($password){
+		// var_dump($this->password);
+		return  crypt($password, $this->password) == $this->password;
+	}
+
+	public function getEmail($user_id)
+	{
+		if ($user_id) {
+			$email = User::model()->findByAttributes(array('user_id'=>$user_id));
+			return $email['email'];
+		}
+	}
+
+	public function getStatus($status)
+	{
+		switch ($status) {
+			case '1':
+				$st = "<span class='label label-primary'>Aktif</span>";
+				break;
+
+			case '0':
+				$st = "<span class='label label-danger'>Tidak Aktif</span>";
+				break;
+
+			default:
+				$st = "";
+				break;
+		}
+		return $st;
+	}
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

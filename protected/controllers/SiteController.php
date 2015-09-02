@@ -83,28 +83,23 @@ class SiteController extends Controller
     public function actionLogin()
     {
         $model = new LoginForm();
-        // if it is ajax validation request
-//        if (isset($_POST['ajax']) && $_POST['ajax'] === 'form_login') {
-//            echo CActiveForm::validate($model);
-//            Yii::app()->end();
-//        }
         # Response Data Array
         $resp = array();
 
-        //var_dump($username,$password);exit;
+        //var_dump($_POST);exit;
         // This array of data is returned for demo purpose, see assets/js/neon-forgotpassword.js
         $resp = !empty($_POST['User']) ? $_POST['User'] : array();
 
         // Login success or invalid login data [success|invalid]
         // Your code will decide if username and password are correct
         $login_status = 'invalid';
-        //var_dump($username,$password);exit;
+        //var_dump($resp);exit;
         // collect user input data
         if (!empty($resp)) {
-            var_dump($resp);exit;
+            //var_dump($resp);exit;
             // Fields Submitted
-            $username = $resp["username"];
-            $password = $resp["password"];
+            $username = !empty($resp["username"]) ? $resp["username"] : "";
+            $password = !empty($resp["password"]) ? $resp["password"] : "";
             $model->attributes = $resp;
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {

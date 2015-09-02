@@ -57,7 +57,7 @@
                         <p>Masukkan Kata Sandi yang benar.</p>
                     </div>
 
-                    <form method="post" role="form" action="login.php">
+                    <form method="post" role="form" action="/site/login">
                 
                         <div class="form-group">
                             
@@ -66,7 +66,7 @@
                                     <i class="entypo-user"></i>
                                 </div>
                                 
-                                <input type="text" class="form-control" name="username" id="username" placeholder="Nama Pengguna" autocomplete="off" />
+                                <input type="text" class="form-control" name="User[username]" id="username" placeholder="Nama Pengguna" autocomplete="off" />
                             </div>
                             
                         </div>
@@ -78,7 +78,7 @@
                                     <i class="entypo-key"></i>
                                 </div>
                                 
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Kata Sandi" autocomplete="off" />
+                                <input type="password" class="form-control" name="User[password]" id="password" placeholder="Kata Sandi" autocomplete="off" />
                             </div>
                         
                         </div>

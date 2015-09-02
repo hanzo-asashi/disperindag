@@ -30,8 +30,8 @@ class UserIdentity extends CUserIdentity
         //} elseif (!CPasswordHelper::verifyPassword($this->password,$users->password)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         } else {
-            $this->_id=$record->id;
-            $this->setState('namalengkap', $record->namalengkap);
+            $this->_id=$users->userid;
+            $this->setState('namalengkap', $this->namalengkap);
             $this->errorCode = self::ERROR_NONE;
         }
 
