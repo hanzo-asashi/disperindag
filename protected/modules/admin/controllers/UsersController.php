@@ -14,6 +14,15 @@ class UsersController extends Controller
      */
     private $_model;
 
+    function actions(){
+        return array(
+            'delete' => array(
+                'class' => 'DeleteAction',
+                'modelClass' => 'User',
+            ),
+        );
+    }
+
     /**
      * @return array action filters
      */
@@ -80,30 +89,27 @@ class UsersController extends Controller
                 $model->namalengkap = $_POST['User']['namalengkap'];
                 $token = md5(($_POST['User']['username']));
                 $model->token = $token;
-
-                if ($model->save()) {
-                    //var_dump($model);exit;
-                    //$this->redirect(array('view', 'id' => $model->id));
-                    //$this->redirect('/admin/users');
-                    $pesan = "Sukses";
-                    $mail = new YiiMailer();
-                    $mail->SetFrom('info@disperindag.com', 'Disperindag');
-                    $mail->Subject = "Registrasi Akun";
-                    $msg = $this->renderPartial('//mailtemplate/registrasi', array(
-                        'name'=>$_POST['User']['username'],
-                        'token'=>$token,
-                    ), true, true);
-                    $mail->MsgHTML($msg);
-                    $mail->AddAddress($model->email);
-
-                    if ($mail->send()) {
-                        $pesan = "Permintaan pendaftaran anda telah kami terima. Silahkan cek email anda untuk melanjutkan proses pendaftaran.";
-                        $model->unsetAttributes();
-                        $this->redirect('/');
-                    }else{
-                        //$this->redirect('maintenance/smtperror');
-                        echo $mail->ErrorInfo;
-                    }
+                $save = $model->save();
+                if ($save) {
+                    $this->redirect('/admin/users');
+//                    $pesan = "Sukses";
+//                    $mail = new YiiMailer();
+//                    $mail->SetFrom('info@disperindag.com', 'Disperindag');
+//                    $mail->Subject = "Registrasi Akun";
+//                    $msg = $this->renderPartial('//mailtemplate/registrasi', array(
+//                        'name'=>$_POST['User']['username'],
+//                        'token'=>$token,
+//                    ), true, true);
+//                    $mail->MsgHTML($msg);
+//                    $mail->AddAddress($model->email);
+//
+//                    if ($mail->send()) {
+//                        $pesan = "Permintaan pendaftaran anda telah kami terima. Silahkan cek email anda untuk melanjutkan proses pendaftaran.";
+//                        $model->unsetAttributes();
+//                        $this->redirect('/admin/users');
+//                    }else{
+//                        echo $mail->ErrorInfo;
+//                    }
                 }
             }else{
                 $pesan = "Tidak dapat menambahkan pengguna";

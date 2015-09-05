@@ -123,4 +123,23 @@ class Post extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    function addComment(Comment $comment){
+        $comment->post_id = $this->id;
+
+        //Create event class instance
+        $event = new NewCommentEvent($this);
+        $event->post = $this;
+        $event->comment = $comment;
+
+        // Triggering event
+        $this->onNewComment($event);
+        return $event->isValid;
+    }
+
+    public function onNewComment($event)
+    {
+        $this->raiseEvent('onNewComment',$event);
+
+    }
 }

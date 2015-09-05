@@ -11,6 +11,7 @@ return array(
 
     // preloading 'log' component
     'preload' => array('log','session','admin'),
+    'onBeginRequest' => array('ModuleUrlManager','collectRules'),
 
     // autoloading model and component classes
     'import' => array(
@@ -78,12 +79,18 @@ return array(
             'allowAutoLogin'=>true,
             'loginUrl' => array('/login'),
         ),
-        'request' => array(
-            'class' => 'application.components.DHttpRequest',
-            'csrfTokenName' => 'd!5p3r!nd@g',
-            'enableCsrfValidation' => true,
+//        'request' => array(
+//            'class' => 'application.components.DHttpRequest',
+//            'csrfTokenName' => 'd!5p3r!nd@g',
+//            'enableCsrfValidation' => true,
+//        ),
+        'widgetFactory' =>array(
+            'widgets' => array(
+                'CLinkPager'=>array(
+                    'pageSize' => 10,
+                ),
+            ),
         ),
-
         // uncomment the following to enable URLs in path-format
 
         'urlManager' => array(
@@ -110,10 +117,11 @@ return array(
 
         // database settings are configured in database.php
         'db' => require(dirname(__FILE__).'/database.php'),
-//        'cache' => array(
-//            'class' => 'system.caching.CApcCache',
-//            'keyPrefix' => 'd!5p3r!nd@g',
-//        ),
+        'cache' => array(
+            'class' => 'CFileCache',
+            //'class' => 'system.caching.CApcCache',
+            //'keyPrefix' => 'd!5p3r!nd@g',
+        ),
 //        'sessionCache' => array(
 //            'class' => 'CApcCache',
 //        ),
@@ -142,15 +150,19 @@ return array(
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
+//                array(
+//                    'class' => 'CFileLogRoute',
+//                    'levels' => 'error, warning',
+//                ),
                 array(
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning',
+                    'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+                    //'ipFilters'=>array('127.0.0.1','192.168.1.250'),
                 ),
                 // uncomment the following to show log messages on web pages
 
-                array(
-                    'class'=>'CWebLogRoute',
-                ),
+//                array(
+//                    'class'=>'CWebLogRoute',
+//                ),
 
             ),
         ),

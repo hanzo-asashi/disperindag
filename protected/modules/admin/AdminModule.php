@@ -3,7 +3,9 @@
 class AdminModule extends CWebModule {
 
     //public $layout = '//layouts/column1-admin';
-
+    public $urlRules = array(
+        'admin' =>'admin/default/index',
+    );
     public function init() {
         // this method is called when the module is being created
         // you may place code here to customize the module or the application

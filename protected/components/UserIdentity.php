@@ -35,10 +35,9 @@ class UserIdentity extends CUserIdentity
         } else {
             $this->_id = $users->userid;
             $this->username = $users->username;
-            //$this->setState('namalengkap', $this->namalengkap);
+            $this->setState('namalengkap', $this->namalengkap);
             $this->errorCode = self::ERROR_NONE;
         }
-
         return !$this->errorCode;        
     }
     
