@@ -73,6 +73,7 @@ return array(
 
     // application components
     'components' => array(
+        'metadata'=>array('class'=>'Metadata'),
         'user'=>array(
             // enable cookie-based authentication
             //'class' => 'WebUser',
@@ -118,13 +119,13 @@ return array(
         // database settings are configured in database.php
         'db' => require(dirname(__FILE__).'/database.php'),
         'cache' => array(
-            'class' => 'CFileCache',
-            //'class' => 'system.caching.CApcCache',
-            //'keyPrefix' => 'd!5p3r!nd@g',
+            //'class' => 'CFileCache',
+            'class' => 'system.caching.CApcCache',
+            'keyPrefix' => 'd!5p3r!nd@g',
         ),
-//        'sessionCache' => array(
-//            'class' => 'CApcCache',
-//        ),
+        'sessionCache' => array(
+            'class' => 'CApcCache',
+        ),
         // Handling Session
         'session' => array(
             //'class' => 'CDbHttpSession',
@@ -159,7 +160,6 @@ return array(
                     //'ipFilters'=>array('127.0.0.1','192.168.1.250'),
                 ),
                 // uncomment the following to show log messages on web pages
-
 //                array(
 //                    'class'=>'CWebLogRoute',
 //                ),
