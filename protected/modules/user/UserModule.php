@@ -138,7 +138,8 @@ class UserModule extends CWebModule
 		{
 			// this method is called before any module controller action is performed
 			// you may place customized code here
-                    //$controller->layout = '//layouts/main-admin';
+            //$controller->layout = '//layouts/main-admin';
+            $controller->layout = '/layouts/main';
 			return true;
 		}
 		else

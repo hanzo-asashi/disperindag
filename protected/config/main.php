@@ -10,8 +10,8 @@ return array(
     'name' => 'Disperindag',
 
     // preloading 'log' component
-    'preload' => array('log','session','admin'),
-    'onBeginRequest' => array('ModuleUrlManager','collectRules'),
+    'preload' => array('log','session','user'),
+    //'onBeginRequest' => array('ModuleUrlManager','collectRules'),
 
     // autoloading model and component classes
     'import' => array(
@@ -105,12 +105,12 @@ return array(
             'showScriptName' => false,
             'rules' => array(
                 '' => 'site/index',
-                'login' => 'site/login',
-                'logout' => 'admin/users/logout',
+                //'login' => 'site/login',
+                //'logout' => 'admin/users/logout',
 
                 // Admin ROute
                 'admin/berita/tambah-berita' => 'admin/berita/create',
-                'users/login' => 'admin/users/login',
+                //'users/login' => 'admin/users/login',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
