@@ -17,8 +17,8 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
-        //'application.modules.admin.models.*',
-        //'application.modules.admin.components.*',        
+        'application.modules.user.models.*',
+        'application.modules.user.components.*',
     ),
 
     'modules' => array(
@@ -32,40 +32,39 @@ return array(
         'admin'=>array(
 
         ), //Daftar module admin dalam config
-         
-//        #...
-//        'user'=>array(
-//            # encrypting method (php hash function)
-//            'hash' => 'md5',
-// 
-//            # send activation email
-//            'sendActivationMail' => true,
-// 
-//            # allow access for non-activated users
-//            'loginNotActiv' => false,
-// 
-//            # activate user on registration (only sendActivationMail = false)
-//            'activeAfterRegister' => false,
-// 
-//            # automatically login from registration
-//            'autoLogin' => true,
-// 
-//            # registration path
-//            'registrationUrl' => array('/user/registration'),
-// 
-//            # recovery password path
-//            'recoveryUrl' => array('/user/recovery'),
-// 
-//            # login form path
-//            'loginUrl' => array('/user/login'),
-// 
-//            # page after login
-//            'returnUrl' => array('/user/profile'),
-// 
-//            # page after logout
-//            'returnLogoutUrl' => array('/user/login'),
-//        ),
-//        #...
+        #...
+        'user'=>array(
+            # encrypting method (php hash function)
+            'hash' => 'md5',
+
+            # send activation email
+            'sendActivationMail' => true,
+
+            # allow access for non-activated users
+            'loginNotActiv' => false,
+
+            # activate user on registration (only sendActivationMail = false)
+            'activeAfterRegister' => false,
+
+            # automatically login from registration
+            'autoLogin' => true,
+
+            # registration path
+            'registrationUrl' => array('/user/registration'),
+
+            # recovery password path
+            'recoveryUrl' => array('/user/recovery'),
+
+            # login form path
+            'loginUrl' => array('/user/login'),
+
+            # page after login
+            'returnUrl' => array('/user/profile'),
+
+            # page after logout
+            'returnLogoutUrl' => array('/user/login'),
+        ),
+        #...
 
     ),
 
@@ -83,9 +82,9 @@ return array(
         ),
         'user'=>array(
             // enable cookie-based authentication
-            //'class' => 'WebUser',
+            'class' => 'WebUser',
             'allowAutoLogin'=>true,
-            'loginUrl' => array('/login'),
+            'loginUrl' => array('/user/login'),
         ),
 //        'request' => array(
 //            'class' => 'application.components.DHttpRequest',
