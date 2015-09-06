@@ -23,14 +23,12 @@ return array(
 
     'modules' => array(
         // uncomment the following to enable the Gii tool
-
         'gii' => array(
             'class' => 'system.gii.GiiModule',
             'password' => 'disperindag',
             // If removed, Gii defaults to localhost only. Edit carefully to taste.
             'ipFilters' => array('127.0.0.1','::1'),
         ),
-
         'admin'=>array(
 
         ), //Daftar module admin dalam config
@@ -74,6 +72,15 @@ return array(
     // application components
     'components' => array(
         'metadata'=>array('class'=>'Metadata'),
+        'mobileDetect' => array(
+            'class' => 'ext.EMobileDetect.MobileDetect'
+        ),
+        'clientScript' => array(
+            'scriptMap' => array(
+                'jquery.js' => false,
+                'jquery.min.js' => false,
+            ),
+        ),
         'user'=>array(
             // enable cookie-based authentication
             //'class' => 'WebUser',

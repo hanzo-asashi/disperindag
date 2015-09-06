@@ -12,56 +12,11 @@
 <br />
     <div class="row">
         <div class="col-md-12">
-
             <div class="panel panel-primary" data-collapsed="0">
-
                 <div class="panel-body">
-
-                    <form method="post" name="form-login" role="form" class="form-horizontal form-groups-bordered validate" action="/admin/users/create">
-
-                        <div class="form-group">
-                            <label for="field-1" class="col-sm-3 control-label">Nama Lengkap</label>
-
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" name="User[namalengkap]" value="" data-validate="required" data-message-required="Wajib diisi">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="field-1" class="col-sm-3 control-label">Nama Pengguna</label>
-
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" name="User[username]" value="" data-validate="required" data-message-required="Wajib diisi">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="field-1" class="col-sm-3 control-label">Kata Sandi</label>
-
-                            <div class="col-sm-5">
-                                <input type="password" class="form-control" name="User[password]" value="" data-validate="required" data-message-required="Wajib diisi">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="field-1" class="col-sm-3 control-label">Ulangi Kata Sandi</label>
-
-                            <div class="col-sm-5">
-                                <input type="password" class="form-control" name="User[repassword]" value="" data-validate="required" data-message-required="Wajib diisi">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-offset-3 col-sm-5">
-                                <button type="submit" class="btn btn-success">Simpan</button>
-                            </div>
-                        </div>
-                    </form>
-
+                    <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
                 </div>
-
             </div>
-
         </div>
     </div>
 

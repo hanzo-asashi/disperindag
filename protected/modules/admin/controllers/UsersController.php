@@ -57,7 +57,25 @@ class UsersController extends Controller
 
     public function actionIndex()
     {
+        $models = array();
+
+        if(!empty($_POST['User'])){
+            foreach ($_POST['User'] as $postData) {
+                $model = new User;
+                $model->setAttributes($postData);
+                if($model->validate())
+                    $models[] = $model;
+            }
+
+        }
+        if(!empty($models)){
+
+        }else{
+            $models[] = new User();
+        }
+
         $this->render("index", array(
+            'models'=>$models,
         ));
     }
 
@@ -82,16 +100,20 @@ class UsersController extends Controller
         $model = new User;
         $pesan = "";
         if (isset($_POST['User'])) {
-            if($_POST['User']['password'] === $_POST['User']['password']){
-                $model->attributes = $_POST['User'];
-                $model->username = $_POST['User']['username'];
-                $model->password = $_POST['User']['password'];
-                $model->namalengkap = $_POST['User']['namalengkap'];
-                $token = md5(($_POST['User']['username']));
-                $model->token = $token;
-                $save = $model->save();
-                if ($save) {
-                    $this->redirect('/admin/users');
+            $model->attributes = $_POST['User'];
+
+            $model->username = $_POST['User']['username'];
+            $model->password = $_POST['User']['password'];
+            $model->namalengkap = $_POST['User']['namalengkap'];
+            $token = Yii::app()->request->getCsrfToken();
+            $salt = md5(($_POST['User']['username']));
+            $model->token = $token;
+            $model->salt = $salt;
+            $model->is_register = 1;
+            $model->is_aktif = 1;
+
+            if ($model->save()) {
+                $this->redirect('/admin/users');
 //                    $pesan = "Sukses";
 //                    $mail = new YiiMailer();
 //                    $mail->SetFrom('info@disperindag.com', 'Disperindag');
@@ -110,9 +132,6 @@ class UsersController extends Controller
 //                    }else{
 //                        echo $mail->ErrorInfo;
 //                    }
-                }
-            }else{
-                $pesan = "Tidak dapat menambahkan pengguna";
             }
         }
 
@@ -121,7 +140,7 @@ class UsersController extends Controller
             'pesan' => $pesan,
         ));
     }
-    
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -206,7 +225,7 @@ class UsersController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'user-form') {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'form-login') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

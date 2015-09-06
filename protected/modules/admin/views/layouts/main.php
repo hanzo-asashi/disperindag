@@ -69,6 +69,24 @@
 <script type="text/javascript" src="<?php echo yii::app()->request->baseUrl ?>/static/js/actions.js"></script>
 <script type="text/javascript" src="<?php echo yii::app()->request->baseUrl ?>/static/js/slider.js"></script>
 <!-- ./page scripts -->
+<?php
+$this->widget('ext.yii-noty.ENotificationWidget', array(
+    'options' => array( // you can add js options here, see noty plugin page for available options
+        'dismissQueue' => true,
+        'layout' => 'topCenter',
+        'theme' => 'relax',
+        'animation' => array(
+            'open' => 'animated flipInX',
+            'close' => 'animated flipOutX',
+            'easing' => 'swing',
+            'speed ' => 500,
+        ),
+        'timeout' => 6000,
+    ),
+    'enableIcon' => true,
+    'enableFontAwesomeCss' => true,
+));
+?>
 </body>
 </html>
 

@@ -19,6 +19,15 @@ class UserController extends Controller
         );
     }
 
+    function actions(){
+        return array(
+            'delete' => array(
+                'class' => 'DeleteAction',
+                'modelClass' => 'User',
+            ),
+        );
+    }
+
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.

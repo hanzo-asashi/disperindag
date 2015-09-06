@@ -5,7 +5,7 @@ class DHttpRequest extends CHttpRequest
 
     private $_csrfToken;
     public $CsrfValidationRoutes = array(
-        
+        //'/admin/users/create',
     );
 
     /**
