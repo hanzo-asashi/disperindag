@@ -72,9 +72,9 @@ class User extends CActiveRecord
 			'token' => 'Token',
 			'salt' => 'Salt',
 			'is_register' => 'Is Register',
-			'is_aktif' => 'Is Aktif',
-			'created_date' => 'Created Date',
-			'updated_date' => 'Updated Date',
+			'is_aktif' => 'Aktif',
+			'created_date' => 'Tgl Daftar',
+			'updated_date' => 'Tgl Update',
 		);
 	}
 
@@ -124,6 +124,8 @@ class User extends CActiveRecord
 	public function beforeSave(){
 		if($this->isNewRecord){
 			$this->created_date = Date('Y-m-d H:i:s');
+			$this->is_register = 1;
+			$this->is_aktif = 0;
 			// $this->username = $this->email;
 		}
 		else{

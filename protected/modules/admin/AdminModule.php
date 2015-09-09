@@ -14,7 +14,6 @@ class AdminModule extends CWebModule {
         
         $this->setImport(array(
             'admin.models.*',
-            'application.models.*',
             'admin.components.*',
         ));
     }

@@ -33,7 +33,7 @@ class UsersController extends Controller
             //'postOnly + delete', // we only allow deletion via POST request
         );
     }
-    
+
 //    public function accessRules()
 //    {
 //        return array(
@@ -90,18 +90,18 @@ class UsersController extends Controller
             'model' => $this->loadModel($id),
         ));
     }
-    
+
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate()
     {
+        $request = Yii::app()->request->getIsAjaxRequest();
         $model = new User;
         $pesan = "";
         if (isset($_POST['User'])) {
             $model->attributes = $_POST['User'];
-
             $model->username = $_POST['User']['username'];
             $model->password = $_POST['User']['password'];
             $model->namalengkap = $_POST['User']['namalengkap'];
@@ -109,31 +109,16 @@ class UsersController extends Controller
             $salt = md5(($_POST['User']['username']));
             $model->token = $token;
             $model->salt = $salt;
-            $model->is_register = 1;
-            $model->is_aktif = 1;
-
+            //var_dump($model);exit;
             if ($model->save()) {
-                $this->redirect('/admin/users');
-//                    $pesan = "Sukses";
-//                    $mail = new YiiMailer();
-//                    $mail->SetFrom('info@disperindag.com', 'Disperindag');
-//                    $mail->Subject = "Registrasi Akun";
-//                    $msg = $this->renderPartial('//mailtemplate/registrasi', array(
-//                        'name'=>$_POST['User']['username'],
-//                        'token'=>$token,
-//                    ), true, true);
-//                    $mail->MsgHTML($msg);
-//                    $mail->AddAddress($model->email);
-//
-//                    if ($mail->send()) {
-//                        $pesan = "Permintaan pendaftaran anda telah kami terima. Silahkan cek email anda untuk melanjutkan proses pendaftaran.";
-//                        $model->unsetAttributes();
-//                        $this->redirect('/admin/users');
-//                    }else{
-//                        echo $mail->ErrorInfo;
-//                    }
+                //$this->redirect('/admin/users');
+                $pesan = "Sukses";
+            }else{
+                $pesan = "Gagal";
             }
+            echo $pesan;
         }
+
 
         $this->render('create', array(
             'model' => $model,
@@ -181,7 +166,7 @@ class UsersController extends Controller
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
         }
     }
-    
+
     /**
      * Manages all models.
      */

@@ -10,15 +10,15 @@ return array(
     'name' => 'Disperindag',
 
     // preloading 'log' component
-    'preload' => array('log','session','user'),
-    //'onBeginRequest' => array('ModuleUrlManager','collectRules'),
+    'preload' => array('log','session'),
+    'onBeginRequest' => array('ModuleUrlManager','collectRules'),
 
     // autoloading model and component classes
     'import' => array(
         'application.models.*',
         'application.components.*',
-        'application.modules.user.models.*',
-        'application.modules.user.components.*',
+        'application.modules.admin.models.*',
+        'application.modules.admin.components.*',
     ),
 
     'modules' => array(
@@ -32,39 +32,39 @@ return array(
         'admin'=>array(
 
         ), //Daftar module admin dalam config
-        #...
-        'user'=>array(
-            # encrypting method (php hash function)
-            'hash' => 'md5',
-
-            # send activation email
-            'sendActivationMail' => true,
-
-            # allow access for non-activated users
-            'loginNotActiv' => false,
-
-            # activate user on registration (only sendActivationMail = false)
-            'activeAfterRegister' => false,
-
-            # automatically login from registration
-            'autoLogin' => true,
-
-            # registration path
-            'registrationUrl' => array('/user/registration'),
-
-            # recovery password path
-            'recoveryUrl' => array('/user/recovery'),
-
-            # login form path
-            'loginUrl' => array('/user/login'),
-
-            # page after login
-            'returnUrl' => array('/user/profile'),
-
-            # page after logout
-            'returnLogoutUrl' => array('/user/login'),
-        ),
-        #...
+//        #...
+//        'user'=>array(
+//            # encrypting method (php hash function)
+//            'hash' => 'md5',
+//
+//            # send activation email
+//            'sendActivationMail' => true,
+//
+//            # allow access for non-activated users
+//            'loginNotActiv' => false,
+//
+//            # activate user on registration (only sendActivationMail = false)
+//            'activeAfterRegister' => false,
+//
+//            # automatically login from registration
+//            'autoLogin' => true,
+//
+//            # registration path
+//            'registrationUrl' => array('/user/registration'),
+//
+//            # recovery password path
+//            'recoveryUrl' => array('/user/recovery'),
+//
+//            # login form path
+//            'loginUrl' => array('/user/login'),
+//
+//            # page after login
+//            'returnUrl' => array('/user/profile'),
+//
+//            # page after logout
+//            'returnLogoutUrl' => array('/user/login'),
+//        ),
+//        #...
 
     ),
 
@@ -82,15 +82,20 @@ return array(
         ),
         'user'=>array(
             // enable cookie-based authentication
-            'class' => 'WebUser',
+            //'class' => 'WebUser',
             'allowAutoLogin'=>true,
-            'loginUrl' => array('/user/login'),
+            'loginUrl' => array('/login'),
         ),
 //        'request' => array(
 //            'class' => 'application.components.DHttpRequest',
 //            'csrfTokenName' => 'd!5p3r!nd@g',
 //            'enableCsrfValidation' => true,
 //        ),
+        'assetManager' => array(
+            'class' => 'CAssetManager',
+            'basepath' => realpath(__DIR__ . '/../../assets'),
+            'baseUrl' => '/assets',
+        ),
         'widgetFactory' =>array(
             'widgets' => array(
                 'CLinkPager'=>array(
@@ -105,12 +110,12 @@ return array(
             'showScriptName' => false,
             'rules' => array(
                 '' => 'site/index',
-                //'login' => 'site/login',
-                //'logout' => 'admin/users/logout',
+                'login' => 'site/login',
+                'logout' => 'admin/users/logout',
 
                 // Admin ROute
                 'admin/berita/tambah-berita' => 'admin/berita/create',
-                //'users/login' => 'admin/users/login',
+                // 'users/login' => 'admin/users/login',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -157,18 +162,18 @@ return array(
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
-//                array(
-//                    'class' => 'CFileLogRoute',
-//                    'levels' => 'error, warning',
-//                ),
+            //    array(
+            //        'class' => 'CFileLogRoute',
+            //        'levels' => 'error, warning',
+            //    ),
                 array(
                     'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
                     //'ipFilters'=>array('127.0.0.1','192.168.1.250'),
                 ),
                 // uncomment the following to show log messages on web pages
-//                array(
-//                    'class'=>'CWebLogRoute',
-//                ),
+            //    array(
+            //        'class'=>'CWebLogRoute',
+            //    ),
 
             ),
         ),

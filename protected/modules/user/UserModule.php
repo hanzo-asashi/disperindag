@@ -146,11 +146,9 @@ class UserModule extends CWebModule
 			return false;
 	}
         
-        public function getAssetsUrl() {
+    public function getAssetsUrl() {
         if ($this->_assetsUrl === null) {
-            $this->_assetsUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('admin.assets'));
-//            $assetsPath = Yii::getPathOfAlias('admin.assets');
-//            $this->assetsUrl = Yii::app()->getAssetManager()->publish($assetsPath);
+            $this->_assetsUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('user.assets'));
         }
         return $this->_assetsUrl;
     }  

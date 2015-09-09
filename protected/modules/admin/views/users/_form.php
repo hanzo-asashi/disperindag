@@ -1,13 +1,15 @@
-<?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'form-login',
-    'enableAjaxValidation' => true,
-    'focus' => array($model, 'namalengkap'),
-    'htmlOptions' => array(
-        'class' => 'form-horizontal form-groups-bordered validate',
-        'role' => 'form',
-        //'name'=>'form-login',
-    ),
-)); ?>
+<?php
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'form-login',
+        'enableAjaxValidation' => true,
+        'focus' => array($model, 'namalengkap'),
+        'htmlOptions' => array(
+            'class' => 'form-horizontal form-groups-bordered validate',
+            'role' => 'form',
+            //'name'=>'form-login',
+        ),
+    ));
+?>
 <div class="form-group">
     <?php echo CHtml::activeLabel($model, 'namalengkap',
         array('for' => 'field-1', 'class' => 'col-sm-3 control-label')); ?>
@@ -65,9 +67,34 @@
 </div>
 <div class="form-group">
     <div class="col-sm-offset-3 col-sm-5">
-        <!--                <button type="submit" class="btn btn-success">Simpan</button>-->
+            <!-- <button type="submit" class="btn btn-success add-post">Simpan</button> -->
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn btn-success add-post')); ?>
     </div>
 </div>
 <?php $this->endWidget(); ?>
-
+<?php
+    // $js = Yii::app()->clientScript;
+    // $js->registerScript('createUsers','
+    //     $(document).ready(function(){
+    //         $(".form-login").submit(function(){
+    //             submitData();
+    //         });
+    //     });
+    //     function submitData(){
+    //         var form = $("#form-login").serialize();
+    //         $.ajax({
+    //             url : "/admin/users/create",
+    //             data : {
+    //                 ajax : "form-login",
+    //                 user : form,
+    //             },
+    //             success : function(response){
+    //                 if(response == "Sukses"){
+    //                     noty.text("Sukses");
+    //                 }else if(response == "Gagal")
+    //                     console.log(response);
+    //             }
+    //         });
+    //     }
+    // ',CClientScript::POS_END);
+?>
