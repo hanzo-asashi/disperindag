@@ -34,9 +34,9 @@ class UserLogin extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'rememberMe'=>UserModule::t("Remember me next time"),
-			'username'=>UserModule::t("username or email"),
-			'password'=>UserModule::t("password"),
+			'rememberMe'=>UserModule::t("Ingat saya lain kali"),
+			'username'=>UserModule::t("Username atau Email"),
+			'password'=>UserModule::t("Password"),
 		);
 	}
 
@@ -57,19 +57,19 @@ class UserLogin extends CFormModel
 					Yii::app()->user->login($identity,$duration);
 					break;
 				case UserIdentity::ERROR_EMAIL_INVALID:
-					$this->addError("username",UserModule::t("Email is incorrect."));
+					$this->addError("username",UserModule::t("Email anda salah."));
 					break;
 				case UserIdentity::ERROR_USERNAME_INVALID:
-					$this->addError("username",UserModule::t("Username is incorrect."));
+					$this->addError("username",UserModule::t("Username anda salah."));
 					break;
 				case UserIdentity::ERROR_STATUS_NOTACTIV:
-					$this->addError("status",UserModule::t("You account is not activated."));
+					$this->addError("status",UserModule::t("Akun anda belum aktif."));
 					break;
 				case UserIdentity::ERROR_STATUS_BAN:
-					$this->addError("status",UserModule::t("You account is blocked."));
+					$this->addError("status",UserModule::t("Akun anda sudah diblok."));
 					break;
 				case UserIdentity::ERROR_PASSWORD_INVALID:
-					$this->addError("password",UserModule::t("Password is incorrect."));
+					$this->addError("password",UserModule::t("Kata sandi anda salah."));
 					break;
 			}
 		}
