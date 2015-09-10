@@ -41,7 +41,7 @@
 
     <?php if(Yii::app()->user->hasFlash('loginMessage')): ?>
 
-        <div class="success">
+        <div class="alert alert-info">
             <?php echo Yii::app()->user->getFlash('loginMessage'); ?>
         </div>
 
@@ -90,9 +90,14 @@
                         Masuk
                     </button>
                 </div>
+	        <div class="checkbox">
+		        <?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
+		        <?php echo CHtml::activeLabelEx($model,'rememberMe'); ?>
+	        </div>
             <?php echo CHtml::endForm(); ?>
 
             <div class="login-bottom-links">
+
                 <?php echo CHtml::link(UserModule::t("Registrasi Pengguna"),Yii::app()->getModule('user')->registrationUrl,array('class'=>'link')); ?>  |  <?php echo CHtml::link(UserModule::t("Lupa Kata Sandi?"),Yii::app()->getModule('user')->recoveryUrl,array('class'=>'link')); ?>
 
                 <br />
@@ -106,7 +111,30 @@
     </div>
 
 </div>
+<?php
+	$form = new CForm(array(
+		'elements'=>array(
+			'username'=>array(
+				'type'=>'text',
+				'maxlength'=>32,
+			),
+			'password'=>array(
+				'type'=>'password',
+				'maxlength'=>32,
+			),
+			'rememberMe'=>array(
+				'type'=>'checkbox',
+			)
+		),
 
+		'buttons'=>array(
+			'login'=>array(
+				'type'=>'submit',
+				'label'=>'Login',
+			),
+		),
+	), $model);
+?>
 <!-- Bottom Scripts -->
 <script src="<?php $this->baseUrl; ?>/static/assets/js/vendor.js"></script>
 

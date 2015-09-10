@@ -17,8 +17,8 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
-        'application.modules.admin.models.*',
-        'application.modules.admin.components.*',
+        'application.modules.user.models.*',
+        'application.modules.user.components.*',
     ),
 
     'modules' => array(
@@ -29,43 +29,40 @@ return array(
             // If removed, Gii defaults to localhost only. Edit carefully to taste.
             'ipFilters' => array('127.0.0.1','::1'),
         ),
-        'admin'=>array(
+//        'admin'=>array(
+//
+//        ), //Daftar module admin dalam config
+        'user'=>array(
+            # encrypting method (php hash function)
+            'hash' => 'md5',
 
-        ), //Daftar module admin dalam config
-//        #...
-//        'user'=>array(
-//            # encrypting method (php hash function)
-//            'hash' => 'md5',
-//
-//            # send activation email
-//            'sendActivationMail' => true,
-//
-//            # allow access for non-activated users
-//            'loginNotActiv' => false,
-//
-//            # activate user on registration (only sendActivationMail = false)
-//            'activeAfterRegister' => false,
-//
-//            # automatically login from registration
-//            'autoLogin' => true,
-//
-//            # registration path
-//            'registrationUrl' => array('/user/registration'),
-//
-//            # recovery password path
-//            'recoveryUrl' => array('/user/recovery'),
-//
-//            # login form path
-//            'loginUrl' => array('/user/login'),
-//
-//            # page after login
-//            'returnUrl' => array('/user/profile'),
-//
-//            # page after logout
-//            'returnLogoutUrl' => array('/user/login'),
-//        ),
-//        #...
+            # send activation email
+            'sendActivationMail' => true,
 
+            # allow access for non-activated users
+            'loginNotActiv' => false,
+
+            # activate user on registration (only sendActivationMail = false)
+            'activeAfterRegister' => false,
+
+            # automatically login from registration
+            'autoLogin' => true,
+
+            # registration path
+            'registrationUrl' => array('/user/registration'),
+
+            # recovery password path
+            'recoveryUrl' => array('/user/recovery'),
+
+            # login form path
+            'loginUrl' => array('/user/login'),
+
+            # page after login
+            'returnUrl' => array('/user/profile'),
+
+            # page after logout
+            'returnLogoutUrl' => array('/user/login'),
+        ),
     ),
 
     // application components
@@ -74,35 +71,35 @@ return array(
         'mobileDetect' => array(
             'class' => 'ext.EMobileDetect.MobileDetect'
         ),
-        'clientScript' => array(
-            'scriptMap' => array(
-                'jquery.js' => false,
-                'jquery.min.js' => false,
-            ),
-        ),
+//        'clientScript' => array(
+//            'scriptMap' => array(
+//                'jquery.js' => false,
+//                'jquery.min.js' => false,
+//            ),
+//        ),
         'user'=>array(
             // enable cookie-based authentication
-            //'class' => 'WebUser',
+            'class' => 'WebUser',
             'allowAutoLogin'=>true,
-            'loginUrl' => array('/login'),
+            //'loginUrl' => array('/login'),
         ),
 //        'request' => array(
 //            'class' => 'application.components.DHttpRequest',
 //            'csrfTokenName' => 'd!5p3r!nd@g',
 //            'enableCsrfValidation' => true,
 //        ),
-        'assetManager' => array(
-            'class' => 'CAssetManager',
-            'basepath' => realpath(__DIR__ . '/../../assets'),
-            'baseUrl' => '/assets',
-        ),
-        'widgetFactory' =>array(
-            'widgets' => array(
-                'CLinkPager'=>array(
-                    'pageSize' => 10,
-                ),
-            ),
-        ),
+//        'assetManager' => array(
+//            'class' => 'CAssetManager',
+//            'basepath' => realpath(__DIR__ . '/../../assets'),
+//            'baseUrl' => '/assets',
+//        ),
+//        'widgetFactory' =>array(
+//            'widgets' => array(
+//                'CLinkPager'=>array(
+//                    'pageSize' => 10,
+//                ),
+//            ),
+//        ),
         // uncomment the following to enable URLs in path-format
 
         'urlManager' => array(

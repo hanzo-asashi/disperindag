@@ -45,7 +45,7 @@
     </div>
 </div>
 <!-- page scripts -->
-<script type="text/javascript" src="<?php echo yii::app()->modules->getAssetsUrl() ?>/js/vendor.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl ?>/static/assets/js/vendor.js"></script>
 <!-- ./page scripts -->
 <?php
 $this->widget('ext.yii-noty.ENotificationWidget', array(

@@ -151,7 +151,7 @@ class UserModule extends CWebModule
             $this->_assetsUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('user.assets'));
         }
         return $this->_assetsUrl;
-    }  
+    }
 	
 	/**
 	 * @param $str
