@@ -32,7 +32,7 @@ return array(
 //        'admin'=>array(
 //
 //        ), //Daftar module admin dalam config
-        'user'=>array(
+        'admin'=>array(
             # encrypting method (php hash function)
             'hash' => 'md5',
 
@@ -49,19 +49,19 @@ return array(
             'autoLogin' => true,
 
             # registration path
-            'registrationUrl' => array('/user/registration'),
+            'registrationUrl' => array('/admin/user/registration'),
 
             # recovery password path
-            'recoveryUrl' => array('/user/recovery'),
+            'recoveryUrl' => array('/admin/user/recovery'),
 
             # login form path
-            'loginUrl' => array('/user/login'),
+            'loginUrl' => array('/admin/user/login'),
 
             # page after login
-            'returnUrl' => array('/user/profile'),
+            'returnUrl' => array('admin/user/profile'),
 
             # page after logout
-            'returnLogoutUrl' => array('/user/login'),
+            'returnLogoutUrl' => array('/admin/user/login'),
         ),
     ),
 
