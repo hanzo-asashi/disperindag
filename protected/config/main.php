@@ -11,7 +11,7 @@ return array(
 
     // preloading 'log' component
     'preload' => array('log','session'),
-    'onBeginRequest' => array('ModuleUrlManager','collectRules'),
+    //'onBeginRequest' => array('ModuleUrlManager','collectRules'),
 
     // autoloading model and component classes
     'import' => array(
@@ -37,13 +37,13 @@ return array(
             'hash' => 'md5',
 
             # send activation email
-            'sendActivationMail' => true,
+            'sendActivationMail' => false,
 
             # allow access for non-activated users
             'loginNotActiv' => false,
 
             # activate user on registration (only sendActivationMail = false)
-            'activeAfterRegister' => false,
+            'activeAfterRegister' => true,
 
             # automatically login from registration
             'autoLogin' => true,
@@ -107,12 +107,8 @@ return array(
             'showScriptName' => false,
             'rules' => array(
                 '' => 'site/index',
-                'login' => 'site/login',
-                'logout' => 'admin/users/logout',
 
                 // Admin ROute
-                'admin/berita/tambah-berita' => 'admin/berita/create',
-                // 'users/login' => 'admin/users/login',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -181,7 +177,7 @@ return array(
     // using Yii::app()->params['paramName']
     'params' => array(
         // this is used in contact page
-        'adminEmail' => 'webmaster@example.com',
+        'adminEmail' => 'hansenmakangiras@gmail.com',
         'cacheDuration' => 2592000,
         'sessionTimeout' => 3600 * 12,
         'itemPerPage' => 10,
