@@ -1,16 +1,15 @@
+<?php $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Registration"); ?>
 <ol class="breadcrumb bc-3">
-<!--    <li>-->
-<!--        <a href="/admin">Beranda</a>-->
-<!--    </li>-->
-<!---->
-<!--    <li class="active">-->
+    <li>
+        <a href="/admin">Beranda</a>
+    </li>
+
+    <li class="active">
 <!--        <strong>Tambah Pengguna</strong>-->
-<!--    </li>-->
-    <?php $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Registration");
-    $this->breadcrumbs=array(
-        UserModule::t("Registration"),
-    );
-    ?>
+        <strong>
+	        <?= UserModule::t("Registration"); ?>
+        </strong>
+    </li>
 </ol>
 
 <h2><?php echo UserModule::t("Registration"); ?></h2>
