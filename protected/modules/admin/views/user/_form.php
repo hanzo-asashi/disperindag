@@ -98,7 +98,7 @@
         )); ?>
     </div>
 </div>
-<?php if (UserModule::doCaptcha('registration')): ?>
+<?php if (AdminModule::doCaptcha('registration')): ?>
     <div class="form-group">
         <?php echo $form->labelEx($model, 'verifyCode', array('class' => 'col-sm-3 control-label')); ?>
         <div class="col-sm-5">
@@ -110,8 +110,8 @@
             ));
             ?>
             <?php echo $form->error($model, 'verifyCode'); ?>
-            <p class="text-danger"><?php echo UserModule::t("Please enter the letters as they are shown in the image above."); ?>
-                <br/><?php echo UserModule::t("Letters are not case-sensitive."); ?></p>
+            <p class="text-danger"><?php echo AdminModule::t("Please enter the letters as they are shown in the image above."); ?>
+                <br/><?php echo AdminModule::t("Letters are not case-sensitive."); ?></p>
         </div>
     </div>
 <?php endif; ?>
