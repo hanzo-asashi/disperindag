@@ -105,7 +105,10 @@
             return $this->_model;
         }
 
-//	    public function actionRegistration(){
-//		    $this->redirect('/admin/registration');
-//	    }
+	    public function actionRegistration(){
+		    //$this->redirect('/admin/registration');
+		    $this->render('registration', array(
+			    //'dataProvider' => $dataProvider,
+		    ));
+	    }
     }

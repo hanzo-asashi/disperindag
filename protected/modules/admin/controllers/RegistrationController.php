@@ -22,16 +22,18 @@
          */
         public function actionRegistration()
         {
-//	        var_dump("test");exit;
-            $model = new RegistrationForm;
+	        //var_dump("test");exit;
+            $model = new RegistrationForm();
             $profile = new Profile;
             $profile->regMode = true;
-
+	        //var_dump($model);exit;
             // ajax validator
             if (isset($_POST['ajax']) && $_POST['ajax'] === 'registration-form') {
                 echo UActiveForm::validate(array($model, $profile));
                 Yii::app()->end();
             }
+
+	        //var_dump($_POST['ajax']);exit;
 
             if (Yii::app()->user->id) {
                 $this->redirect(Yii::app()->controller->module->profileUrl);

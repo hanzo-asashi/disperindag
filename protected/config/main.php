@@ -11,7 +11,7 @@ return array(
 
     // preloading 'log' component
     'preload' => array('log','session'),
-    //'onBeginRequest' => array('ModuleUrlManager','collectRules'),
+    'onBeginRequest' => array('ModuleUrlManager','collectRules'),
 
     // autoloading model and component classes
     'import' => array(

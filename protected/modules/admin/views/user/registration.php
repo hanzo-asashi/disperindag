@@ -1,4 +1,4 @@
-<?php $this->pageTitle=Yii::app()->name . ' - '.AdminModule::t("Registration"); ?>
+<?php var_dump("test");exit; $this->pageTitle=Yii::app()->name . ' - '.AdminModule::t("Registration"); ?>
 <ol class="breadcrumb bc-3">
     <li>
         <a href="/admin">Beranda</a>
