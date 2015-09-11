@@ -104,4 +104,8 @@
 
             return $this->_model;
         }
+
+//	    public function actionRegistration(){
+//		    $this->redirect('/admin/registration');
+//	    }
     }

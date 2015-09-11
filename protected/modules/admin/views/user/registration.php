@@ -1,4 +1,4 @@
-<?php $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Registration"); ?>
+<?php $this->pageTitle=Yii::app()->name . ' - '.AdminModule::t("Registration"); ?>
 <ol class="breadcrumb bc-3">
     <li>
         <a href="/admin">Beranda</a>
@@ -7,12 +7,12 @@
     <li class="active">
 <!--        <strong>Tambah Pengguna</strong>-->
         <strong>
-	        <?= UserModule::t("Registration"); ?>
+	        <?= AdminModule::t("Registration"); ?>
         </strong>
     </li>
 </ol>
 
-<h2><?php echo UserModule::t("Registration"); ?></h2>
+<h2><?php echo AdminModule::t("Registration"); ?></h2>
 <br />
 <?php if(Yii::app()->user->hasFlash('registration')): ?>
     <div class="success">

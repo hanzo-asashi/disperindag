@@ -22,6 +22,7 @@
          */
         public function actionRegistration()
         {
+//	        var_dump("test");exit;
             $model = new RegistrationForm;
             $profile = new Profile;
             $profile->regMode = true;
@@ -51,11 +52,11 @@
                             $profile->user_id = $model->id;
                             $profile->save();
                             if (Yii::app()->controller->module->sendActivationMail) {
-                                $activation_url = $this->createAbsoluteUrl('/user/activation/activation',
+                                $activation_url = $this->createAbsoluteUrl('/admin/user/activation/activation',
                                     array("activkey" => $model->activkey, "email" => $model->email));
-                                AdminModule::sendMail($model->email, AdminModule::t("You registered from {site_name}",
+                                AdminModule::sendMail($model->email, AdminModule::t("Anda registrasi dari {site_name}",
                                     array('{site_name}' => Yii::app()->name)),
-                                    AdminModule::t("Please activate you account go to {activation_url}",
+                                    AdminModule::t("Silahkan Aktifkan akun anda melalui link {activation_url}",
                                         array('{activation_url}' => $activation_url)));
                             }
 
@@ -67,19 +68,19 @@
                             } else {
                                 if (!Yii::app()->controller->module->activeAfterRegister && !Yii::app()->controller->module->sendActivationMail) {
                                     Yii::app()->user->setFlash('registration',
-                                        AdminModule::t("Thank you for your registration. Contact Admin to activate your account."));
+                                        AdminModule::t("Terima kasih anda sudah mendaftar. Hubungi Admin untuk mengaktifkan akun anda."));
                                 } elseif (Yii::app()->controller->module->activeAfterRegister && Yii::app()->controller->module->sendActivationMail == false) {
                                     Yii::app()->user->setFlash('registration',
-                                        AdminModule::t("Thank you for your registration. Please {{login}}.", array(
+                                        AdminModule::t("Terima kasih anda sudah mendaftar. Silahkan {{login}}.", array(
                                             '{{login}}' => CHtml::link(AdminModule::t('Login'),
                                                 Yii::app()->controller->module->loginUrl),
                                         )));
                                 } elseif (Yii::app()->controller->module->loginNotActiv) {
                                     Yii::app()->user->setFlash('registration',
-                                        AdminModule::t("Thank you for your registration. Please check your email or login."));
+                                        AdminModule::t("Terima kasih anda sudah mendaftar. Silahkan cek email anda atau login."));
                                 } else {
                                     Yii::app()->user->setFlash('registration',
-                                        AdminModule::t("Thank you for your registration. Please check your email."));
+                                        AdminModule::t("Terima kasih anda sudah mendaftar. Silahkan cek email anda."));
                                 }
                                 $this->refresh();
                             }

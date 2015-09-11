@@ -27,7 +27,7 @@ class Profile extends UActiveRecord
 	 */
 	public function tableName()
 	{
-		return Yii::app()->getModule('user')->tableProfiles;
+		return Yii::app()->getModule('admin')->tableProfiles;
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Profile extends UActiveRecord
 					array_push($numerical,$field->varname);
 				if ($field->field_type=='VARCHAR'||$field->field_type=='TEXT') {
 					$field_rule = array($field->varname, 'length', 'max'=>$field->field_size, 'min' => $field->field_size_min);
-					if ($field->error_message) $field_rule['message'] = UserModule::t($field->error_message);
+					if ($field->error_message) $field_rule['message'] = AdminModule::t($field->error_message);
 					array_push($rules,$field_rule);
 				}
 				if ($field->other_validator) {
@@ -65,27 +65,27 @@ class Profile extends UActiveRecord
 						foreach ($validator as $name=>$val) {
 							$field_rule = array($field->varname, $name);
 							$field_rule = array_merge($field_rule,(array)$validator[$name]);
-							if ($field->error_message) $field_rule['message'] = UserModule::t($field->error_message);
+							if ($field->error_message) $field_rule['message'] = AdminModule::t($field->error_message);
 							array_push($rules,$field_rule);
 						}
 					} else {
 						$field_rule = array($field->varname, $field->other_validator);
-						if ($field->error_message) $field_rule['message'] = UserModule::t($field->error_message);
+						if ($field->error_message) $field_rule['message'] = AdminModule::t($field->error_message);
 						array_push($rules,$field_rule);
 					}
 				} elseif ($field->field_type=='DATE') {
 					$field_rule = array($field->varname, 'type', 'type' => 'date', 'dateFormat' => 'yyyy-mm-dd', 'allowEmpty'=>true);
-					if ($field->error_message) $field_rule['message'] = UserModule::t($field->error_message);
+					if ($field->error_message) $field_rule['message'] = AdminModule::t($field->error_message);
 					array_push($rules,$field_rule);
 				}
 				if ($field->match) {
 					$field_rule = array($field->varname, 'match', 'pattern' => $field->match);
-					if ($field->error_message) $field_rule['message'] = UserModule::t($field->error_message);
+					if ($field->error_message) $field_rule['message'] = AdminModule::t($field->error_message);
 					array_push($rules,$field_rule);
 				}
 				if ($field->range) {
 					$field_rule = array($field->varname, 'in', 'range' => self::rangeRules($field->range));
-					if ($field->error_message) $field_rule['message'] = UserModule::t($field->error_message);
+					if ($field->error_message) $field_rule['message'] = AdminModule::t($field->error_message);
 					array_push($rules,$field_rule);
 				}
 			}
@@ -109,7 +109,7 @@ class Profile extends UActiveRecord
 		$relations = array(
 			'user'=>array(self::HAS_ONE, 'User', 'id'),
 		);
-		if (isset(Yii::app()->getModule('user')->profileRelations)) $relations = array_merge($relations,Yii::app()->getModule('user')->profileRelations);
+		if (isset(Yii::app()->getModule('admin')->profileRelations)) $relations = array_merge($relations,Yii::app()->getModule('admin')->profileRelations);
 		return $relations;
 	}
 
@@ -119,12 +119,12 @@ class Profile extends UActiveRecord
 	public function attributeLabels()
 	{
 		$labels = array(
-			'user_id' => UserModule::t('User ID'),
+			'user_id' => AdminModule::t('User ID'),
 		);
 		$model=$this->getFields();
 		
 		foreach ($model as $field)
-			$labels[$field->varname] = ((Yii::app()->getModule('user')->fieldsMessage)?UserModule::t($field->title,array(),Yii::app()->getModule('user')->fieldsMessage):UserModule::t($field->title));
+			$labels[$field->varname] = ((Yii::app()->getModule('admin')->fieldsMessage)?AdminModule::t($field->title,array(),Yii::app()->getModule('admin')->fieldsMessage):AdminModule::t($field->title));
 			
 		return $labels;
 	}

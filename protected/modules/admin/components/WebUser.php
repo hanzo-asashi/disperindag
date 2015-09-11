@@ -34,7 +34,7 @@ class WebUser extends CWebUser
 	}
 
     public function updateSession() {
-        $user = Yii::app()->getModule('user')->user($this->id);
+        $user = Yii::app()->getModule('admin')->user($this->id);
         $userAttributes = CMap::mergeArray(array(
                                                 'email'=>$user->email,
                                                 'username'=>$user->username,
@@ -47,7 +47,7 @@ class WebUser extends CWebUser
     }
 
     public function model($id=0) {
-        return Yii::app()->getModule('user')->user($id);
+        return Yii::app()->getModule('admin')->user($id);
     }
 
     public function user($id=0) {
@@ -55,15 +55,15 @@ class WebUser extends CWebUser
     }
 
     public function getUserByName($username) {
-        return Yii::app()->getModule('user')->getUserByName($username);
+        return Yii::app()->getModule('admin')->getUserByName($username);
     }
 
     public function getAdmins() {
-        return Yii::app()->getModule('user')->getAdmins();
+        return Yii::app()->getModule('admin')->getAdmins();
     }
 
     public function isAdmin() {
-        return Yii::app()->getModule('user')->isAdmin();
+        return Yii::app()->getModule('admin')->isAdmin();
     }
 
 }

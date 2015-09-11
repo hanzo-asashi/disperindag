@@ -34,10 +34,10 @@
                     $this->errorCode = self::ERROR_USERNAME_INVALID;
                 }
             } else {
-                if (Yii::app()->getModule('user')->encrypting($this->password) !== $user->password) {
+                if (Yii::app()->getModule('admin')->encrypting($this->password) !== $user->password) {
                     $this->errorCode = self::ERROR_PASSWORD_INVALID;
                 } else {
-                    if ($user->status == 0 && Yii::app()->getModule('user')->loginNotActiv == false) {
+                    if ($user->status == 0 && Yii::app()->getModule('admin')->loginNotActiv == false) {
                         $this->errorCode = self::ERROR_STATUS_NOTACTIV;
                     } else {
                         if ($user->status == -1) {

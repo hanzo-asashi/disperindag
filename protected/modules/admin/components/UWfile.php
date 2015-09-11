@@ -17,11 +17,11 @@
         {
             return array(
                 'name'            => __CLASS__,
-                'label'           => UserModule::t('File field'),
+                'label'           => AdminModule::t('File field'),
                 'fieldType'       => array('VARCHAR'),
                 'params'          => $this->params,
                 'paramsLabels'    => array(
-                    'path' => UserModule::t('Upload path'),
+                    'path' => AdminModule::t('Upload path'),
                 ),
                 'other_validator' => array(
                     'file' => array(

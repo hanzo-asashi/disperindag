@@ -69,14 +69,17 @@
                 </li>
                 <li>
                     <a href="/admin/berita/create">
-                        <i class="entypo-plus-squared"></i>
                         <span>Tambah Baru</span>
                     </a>
                 </li>
                 <li>
                     <a href="/admin/berita/kategori">
-                        <i class="entypo-tag"></i>
                         <span>Kategori</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/berita/tag">
+                        <span>Label</span>
                     </a>
                 </li>
             </ul>
@@ -95,7 +98,6 @@
                 </li>
                 <li>
                     <a href="/admin/halaman/tambah-halaman">
-                        <i class="entypo-plus-squared"></i>
                         <span>Tambah Baru</span>
                     </a>
                 </li>
@@ -115,11 +117,17 @@
                 </li>
                 <li>
                     <a href="/admin/pesan/pesan-baru">
-                        <i class="entypo-plus-squared"></i>
                         <span>Tulis Pesan Baru</span>
                     </a>
                 </li>
             </ul>
+        </li>
+        <li>
+            <a href="/admin/komentar">
+                <i class="entypo-chat"></i>
+                <span>Komentar</span>
+                <span class="badge badge-secondary">2</span>
+            </a>
         </li>
         <li>
             <a href="/admin/media">
@@ -128,14 +136,13 @@
             </a>
             <ul>
                 <li>
-                    <a href="/admin/media">
+                    <a href="/admin/media/semua-media">
                         <i class="entypo-picture"></i>
                         <span>Semua Media</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/media/create">
-                        <i class="entypo-plus-squared"></i>
+                    <a href="/admin/media/tambah-media">
                         <span>Tambah Baru</span>
                     </a>
                 </li>
@@ -155,7 +162,6 @@
                 </li>
                 <li>
                     <a href="/admin/users/create">
-                        <i class="entypo-user-add"></i>
                         <span>Tambah Baru</span>
                     </a>
                 </li>

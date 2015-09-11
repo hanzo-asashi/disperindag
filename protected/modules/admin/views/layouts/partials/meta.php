@@ -18,7 +18,8 @@ $keyword = "";
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
 <!-- Library css -->
-<link rel="stylesheet" href="<?php echo yii::app()->request->baseUrl ?>/static/assets/css/app.css">
+<!--<link rel="stylesheet" href="--><?php ////echo $this->module->getAssetsUrl(); ?><!--/css/app.min.css">-->
+<link rel="stylesheet" href="<?php echo $this->baseUrl; ?>/static/assets/css/app.min.css">
 
 
 

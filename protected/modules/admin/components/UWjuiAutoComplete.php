@@ -97,7 +97,7 @@ class UWjuiAutoComplete {
         $options['select'] = "js:function(event, ui) { $('#".get_class($model)."_".$field->varname."').val(ui.item.id);}";
         $options=CJavaScript::encode($options);
         //$basePath=Yii::getPathOfAlias('application.views.asset');
-        $basePath=Yii::getPathOfAlias('application.modules.user.views.asset');
+        $basePath=Yii::getPathOfAlias('application.modules.admin.views.asset');
         $baseUrl=Yii::app()->getAssetManager()->publish($basePath);
         $cs = Yii::app()->getClientScript();
         $cs->registerCssFile($baseUrl.'/css/'.$this->params['ui-theme'].'/jquery-ui.css');

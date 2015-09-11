@@ -44,7 +44,7 @@ class ProfileField extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return Yii::app()->getModule('user')->tableProfileFields;
+		return Yii::app()->getModule('admin')->tableProfileFields;
 	}
 
 	/**
@@ -56,8 +56,8 @@ class ProfileField extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('varname, title, field_type', 'required'),
-			array('varname', 'match', 'pattern' => '/^[A-Za-z_0-9]+$/u','message' => UserModule::t("Variable name may consist of A-z, 0-9, underscores, begin with a letter.")),
-			array('varname', 'unique', 'message' => UserModule::t("This field already exists.")),
+			array('varname', 'match', 'pattern' => '/^[A-Za-z_0-9]+$/u','message' => AdminModule::t("Variable name may consist of A-z, 0-9, underscores, begin with a letter.")),
+			array('varname', 'unique', 'message' => AdminModule::t("This field already exists.")),
 			array('varname, field_type', 'length', 'max'=>50),
 			array('field_size_min, required, position, visible', 'numerical', 'integerOnly'=>true),
 			array('field_size', 'match', 'pattern' => '/^\s*[-+]?[0-9]*\,*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/'),
@@ -84,22 +84,22 @@ class ProfileField extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => UserModule::t('Id'),
-			'varname' => UserModule::t('Variable name'),
-			'title' => UserModule::t('Title'),
-			'field_type' => UserModule::t('Field Type'),
-			'field_size' => UserModule::t('Field Size'),
-			'field_size_min' => UserModule::t('Field Size min'),
-			'required' => UserModule::t('Required'),
-			'match' => UserModule::t('Match'),
-			'range' => UserModule::t('Range'),
-			'error_message' => UserModule::t('Error Message'),
-			'other_validator' => UserModule::t('Other Validator'),
-			'default' => UserModule::t('Default'),
-			'widget' => UserModule::t('Widget'),
-			'widgetparams' => UserModule::t('Widget parametrs'),
-			'position' => UserModule::t('Position'),
-			'visible' => UserModule::t('Visible'),
+			'id' => AdminModule::t('Id'),
+			'varname' => AdminModule::t('Variable name'),
+			'title' => AdminModule::t('Title'),
+			'field_type' => AdminModule::t('Field Type'),
+			'field_size' => AdminModule::t('Field Size'),
+			'field_size_min' => AdminModule::t('Field Size min'),
+			'required' => AdminModule::t('Required'),
+			'match' => AdminModule::t('Match'),
+			'range' => AdminModule::t('Range'),
+			'error_message' => AdminModule::t('Error Message'),
+			'other_validator' => AdminModule::t('Other Validator'),
+			'default' => AdminModule::t('Default'),
+			'widget' => AdminModule::t('Widget'),
+			'widgetparams' => AdminModule::t('Widget parametrs'),
+			'position' => AdminModule::t('Position'),
+			'visible' => AdminModule::t('Visible'),
 		);
 	}
 	
@@ -177,27 +177,27 @@ class ProfileField extends CActiveRecord
 	public static function itemAlias($type,$code=NULL) {
 		$_items = array(
 			'field_type' => array(
-				'INTEGER' => UserModule::t('INTEGER'),
-				'VARCHAR' => UserModule::t('VARCHAR'),
-				'TEXT'=> UserModule::t('TEXT'),
-				'DATE'=> UserModule::t('DATE'),
-				'FLOAT'=> UserModule::t('FLOAT'),
-				'DECIMAL'=> UserModule::t('DECIMAL'),
-				'BOOL'=> UserModule::t('BOOL'),
-				'BLOB'=> UserModule::t('BLOB'),
-				'BINARY'=> UserModule::t('BINARY'),
+				'INTEGER' => AdminModule::t('INTEGER'),
+				'VARCHAR' => AdminModule::t('VARCHAR'),
+				'TEXT'=> AdminModule::t('TEXT'),
+				'DATE'=> AdminModule::t('DATE'),
+				'FLOAT'=> AdminModule::t('FLOAT'),
+				'DECIMAL'=> AdminModule::t('DECIMAL'),
+				'BOOL'=> AdminModule::t('BOOL'),
+				'BLOB'=> AdminModule::t('BLOB'),
+				'BINARY'=> AdminModule::t('BINARY'),
 			),
 			'required' => array(
-				self::REQUIRED_NO => UserModule::t('No'),
-				self::REQUIRED_NO_SHOW_REG => UserModule::t('No, but show on registration form'),
-				self::REQUIRED_YES_SHOW_REG => UserModule::t('Yes and show on registration form'),
-				self::REQUIRED_YES_NOT_SHOW_REG => UserModule::t('Yes'),
+				self::REQUIRED_NO => AdminModule::t('No'),
+				self::REQUIRED_NO_SHOW_REG => AdminModule::t('No, but show on registration form'),
+				self::REQUIRED_YES_SHOW_REG => AdminModule::t('Yes and show on registration form'),
+				self::REQUIRED_YES_NOT_SHOW_REG => AdminModule::t('Yes'),
 			),
 			'visible' => array(
-				self::VISIBLE_ALL => UserModule::t('For all'),
-				self::VISIBLE_REGISTER_USER => UserModule::t('Registered users'),
-				self::VISIBLE_ONLY_OWNER => UserModule::t('Only owner'),
-				self::VISIBLE_NO => UserModule::t('Hidden'),
+				self::VISIBLE_ALL => AdminModule::t('For all'),
+				self::VISIBLE_REGISTER_USER => AdminModule::t('Registered users'),
+				self::VISIBLE_ONLY_OWNER => AdminModule::t('Only owner'),
+				self::VISIBLE_NO => AdminModule::t('Hidden'),
 			),
 		);
 		if (isset($code))
