@@ -49,6 +49,24 @@
         }
 
         /**
+         * Returns the data model based on the primary key given in the GET variable.
+         * If the data model is not found, an HTTP exception will be raised.
+         */
+        public function loadModel()
+        {
+            if ($this->_model === null) {
+                if (isset($_GET['id'])) {
+                    $this->_model = User::model()->findbyPk($_GET['id']);
+                }
+                if ($this->_model === null) {
+                    throw new CHttpException(404, 'The requested page does not exist.');
+                }
+            }
+
+            return $this->_model;
+        }
+
+        /**
          * Lists all models.
          */
         public function actionIndex()
@@ -70,26 +88,11 @@
         /**
          * Returns the data model based on the primary key given in the GET variable.
          * If the data model is not found, an HTTP exception will be raised.
-         */
-        public function loadModel()
-        {
-            if ($this->_model === null) {
-                if (isset($_GET['id'])) {
-                    $this->_model = User::model()->findbyPk($_GET['id']);
-                }
-                if ($this->_model === null) {
-                    throw new CHttpException(404, 'The requested page does not exist.');
-                }
-            }
-
-            return $this->_model;
-        }
-
-        /**
-         * Returns the data model based on the primary key given in the GET variable.
-         * If the data model is not found, an HTTP exception will be raised.
          *
          * @param integer the primary key value. Defaults to null, meaning using the 'id' GET variable
+         *
+         * @throws
+         * @return array
          */
         public function loadUser($id = null)
         {
@@ -105,10 +108,10 @@
             return $this->_model;
         }
 
-	    public function actionRegistration(){
-		    //$this->redirect('/admin/registration');
-		    $this->render('registration', array(
-			    //'dataProvider' => $dataProvider,
-		    ));
-	    }
+        public function actionRegistration()
+        {
+            //$this->redirect('/admin/registration');
+            $this->render('registration', array(//'dataProvider' => $dataProvider,
+            ));
+        }
     }

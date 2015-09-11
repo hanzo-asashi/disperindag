@@ -7,7 +7,7 @@
     <li class="active">
 <!--        <strong>Tambah Pengguna</strong>-->
         <strong>
-	        <?= AdminModule::t("Registration"); ?>
+            <?= AdminModule::t("Registration"); ?>
         </strong>
     </li>
 </ol>
