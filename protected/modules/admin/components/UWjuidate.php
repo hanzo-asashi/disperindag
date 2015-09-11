@@ -17,11 +17,11 @@ class UWjuidate {
 	public function init() {
 		return array(
 			'name'=>__CLASS__,
-			'label'=>UserModule::t('jQueryUI datepicker'),
+			'label'=>AdminModule::t('jQueryUI datepicker'),
 			'fieldType'=>array('DATE','VARCHAR'),
 			'params'=>$this->params,
 			'paramsLabels' => array(
-				'dateFormat'=>UserModule::t('Date format'),
+				'dateFormat'=>AdminModule::t('Date format'),
 			),
 		);
 	}

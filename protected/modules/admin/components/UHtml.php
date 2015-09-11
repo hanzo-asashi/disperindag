@@ -36,18 +36,18 @@
 
             $monthOptions = array(
                 '0'  => ' - ',
-                '1'  => UserModule::t('January'),
-                '2'  => UserModule::t('February'),
-                '3'  => UserModule::t('March'),
-                '4'  => UserModule::t('April'),
-                '5'  => UserModule::t('May'),
-                '6'  => UserModule::t('June'),
-                '7'  => UserModule::t('July'),
-                '8'  => UserModule::t('August'),
-                '9'  => UserModule::t('September'),
-                '10' => UserModule::t('October'),
-                '11' => UserModule::t('November'),
-                '12' => UserModule::t('December'),
+                '1'  => AdminModule::t('January'),
+                '2'  => AdminModule::t('February'),
+                '3'  => AdminModule::t('March'),
+                '4'  => AdminModule::t('April'),
+                '5'  => AdminModule::t('May'),
+                '6'  => AdminModule::t('June'),
+                '7'  => AdminModule::t('July'),
+                '8'  => AdminModule::t('August'),
+                '9'  => AdminModule::t('September'),
+                '10' => AdminModule::t('October'),
+                '11' => AdminModule::t('November'),
+                '12' => AdminModule::t('December'),
             );
 
             $yearOptions = array('0' => ' - ');
@@ -116,18 +116,18 @@
 
             $monthOptions = array(
                 '00' => ' - ',
-                '01' => UserModule::t('January'),
-                '02' => UserModule::t('February'),
-                '03' => UserModule::t('March'),
-                '04' => UserModule::t('April'),
-                '05' => UserModule::t('May'),
-                '06' => UserModule::t('June'),
-                '07' => UserModule::t('July'),
-                '08' => UserModule::t('August'),
-                '09' => UserModule::t('September'),
-                '10' => UserModule::t('October'),
-                '11' => UserModule::t('November'),
-                '12' => UserModule::t('December'),
+                '01' => AdminModule::t('January'),
+                '02' => AdminModule::t('February'),
+                '03' => AdminModule::t('March'),
+                '04' => AdminModule::t('April'),
+                '05' => AdminModule::t('May'),
+                '06' => AdminModule::t('June'),
+                '07' => AdminModule::t('July'),
+                '08' => AdminModule::t('August'),
+                '09' => AdminModule::t('September'),
+                '10' => AdminModule::t('October'),
+                '11' => AdminModule::t('November'),
+                '12' => AdminModule::t('December'),
             );
 
             $yearOptions = array('0000' => ' - ');

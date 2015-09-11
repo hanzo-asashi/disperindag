@@ -19,16 +19,16 @@ class UWjuiAutoComplete {
     public function init() {
         return array(
             'name'=>__CLASS__,
-            'label'=>UserModule::t('jQueryUI autocomplete',array(),__CLASS__),
+            'label'=>AdminModule::t('jQueryUI autocomplete',array(),__CLASS__),
             'fieldType'=>array('INTEGER'),
             'params'=>$this->params,
             'paramsLabels' => array(
-                'modelName'=>UserModule::t('Model Name',array(),__CLASS__),
-                'optionName'=>UserModule::t('Lable field name',array(),__CLASS__),
-                'emptyFieldLabel'=>UserModule::t('Empty item name',array(),__CLASS__),
-                'emptyFieldValue'=>UserModule::t('Empty item value',array(),__CLASS__),
-                'relationName'=>UserModule::t('Profile model relation name',array(),__CLASS__),
-                'minLength'=>UserModule::t('minimal start research length',array(),__CLASS__),
+                'modelName'=>AdminModule::t('Model Name',array(),__CLASS__),
+                'optionName'=>AdminModule::t('Lable field name',array(),__CLASS__),
+                'emptyFieldLabel'=>AdminModule::t('Empty item name',array(),__CLASS__),
+                'emptyFieldValue'=>AdminModule::t('Empty item value',array(),__CLASS__),
+                'relationName'=>AdminModule::t('Profile model relation name',array(),__CLASS__),
+                'minLength'=>AdminModule::t('minimal start research length',array(),__CLASS__),
             ),
         );
     }

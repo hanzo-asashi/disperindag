@@ -41,9 +41,9 @@
                     $profile->attributes = ((isset($_POST['Profile']) ? $_POST['Profile'] : array()));
                     if ($model->validate() && $profile->validate()) {
                         $soucePassword = $model->password;
-                        $model->activkey = UserModule::encrypting(microtime() . $model->password);
-                        $model->password = UserModule::encrypting($model->password);
-                        $model->verifyPassword = UserModule::encrypting($model->verifyPassword);
+                        $model->activkey = AdminModule::encrypting(microtime() . $model->password);
+                        $model->password = AdminModule::encrypting($model->password);
+                        $model->verifyPassword = AdminModule::encrypting($model->verifyPassword);
                         $model->superuser = 0;
                         $model->status = ((Yii::app()->controller->module->activeAfterRegister) ? User::STATUS_ACTIVE : User::STATUS_NOACTIVE);
 
@@ -53,9 +53,9 @@
                             if (Yii::app()->controller->module->sendActivationMail) {
                                 $activation_url = $this->createAbsoluteUrl('/user/activation/activation',
                                     array("activkey" => $model->activkey, "email" => $model->email));
-                                UserModule::sendMail($model->email, UserModule::t("You registered from {site_name}",
+                                AdminModule::sendMail($model->email, AdminModule::t("You registered from {site_name}",
                                     array('{site_name}' => Yii::app()->name)),
-                                    UserModule::t("Please activate you account go to {activation_url}",
+                                    AdminModule::t("Please activate you account go to {activation_url}",
                                         array('{activation_url}' => $activation_url)));
                             }
 
@@ -67,19 +67,19 @@
                             } else {
                                 if (!Yii::app()->controller->module->activeAfterRegister && !Yii::app()->controller->module->sendActivationMail) {
                                     Yii::app()->user->setFlash('registration',
-                                        UserModule::t("Thank you for your registration. Contact Admin to activate your account."));
+                                        AdminModule::t("Thank you for your registration. Contact Admin to activate your account."));
                                 } elseif (Yii::app()->controller->module->activeAfterRegister && Yii::app()->controller->module->sendActivationMail == false) {
                                     Yii::app()->user->setFlash('registration',
-                                        UserModule::t("Thank you for your registration. Please {{login}}.", array(
-                                            '{{login}}' => CHtml::link(UserModule::t('Login'),
+                                        AdminModule::t("Thank you for your registration. Please {{login}}.", array(
+                                            '{{login}}' => CHtml::link(AdminModule::t('Login'),
                                                 Yii::app()->controller->module->loginUrl),
                                         )));
                                 } elseif (Yii::app()->controller->module->loginNotActiv) {
                                     Yii::app()->user->setFlash('registration',
-                                        UserModule::t("Thank you for your registration. Please check your email or login."));
+                                        AdminModule::t("Thank you for your registration. Please check your email or login."));
                                 } else {
                                     Yii::app()->user->setFlash('registration',
-                                        UserModule::t("Thank you for your registration. Please check your email."));
+                                        AdminModule::t("Thank you for your registration. Please check your email."));
                                 }
                                 $this->refresh();
                             }

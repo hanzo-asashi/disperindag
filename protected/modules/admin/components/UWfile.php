@@ -113,7 +113,7 @@
             . (($model->getAttribute($field->varname)) ? '<br/>' . CHtml::activeCheckBox($model,
                     '[uwfdel]' . $field->varname, $params)
                 . ' ' . CHtml::activeLabelEx($model, '[uwfdel]' . $field->varname,
-                    array('label' => UserModule::t('Delete file'), 'style' => 'display:inline;')) : '');
+                    array('label' => AdminModule::t('Delete file'), 'style' => 'display:inline;')) : '');
         }
 
     }

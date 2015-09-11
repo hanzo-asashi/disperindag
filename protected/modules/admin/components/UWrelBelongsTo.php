@@ -16,14 +16,14 @@ class UWrelBelongsTo {
     public function init() {
         return array(
             'name'=>__CLASS__,
-            'label'=>UserModule::t('Relation Belongs To',array(),__CLASS__),
+            'label'=>AdminModule::t('Relation Belongs To',array(),__CLASS__),
             'fieldType'=>array('INTEGER'),
             'params'=>$this->params,
             'paramsLabels' => array(
-                'modelName'=>UserModule::t('Model Name',array(),__CLASS__),
-                'optionName'=>UserModule::t('Lable field name',array(),__CLASS__),
-                'emptyField'=>UserModule::t('Empty item name',array(),__CLASS__),
-                'relationName'=>UserModule::t('Profile model relation name',array(),__CLASS__),
+                'modelName'=>AdminModule::t('Model Name',array(),__CLASS__),
+                'optionName'=>AdminModule::t('Lable field name',array(),__CLASS__),
+                'emptyField'=>AdminModule::t('Empty item name',array(),__CLASS__),
+                'relationName'=>AdminModule::t('Profile model relation name',array(),__CLASS__),
             ),
         );
     }

@@ -34,6 +34,6 @@
 
         public function behaviors()
         {
-            return Yii::app()->getModule('user')->getBehaviorsFor(get_class($this));
+            return Yii::app()->getModule('admin')->getBehaviorsFor(get_class($this));
         }
     }
