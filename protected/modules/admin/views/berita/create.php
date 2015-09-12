@@ -62,9 +62,10 @@
                         <div class="panel-body">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new thumbnail" style="width: 100%; height: auto;" data-trigger="fileinput">
-                                    <img src="<?php $this->baseUrl;?>/static/assets/images/blank.png" alt="...">
+                                    <img src="<?php echo $this->baseUrl; ?>/static/assets/images/blank.png" alt="...">
                                 </div>
-                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 100%; max-height: auto"></div>
+                                <div class="fileinput-preview fileinput-exists thumbnail"
+                                     style="max-width: 100%; max-height: inherit"></div>
                                 <div>
                                     <span class="btn btn-white btn-file">
                                         <span class="fileinput-new">Pilih Gambar</span>
@@ -106,30 +107,23 @@
 
                             <hr>
 
-                            <a href="javascript:;" onclick="jQuery('#modal-kategori').modal('show');"><i class="entypo-plus"></i>Kategori Baru</a>
+                            <a href="javascript:" onclick="jQuery('#modal-kategori').modal('show');"><i
+                                    class="entypo-plus"></i>Kategori Baru</a>
                         </div>
                     </div>
                 </li>
             </ul>
-
         </form>
-
     </div>
-
 </div>
 <hr>
 
-
-
 <script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/ckeditor-full/ckeditor.js'></script>
 <script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/js/fileinput.js'></script>
-
-<script>
-        CKEDITOR.replace( 'editor' );
-</script>
-<script>
-        $('.nav-blog').addClass('opened');
-        $('.nav-blog ul li:nth-child(2)').addClass('active');
-</script>
-
-<?php Yii::app()->clientScript->registerScript('namasembarang', '',CClientScript::POS_END); ?>
+<?php
+    Yii::app()->clientScript->registerScript('create-berita', '
+        CKEDITOR.replace("editor");
+        $(".nav-blog").addClass("opened");
+        $(".nav-blog ul li:nth-child(2)").addClass("active");
+    ', CClientScript::POS_END);
+?>

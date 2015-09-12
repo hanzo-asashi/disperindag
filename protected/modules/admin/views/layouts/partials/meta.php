@@ -14,7 +14,7 @@ $keyword = "";
 <meta name="description" content="Neon Admin Panel" />
 <meta name="author" content="" />
 
-<title>Neon | Dashboard</title>
+<title>Disperindag | Dashboard</title>
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
 <!-- Library css -->

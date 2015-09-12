@@ -155,13 +155,14 @@
             </a>
             <ul>
                 <li>
-                    <a href="/admin/users">
+                    <a href="/admin/user">
                         <i class="entypo-users"></i>
                         <span>Semua Pengguna</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/users/create">
+                    <a href="/admin/user/registration">
+                        <i class="entypo-user"></i>
                         <span>Tambah Baru</span>
                     </a>
                 </li>
@@ -198,7 +199,7 @@
 
                         <!-- Profile sub-links -->
                         <li>
-                            <a href="setting.php">
+                            <a href="/admin/setting">
                                 <i class="entypo-user"></i>
                                 Pengaturan Akun
                             </a>

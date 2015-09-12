@@ -84,9 +84,8 @@
 
         <!-- compose new email button -->
         <div class="mail-sidebar-row hidden-xs">
-            <a href="/admin/berita/create" class="btn btn-success btn-icon btn-block">
+            <a href="/admin/berita/create">
                 Tambah Baru
-                <i class="entypo-pencil"></i>
             </a>
         </div>
 
@@ -122,5 +121,5 @@
     var content = $('.table tbody tr td .checkbox').length;
     if (content == 0) {
             $('.alert-empty').show();
-    };
+    }
 </script>
