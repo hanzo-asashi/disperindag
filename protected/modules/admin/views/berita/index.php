@@ -11,7 +11,6 @@
             <form method="get" role="form" class="mail-search">
                 <div class="input-group">
                     <input type="text" class="form-control" name="s" placeholder="Cari berita..."/>
-
                     <div class="input-group-addon">
                         <i class="entypo-search"></i>
                     </div>
@@ -82,10 +81,12 @@
 
     <!-- Sidebar -->
     <div class="mail-sidebar">
+
         <!-- compose new email button -->
         <div class="mail-sidebar-row hidden-xs">
-            <a href="/admin/berita/create">
+            <a href="/admin/berita/create" class="btn btn-success btn-icon btn-block">
                 Tambah Baru
+                <i class="entypo-pencil"></i>
             </a>
         </div>
 

@@ -61,11 +61,13 @@
                         </div>
                         <div class="panel-body">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
-                                <div class="fileinput-new thumbnail" style="width: 100%; height: auto;" data-trigger="fileinput">
-                                    <img src="<?php echo $this->baseUrl; ?>/static/assets/images/blank.png" alt="...">
+                                <div class="fileinput-new thumbnail" style="width: 100%; height: auto;"
+                                     data-trigger="fileinput">
+                                    <img src="<?php //echo $this->baseUrl;?>/static/assets/images/thumb-1@2x.png"
+                                         alt="...">
                                 </div>
                                 <div class="fileinput-preview fileinput-exists thumbnail"
-                                     style="max-width: 100%; max-height: inherit"></div>
+                                     style="max-width: 100%; max-height: auto"></div>
                                 <div>
                                     <span class="btn btn-white btn-file">
                                         <span class="fileinput-new">Pilih Gambar</span>
@@ -113,8 +115,11 @@
                     </div>
                 </li>
             </ul>
+
         </form>
+
     </div>
+
 </div>
 <hr>
 

@@ -3,7 +3,7 @@
     <header class="logo-env">
         <div class="logo">
             <a href="/admin">
-                <img src="<?php echo yii::app()->request->baseUrl ?>/static/assets/images/logo@2x.png" width="120" alt="" />
+                <img src="<?php echo $this->baseUrl ?>/static/assets/images/logo@2x.png" width="120" alt=""/>
             </a>
         </div>
         <div class="sidebar-collapse">
@@ -62,24 +62,21 @@
             </a>
             <ul>
                 <li>
-                    <a href="/admin/berita">
+                    <a href="/admin/berita/index">
                         <i class="entypo-list"></i>
                         <span>Semua Berita</span>
                     </a>
                 </li>
                 <li>
                     <a href="/admin/berita/create">
+                        <i class="entypo-plus-squared"></i>
                         <span>Tambah Baru</span>
                     </a>
                 </li>
                 <li>
                     <a href="/admin/berita/kategori">
+                        <i class="entypo-tag"></i>
                         <span>Kategori</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/berita/tag">
-                        <span>Label</span>
                     </a>
                 </li>
             </ul>
@@ -91,13 +88,14 @@
             </a>
             <ul>
                 <li>
-                    <a href="/admin/halaman">
+                    <a href="/admin/halaman/index">
                         <i class="entypo-list"></i>
                         <span>Semua Halaman</span>
                     </a>
                 </li>
                 <li>
                     <a href="/admin/halaman/tambah-halaman">
+                        <i class="entypo-plus-squared"></i>
                         <span>Tambah Baru</span>
                     </a>
                 </li>
@@ -110,39 +108,34 @@
             </a>
             <ul>
                 <li>
-                    <a href="/admin/pesan">
+                    <a href="/admin/pesan/index">
                         <i class="entypo-inbox"></i>
                         <span>Kotak Masuk</span>
                     </a>
                 </li>
                 <li>
                     <a href="/admin/pesan/pesan-baru">
+                        <i class="entypo-plus-squared"></i>
                         <span>Tulis Pesan Baru</span>
                     </a>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="/admin/komentar">
-                <i class="entypo-chat"></i>
-                <span>Komentar</span>
-                <span class="badge badge-secondary">2</span>
-            </a>
-        </li>
-        <li>
-            <a href="/admin/media">
+            <a href="#">
                 <i class="entypo-camera"></i>
                 <span>Media</span>
             </a>
             <ul>
                 <li>
-                    <a href="/admin/media/semua-media">
+                    <a href="/admin/media/index">
                         <i class="entypo-picture"></i>
                         <span>Semua Media</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/media/tambah-media">
+                    <a href="/admin/media/create">
+                        <i class="entypo-plus-squared"></i>
                         <span>Tambah Baru</span>
                     </a>
                 </li>
@@ -155,14 +148,14 @@
             </a>
             <ul>
                 <li>
-                    <a href="/admin/user">
+                    <a href="/admin/user/index">
                         <i class="entypo-users"></i>
                         <span>Semua Pengguna</span>
                     </a>
                 </li>
                 <li>
                     <a href="/admin/user/registration">
-                        <i class="entypo-user"></i>
+                        <i class="entypo-user-add"></i>
                         <span>Tambah Baru</span>
                     </a>
                 </li>
@@ -188,7 +181,8 @@
                 <li class="profile-info dropdown"><!-- add class "pull-right" if you want to place this from right -->
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?php echo yii::app()->request->baseUrl ?>/static/assets/images/thumb-1@2x.png" alt="" class="img-circle" width="44" />
+                        <img src="<?php echo $this->baseUrl ?>/static/assets/images/thumb-1@2x.png" alt=""
+                             class="img-circle" width="44"/>
                         Gifa Eriyanto
                     </a>
 
@@ -199,7 +193,7 @@
 
                         <!-- Profile sub-links -->
                         <li>
-                            <a href="/admin/setting">
+                            <a href="/admin/seting">
                                 <i class="entypo-user"></i>
                                 Pengaturan Akun
                             </a>
@@ -213,7 +207,7 @@
                         </li>
 
                         <li>
-                            <a href="/admin/logout">
+                            <a href="/admin/user/logout">
                                 <i class="entypo-logout"></i>
                                 Keluar
                             </a>
