@@ -80,7 +80,7 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block btn-login">
                     <i class="entypo-login"></i>
-                    <?php echo UserModule::t("Login");?>
+                    <?php echo AdminModule::t("Login");?>
                 </button>
             </div>
             <div class="checkbox">
@@ -88,9 +88,9 @@
                 <?php echo CHtml::activeLabelEx($model, 'rememberMe'); ?>
             </div>
             <div class="login-bottom-links">
-                <?php echo CHtml::link(UserModule::t("Registrasi Pengguna"),
-                    Yii::app()->getModule('user')->registrationUrl, array('class' => 'link')); ?> |
-                <?php echo CHtml::link(UserModule::t("Lupa Kata Sandi?"), Yii::app()->getModule('user')->recoveryUrl,
+                <?php echo CHtml::link(AdminModule::t("Registrasi Pengguna"),
+                    Yii::app()->getModule('admin')->registrationUrl, array('class' => 'link')); ?> |
+                <?php echo CHtml::link(AdminModule::t("Lupa Kata Sandi?"), Yii::app()->getModule('admin')->recoveryUrl,
                     array('class' => 'link')); ?>
                 <br/>
                 &copy; 2015 <strong>Disperindag</strong>. Dev by <a href="http://media-sakti.com" target="_blank">Media

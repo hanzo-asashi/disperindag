@@ -52,11 +52,11 @@ class AdminModule extends CWebModule
 
     public $registrationUrl = array("/admin/user/registration");
     public $recoveryUrl = array("/admin/user/recovery/recovery");
-    public $loginUrl = array("/admin/user/login");
-    public $logoutUrl = array("/admin/user/logout");
+    public $loginUrl = array("/admin/login");
+    public $logoutUrl = array("/admin/logout");
     public $profileUrl = array("/admin/user/profile");
-    public $returnUrl = array("/admin/user/profile");
-    public $returnLogoutUrl = array("/admin/user/login");
+    public $returnUrl = array("/");
+    public $returnLogoutUrl = array("/admin/login");
 
 
     /**

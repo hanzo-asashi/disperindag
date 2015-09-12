@@ -15,8 +15,8 @@
         'import'         => array(
             'application.models.*',
             'application.components.*',
-            'application.modules.user.models.*',
-            'application.modules.user.components.*',
+            'application.modules.admin.models.*',
+            'application.modules.admin.components.*',
         ),
         'modules'        => array(
             // uncomment the following to enable the Gii tool
@@ -26,9 +26,7 @@
                 // If removed, Gii defaults to localhost only. Edit carefully to taste.
                 'ipFilters' => array('127.0.0.1', '::1'),
             ),
-//        'admin'=>array(
-//
-//        ), //Daftar module admin dalam config
+
             'admin' => array(
                 # encrypting method (php hash function)
                 'hash'                => 'md5',
