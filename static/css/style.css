@@ -200,7 +200,7 @@ header .navbar-custom {
     border-top: 0; }
 
 footer {
-  background: #2a2f36 url(../img/footer_disperindag.png) top center no-repeat;
+  background: #2a2f36 url(../images/footer_disperindag.png) top center no-repeat;
   background-size: 90%;
   margin-top: 100px;
   padding-top: 75px;
@@ -292,7 +292,7 @@ footer {
       color: #49a6e4; }
 
 #slide {
-  background: url(../img/slide_disperindag.png) center no-repeat;
+  background: url(../images/slide_disperindag.png) center no-repeat;
   background-size: cover;
   height: 450px; }
   #slide .slide-content {

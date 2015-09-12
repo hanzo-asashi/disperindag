@@ -10,12 +10,12 @@ $keyword = "";
 <meta name="keyword" content="<?= $keyword ?>">
 <meta name="description" content="<?= $description ?>">
 <meta name="author" content="<?= $author ?>">
-<meta property="og:image" content="<?php echo yii::app()->request->baseUrl ?>/static/img/logo.png" />
+<meta property="og:image" content="<?php echo yii::app()->request->baseUrl ?>/static/images/logo.png" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
-<link rel="icon" sizes="16x16" href="<?php echo yii::app()->request->baseUrl ?>/static/img/favicon.png" />
+<link rel="icon" sizes="16x16" href="<?php echo yii::app()->request->baseUrl ?>/static/images/favicon.png" />
 <link rel="stylesheet" href="<?php echo yii::app()->request->baseUrl ?>/static/css/jquery-ui.css">
 <!-- Font Icon -->
 <link rel="stylesheet" href="<?php echo yii::app()->request->baseUrl ?>/static/plugin/font-icons/entypo/css/entypo.css">

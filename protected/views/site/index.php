@@ -5,7 +5,7 @@
                 <h1>Selamat Datang</h1>
                 <h2>di website resmi <b>Dinas Perindustrian dan Perdagangan</b></h2>
                 <h3>Prov. Sulawesi Selatan</h3>
-                <a href="about.php" class="link">Profil Dinas&nbsp;&nbsp;<i class="fa fa-angle-right"></i></a>
+                <a href="/site/about" class="link">Profil Dinas&nbsp;&nbsp;<i class="fa fa-angle-right"></i></a>
             </div>
         </div>
     </div>
@@ -53,8 +53,8 @@
         <div class="galeri-items">
             <?php for ($i = 1; $i <= 8; $i++) { ?>
                 <div class="col-sm-6 col-md-3 no-padding col">
-                    <a href="gallery-item.php">
-                        <img src="<?php echo yii::app()->request->baseUrl ?>/static/img/gallery/post-<?php echo $i ?>.jpg" alt="">
+                    <a href="/gallery/id">
+                        <img src="<?php echo $this->baseUrl ?>/static/images/gallery/post-<?php echo $i; ?>.jpg" alt="">
                     </a>
                 </div>
             <?php } ?>
@@ -63,7 +63,7 @@
         <div class="clearfix"></div>
 
         <div class="col-md-12">
-            <a href="gallery.php" class="more-center">Lihat Lainnya&nbsp;&nbsp;<i class="fa fa-long-arrow-right"></i></a>
+            <a href="/gallery" class="more-center">Lihat Lainnya&nbsp;&nbsp;<i class="fa fa-long-arrow-right"></i></a>
         </div>
     </div>
 </div>
@@ -81,10 +81,10 @@
                     <?php for ($i = 1; $i <= 4; $i++) { ?>
                     <div class="col-md-6 col item">
                         <div class="col-md-5">
-                            <div class="img" style="background: url(<?php echo yii::app()->request->baseUrl ?>/static/img/gallery/post-<?php echo $i ?>.jpg)"></div>
+                            <div class="img" style="background: url(<?php echo $this->baseUrl ?>/static/images/gallery/post-<?php echo $i ?>.jpg)"></div>
                         </div>
                         <div class="col-md-7">
-                            <a href="single-news.php">
+                            <a href="/post/detail">
                                 <h1>Lorem ipsum dolor sit.</h1>
                             </a>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non esse sint deleniti omnis dolor optio sunt fugiat maxime totam qui. Non esse sint deleniti omnis dolor consectetur adipisicing elit.</p>
@@ -96,7 +96,7 @@
         </div>
 
         <div class="col-md-12">
-            <a href="gallery.php" class="more-center">Tampilkan Lebih Banyak&nbsp;&nbsp;<i class="fa fa-long-arrow-right"></i></a>
+            <a href="/gallery" class="more-center">Tampilkan Lebih Banyak&nbsp;&nbsp;<i class="fa fa-long-arrow-right"></i></a>
         </div>
     </div>
 </div>

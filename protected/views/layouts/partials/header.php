@@ -3,7 +3,7 @@
         <div class="col-md-6">
             <div class="logo">
                 <a href="">
-                    <img src="<?php echo yii::app()->request->baseUrl ?>/static/img/logo_disperindag.png" width="60px">
+                    <img src="<?php echo $this->baseUrl ?>/static/images/logo_disperindag.png" width="60px">
                     <div class="logo-name">
                         <h2>UPTD Balai Pelayanan Logistik Perdagangan</h2>
                         <h1>Dinas Perindustrian dan Perdagangan</h1>
