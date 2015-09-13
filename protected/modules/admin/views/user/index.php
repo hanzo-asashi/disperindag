@@ -4,7 +4,7 @@
     </li>
 
     <li class="active">
-        <strong><?= AdminModule::t("Users");?></strong>
+        <strong><?= AdminModule::t("Pengguna");?></strong>
     </li>
     <?php
     if(AdminModule::isAdmin()) {
@@ -12,29 +12,18 @@
     }
     ?>
 </ol>
-<?php
-$this->breadcrumbs=array(
-    AdminModule::t("Users"),
-);
-//if(AdminModule::isAdmin()) {
-//    $this->layout='//layouts/column1';
-//    $this->menu=array(
-//        array('label'=>AdminModule::t('Manage Users'), 'url'=>array('/user/admin')),
-//        array('label'=>AdminModule::t('Manage Profile Field'), 'url'=>array('profileField/admin')),
-//    );
-//}
-?>
-<h2>Pengguna</h2>
+
+<h2><?= AdminModule::t("Pengguna"); ?></h2>
 <br />
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <div class="panel-title">Daftar Pengguna</div>
+        <div class="panel-title"><?= AdminModule::t("Daftar Pengguna"); ?></div>
 
         <div class="panel-options">
-            <a href="/user/registration" class="bg"><i class="entypo-user-add"></i><?= AdminModule::t('Tambah User');?></a>
-            <a href="/user/admin" class="bg"><i class="entypo-users"></i><?= AdminModule::t('Pengaturan Pengguna');?></a>
-            <a href="/profilefield/admin" class="bg"><i class="entypo-user"></i><?= AdminModule::t('Atur Profile User');?></a>
+            <a href="/admin/user/registration" class="bg"><i class="entypo-user-add"></i><?= AdminModule::t('Tambah User');?></a>
+            <a href="/admin/user/admin" class="bg"><i class="entypo-users"></i><?= AdminModule::t('Pengaturan Pengguna');?></a>
+            <a href="/admin/profilefield/admin" class="bg"><i class="entypo-user"></i><?= AdminModule::t('Atur Profile User');?></a>
         </div>
     </div>
 

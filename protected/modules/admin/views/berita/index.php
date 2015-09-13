@@ -1,3 +1,17 @@
+<ol class="breadcrumb bc-3">
+    <li>
+        <a href="/admin">Beranda</a>
+    </li>
+
+    <li class="active">
+        <strong><?php $this->breadcrumbs = array(AdminModule::t("Berita")); ?></strong>
+    </li>
+    <?php
+        if (AdminModule::isAdmin()) {
+            $this->layout = '/layouts/column2';
+        }
+    ?>
+</ol>
 <div class="mail-env">
     <!-- Mail Body -->
     <div class="mail-body">
@@ -11,6 +25,7 @@
             <form method="get" role="form" class="mail-search">
                 <div class="input-group">
                     <input type="text" class="form-control" name="s" placeholder="Cari berita..."/>
+
                     <div class="input-group-addon">
                         <i class="entypo-search"></i>
                     </div>
@@ -18,6 +33,23 @@
             </form>
         </div>
         <!-- mail table -->
+        <?php
+            //            $this->widget('zii.widgets.grid.CGridView', array(
+            //                'dataProvider' => $dataProvider,
+            //                'columns'      => array(
+            //                    array(
+            //                        'name'  => 'berita_id',
+            //                        'type'  => 'raw',
+            //                        'value' => 'CHtml::link(CHtml::encode($data->judul),array("admin/berita/view","id"=>$data->berita_id))',
+            //                    ),
+            //                    'judul',
+            //                    'kategori_id',
+            //                    'is_publish',
+            //                    'is_draft',
+            //                ),
+            //            ));
+        ?>
+
         <table class="table mail-table">
             <!-- mail table header -->
             <thead>
@@ -38,7 +70,6 @@
                         <button class="btn btn-default btn-sm"><i class="entypo-install"></i>&nbsp; Pindah ke Draf
                         </button>
                     </div>
-
                     <div class="mail-pagination" colspan="2">
                         <strong>1-30</strong> <span>dari 79</span>
 
@@ -53,26 +84,30 @@
 
             <!-- email list -->
             <tbody>
+            <?php foreach ($dataProvider->data as $key =>$value ) { ?>
             <tr class="alert-empty"><!-- empty -->
                 <td colspan="4" align="center">
                     Belum Ada Berita
                 </td>
             </tr>
-            <?php for ($i = 0; $i < 10; $i++) { ?>
                 <tr class="unread"><!-- new email class: unread -->
                     <td>
                         <div class="checkbox checkbox-replace">
                             <input type="checkbox"/>
                         </div>
                     </td>
+
                     <td class="col-name">
-                        <a href="/admin/berita/update" class="col-name">Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit.</a>
+                        <a href="<?= !empty($value['url']) ? $value['url'].$value['berita_id'] : ""?>" class="col-name"><?= !empty($value['judul']) ? Helper::ambil_kata($value['judul'],5)."....." : ""?></a>
+
+                    </td>
+                    <td class="col-name">
+                        <?= !empty($value['isi_berita']) ? Helper::ambil_kata($value['isi_berita'],5) . " ..." : ""?>
                     </td>
                     <td class="col-options">
-                        Komputer
+                        <?= !empty($value['tags_id']) ? $value['tags_id'] : ""?>
                     </td>
-                    <td class="col-time">13:52</td>
+                    <td class="col-time"><?= !empty($value['tgl_berita']) ? Helper::timeGo($value['tgl_berita']) : ""?></td>
                 </tr>
             <?php } ?>
             </tbody>

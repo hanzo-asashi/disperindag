@@ -11,25 +11,63 @@
         public function actionIndex()
         {
 
-            $model = new Berita('search');
-            if (isset($_GET['berita'])) {
-                $model->attributes = $_GET['berita'];
-            }
+            $dataProvider = new CActiveDataProvider('berita', array(
+                'pagination' => array(
+                    'pageSize' => Yii::app()->controller->module->user_page_size,
+                ),
+            ));
 
-            $params = array(
-                'model' => $model,
-            );
+            $this->render('index', array(
+                'dataProvider' => $dataProvider,
+            ));
+        }
 
-            if (isset($_GET['ajax'])) {
-                $this->renderPartial("ajax", $params);
-            } else {
-                $this->render("index", $params);
-            }
+        public function actionGetKategori(){
+
+        }
+
+        public function actionGetTags(){
+
         }
 
         public function actionCreate()
         {
-            $this->render("create", array());
+            $request = Yii::app()->request->getIsPostRequest();
+            $ajaxRequest = Yii::app()->request->getIsAjaxRequest();
+
+            if($request){
+                $berita = new Berita();
+                $kategori = new Kategori();
+                $tags = new Tags();
+                $image = new Image();
+
+                $postBerita = !empty($_POST['Berita']) ? $_POST['Berita'] : "";
+                $postKategori = !empty($_POST['Kategori']) ? $_POST['Kategori'] : "";
+                $postTags = !empty($_POST['Tags']) ? $_POST['Tags'] : "";
+
+                if($kategori){
+                    $kategori->setAttributes($postKategori);
+                }
+
+                if($tags){
+                    $tags->setAttributes($postTags);
+                }
+
+                if($postBerita){
+                    $berita->setAttributes($postBerita);
+                    $berita->setCreatetime($postBerita['tgl_create']);
+                    $berita->setUpdatetime($postBerita['tgl_update']);
+
+                }
+            }
+            $jsonData = array();
+
+            if($ajaxRequest){
+                echo CJSON::encode($jsonData);
+                Yii::app()->end();
+            }else{
+                $this->render("create", array());
+            }
         }
 
         public function actionUpdate()

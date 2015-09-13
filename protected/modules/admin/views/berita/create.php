@@ -122,7 +122,6 @@
 
 </div>
 <hr>
-
 <script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/ckeditor-full/ckeditor.js'></script>
 <script src='<?php echo yii::app()->request->baseUrl ?>/static/assets/libs/js/fileinput.js'></script>
 <?php
@@ -131,4 +130,8 @@
         $(".nav-blog").addClass("opened");
         $(".nav-blog ul li:nth-child(2)").addClass("active");
     ', CClientScript::POS_END);
+
+    Yii::app()->clientScript->registerScript('insert-data','
+
+    ',CClientScript::POS_END);
 ?>

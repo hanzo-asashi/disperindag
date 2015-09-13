@@ -24,6 +24,9 @@
  */
 class Berita extends CActiveRecord
 {
+    const STATUS_PUBLISH = 1;
+    const STATUS_DRAFT = 2;
+    const STATUS_ARCHIVE = 3;
 
     /**
      * @return string the associated database table name
@@ -45,13 +48,38 @@ class Berita extends CActiveRecord
             array('is_publish, is_draft, is_archive', 'numerical', 'integerOnly' => true),
             array('url', 'length', 'max' => 20),
             array('judul', 'length', 'max' => 50),
-            array('image_path', 'length', 'max' => 255),
-            array('tags_id, kategori_id', 'length', 'max' => 11),
+            array('imageid,tags_id, kategori_id', 'length', 'max' => 11),
             array('isi_berita, tgl_berita, tgl_update', 'safe'),
+            array(
+                'is_publish',
+                'in',
+                'range' => array(self::STATUS_PUBLISH, self::STATUS_ARCHIVE, self::STATUS_DRAFT),
+            ),
+            array('superuser', 'in', 'range' => array(0, 1)),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('berita_id, isi_berita, url, judul, image_path, tgl_berita, tgl_update, tags_id, kategori_id, is_publish, is_draft, is_archive', 'safe', 'on' => 'search'),
+            array('berita_id, isi_berita, url, judul, imageid, tgl_berita, tgl_update, tags_id, kategori_id, is_publish, is_draft, is_archive', 'safe', 'on' => 'search'),
         );
+    }
+
+    public static function itemAlias($type, $code = null)
+    {
+        $_items = array(
+            'BeritaStatus'  => array(
+                self::STATUS_PUBLISH => AdminModule::t('Publish'),
+                self::STATUS_ARCHIVE   => AdminModule::t('Archive'),
+                self::STATUS_DRAFT   => AdminModule::t('Draft'),
+            ),
+            'AdminStatus' => array(
+                '0' => AdminModule::t('No'),
+                '1' => AdminModule::t('Yes'),
+            ),
+        );
+        if (isset($code)) {
+            return isset($_items[$type][$code]) ? $_items[$type][$code] : false;
+        } else {
+            return isset($_items[$type]) ? $_items[$type] : false;
+        }
     }
 
     /**
@@ -74,18 +102,45 @@ class Berita extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'berita_id' => 'Berita',
-            'isi_berita' => 'Isi Berita',
-            'url' => 'Url',
-            'judul' => 'Judul',
-            'image_path' => 'Image Path',
-            'tgl_berita' => 'Tgl Berita',
-            'tgl_update' => 'Tgl Update',
-            'tags_id' => 'Tags',
-            'kategori_id' => 'Kategori',
-            'is_publish' => 'Is Publish',
-            'is_draft' => 'Is Draft',
-            'is_archive' => 'Is Archive',
+            'berita_id' => AdminModule::t("Id"),
+            'isi_berita' => AdminModule::t("Isi Berita"),
+            'url' => AdminModule::t("url"),
+            'judul' => AdminModule::t('Judul'),
+            'imageid' => AdminModule::t('Lokasi Image'),
+            'tgl_berita' => AdminModule::t('Tgl Berita'),
+            'tgl_update' => AdminModule::t('Tgl Update'),
+            'tags_id' => AdminModule::t('Tags'),
+            'kategori_id' => AdminModule::t('Kategori'),
+            'is_publish' => AdminModule::t('Status'),
+            'is_draft' => AdminModule::t('Is Draft'),
+            'is_archive' => AdminModule::t('Is Archive'),
+        );
+    }
+
+    public function scopes()
+    {
+        return array(
+            'publish'    => array(
+                'condition' => 'is_publish =' . self::STATUS_PUBLISH,
+            ),
+            'archive' => array(
+                'condition' => 'is_publish =' . self::STATUS_ARCHIVE,
+            ),
+            'draft'    => array(
+                'condition' => 'is_publish=' . self::STATUS_DRAFT,
+            ),
+            'notsafe'   => array(
+                'select' => 'berita_id, isi_berita, judul, url, imageid, tgl_berita, tgl_update, tags_id, is_publish,is_draft,is_archive',
+            ),
+        );
+    }
+
+    public function defaultScope()
+    {
+        return array(
+            'alias'  => 'berita',
+            'select' => 'berita.berita_id, berita.isi_berita, berita.judul, berita.url, berita.imageid, berita.tgl_berita, berita.tgl_update,berita.tags_id, berita.is_publish',
+            'with' => array('isPublish','kategori','tags'),
         );
     }
 
@@ -111,7 +166,7 @@ class Berita extends CActiveRecord
         $criteria->compare('isi_berita', $this->isi_berita, true);
         $criteria->compare('url', $this->url, true);
         $criteria->compare('judul', $this->judul, true);
-        $criteria->compare('image_path', $this->image_path, true);
+        $criteria->compare('imageid', $this->imageid, true);
         $criteria->compare('tgl_berita', $this->tgl_berita, true);
         $criteria->compare('tgl_update', $this->tgl_update, true);
         $criteria->compare('tags_id', $this->tags_id, true);
@@ -122,7 +177,30 @@ class Berita extends CActiveRecord
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => Yii::app()->getModule('admin')->user_page_size,
+            ),
         ));
+    }
+
+    public function getCreatetime()
+    {
+        return strtotime($this->tgl_berita);
+    }
+
+    public function setCreatetime($value)
+    {
+        $this->tgl_berita = date('Y-m-d H:i:s', $value);
+    }
+
+    public function getUpdatetime()
+    {
+        return strtotime($this->tgl_update);
+    }
+
+    public function setUpdatetime($value)
+    {
+        $this->tgl_update = date('Y-m-d H:i:s', $value);
     }
 
     /**
