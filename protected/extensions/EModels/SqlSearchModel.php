@@ -1,35 +1,36 @@
 <?php
+
 /**
- * SqlSearchModel class
+ * SqlSearchModel class.
  *
  * PHP version 5
  *
  * @category  Packages
- * @package   Ext.model
+ *
  * @author    Evgeniy Marilev <marilev@jviba.com>
  * @copyright 2011 5-SOFT
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link      https://jviba.com/packages/php/docs
  */
 /**
  * SqlSearchModel is the search model class used for
- * modeling sql select queries
+ * modeling sql select queries.
  * 
  * @category  Packages
- * @package   Ext.model
+ *
  * @author    Evgeniy Marilev <marilev@jviba.com>
  * @copyright 2011 5-SOFT
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link      https://jviba.com/packages/php/docs
  */
 abstract class SqlSearchModel extends SearchModel
 {
     /**
-     * Applies sorting conditions for criteria
+     * Applies sorting conditions for criteria.
      * 
      * @param CDbCriteria $criteria search criteria
-     * 
-     * @return void
      */
     public function applySort($criteria)
     {
@@ -39,30 +40,33 @@ abstract class SqlSearchModel extends SearchModel
             foreach ($order as $item) {
                 if (is_string($item)) {
                     $parts[] = $item;
-                } else if (is_array($item)) {
-                    $parts[] = $item[0] . ' ' . $item[1];
+                } elseif (is_array($item)) {
+                    $parts[] = $item[0].' '.$item[1];
                 } else {
                     throw new Exception('Invalid sort order item format.');
                 }
             }
             $criteria->order = implode(',', $parts);
+
             return;
-        } else if (is_string($order)) {
+        } elseif (is_string($order)) {
             if ($order == self::SORT_ORDER_RANDOM) {
                 $criteria->order = 'RAND()';
+
                 return;
             }
             $direction = $this->getSortDirection();
             if (!empty($criteria->order) && $direction !== false) {
-                $criteria->order .= ' ' . $direction;
+                $criteria->order .= ' '.$direction;
             }
         }
     }
-    
+
     /**
-     * Applies additional dependencies special for sql search criteria
+     * Applies additional dependencies special for sql search criteria.
      * 
      * @return CDataProvider data provider
+     *
      * @see SearchModel::fetch()
      */
     public function fetch()
@@ -74,6 +78,7 @@ abstract class SqlSearchModel extends SearchModel
                 $this->applySort($criteria);
             }
         }
+
         return $dataProvider;
     }
 }

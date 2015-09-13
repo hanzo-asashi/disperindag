@@ -1,12 +1,13 @@
 <?php
+
 /**
- * File for SandboxChildBehavior
+ * File for SandboxChildBehavior.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Eugeniy Marilev <marilev@jviba.com>
  * @license    http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 /**
@@ -14,10 +15,10 @@
  * by SandboxBehavior.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Eugeniy Marilev <marilev@jviba.com>
  * @license    http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 class SandboxChildBehavior extends CActiveRecordBehavior
@@ -26,6 +27,7 @@ class SandboxChildBehavior extends CActiveRecordBehavior
      * Declares events and the corresponding event handler methods.
      * 
      * @return array handled events
+     *
      * @see CBehavior::events
      */
     public function events()
@@ -52,20 +54,16 @@ class SandboxChildBehavior extends CActiveRecordBehavior
      * which will be set to the newly published revision.
      * 
      * @param CEvent $event event parameter
-     * 
-     * @return void
      */
     public function beforePublish($event)
     {
     }
-    
+
     /**
      * Responds to {@link SandboxBehavior::onAfterPublish} event.
      * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
      * 
      * @param CEvent $event event parameter
-     * 
-     * @return void
      */
     public function afterPublish($event)
     {
@@ -79,25 +77,21 @@ class SandboxChildBehavior extends CActiveRecordBehavior
      * which will be set to the newly published revision.
      * 
      * @param CEvent $event event parameter
-     * 
-     * @return void
      */
     public function beforeUnpublish($event)
     {
     }
-    
+
     /**
      * Responds to {@link SandboxBehavior::onAfterUnpublish} event.
      * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
      * 
      * @param CEvent $event event parameter
-     * 
-     * @return void
      */
     public function afterUnpublish($event)
     {
     }
-    
+
     /**
      * Responds to {@link SandboxBehavior::onBeforeRevert} event.
      * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
@@ -105,34 +99,28 @@ class SandboxChildBehavior extends CActiveRecordBehavior
      * The event['revision'] parameter should be passed.
      * 
      * @param CEvent $event event parameter
-     * 
-     * @return void
      */
     public function beforeRevert($event)
     {
     }
-    
+
     /**
      * Responds to {@link SandboxBehavior::onAfterRevert} event.
      * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
      * The event['revision'] parameter should be passed.
      * 
      * @param CEvent $event event parameter
-     * 
-     * @return void
      */
     public function afterRevert($event)
     {
     }
-    
+
     /**
      * Responds to {@link SandboxBehavior::onAfterCreateRevision} event.
      * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
      * The event['revision'] parameter should be passed.
      * 
      * @param CEvent $event event parameter
-     * 
-     * @return void
      */
     public function afterCreateRevision($event)
     {

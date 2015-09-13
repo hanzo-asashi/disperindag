@@ -1,50 +1,57 @@
 <?php
+
 /**
- * TransactionalFormModel class
+ * TransactionalFormModel class.
  *
  * PHP version 5
  *
  * @category Packages
- * @package  Ext.model
+ *
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/packages/php/docs
  * @abstract
  */
 /**
  * TransactionalFormModel is the base model class used for processing form submit
- * with autostarting, submitting and rollbacking transaction
+ * with autostarting, submitting and rollbacking transaction.
  * 
  * @category Packages
- * @package  Ext.model
+ *
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/packages/php/docs
  * @abstract
  */
 abstract class TransactionalFormModel extends FormSubmitModel
 {
     /**
-     * Transactional model incapsulation level
-     * @var integer
+     * Transactional model incapsulation level.
+     *
+     * @var int
      */
     private static $_transactionalLevel = 0;
-    
+
     /**
-     * Database transaction
+     * Database transaction.
+     *
      * @var CDbTransaction
      */
     private $_transaction;
-    
+
     /**
      * The default database connection for all transactional record classes.
+     *
      * @var CDbConnection
+     *
      * @see getDbConnection
      */
     public static $db;
-    
+
     /**
-     * Handles form presubmitting
+     * Handles form presubmitting.
      * 
      * @return bool whether form is presubmitted
      */
@@ -56,37 +63,32 @@ abstract class TransactionalFormModel extends FormSubmitModel
         } else {
             ++self::$_transactionalLevel;
         }
+
         return parent::beforeSubmit();
     }
-    
+
     /**
-     * Handles form postsubmitting
-     * 
-     * @return void
+     * Handles form postsubmitting.
      */
     protected function afterSubmit()
     {
         parent::afterSubmit();
         $this->commitChanges();
     }
-    
+
     /**
-     * Calls whether submitting process failed
+     * Calls whether submitting process failed.
      * 
      * @param Exception $exception posible exception
-     * 
-     * @return void
      */
     protected function onSubmitFailure($exception = null)
     {
         $this->rollbackChanges();
         parent::onSubmitFailure($exception);
     }
-    
+
     /**
-     * Commits all changes to database
-     * 
-     * @return void
+     * Commits all changes to database.
      */
     protected function commitChanges()
     {
@@ -98,11 +100,9 @@ abstract class TransactionalFormModel extends FormSubmitModel
             }
         }
     }
-    
+
     /**
-     * Rollbacks changes applied with database
-     * 
-     * @return void
+     * Rollbacks changes applied with database.
      */
     protected function rollbackChanges()
     {
@@ -110,7 +110,7 @@ abstract class TransactionalFormModel extends FormSubmitModel
             $this->_transaction->rollback();
         }
     }
-    
+
     /**
      * Returns the database connection used by active record.
      * By default, the "db" application component is used as the database connection.

@@ -1,13 +1,14 @@
 <?php
+
 /**
- * DeleteRelatedBehavior
+ * DeleteRelatedBehavior.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Alexandr Vinogradov <winogradow@jviba.com>
  * @author     Dmitri Cherepovski <cherep@jviba.com>
  * @license    http://jviba.com/packages/php/license GNU Public License
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 /**
@@ -30,11 +31,11 @@
  * much alike to the relation configuration
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Alexandr Vinogradov <winogradow@jviba.com>
  * @author     Dmitri Cherepovski <cherep@jviba.com>
  * @license    http://jviba.com/packages/php/license GNU Public License
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 class DeleteRelatedBehavior extends CActiveRecordBehavior
@@ -54,32 +55,32 @@ class DeleteRelatedBehavior extends CActiveRecordBehavior
      *      'mustPreventDeleteOfUsed' => false //if this flag is TRUE, deletion only happens when no
      *          other record in the same table references the same referenced record
      *  )
-     * )
+     * ).
+     *
      * @var array
      */
     public $relations;
 
     /**
-     * Checks if any other DB record of the same type as owner uses the given related record
+     * Checks if any other DB record of the same type as owner uses the given related record.
      *
      * @param string $attr  Name of DB attribute
      * @param mixed  $value Value of DB attribute
      *
-     * @return boolean Check result
+     * @return bool Check result
      */
     private function _isRelatedRecordUsedByOthers($attr, $value)
     {
         $criteria = new CDbCriteria();
         $criteria->compare($attr, $value);
+
         return $this->getOwner()->exists($criteria);
     }
 
     /**
-     * Deletes the HAS_ONE related record
+     * Deletes the HAS_ONE related record.
      *
      * @param string $propertyName Name of the related record property
-     *
-     * @return void
      */
     protected function deleteHasOne($propertyName)
     {
@@ -89,11 +90,9 @@ class DeleteRelatedBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Deletes the HAS_MANY related records
+     * Deletes the HAS_MANY related records.
      *
      * @param string $propertyName Name of the related record property
-     *
-     * @return void
      */
     protected function deleteHasMany($propertyName)
     {
@@ -103,15 +102,14 @@ class DeleteRelatedBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Deletes the BELONGS_TO related record
+     * Deletes the BELONGS_TO related record.
      *
      * @param string $propertyName            Name of the related record property
      * @param string $foreignKey              Name of the foreign key attribute, which links to
-     * the referenced table
+     *                                        the referenced table
      * @param string $mustPreventDeleteOfUsed If this flag is TRUE, deletion only happens when no
-     * other record in the same table references the same referenced record
+     *                                        other record in the same table references the same referenced record
      *
-     * @return void
      * @throws CException If the referenced table has composite primary key
      */
     protected function deleteBelongsTo($propertyName, $foreignKey, $mustPreventDeleteOfUsed)
@@ -124,18 +122,19 @@ class DeleteRelatedBehavior extends CActiveRecordBehavior
                     'Can not delete related models with composite primary keys. Not supported yet.'
                 );
             }
-            if (! $mustPreventDeleteOfUsed || ! $this->_isRelatedRecordUsedByOthers($foreignKey, $relatedPrimaryKey)) {
+            if (!$mustPreventDeleteOfUsed || !$this->_isRelatedRecordUsedByOthers($foreignKey, $relatedPrimaryKey)) {
                 $model->delete();
             }
         }
     }
 
     /**
-     * Resolves a single item of the 'relations' behavior parameter
+     * Resolves a single item of the 'relations' behavior parameter.
      *
      * @param mixed $relationInfo The relation configuration item
      *
      * @return array (relationName, relationForeignKey, relationType)
+     *
      * @throws CException If the relation configuration item is invalid
      */
     protected function resolveRelationInfo($relationInfo)
@@ -159,11 +158,10 @@ class DeleteRelatedBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Deletes the referenced related data
+     * Deletes the referenced related data.
      *
      * @param CEvent $event handled event
      *
-     * @return void
      * @see CActiveRecordBehavior::afterDelete()
      */
     public function beforeDelete($event)
@@ -196,7 +194,7 @@ class DeleteRelatedBehavior extends CActiveRecordBehavior
                 && ($owner->$relationName || $owner->canGetProperty($relationName))
             ) {
                 //property
-                if (! is_string($foreignKey)) {
+                if (!is_string($foreignKey)) {
                     throw new CException(
                         Yii::t(
                             'DeleteRelatedBehavior',
@@ -211,11 +209,10 @@ class DeleteRelatedBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Deletes the referencing related records
+     * Deletes the referencing related records.
      *
      * @param CEvent $event handled event
      *
-     * @return void
      * @throws CException
      */
     public function afterDelete($event)
@@ -243,7 +240,7 @@ class DeleteRelatedBehavior extends CActiveRecordBehavior
                 && ($owner->$relationName || $owner->canGetProperty($relationName))
             ) {
                 //property
-                if (! is_string($foreignKey)) {
+                if (!is_string($foreignKey)) {
                     throw new CException(
                         'DeleteRelatedBehavior',
                         'Can not delete through property {propertyName}, no foreign key given in the configuration.',

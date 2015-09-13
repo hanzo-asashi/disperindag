@@ -1,5 +1,6 @@
 <?php
-$this->upperCase=array (
+
+$this->upperCase = array(
   97 => 65,
   98 => 66,
   99 => 67,
@@ -972,4 +973,3 @@ $this->upperCase=array (
   42887 => 42886,
   42892 => 42891,
 );
-?>

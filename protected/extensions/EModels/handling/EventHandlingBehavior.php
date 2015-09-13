@@ -1,12 +1,13 @@
 <?php
+
 /**
- * File for EventHandlingBehavior
+ * File for EventHandlingBehavior.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.handling
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  * @license    http://jviba.com/packages/php/license GNU Public License
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 
@@ -15,18 +16,19 @@
  * EventHandling's behavior.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.handling
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  * @license    http://jviba.com/packages/php/license GNU Public License
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 class EventHandlingBehavior extends CBehavior
 {
     /**
-     * Behavior's special events
+     * Behavior's special events.
      * 
      * @return events configuration
+     *
      * @see CBehavior::events()
      */
     public function events()
@@ -37,35 +39,29 @@ class EventHandlingBehavior extends CBehavior
             EventHandling::EVENT_AFTER_HANDLE => 'afterHandle',
         );
     }
-    
+
     /**
      * Responds to {@link EventHandling::onBeforeHandle} event.
      * 
      * @param HandlerEvent $event handling event
-     * 
-     * @return void
      */
     public function beforeHandle(HandlerEvent $event)
     {
     }
-    
+
     /**
      * Responds to {@link EventHandling::onHandle} event.
      * 
      * @param HandlerEvent $event handling event
-     * 
-     * @return void
      */
     public function handle(HandlerEvent $event)
     {
     }
-    
+
     /**
      * Responds to {@link EventHandling::onAfterHandle} event.
      * 
      * @param HandlerEvent $event handling event
-     * 
-     * @return void
      */
     public function afterHandle(HandlerEvent $event)
     {

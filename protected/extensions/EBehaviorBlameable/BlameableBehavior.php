@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Logs to every row who created and who updated it.
  * This may interests you when working in a group of
@@ -7,22 +8,20 @@
  * @copyright mintao GmbH & Co. KG
  * @author Florian Fackler <florian.fackler@mintao.com>
  * @license WTFPL Version 2 <http://sam.zoy.org/wtfpl/>
- * @package Yii framework
- * @subpackage db-behavior
+ *
  * @version 0.1 Beta
  */
-
 class BlameableBehavior extends CActiveRecordBehavior
 {
     /**
-     * Name of the column in the table where to write the creater user name
+     * Name of the column in the table where to write the creater user name.
      *
      * @param string $createdByColumn
      */
     public $createdByColumn = 'created_by';
 
     /**
-     * Name of the column in the table where to write the updater user name
+     * Name of the column in the table where to write the updater user name.
      *
      * @param string $updatedByColumn
      */
@@ -37,10 +36,10 @@ class BlameableBehavior extends CActiveRecordBehavior
     public $setUpdateOnCreate = true;
 
     /**
-     * Yii model behavior executed before a record set is saved
+     * Yii model behavior executed before a record set is saved.
      *
      * @param CModelEvent $event
-     * @return void
+     *
      * @author Florian Fackler
      */
     public function beforeSave(CModelEvent $event)
@@ -56,7 +55,7 @@ class BlameableBehavior extends CActiveRecordBehavior
             $this->getOwner()->tableSchema->columns
         );
 
-        if ($this->getOwner()->isNewRecord 
+        if ($this->getOwner()->isNewRecord
             && empty($this->getOwner()->{$this->createdByColumn})
         ) {
             if (in_array($this->createdByColumn, $availableColumns)) {
@@ -64,13 +63,14 @@ class BlameableBehavior extends CActiveRecordBehavior
             }
         }
 
-        if (true === $this->setUpdateOnCreate 
+        if (true === $this->setUpdateOnCreate
             && empty($this->getOwner()->{$this->updatedByColumn})
         ) {
             if (in_array($this->updatedByColumn, $availableColumns)) {
                 $this->getOwner()->{$this->updatedByColumn} = $username;
             }
         }
+
         return parent::beforeSave($event);
     }
 }

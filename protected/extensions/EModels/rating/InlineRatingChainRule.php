@@ -1,14 +1,15 @@
 <?php
+
 /**
- * InlineRatingChainRule class
+ * InlineRatingChainRule class.
  *
  * PHP version 5
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.rating
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  * @license    http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link       https://jviba.com/packages/php/docs
  */
 /**
@@ -19,30 +20,33 @@
  * PHP version 5
  * 
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.rating
+ *
  * @author     Evgeniy Marilev <marilev@jviba.com>
  * @license    http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link       https://jviba.com/packages/php/docs
  */
 class InlineRatingChainRule extends RatingChainRule
 {
     /**
-     * Rating chain model
+     * Rating chain model.
+     *
      * @var RatingModelChain
      */
     public $model;
-    
+
     /**
-     * Model's method name used for calculating rating part
+     * Model's method name used for calculating rating part.
+     *
      * @var string
      */
     public $method;
-    
+
     /**
-     * Inline rating part calculation
+     * Inline rating part calculation.
      * 
      * @return mixed rating part value
+     *
      * @see IRatingChainRule::calc()
      */
     public function calc()
@@ -53,6 +57,7 @@ class InlineRatingChainRule extends RatingChainRule
         if (!$method = $this->method) {
             throw new Exception('Rating model chain calculation method is undefined.');
         }
+
         return $model->$method();
     }
 }

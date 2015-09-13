@@ -1,59 +1,65 @@
 <?php
+
 /**
- * File for RecordsCustomOrderBehavior
+ * File for RecordsCustomOrderBehavior.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Alexander Melyakov <melyakov@jviba.com>
  * @license    http://jviba.com/packages/php/license GNU Public License
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 /**
  * RecordsCustomOrderBehavior is the AR behavior class which
- * allows to sort the records in order
+ * allows to sort the records in order.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Alexander Melyakov <melyakov@jviba.com>
  * @license    http://jviba.com/packages/php/license GNU Public License
+ *
  * @link       http://jviba.com/packages/php/docs
  */
 class RecordsCustomOrderBehavior extends CActiveRecordBehavior
 {
     /**
-     * Order attribute name
+     * Order attribute name.
+     *
      * @var string
      */
     public $orderAttribute = 'index';
 
     /**
-     * If needed re-index order attribute
+     * If needed re-index order attribute.
+     *
      * @var bool
      */
     public $reorderAfterDelete = true;
-    
+
     /**
-     * Database base criteria used for ordering records in table
+     * Database base criteria used for ordering records in table.
+     *
      * @var CDbCriteria|array
      */
     public $criteria = array();
-    
+
     /**
-     * Runtime base criteria parameters' expressions
+     * Runtime base criteria parameters' expressions.
+     *
      * @var array
      */
     public $params = array();
-    
+
     /**
-     * Base criteria cache
+     * Base criteria cache.
+     *
      * @var CDbCriteria
      */
     private $_baseCriteria;
-    
+
     /**
-     * Returns initialized base records search criteria
+     * Returns initialized base records search criteria.
      * 
      * @return CDbCriteria base criteria
      */
@@ -72,12 +78,13 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
                 }
             }
         }
+
         return $this->_baseCriteria;
     }
 
     /**
      * Responds to {@link CModel::onBeforeSave} event.
-     * Sets the values of the creation or modified attributes as configured
+     * Sets the values of the creation or modified attributes as configured.
      *
      * @param CModelEvent $event event parameter
      */
@@ -92,6 +99,7 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
     /**
      * Responds to {@link CActiveRecord::onAfterDelete} event.
      * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+     *
      * @param CEvent $event event parameter
      */
     public function afterDelete($event)
@@ -113,9 +121,9 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Gets max order index
+     * Gets max order index.
      *
-     * @return integer max index
+     * @return int max index
      */
     protected function getMaxIndex()
     {
@@ -126,13 +134,14 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
             $owner->tableName(),
             $criteria
         );
+
         return $command->queryScalar();
     }
 
     /**
-     * Gets min order index
+     * Gets min order index.
      *
-     * @return integer min index
+     * @return int min index
      */
     protected function getMinIndex()
     {
@@ -143,13 +152,14 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
             $owner->tableName(),
             $criteria
         );
+
         return $command->queryScalar();
     }
 
     /**
-     * Gets previous index for owner record
+     * Gets previous index for owner record.
      *
-     * @return integer previous index
+     * @return int previous index
      */
     protected function getPrevIndex()
     {
@@ -163,13 +173,14 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
             $owner->tableName(),
             $criteria
         );
+
         return $command->queryScalar($criteria->params);
     }
 
     /**
-     * Gets next index for owner record
+     * Gets next index for owner record.
      *
-     * @return integer next index
+     * @return int next index
      */
     protected function getNextIndex()
     {
@@ -183,11 +194,12 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
             $owner->tableName(),
             $criteria
         );
+
         return $command->queryScalar($criteria->params);
     }
 
     /**
-     * Moves the record to the top of one position
+     * Moves the record to the top of one position.
      *
      * @return bool
      */
@@ -201,13 +213,15 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
             $prev = $this->findByIndex($prevIndex);
             $owner->{$attribute} = $prevIndex;
             $prev->{$attribute} = $index;
+
             return $owner->save(true, array($attribute)) && $prev->save(true, array($attribute));
         }
+
         return true;
     }
 
     /**
-     * Moves the record to the bottom of one position
+     * Moves the record to the bottom of one position.
      *
      * @return bool
      */
@@ -221,26 +235,30 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
             $next = $this->findByIndex($nextIndex);
             $owner->{$attribute} = $nextIndex;
             $next->{$attribute} = $index;
+
             return $owner->save(true, array($attribute)) && $next->save(true, array($attribute));
         }
+
         return true;
     }
 
     /**
-     * Gets record by order index
+     * Gets record by order index.
      *
      * @param $index index
+     *
      * @return CActiveRecord
      */
     public function findByIndex($index)
     {
         $criteria = clone $this->getBaseCriteria();
-        $criteria->compare('t.' . $this->orderAttribute, $index);
+        $criteria->compare('t.'.$this->orderAttribute, $index);
+
         return CActiveRecord::model(get_class($this->getOwner()))->find($criteria);
     }
 
     /**
-     * Checks if record can be up
+     * Checks if record can be up.
      *
      * @return bool
      */
@@ -250,7 +268,7 @@ class RecordsCustomOrderBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Checks if record can be down
+     * Checks if record can be down.
      *
      * @return bool
      */

@@ -1,100 +1,107 @@
 <?php
+
 /**
- * RatingModel class
+ * RatingModel class.
  *
  * PHP version 5
  *
  * @category Packages
- * @package  Ext.model
+ *
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/packages/php/docs
  * @abstract
  */
 /**
- * RatingModel is the base model class for rating models
+ * RatingModel is the base model class for rating models.
  * 
  * PHP version 5
  * 
  * @category Packages
- * @package  Ext.model
+ *
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/packages/php/docs
  * @abstract
  */
 abstract class RatingModel extends CModel implements ICacheableEntity
 {
     /**
-     * Rating cache
+     * Rating cache.
+     *
      * @var mixed
      */
     private $_rating;
-    
+
     /**
-     * Calculates rating and returns it's value
+     * Calculates rating and returns it's value.
      * 
      * @return mixed rating value
      */
-    protected abstract function calc();
-    
+    abstract protected function calc();
+
     /**
      * Loads internal entity's data
-     * Do not call this method manually
+     * Do not call this method manually.
      * 
      * @return mixed loaded data
+     *
      * @see ICacheableEntity::loadData()
      */
     public function loadData()
     {
         return $this->calc();
     }
-    
+
     /**
-     * Returns rating cache dependency
+     * Returns rating cache dependency.
      * 
      * @return mixed cache dependency
+     *
      * @see ICacheableEntity::getDataCacheDependency()
      */
     public function getDataCacheDependency()
     {
-        return null;
+        return;
     }
-    
+
     /**
-     * Returns whether form data was changed
+     * Returns whether form data was changed.
      * 
-     * @return boolean whether data was changed
+     * @return bool whether data was changed
+     *
      * @see ICacheableEntity::getIsDataChanged()
      */
     public function getIsDataChanged()
     {
         $cacheId = $this->getDataCacheId();
+
         return Yii::app()->cache->get($cacheId) === false;
     }
-    
+
     /**
-     * Startup initialization
-     * 
-     * @return void
+     * Startup initialization.
      */
     public function init()
     {
     }
-    
+
     /**
-     * Returns the list of attribute names of the model
+     * Returns the list of attribute names of the model.
      * 
      * @return array list of attribute names
+     *
      * @see CModel::attributeNames()
      */
     public function attributeNames()
     {
         return array();
     }
-    
+
     /**
-     * Returns cached rating value
+     * Returns cached rating value.
      * 
      * @return mixed rating value
      */
@@ -102,21 +109,22 @@ abstract class RatingModel extends CModel implements ICacheableEntity
     {
         return $this->_rating;
     }
-    
+
     /**
-     * Directly clears cached rating value
+     * Directly clears cached rating value.
      * 
-     * @return boolean whether operation completed successfully
+     * @return bool whether operation completed successfully
      */
     public function clearCache()
     {
         $cacheId = $this->getDataCacheId();
         Yii::app()->cache->delete($cacheId);
+
         return true;
     }
-    
+
     /**
-     * Returns rating value and caches it before returning
+     * Returns rating value and caches it before returning.
      * 
      * @param bool $refresh whether required to recalculate and recache rating
      * 
@@ -135,15 +143,15 @@ abstract class RatingModel extends CModel implements ICacheableEntity
                 $this->displayErrors($errors);
             }
         }
+
         return $this->_rating;
     }
-    
+
     /**
-     * Displays validation errors
+     * Displays validation errors.
      * 
      * @param array &$data errors map
      * 
-     * @return void
      * @throws Exception
      */
     protected function displayErrors(&$data)
@@ -157,9 +165,9 @@ abstract class RatingModel extends CModel implements ICacheableEntity
         $message = Yii::t('app', $message, $params);
         throw new ValidationException($message);
     }
-    
+
     /**
-     * Handles callback before calculating rating
+     * Handles callback before calculating rating.
      * 
      * @return bool whether rating should be recalculated
      */
@@ -167,13 +175,12 @@ abstract class RatingModel extends CModel implements ICacheableEntity
     {
         $cacheId = $this->getDataCacheId();
         $ret = ($this->_rating = Yii::app()->cache->get($cacheId)) === false;
+
         return $ret;
     }
-    
+
     /**
-     * Handles callback after calculating rating
-     * 
-     * @return void
+     * Handles callback after calculating rating.
      */
     protected function afterCalculate()
     {

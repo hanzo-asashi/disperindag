@@ -1,0 +1,173 @@
+// Variable
+$black : #373e4a;
+
+.no-padding {
+	padding: 0 !important;
+}
+
+.no-margin {
+	margin: 0 !important;
+}
+
+.tile-stats {
+	a {
+		color: #fff !important;
+		text-decoration: underline;
+	}
+}
+
+.mail-select-options {
+	.btn-sm {
+		margin-top: -5px !important;
+		margin-right: 5px !important;
+	}
+}
+
+textarea {
+	max-width: 100%;
+}
+
+.tag {
+	margin-top: 3px;
+	margin-bottom: 2px;
+}
+
+.btn {
+	&:hover, &:focus, &:visited, &:active {
+		opacity: 1 !important;
+	}
+	&-success {
+		color: #fff;
+		background-color: #00a651;
+		border-color: #00a651;
+		&:hover, &:focus, &:visited, &:active {
+			color: #fff;
+			background-color: #007d3d;
+			border-color: #006933;
+		}
+	}
+	&-danger {
+		color: #fff;
+		background-color: #d42020;
+		border-color: #d42020;
+		&:hover, &:focus, &:visited, &:active {
+			color: #fff;
+			background-color: #b11b1b;
+			border-color: #9f1818;
+		}
+	}
+	&-warning {
+		color: #846e20;
+		background-color: #fcd036;
+		border-color: #fcd036;
+		&:hover, &:focus, &:visited, &:active {
+			color: #846e20;
+			background-color: #fbc70e;
+			border-color: #f1bc04;
+		}
+	}
+	&-info {
+		color: #ffffff;
+		background-color: #21a9e1;
+		border-color: #21a9e1;
+		&:hover, &:focus, &:visited, &:active {
+			color: #fff;
+			background-color: #1a8fbf;
+			border-color: #1782ad;
+		}
+	}
+	&-lg {
+		padding-top: 11px !important;
+		padding-bottom: 11px !important;
+	}
+
+	&-block {
+		width: 100%;
+	}
+
+	&-icon {
+		&.btn {
+			padding-right: 42px;
+		}
+		i {
+			background-color: #166D40;
+			padding: 6px 6px;
+			font-size: 12px;
+			line-height: 1.42857143;
+			border-radius: 3px;
+			-webkit-background-clip: padding-box;
+			-moz-background-clip: padding;
+			background-clip: padding-box;
+			-webkit-border-radius: 0 3px 3px 0;
+			-moz-border-radius: 0 3px 3px 0;
+			border-radius: 0 3px 3px 0;
+		}
+	}
+}
+
+
+.alert-empty {
+	font-size: 30px;
+	display: none;
+	td {
+		padding-top: 100px !important;
+		padding-bottom: 100px !important;
+	}
+}
+
+.mail-table {
+	tbody {
+		tr:last-child {
+			td {
+				border-bottom: 0 !important;
+			}
+		}
+	}
+}
+
+.post-title {
+	font-size: 18px;
+	height: auto;
+	border: none;
+}
+
+.mail-menu{
+	.custom {
+		padding: 20px !important;
+		&:last-child {
+			border-bottom: 0 !important;
+		}
+		.panel {
+			margin-bottom: 0;
+			.panel-title {
+				width: 100%;
+			}
+			.panel-body {
+				color: $black;
+				a {
+					padding: 0 !important;
+					color: #999;
+					&:hover {
+						color: #666;
+					}
+				}
+				.checkbox {
+					margin-bottom: 15px;
+				}
+			}
+		}
+	}
+}
+
+.input-single {
+	padding: 10px 15px;
+	border: none;
+	outline: none;
+	width: 100%;
+}
+
+.modal-body {
+	a.a {
+		color: #3498db;
+	}
+}

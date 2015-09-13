@@ -1,12 +1,12 @@
 <?php
 
 /**
-* CCompoment Mock
-*/
+ * CCompoment Mock.
+ */
 class CComponent
 {
-  function __construct()
-  {
-    $this->init();
-  }
+    public function __construct()
+    {
+        $this->init();
+    }
 }

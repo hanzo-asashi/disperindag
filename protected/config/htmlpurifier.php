@@ -1,4 +1,8 @@
-<?php if ( ! defined('YII_PATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('YII_PATH')) {
+    exit('No direct script access allowed');
+}
 
 return array(
 
@@ -32,15 +36,15 @@ return array(
         'href','rel','target','src', 'style',
     ),
     */
-    'HTML.Doctype'          =>  'XHTML 1.0 Transitional',
-    'URI.AllowedSchemes'    =>  array(
-        'http'      => true,
-        'https'     => true,
-        'mailto'    => true,
-        'ftp'       => true,
-        'nntp'      => true,
-        'news'      => true,
+    'HTML.Doctype' => 'XHTML 1.0 Transitional',
+    'URI.AllowedSchemes' => array(
+        'http' => true,
+        'https' => true,
+        'mailto' => true,
+        'ftp' => true,
+        'nntp' => true,
+        'news' => true,
     ),
-    'URI.Base'=>NULL,
-    
+    'URI.Base' => null,
+
 );

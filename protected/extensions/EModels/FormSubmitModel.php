@@ -1,23 +1,26 @@
 <?php
+
 /**
- * FormSubmitModel class
+ * FormSubmitModel class.
  *
  * PHP version 5
  *
  * @category Packages
- * @package  Ext.model
+ *
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/packages/php/docs
  * @abstract
  */
 /**
- * FormSubmitModel is the base model class used for processing form submit
+ * FormSubmitModel is the base model class used for processing form submit.
  * 
  * @category Packages
- * @package  Ext.model
+ *
  * @author   Evgeniy Marilev <marilev@jviba.com>
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link     https://jviba.com/packages/php/docs
  * @abstract
  */
@@ -25,27 +28,31 @@ abstract class FormSubmitModel extends CFormModel
 {
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
-    
+
     /**
-     * Timestamp when form was rendered
-     * @var integer
+     * Timestamp when form was rendered.
+     *
+     * @var int
      */
     public $renderTime;
-    
+
     /**
-     * Whether model changes is submitted
+     * Whether model changes is submitted.
+     *
      * @var bool
      */
     private $_isSubmitted = false;
-    
+
     /**
-     * Wheher need to throw an exception on validation error
-     * @var boolean
+     * Wheher need to throw an exception on validation error.
+     *
+     * @var bool
      */
     private $_exceptOnValidationError = false;
-    
+
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see CFormModel::init()
      */
     public function init()
@@ -53,9 +60,10 @@ abstract class FormSubmitModel extends CFormModel
         $this->renderTime = time();
         parent::init();
     }
-    
+
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see CModel::rules()
      */
     public function rules()
@@ -64,21 +72,19 @@ abstract class FormSubmitModel extends CFormModel
             array('renderTime', 'numerical', 'integerOnly' => true),
         );
     }
-    
+
     /**
-     * Changes model submitted state
+     * Changes model submitted state.
      * 
      * @param bool $value model submitted state
-     * 
-     * @return void
      */
     public function setIsSubmitted($value)
     {
         $this->_isSubmitted = $value;
     }
-    
+
     /**
-     * Returns whether model is submitted
+     * Returns whether model is submitted.
      * 
      * @return bool whether model is submitted
      */
@@ -86,42 +92,38 @@ abstract class FormSubmitModel extends CFormModel
     {
         return $this->_isSubmitted;
     }
-    
+
     /**
-     * Sets whether need except on validation error
+     * Sets whether need except on validation error.
      * 
-     * @param boolean $value whether need except
-     * 
-     * @return void
+     * @param bool $value whether need except
      */
     public function setExceptOnValidationError($value)
     {
         $this->_exceptOnValidationError = $value;
     }
-    
+
     /**
-     * Returns whether need except on validation error
+     * Returns whether need except on validation error.
      * 
-     * @return boolean whether need except
+     * @return bool whether need except
      */
     public function getExceptOnValidationError()
     {
         return $this->_exceptOnValidationError;
     }
-    
+
     /**
      * Initializes model attribute values
      * Override this method whether model required to get initial attributes
      * before working with it.
-     * 
-     * @return void
      */
     public function initAttributes()
     {
     }
-    
+
     /**
-     * Returns filled attributes data
+     * Returns filled attributes data.
      * 
      * @return array filled attibutes
      */
@@ -134,18 +136,19 @@ abstract class FormSubmitModel extends CFormModel
                 $attributes[$name] = $this->$name;
             }
         }
+
         return $attributes;
     }
-    
+
     /**
-     * Handles applying changes with database
+     * Handles applying changes with database.
      * 
      * @return bool whether changes applied successfully
      */
-    protected abstract function onSubmit();
-    
+    abstract protected function onSubmit();
+
     /**
-     * Handles form submit proccess
+     * Handles form submit proccess.
      * 
      * @param bool $runValidation whether validation required
      * 
@@ -158,6 +161,7 @@ abstract class FormSubmitModel extends CFormModel
                 try {
                     if ($this->onSubmit()) {
                         $this->afterSubmit();
+
                         return true;
                     }
                     $this->onSubmitFailure();
@@ -166,15 +170,16 @@ abstract class FormSubmitModel extends CFormModel
                     throw $e;
                 }
             }
-        } else if ($this->getExceptOnValidationError()) {
+        } elseif ($this->getExceptOnValidationError()) {
             $errors = $this->getErrors();
             $this->displayErrors($errors);
         }
+
         return false;
     }
-    
+
     /**
-     * Handles form presubmitting
+     * Handles form presubmitting.
      * 
      * @return bool whether form is presubmitted
      */
@@ -184,17 +189,18 @@ abstract class FormSubmitModel extends CFormModel
         if ($this->hasEventHandler('onBeforeSubmit')) {
             $event = new CModelEvent($this);
             $this->onBeforeSubmit($event);
+
             return $event->isValid;
         }
+
         return true;
     }
-    
+
     /**
-     * Displays validation errors
+     * Displays validation errors.
      * 
      * @param array &$data errors map
      * 
-     * @return void
      * @throws Exception
      */
     public function displayErrors(&$data)
@@ -207,11 +213,9 @@ abstract class FormSubmitModel extends CFormModel
         $message = Yii::t('assert', 'There are following model validation errors: "{ERRORS}"', $params);
         throw new ValidationException($message);
     }
-    
+
     /**
-     * Handles form postsubmitting
-     * 
-     * @return void
+     * Handles form postsubmitting.
      */
     protected function afterSubmit()
     {
@@ -220,13 +224,11 @@ abstract class FormSubmitModel extends CFormModel
             $this->onAfterSubmit(new CModelEvent($this));
         }
     }
-    
+
     /**
-     * Calls whether submitting process failed
+     * Calls whether submitting process failed.
      * 
      * @param Exception $exception posible exception
-     * 
-     * @return void
      */
     protected function onSubmitFailure($exception = null)
     {
@@ -236,25 +238,21 @@ abstract class FormSubmitModel extends CFormModel
             $this->addError('exception', $message);
         }
     }
-    
+
     /**
-     * This method is invoked before the model submit process is completed successfully
+     * This method is invoked before the model submit process is completed successfully.
      * 
      * @param CEvent $event event object
-     * 
-     * @return void
      */
     public function onBeforeSubmit($event)
     {
         $this->raiseEvent('onBeforeSubmit', $event);
     }
-    
+
     /**
-     * This method is invoked after the model submit process is completed successfully
+     * This method is invoked after the model submit process is completed successfully.
      * 
      * @param CEvent $event event object
-     * 
-     * @return void
      */
     public function onAfterSubmit($event)
     {

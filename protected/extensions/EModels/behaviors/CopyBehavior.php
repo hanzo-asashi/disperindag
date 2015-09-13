@@ -1,32 +1,34 @@
 <?php
+
 /**
- * File for CopyBehavior
+ * File for CopyBehavior.
  *
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Evgeniy Marilev <marilev@algo-rithm.com>
  * @license    http://algo-rithm.com/packages/php/license GNU Public License
+ *
  * @link       http://algo-rithm.com/packages/php/docs
  */
 /**
- * CopyBehavior class allows to copy active record with related data
+ * CopyBehavior class allows to copy active record with related data.
  * 
  * @category   Packages
- * @package    Ext.model
- * @subpackage Ext.model.behavior
+ *
  * @author     Evgeniy Marilev <marilev@algo-rithm.com>
  * @license    http://algo-rithm.com/packages/php/license GNU Public License
+ *
  * @link       http://algo-rithm.com/packages/php/docs
  */
 class CopyBehavior extends CActiveRecordBehavior
 {
     /**
-     * Attributes names to force copy
+     * Attributes names to force copy.
+     *
      * @var array
      */
     public $forceCopyAttributes = array();
-    
+
     /**
      * @var array names of attributes to skip during {@link copyAttributes}
      */
@@ -34,21 +36,22 @@ class CopyBehavior extends CActiveRecordBehavior
 
     /**
      * @var mixed boolean true to copy all has one relations or array with relation names to copy.
-     * Default true.
+     *            Default true.
+     *
      * @see copyHasOneRelations}
      */
     public $hasOne = true;
 
     /**
-     *
      * @var array options to copy has-many relations.
+     *
      * @see  copyHasManyRelations
      */
     public $hasMany = array();
 
     /**
-     *
      * @var array options to copy many-many relations.
+     *
      * @see  copyManyManyRelations
      */
     public $manyMany = array();
@@ -60,7 +63,7 @@ class CopyBehavior extends CActiveRecordBehavior
      * @param array         $skipAttributes attribute names for ignoring
      * @param array         $values         additional values
      * 
-     * @return boolean whether operation success
+     * @return bool whether operation success
      */
     public function copyFrom($from, $skipAttributes = array(), $values = array())
     {
@@ -77,7 +80,7 @@ class CopyBehavior extends CActiveRecordBehavior
         self::copyAttributes($from, $owner, $skipAttributes, $this->forceCopyAttributes);
         $owner->setAttributes($values);
         if (!$owner->save(false)) {
-            throw new CException("Can not save record after copy. " . CHtml::errorSummary($owner) );
+            throw new CException('Can not save record after copy. '.CHtml::errorSummary($owner));
         }
 
         self::copyHasOneRelations($from, $owner, $this->hasOne);
@@ -94,15 +97,13 @@ class CopyBehavior extends CActiveRecordBehavior
      * @param CActiveRecord $to                  record to copy to
      * @param array         $skipAttributes      attribute names which should not be copied
      * @param array         $forceCopyAttributes attribute names which should be force copied
-     * 
-     * @return void
      */
     protected static function copyAttributes($from, $to, $skipAttributes = array(), $forceCopyAttributes = array())
     {
         $attributes = $from->getAttributes();
         $pk = $to->getMetaData()->tableSchema->primaryKey;
         if (!is_array($pk)) {
-           $skipAttributes[] = $pk;
+            $skipAttributes[] = $pk;
         } else {
             $skipAttributes = array_merge($skipAttributes, $pk);
         }
@@ -117,22 +118,22 @@ class CopyBehavior extends CActiveRecordBehavior
      * Copies "has one" relations for specified active records.
      * Related records should have {@link CopyBehavior} attached.
      * 
-     * @param CActiveRecord $from record to copy from
-     * @param CActiveRecord $to record to copy to
-     * @param mixed $hasOne boolean true to copy all "has one" relations or array with relation names to copy.
-     * 
-     * @return void
+     * @param CActiveRecord $from   record to copy from
+     * @param CActiveRecord $to     record to copy to
+     * @param mixed         $hasOne boolean true to copy all "has one" relations or array with relation names to copy.
      */
-    static function copyHasOneRelations($from, $to, $hasOne = array())
+    public static function copyHasOneRelations($from, $to, $hasOne = array())
     {
-        if (!$hasOne) return;
-
-        if (!$to->primaryKey) {
-            throw new CException("Can not copy relations for new record");
+        if (!$hasOne) {
+            return;
         }
 
-        foreach($from->getMetaData()->relations as $key => $relation) {
-            if( $relation instanceof CHasOneRelation &&
+        if (!$to->primaryKey) {
+            throw new CException('Can not copy relations for new record');
+        }
+
+        foreach ($from->getMetaData()->relations as $key => $relation) {
+            if ($relation instanceof CHasOneRelation &&
                 isset($from->$key) &&
                 (
                   $hasOne === true ||
@@ -143,7 +144,9 @@ class CopyBehavior extends CActiveRecordBehavior
                 )
              ) {
                 //copy one-one related record
-                if(!isset($to->$key)) $to->$key = new $relation->className;
+                if (!isset($to->$key)) {
+                    $to->$key = new $relation->className();
+                }
                 if ($to->$key->asa('CopyBehavior')) {
                     $to->$key->{$relation->foreignKey} = $to->primaryKey;
                     $to->$key->copyFrom($from->$key, array($relation->foreignKey));
@@ -161,22 +164,22 @@ class CopyBehavior extends CActiveRecordBehavior
      * Copies "has many" relations for specified active records.
      * Related records should have {@link CopyBehavior} attached.
      * 
-     * @param CActiveRecord $from record to copy from
-     * @param CActiveRecord $to record to copy to
-     * @param arrray $hasMany array with relation names to copy.
-     * 
-     * @return void
+     * @param CActiveRecord $from    record to copy from
+     * @param CActiveRecord $to      record to copy to
+     * @param arrray        $hasMany array with relation names to copy.
      */
     protected static function copyHasManyRelations($from, $to, $hasMany)
     {
-        if (!$hasMany) return;
+        if (!$hasMany) {
+            return;
+        }
 
         if (!$to->primaryKey) {
-            throw new CException("Can not copy relations for new record");
+            throw new CException('Can not copy relations for new record');
         }
 
         foreach ($from->getMetaData()->relations as $key => $relation) {
-            if ($relation instanceOf CHasManyRelation &&
+            if ($relation instanceof CHasManyRelation &&
                 isset($from->$key) &&
                 (
                   $hasMany === true ||
@@ -187,7 +190,7 @@ class CopyBehavior extends CActiveRecordBehavior
                 )
              ) {
                 //copy one-many related records
-                $model = new $relation->className;
+                $model = new $relation->className();
                 if ($model->asa('CopyBehavior')) {
                     $oldRecords = $to->$key;
                     foreach ($oldRecords as $oldRecord) {
@@ -195,7 +198,7 @@ class CopyBehavior extends CActiveRecordBehavior
                     }
                     $records = $from->$key;
                     foreach ($records as $record) {
-                        $newRecord = new $relation->className;
+                        $newRecord = new $relation->className();
                         $primaryAttributes = self::_resolvePrimaryAttributes($record);
                         if (count($primaryAttributes) > 1) {
                             $newRecord->setAttributes($primaryAttributes);
@@ -218,32 +221,30 @@ class CopyBehavior extends CActiveRecordBehavior
      * Copies "many many" relations for specified active records.
      * Related records should have {@link CopyBehavior} attached.
      * 
-     * @param CActiveRecord $from record to copy from
-     * @param CActiveRecord $to record to copy to
-     * @param array $manyMany many-many relations copy options
-     * Array key should be relation name and value is an array of copy options:
-     * 'class' - model class for the links table (many-many table), required.
-     * 'deep' - boolean, whether to do deep copy (create copies of related objects), default false.
-     * 'cleanRelated' - boolean, whether to delete records from the related table
-     * if after copy there are no references to these records from the links table, default false.
-     * For example
-     * <pre>
-     * CopyBehavior' => array(
-     *     'class' => 'application.models.sandbox.CopyBehavior',
-     *     'skipAttributes' => array('revision_type'),
-     *     'manyMany'=>array(
-     *         'features'=>array('class'=>'AppRevisionHasAppFeature', 'deep'=>true, 'cleanRelated'=>true),
-     *         'all_files'=>array('class'=>'AppRevisionHasAppFile'),
-     *      ),
-     * )
-     * </pre>
-     * 
-     * @return void
+     * @param CActiveRecord $from     record to copy from
+     * @param CActiveRecord $to       record to copy to
+     * @param array         $manyMany many-many relations copy options
+     *                                Array key should be relation name and value is an array of copy options:
+     *                                'class' - model class for the links table (many-many table), required.
+     *                                'deep' - boolean, whether to do deep copy (create copies of related objects), default false.
+     *                                'cleanRelated' - boolean, whether to delete records from the related table
+     *                                if after copy there are no references to these records from the links table, default false.
+     *                                For example
+     *                                <pre>
+     *                                CopyBehavior' => array(
+     *                                'class' => 'application.models.sandbox.CopyBehavior',
+     *                                'skipAttributes' => array('revision_type'),
+     *                                'manyMany'=>array(
+     *                                'features'=>array('class'=>'AppRevisionHasAppFeature', 'deep'=>true, 'cleanRelated'=>true),
+     *                                'all_files'=>array('class'=>'AppRevisionHasAppFile'),
+     *                                ),
+     *                                )
+     *                                </pre>
      */
     protected static function copyManyManyRelations($from, $to, $manyMany)
     {
         if (!$to->primaryKey) {
-            throw new CException("Can not copy relations for new record");
+            throw new CException('Can not copy relations for new record');
         }
 
         //TODO: refactor this code to relations object (not array configs) same as "copyHasManyRelations" or "copyHasOneRelations"
@@ -253,8 +254,12 @@ class CopyBehavior extends CActiveRecordBehavior
             if (!isset($options['class'])) {
                 throw new CException("Required option 'class' is not specified for many-many relation");
             }
-            if (!isset($options['deep'])) $options['deep'] = false;
-            if (!isset($options['cleanRelated'])) $options['cleanRelated'] = false;
+            if (!isset($options['deep'])) {
+                $options['deep'] = false;
+            }
+            if (!isset($options['cleanRelated'])) {
+                $options['cleanRelated'] = false;
+            }
 
             list($m2mTable, $m2mThisField, $m2mForeignField) =
                 self::parseManyMany($relations[$key]);
@@ -266,15 +271,15 @@ class CopyBehavior extends CActiveRecordBehavior
             //copy links (and data in the case of deep copy)
             $links = $linkModel->findAllByAttributes(array($m2mThisField => $from->primaryKey));
             foreach ($links as $link) {
-                $newLink = new $options['class'];
+                $newLink = new $options['class']();
                 self::copyAttributes($link, $newLink);
-                $newLink->$m2mThisField =  $to->primaryKey;
+                $newLink->$m2mThisField = $to->primaryKey;
                 if (!$options['deep']) {
                     $newLink->$m2mForeignField = $link->$m2mForeignField;
                 } else {
                     //deep copy
                     $foreignClass = $relations[$key]['1'];
-                    $foreignNew = new $foreignClass;
+                    $foreignNew = new $foreignClass();
                     $foreignOld = call_user_func(array($foreignClass, 'model'))
                         ->findByPk($link->$m2mForeignField);
                     if ($foreignNew->asa('CopyBehavior')) {
@@ -285,7 +290,7 @@ class CopyBehavior extends CActiveRecordBehavior
                     $newLink->$m2mForeignField = $foreignNew->primaryKey;
                 }
                 if (!$newLink->save()) {
-                    throw new CException("Can not save many-many link, $m2mTable: " .
+                    throw new CException("Can not save many-many link, $m2mTable: ".
                         CHtml::errorSummary($newLink));
                 }
             }
@@ -296,9 +301,9 @@ class CopyBehavior extends CActiveRecordBehavior
             }
         }
     }
-    
+
     /**
-     * Resolves primary key attributes (name => value)
+     * Resolves primary key attributes (name => value).
      * 
      * @param CActiveRecord $record record to resolve primary key
      * 
@@ -316,21 +321,19 @@ class CopyBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Clears many-many relations
+     * Clears many-many relations.
      * 
      * @param array $relation relation config
-     * 
-     * @return void
      */
-    static function cleanManyManyRelation($relation)
+    public static function cleanManyManyRelation($relation)
     {
-        $foreignModel =  call_user_func(array($relation['1'], 'model'));
+        $foreignModel = call_user_func(array($relation['1'], 'model'));
         $foreignModelKey = CActiveRecord::model($relation['1'])->tableSchema->primaryKey;
         list($m2mTable, $m2mThisField, $m2mForeignField) =
                 self::parseManyMany($relation);
 
         $condition =
-            "$foreignModelKey not in ( select $m2mForeignField" .
+            "$foreignModelKey not in ( select $m2mForeignField".
             " from $m2mTable ) ";
         //deleteAll does not invokes afterDelete for records
         //$data = $model->deleteAll($condition);
@@ -342,7 +345,7 @@ class CopyBehavior extends CActiveRecordBehavior
         }
     }
 
-    static function parseManyMany($relation)
+    public static function parseManyMany($relation)
     {
         if ($relation['0'] != CActiveRecord::MANY_MANY) {
             throw new CException("Relation {$relation['1']} is not many-many relation");
@@ -354,6 +357,4 @@ class CopyBehavior extends CActiveRecordBehavior
             throw new CException("Can not parse many-many relation: {$relation['2']}");
         }
     }
-
-
 }

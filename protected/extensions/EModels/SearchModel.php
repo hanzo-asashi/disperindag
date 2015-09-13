@@ -1,14 +1,16 @@
 <?php
+
 /**
- * SearchModel class
+ * SearchModel class.
  *
  * PHP version 5
  *
  * @category  Packages
- * @package   Ext.model
+ *
  * @author    Evgeniy Marilev <marilev@jviba.com>
  * @copyright 2011 5-SOFT
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link      https://jviba.com/packages/php/docs
  */
 Yii::import('packages.extensions.models.interfaces.ISearchModel');
@@ -17,13 +19,14 @@ Yii::import('packages.extensions.models.interfaces.ISortable');
 Yii::import('packages.extensions.models.interfaces.IFilterable');
 Yii::import('packages.extensions.models.interfaces.IFilterModel');
 /**
- * SearchModel is the base search model class used for searching data
+ * SearchModel is the base search model class used for searching data.
  * 
  * @category  Packages
- * @package   Ext.model
+ *
  * @author    Evgeniy Marilev <marilev@jviba.com>
  * @copyright 2011 5-SOFT
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
+ *
  * @link      https://jviba.com/packages/php/docs
  */
 abstract class SearchModel extends CFormModel implements ISearchModel,
@@ -33,90 +36,100 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
                                                          IFilterModel
 {
     const DEFAULT_PAGE_SIZE = 20;
-    
+
     const SORT_ORDER_ALPHABETICAL = 'alpha';
     const SORT_ORDER_DATE = 'date';
     const SORT_ORDER_RANDOM = 'random';
-    
+
     const SORT_DIRECTION_ASC = 'asc';
     const SORT_DIRECTION_DESC = 'desc';
-    
+
     /**
-     * Model class name used for searching
+     * Model class name used for searching.
+     *
      * @var string
      */
     private $_itemClass;
-    
+
     /**
-     * Cached data provider
+     * Cached data provider.
+     *
      * @var CDataProvider
      */
     private $_dataProvider;
-    
+
     /**
-     * Count of items per page
-     * @var integer
+     * Count of items per page.
+     *
+     * @var int
      */
     private $_count;
-    
+
     /**
-     * Sort order
+     * Sort order.
+     *
      * @var string|array
      */
     private $_order;
-    
+
     /**
-     * Sort direction
+     * Sort direction.
+     *
      * @var string
      */
     private $_direction;
 
     /**
-     * Active page index
-     * @var integer
+     * Active page index.
+     *
+     * @var int
      */
     private $_page;
-    
+
     /**
-     * Scopes cache
+     * Scopes cache.
+     *
      * @var array
      */
     private $_scopes = array();
-    
+
     /**
-     * Attached filters
+     * Attached filters.
+     *
      * @var array
      */
     private $_filters = array();
-    
+
     /**
-     * Whether required to throw validation errors as exceptions
-     * @var boolean
+     * Whether required to throw validation errors as exceptions.
+     *
+     * @var bool
      */
     public $displayValidationErrorsAsExceptions = true;
-    
+
     /**
-     * Whether required to cache builded data provider
-     * @var boolean
+     * Whether required to cache builded data provider.
+     *
+     * @var bool
      */
     public $cacheData = false;
-    
+
     /**
-     * Custom seleted field
+     * Custom seleted field.
+     *
      * @var string|array
      */
     public $select;
-    
+
     /**
-     * Cache life time (in seconds)
-     * @var integer
+     * Cache life time (in seconds).
+     *
+     * @var int
      */
     public $cacheDuration = 3600;
-    
+
     /**
-     * Initializes default values
-     * 
-     * @return void
+     * Initializes default values.
      */
     public function init()
     {
@@ -127,11 +140,12 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
         $this->setSortOrder($this->getDefaultSortOrder());
         $this->setSortDirection($this->getDefaultSortDirection());
     }
-    
+
     /**
-     * Returns validation rules map
+     * Returns validation rules map.
      *
      * @return array validation rules
+     *
      * @see CModel::rules()
      */
     public function rules()
@@ -142,21 +156,19 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
             array('sortOrder', 'in', 'range' => $this->getAvailableSortOrders()),
         );
     }
-    
+
     /**
-     * Sets result set item class name
+     * Sets result set item class name.
      * 
      * @param string $class item class name
-     * 
-     * @return void
      */
     public function setItemClass($class)
     {
         $this->_itemClass = $class;
     }
-    
+
     /**
-     * Returns result set item object class
+     * Returns result set item object class.
      * 
      * @return string model class name
      */
@@ -164,28 +176,27 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
     {
         return $this->_itemClass;
     }
-    
+
     /**
-     * Returns cache ID of search model
+     * Returns cache ID of search model.
      * 
      * @return string cache ID
      */
     public function getCacheId()
     {
         return get_class($this)
-             . '_pg_' . $this->getPageIndex()
-             . '_cnt_' . $this->getPageSize()
-             . '_ord_' . $this->buildSortOrderHash('md5')
-             . '_dir_' . $this->getSortDirection()
-             . '_scps_' . implode(',', $this->getScopes())
-             . '_attrs_' . $this->buildAttributesHash('md5');
+             .'_pg_'.$this->getPageIndex()
+             .'_cnt_'.$this->getPageSize()
+             .'_ord_'.$this->buildSortOrderHash('md5')
+             .'_dir_'.$this->getSortDirection()
+             .'_scps_'.implode(',', $this->getScopes())
+             .'_attrs_'.$this->buildAttributesHash('md5');
     }
-    
+
     /**
-     * Builds unique hash of current attributes of the model
+     * Builds unique hash of current attributes of the model.
      * 
      * @param string hash algorithm name
-     * 
      * @param string $algorithm hash algorithm name. Null means no raw data should be returned.
      * 
      * @return string attributes unique hash
@@ -194,16 +205,17 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
     {
         $data = '';
         foreach ($this->getAttributes() as $name => $value) {
-            $data .= '_' . $name . '_' . $value;
+            $data .= '_'.$name.'_'.$value;
         }
+
         return $algorithm === null ? $data : hash($algorithm, $data);
     }
-    
+
     /**
-     * Builds sort order hash string
+     * Builds sort order hash string.
      * 
-     * @param string $algorithm hash algorithm name. Null means no raw data should be returned.
-     *  
+     * @param  string $algorithm hash algorithm name. Null means no raw data should be returned.
+     *                            
      * @return string sort order unique hash
      */
     public function buildSortOrderHash($algorithm = null)
@@ -214,19 +226,20 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
             foreach ($order as $item) {
                 if (is_string($item)) {
                     $data .= $item;
-                } else if (is_array($item)) {
+                } elseif (is_array($item)) {
                     list($name, $value) = $item;
-                    $data .= '_' . $name . '_' . $value;
+                    $data .= '_'.$name.'_'.$value;
                 }
             }
         } else {
             $data = $order;
         }
+
         return $algorithm === null ? $data : hash($algorithm, $data);
     }
-    
+
     /**
-     * Returns cache duration of model search results
+     * Returns cache duration of model search results.
      * 
      * @return int duration in seconds
      */
@@ -234,23 +247,24 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
     {
         return $this->cacheDuration;
     }
-    
+
     /**
-     * Returns cache dependency of current search
+     * Returns cache dependency of current search.
      * 
      * @return CDbCacheDependency dependency
      */
     public function getCacheDependency()
     {
-        return null;
+        return;
     }
-    
+
     /**
-     * Searchs data in result set with applying post-filtering
+     * Searchs data in result set with applying post-filtering.
      * 
-     * @param boolean whether required to refresh search results
+     * @param bool whether required to refresh search results
      * 
      * @return CDataProvider filled provider by completely filtered data
+     *
      * @throws Exception
      */
     public function search($refresh = false)
@@ -268,13 +282,15 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
             }
             $this->_dataProvider = $dataProvider;
         }
+
         return $this->_dataProvider;
     }
-    
+
     /**
-     * Returns configured data provider
+     * Returns configured data provider.
      * 
      * @return CDataProvider configured data provider
+     *
      * @throws Exception
      */
     public function fetch()
@@ -287,20 +303,20 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
                 }
                 $dataProvider->pagination = $this->getPagination();
                 $this->_dataProvider = $dataProvider;
-            } else if ($this->displayValidationErrorsAsExceptions) {
+            } elseif ($this->displayValidationErrorsAsExceptions) {
                 $errors = $this->getErrors();
                 $this->displayErrors($errors);
             }
         }
+
         return $this->_dataProvider;
     }
-    
+
     /**
-     * Displays validation errors
+     * Displays validation errors.
      * 
      * @param array &$data errors map
      * 
-     * @return void
      * @throws Exception
      */
     protected function displayErrors(&$data)
@@ -313,83 +329,84 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
         $message = Yii::t('assert', 'There are following model validation errors: "{ERRORS}"', $params);
         throw new ValidationException($message);
     }
-    
+
     /**
-     * Returns default page size
+     * Returns default page size.
      * 
-     * @return integer default page size
+     * @return int default page size
+     *
      * @see IPaginateable::getDefaultPageSize()
      */
     public function getDefaultPageSize()
     {
         return self::DEFAULT_PAGE_SIZE;
     }
-    
+
     /**
-     * Returns page size
+     * Returns page size.
      * 
-     * @return integer page size
+     * @return int page size
+     *
      * @see IPaginateable::getPageSize()
      */
     public function getPageSize()
     {
         return $this->_count;
     }
-    
+
     /**
-     * Returns page size
+     * Returns page size.
      * 
-     * @param integer $count page size (0 for unlimited)
+     * @param int $count page size (0 for unlimited)
      * 
-     * @return void
      * @see IPaginateable::setPageSize()
      */
     public function setPageSize($count)
     {
         $this->_count = $count;
     }
-    
+
     /**
-     * Returns active page index
+     * Returns active page index.
      * 
-     * @return integer active page index
+     * @return int active page index
+     *
      * @see IPaginateable::getPageIndex()
      */
     public function getPageIndex()
     {
         return $this->_page;
     }
-    
+
     /**
-     * Returns active page index
+     * Returns active page index.
      * 
-     * @param integer $index active page index
+     * @param int $index active page index
      * 
-     * @return void
      * @see IPaginateable::setPageIndex()
      */
     public function setPageIndex($index)
     {
         $this->_page = $index;
     }
-    
+
     /**
-     * Returns sort order
+     * Returns sort order.
      * 
      * @return mixed sort order (false if disabled)
+     *
      * @see ISortable::getSortOrder()
      */
     public function getSortOrder()
     {
         return $this->_order;
     }
-    
+
     /**
-     * Changes sort order
+     * Changes sort order.
      * 
      * @param mixed $order sort order (false for disabling)
      * 
-     * @return void
      * @see ISortable::setSortOrder()
      */
     public function setSortOrder($order)
@@ -398,12 +415,10 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
     }
 
     /**
-     * Adds into sort order expression a manual field with defined direction
+     * Adds into sort order expression a manual field with defined direction.
      *
      * @param string $fieldName sort field name
      * @param string $direction sort direction
-     *
-     * @return void
      */
     public function addSortField($fieldName, $direction = self::SORT_DIRECTION_ASC)
     {
@@ -412,57 +427,60 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
         }
         $this->_order[] = array($fieldName, $direction);
     }
-    
+
     /**
-     * Returns default sort order
+     * Returns default sort order.
      * 
      * @return mixed sort order
+     *
      * @see ISortable::getDefaultSortOrder()
      */
     public function getDefaultSortOrder()
     {
         return false;
     }
-    
+
     /**
-     * Returns sort direction
+     * Returns sort direction.
      * 
      * @return mixed sort direction (false if disabled)
+     *
      * @see ISortable::getSortDirection()
      */
     public function getSortDirection()
     {
         return $this->_direction;
     }
-    
+
     /**
-     * Returns sort direction
+     * Returns sort direction.
      * 
      * @param mixed $mode sort direction (false for disabling)
      * 
-     * @return void
      * @see ISortable::setSortMode()
      */
     public function setSortDirection($mode)
     {
         $this->_direction = $mode;
     }
-    
+
     /**
-     * Returns default sort direction
+     * Returns default sort direction.
      * 
      * @return mixed sort direction
+     *
      * @see ISortable::getDefaultSortDirection()
      */
     public function getDefaultSortDirection()
     {
         return false;
     }
-    
+
     /**
-     * Returns available sort directions
+     * Returns available sort directions.
      * 
      * @return array sort directions
+     *
      * @see ISortable::getAvailableSortOrders()
      */
     public function getAvailableSortDirections()
@@ -473,11 +491,12 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
             false,
         );
     }
-    
+
     /**
-     * Returns available sort orders
+     * Returns available sort orders.
      * 
      * @return array sort orders
+     *
      * @see ISortable::getAvailableSortOrders()
      */
     public function getAvailableSortOrders()
@@ -488,11 +507,12 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
             false,
         );
     }
-    
+
     /**
-     * Returns pagination configuration
+     * Returns pagination configuration.
      * 
      * @return array pagination config
+     *
      * @see IPaginateable::getPagination()
      */
     public function getPagination()
@@ -506,33 +526,30 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
             if ($page = $this->getPageIndex()) {
                 $ret['currentPage'] = $page <= 0 ? 0 : $page - 1;
             }
+
             return $ret;
         }
     }
-    
+
     /**
-     * Sets active scopes set
+     * Sets active scopes set.
      * 
      * @param mixed $scopes scopes set (comma separated string or array)
-     * 
-     * @return void
      */
     public function setScopes($scopes)
     {
         if (is_string($scopes)) {
             $scopes = explode(',', $scopes);
-        } else if (!is_array($scopes)) {
+        } elseif (!is_array($scopes)) {
             throw new Exception('Invalid scopes expression.');
         }
         $this->_scopes = $scopes;
     }
-    
+
     /**
-     * Adds new scope
+     * Adds new scope.
      * 
      * @param string $scope scope
-     * 
-     * @return void
      */
     public function addScope($scope)
     {
@@ -540,9 +557,9 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
             $this->_scopes[] = $scope;
         }
     }
-    
+
     /**
-     * Returns active scopes set
+     * Returns active scopes set.
      * 
      * @return array scopes set
      */
@@ -550,9 +567,9 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
     {
         return $this->_scopes;
     }
-    
+
     /**
-     * Returns default scopes
+     * Returns default scopes.
      * 
      * @return array default scopes
      */
@@ -560,75 +577,72 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
     {
         return array();
     }
-    
+
     /**
      * Returns whether model has active scope with
-     * specified name
+     * specified name.
      * 
      * @param string $name scope name
      * 
-     * @return boolean whether scope is active
+     * @return bool whether scope is active
      */
     public function hasScope($name)
     {
         return in_array($name, $this->_scopes);
     }
-    
+
     /**
-     * Attachs search filter to current model
+     * Attachs search filter to current model.
      * 
      * @param string       $id     filter identifier
      * @param IFilterModel $filter search filter instance
-     * 
-     * @return void
      */
     public function attachFilter($id, IFilterModel $filter)
     {
         $this->_filters[$id] = $filter;
     }
-    
+
     /**
-     * Detachs search filter by identifier
+     * Detachs search filter by identifier.
      * 
      * @param string $id filter identifier
-     * 
-     * @return void
      */
     public function detachFilter($id)
     {
         unset($this->_filters[$id]);
     }
-    
+
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      * 
      * @return array filters map
+     *
      * @see IFilterable::getFilters()
      */
     public function getFilters()
     {
         return $this->_filters;
     }
-    
+
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      * 
      * @param string $id filter identifier
      * 
      * @return IFilterModel filter instance
+     *
      * @see IFilterable::getFilter()
      */
     public function getFilter($id)
     {
         return isset($this->_filters[$id]) ? $this->_filters[$id] : null;
     }
-    
+
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      * 
      * @param CDbCriteria $criteria database criteria
      * 
-     * @return void
      * @see IFilterModel::preFilter()
      */
     public function preFilter($criteria)
@@ -637,13 +651,12 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
             $filter->preFilter($criteria);
         }
     }
-    
+
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      * 
      * @param array &$data pointer to data collection to filter
      * 
-     * @return void
      * @see IFilterModel::postFilter()
      */
     public function postFilter(&$data)
@@ -652,20 +665,19 @@ abstract class SearchModel extends CFormModel implements ISearchModel,
             $filter->postFilter($data);
         }
     }
-    
+
     /**
-     * Builds data provider used for fetching data
+     * Builds data provider used for fetching data.
      * 
      * @return CDataProvider configured data provider
      */
-    protected abstract function build();
-    
+    abstract protected function build();
+
     /**
-     * Asserts whether model object is instance of search model
+     * Asserts whether model object is instance of search model.
      * 
      * @param object $model model instance
      * 
-     * @return void
      * @throws Exception
      */
     public static function assertSearchModel($model)
